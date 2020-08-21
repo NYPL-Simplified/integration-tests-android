@@ -1,0 +1,58 @@
+{
+  "platformName" : "android",
+  "isRemote": true,
+  "remoteConnectionUrl": "",
+  "screensLocation": "screens",
+
+  "driverSettings": {
+    "android": {
+      "deviceKey": "Samsung_Galaxy",
+      "capabilities": {
+        "platformName": "Android",
+        "app": "",
+        "automationName": "UiAutomator2",
+        "adbExecTimeout": 10000
+      }
+    },
+    "ios": {
+      "deviceKey": "iOS_Simulator",
+      "applicationPath": "",
+      "capabilities": {
+        "platformName": "iOS",
+        "automationName": "XCUITest",
+        "bundleId": ""
+      }
+    }
+  },
+  "localServiceSettings": {
+    "arguments": {
+      "--allow-insecure": "chromedriver_autodownload"
+    },
+    "capabilities": {
+    }
+  },
+  "timeouts": {
+    "timeoutImplicit" : 0,
+    "timeoutCondition" : 15,
+    "timeoutPollingInterval": 300,
+    "timeoutCommand":120
+  },
+  "retry": {
+    "number": 2,
+    "pollingInterval": 300
+  },
+  "logger": {
+    "language": "en"
+  },
+  "elementCache": {
+    "isEnabled": true
+  },
+  "touchActions": {
+    "swipe": {
+      "duration": 1,
+      "retries": 5,
+      "verticalOffset": 0.2,
+      "horizontalOffset": 0.5
+    }
+  }
+}

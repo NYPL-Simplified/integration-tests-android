@@ -1,0 +1,14 @@
+{
+  "iOS_Simulator": {
+    "capabilities": {
+      "deviceName": "iPhone 11",
+      "platformVersion": "13.5"
+    }
+  },
+  "Samsung_Galaxy": {
+    "capabilities": {
+      "deviceName": "Samsung Galaxy S9",
+      "platformVersion": "8.0"
+    }
+  }
+}
