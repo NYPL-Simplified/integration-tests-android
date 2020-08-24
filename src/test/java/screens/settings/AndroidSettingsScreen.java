@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 public class AndroidSettingsScreen extends SettingsScreen {
     private final IButton accountsBtn = getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, 'Accounts')]"), "Accounts");
 
-    protected AndroidSettingsScreen() {
+    public AndroidSettingsScreen() {
         super(By.xpath("//android.widget.TextView[contains(@text, 'App info')]"));
     }
 

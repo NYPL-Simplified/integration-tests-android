@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidBottomMenuForm extends BottomMenuForm {
-    protected AndroidBottomMenuForm() {
+    public AndroidBottomMenuForm() {
         super(By.id("bottomNavigator"));
     }
 

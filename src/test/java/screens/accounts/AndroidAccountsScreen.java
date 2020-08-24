@@ -8,7 +8,7 @@ import screens.maintoolbar.MainToolbar;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAccountsScreen extends AccountsScreen {
-    protected AndroidAccountsScreen() {
+    public AndroidAccountsScreen() {
         super(By.id("accountOthers"));
     }
 
@@ -19,6 +19,6 @@ public class AndroidAccountsScreen extends AccountsScreen {
 
     @Override
     public boolean isLibraryPresent(String libraryName) {
-        return getElementFactory().getButton(By.xpath("//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[contains(@text, '" + libraryName + "')]"), libraryName).state().isDisplayed();
+        return getElementFactory().getButton(By.xpath("//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[contains(@text, '" + libraryName + "')]"), libraryName).state().waitForDisplayed();
     }
 }

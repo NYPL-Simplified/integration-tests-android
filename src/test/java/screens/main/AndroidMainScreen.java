@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 public class AndroidMainScreen extends MainScreen {
     private final IButton agreeBtn = getElementFactory().getButton(By.id("selectionAlternateButton"), "Add a Library Later");
 
-    protected AndroidMainScreen() {
+    public AndroidMainScreen() {
         super(By.id("selectionAlternateButton"));
     }
 

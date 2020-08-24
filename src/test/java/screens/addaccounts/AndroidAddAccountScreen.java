@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAddAccountScreen extends AddAccountScreen {
-    protected AndroidAddAccountScreen() {
+    public AndroidAddAccountScreen() {
         super(By.id("accountRegistryTitle"));
     }
 

@@ -1,14 +1,14 @@
 package stepdefinitions;
 
-import aquality.appium.mobile.screens.screenfactory.IScreenFactory;
+import aquality.appium.mobile.application.AqualityServices;
 import io.cucumber.java.en.When;
 import screens.eulaagreement.EulaAgreementScreen;
 
 public class EulaAgreementScreenSteps {
     private final EulaAgreementScreen eulaAgreementScreen;
 
-    public EulaAgreementScreenSteps(IScreenFactory screenFactory) {
-        eulaAgreementScreen = screenFactory.getScreen(EulaAgreementScreen.class);
+    public EulaAgreementScreenSteps() {
+        eulaAgreementScreen = AqualityServices.getScreenFactory().getScreen(EulaAgreementScreen.class);
     }
 
     @When("I accept EULA agreement")

@@ -1,14 +1,14 @@
 package stepdefinitions;
 
-import aquality.appium.mobile.screens.screenfactory.IScreenFactory;
+import aquality.appium.mobile.application.AqualityServices;
 import io.cucumber.java.en.And;
 import screens.settings.SettingsScreen;
 
 public class SettingsScreenSteps {
     private final SettingsScreen settingsScreen;
 
-    public SettingsScreenSteps(IScreenFactory screenFactory) {
-        settingsScreen = screenFactory.getScreen(SettingsScreen.class);
+    public SettingsScreenSteps() {
+        settingsScreen = AqualityServices.getScreenFactory().getScreen(SettingsScreen.class);
     }
 
     @And("I open Accounts on Settings screen")
