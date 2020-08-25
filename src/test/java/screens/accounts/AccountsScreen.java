@@ -12,4 +12,6 @@ public abstract class AccountsScreen extends Screen {
     public abstract MainToolbar getToolbar();
 
     public abstract boolean isLibraryPresent(String libraryName);
+
+    public abstract void openAccount(String libraryName);
 }

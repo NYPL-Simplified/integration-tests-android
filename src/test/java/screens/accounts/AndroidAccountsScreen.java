@@ -1,6 +1,7 @@
 package screens.accounts;
 
 import aquality.appium.mobile.application.PlatformName;
+import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import org.openqa.selenium.By;
 import screens.maintoolbar.AndroidMainToolbar;
@@ -19,6 +20,15 @@ public class AndroidAccountsScreen extends AccountsScreen {
 
     @Override
     public boolean isLibraryPresent(String libraryName) {
-        return getElementFactory().getButton(By.xpath("//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[contains(@text, '" + libraryName + "')]"), libraryName).state().waitForDisplayed();
+        return getLibraryButton(libraryName).state().waitForDisplayed();
+    }
+
+    private IButton getLibraryButton(String libraryName) {
+        return getElementFactory().getButton(By.xpath("//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[contains(@text, '" + libraryName + "')]"), libraryName);
+    }
+
+    @Override
+    public void openAccount(String libraryName) {
+        getLibraryButton(libraryName).click();
     }
 }

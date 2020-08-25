@@ -1,6 +1,8 @@
 package screens.addaccounts;
 
+import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.PlatformName;
+import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import org.openqa.selenium.By;
 
@@ -12,6 +14,8 @@ public class AndroidAddAccountScreen extends AddAccountScreen {
 
     @Override
     public void selectLibrary(String libraryName) {
-        getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, '" + libraryName + "')]"), libraryName).click();
+        IButton buttonToWaitFor = getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, '" + libraryName + "')]"), libraryName);
+        buttonToWaitFor.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        buttonToWaitFor.click();
     }
 }
