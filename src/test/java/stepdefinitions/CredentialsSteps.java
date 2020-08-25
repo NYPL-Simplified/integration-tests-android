@@ -23,7 +23,7 @@ public class CredentialsSteps {
     }
 
     @And("I enter credentials for {string} account")
-    public void iEnterCredentialsForHartfordPublicLibraryAccount(String libraryName) {
+    public void enterCredentialsForLibraryAccount(String libraryName) {
         accountsScreen.openAccount(libraryName);
         accountScreen.enterCredentials(Configuration.getEbookCardValue(), Configuration.getEbookPinValue());
     }

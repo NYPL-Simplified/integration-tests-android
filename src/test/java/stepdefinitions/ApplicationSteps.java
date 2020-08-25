@@ -15,7 +15,7 @@ public class ApplicationSteps {
     }
 
     @When("I open application")
-    public void iOpenApplication() {
+    public void openApplication() {
         eulaAgreementScreen.clickAgree();
         welcomeScreen.addALibraryLater();
     }
