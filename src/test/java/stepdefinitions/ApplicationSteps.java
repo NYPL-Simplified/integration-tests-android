@@ -3,16 +3,20 @@ package stepdefinitions;
 import aquality.appium.mobile.application.AqualityServices;
 import io.cucumber.java.en.When;
 import screens.eulaagreement.EulaAgreementScreen;
+import screens.welcome.WelcomeScreen;
 
-public class EulaAgreementScreenSteps {
+public class ApplicationSteps {
     private final EulaAgreementScreen eulaAgreementScreen;
+    private final WelcomeScreen welcomeScreen;
 
-    public EulaAgreementScreenSteps() {
+    public ApplicationSteps() {
         eulaAgreementScreen = AqualityServices.getScreenFactory().getScreen(EulaAgreementScreen.class);
+        welcomeScreen = AqualityServices.getScreenFactory().getScreen(WelcomeScreen.class);
     }
 
-    @When("I accept EULA agreement")
-    public void acceptEULAAgreement() {
+    @When("I open application")
+    public void iOpenApplication() {
         eulaAgreementScreen.clickAgree();
+        welcomeScreen.addALibraryLater();
     }
 }

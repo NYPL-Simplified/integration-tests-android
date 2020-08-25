@@ -1,4 +1,4 @@
-package screens.addaccounts;
+package screens.addaccount;
 
 import aquality.appium.mobile.screens.Screen;
 import org.openqa.selenium.By;

@@ -4,18 +4,13 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import org.openqa.selenium.By;
-import screens.maintoolbar.AndroidMainToolbar;
-import screens.maintoolbar.MainToolbar;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAccountsScreen extends AccountsScreen {
+    private final IButton addBtn = getElementFactory().getButton(By.id("accountsMenuActionAccountAdd"), "Add account");
+
     public AndroidAccountsScreen() {
         super(By.id("accountOthers"));
-    }
-
-    @Override
-    public MainToolbar getToolbar() {
-        return new AndroidMainToolbar();
     }
 
     @Override
@@ -30,5 +25,10 @@ public class AndroidAccountsScreen extends AccountsScreen {
     @Override
     public void openAccount(String libraryName) {
         getLibraryButton(libraryName).click();
+    }
+
+    @Override
+    public void addAccount() {
+        addBtn.click();
     }
 }

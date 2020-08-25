@@ -1,4 +1,4 @@
-package screens.addaccounts;
+package screens.addaccount;
 
 import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.PlatformName;
