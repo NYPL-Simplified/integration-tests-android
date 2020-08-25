@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidEulaAgreementScreen extends EulaAgreementScreen {
-    private final IButton agreeBtn = getElementFactory().getButton(By.id("splashEulaAgree"), "Eula Agree");
+    private final IButton btnAgree = getElementFactory().getButton(By.id("splashEulaAgree"), "Eula Agree");
 
     public AndroidEulaAgreementScreen() {
         super(By.id("splashEulaAgree"));
@@ -15,6 +15,6 @@ public class AndroidEulaAgreementScreen extends EulaAgreementScreen {
 
     @Override
     public void clickAgree() {
-        agreeBtn.click();
+        btnAgree.click();
     }
 }
