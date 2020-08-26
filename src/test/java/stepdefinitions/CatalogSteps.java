@@ -29,35 +29,31 @@ public class CatalogSteps {
         ageGateScreen = AqualityServices.getScreenFactory().getScreen(AgeGateScreen.class);
     }
 
-    @When("I open Catalog")
-    public void iOpenCatalog() {
-        bottomMenuForm.open(BottomMenu.CATALOG);
-    }
-
-    @And("I approve that User is 13 or older")
-    public void iApproveThatUserIsOrOlder() {
-        ageGateScreen.approveAge();
-    }
-
     @Then("Books feed is loaded")
     public void booksFeedIsLoaded() {
         Assert.assertTrue(catalogScreen.state().waitForDisplayed(), "Books feed is not loaded");
     }
 
-    @When("I get names of books in first lane and save them as {string}")
-    public void iGetNamesOfBooksInFirstLaneAndSaveThemAsNameOfBooks(String booksNamesListKey) {
+    @When("I get names of books on screen and save them as {string}")
+    public void getNamesOfBooksAndSaveThemAsNameOfBooks(String booksNamesListKey) {
         context.add(booksNamesListKey, catalogScreen.getListOfBooksNames());
     }
 
-    @Then("List of books is not equal to list of books saved as {string}")
+    @Then("List of books on screen is not equal to list of books saved as {string}")
     public void listOfBooksIsNotEqualToListOfBooksSavedAsNameOfBooks(String booksNamesListKey) {
         List<String> expectedList = context.get(booksNamesListKey);
         Assert.assertNotEquals(catalogScreen.getListOfBooksNames(), expectedList,
                 "Lists of books are equal" + expectedList.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
 
-    @And("I open {string} from side menu")
+    @And("I switch to {string} from side menu")
     public void iOpenHartfordPublicLibraryFromSideMenu(String libraryName) {
         catalogScreen.openLibrary(libraryName);
+    }
+
+    @And("I open catalog with age check")
+    public void iOpenCatalogWithAgeCheck() {
+        bottomMenuForm.open(BottomMenu.CATALOG);
+        ageGateScreen.approveAge();
     }
 }
