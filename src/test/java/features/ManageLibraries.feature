@@ -11,7 +11,7 @@ Feature: Manage Libraries
     Then Text on Login button is changed to Log out on Account screen
 
   Scenario: Switch Library Catalogs
-    When I open catalog with age check
+    When I open Catalog
     Then Books feed is loaded
     When I get names of books on screen and save them as 'nameOfBooks'
       And I switch to 'Hartford Public Library' from side menu
