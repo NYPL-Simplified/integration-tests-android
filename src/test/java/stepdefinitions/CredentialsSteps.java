@@ -6,21 +6,25 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
 import screens.account.AccountScreen;
+import screens.accounts.AccountsScreen;
 
-public class AccountScreenSteps {
+public class CredentialsSteps {
     private final AccountScreen accountScreen;
+    private final AccountsScreen accountsScreen;
 
-    public AccountScreenSteps() {
+    public CredentialsSteps() {
         accountScreen = AqualityServices.getScreenFactory().getScreen(AccountScreen.class);
-    }
-
-    @And("I enter credentials for ebook user on Account screen")
-    public void iEnterCredentialsForUserOnAccountScreen() {
-        accountScreen.enterCredentials(Configuration.getEbookCardValue(), Configuration.getEbookPinValue());
+        accountsScreen = AqualityServices.getScreenFactory().getScreen(AccountsScreen.class);
     }
 
     @Then("Text on Login button is changed to Log out on Account screen")
     public void textOnLoginButtonIsChangedToLogOutOnAccountScreen() {
         Assert.assertTrue(accountScreen.isLoginSuccessful(), "Text on Login button is not changed to Log out on Account screen");
+    }
+
+    @And("I enter credentials for {string} account")
+    public void enterCredentialsForLibraryAccount(String libraryName) {
+        accountsScreen.openAccount(libraryName);
+        accountScreen.enterCredentials(Configuration.getEbookCardValue(), Configuration.getEbookPinValue());
     }
 }
