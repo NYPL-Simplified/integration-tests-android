@@ -17,3 +17,7 @@ Feature: Manage Libraries
       And I switch to 'Hartford Public Library' from side menu
     Then Books feed is loaded
       And List of books on screen is not equal to list of books saved as 'nameOfBooks'
+
+  Scenario: Remove library
+    When I remove 'Hartford Public Library' account
+    Then Account 'Hartford Public Library' is not present on Accounts screen

@@ -9,4 +9,6 @@ public abstract class AddAccountScreen extends Screen {
     }
 
     public abstract void selectLibrary(String libraryName);
+
+    public abstract void deleteLibrary(String libraryName);
 }
