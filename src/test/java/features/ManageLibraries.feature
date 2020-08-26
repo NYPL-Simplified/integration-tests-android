@@ -21,3 +21,15 @@ Feature: Manage Libraries
   Scenario: Remove library
     When I remove 'Hartford Public Library' account
     Then Account 'Hartford Public Library' is not present on Accounts screen
+
+  Scenario: Switch library bookshelf
+    When I open Catalog
+      And I switch to 'The SimplyE Collection' from side menu
+      And I get first book from shelf and save it as 'bookInfo'
+      And I open Books
+    Then Book 'bookInfo' is present in Books List
+    When I open Catalog
+      And I return to previous page
+      And I switch to 'Hartford Public Library' from side menu
+      And I open Books
+    Then No books are present in Books list

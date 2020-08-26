@@ -1,6 +1,7 @@
 package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
 import screens.eulaagreement.EulaAgreementScreen;
 import screens.welcome.WelcomeScreen;
@@ -18,5 +19,10 @@ public class ApplicationSteps {
     public void openApplication() {
         eulaAgreementScreen.clickAgree();
         welcomeScreen.addALibraryLater();
+    }
+
+    @And("I return to previous page")
+    public void iReturnToPreviousPage() {
+        AqualityServices.getApplication().getDriver().navigate().back();
     }
 }

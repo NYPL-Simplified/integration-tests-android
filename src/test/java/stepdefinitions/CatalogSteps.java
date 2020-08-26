@@ -8,6 +8,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 import screens.agegate.AgeGateScreen;
+import screens.bookDetails.BookDetailsScreen;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
 import screens.catalog.CatalogScreen;
@@ -19,6 +20,7 @@ public class CatalogSteps {
     private final BottomMenuForm bottomMenuForm;
     private final CatalogScreen catalogScreen;
     private final AgeGateScreen ageGateScreen;
+    private final BookDetailsScreen bookDetailsScreen;
     private ScenarioContext context;
 
     @Inject
@@ -27,6 +29,7 @@ public class CatalogSteps {
         bottomMenuForm = AqualityServices.getScreenFactory().getScreen(BottomMenuForm.class);
         catalogScreen = AqualityServices.getScreenFactory().getScreen(CatalogScreen.class);
         ageGateScreen = AqualityServices.getScreenFactory().getScreen(AgeGateScreen.class);
+        bookDetailsScreen = AqualityServices.getScreenFactory().getScreen(BookDetailsScreen.class);
     }
 
     @Then("Books feed is loaded")
@@ -57,5 +60,18 @@ public class CatalogSteps {
         if (ageGateScreen.state().isDisplayed()) {
             ageGateScreen.approveAge();
         }
+    }
+
+    @And("I open Books")
+    public void openBooks() {
+        bottomMenuForm.open(BottomMenu.BOOKS);
+    }
+
+    @And("I get first book from shelf and save it as {string}")
+    public void getBookFromShelfAndSaveItAsBookInfo(String bookInfoKey) {
+        String bookName = catalogScreen.getBookName(1);
+        context.add(bookInfoKey, bookName);
+        catalogScreen.clickBook(1);
+        bookDetailsScreen.downloadBook();
     }
 }
