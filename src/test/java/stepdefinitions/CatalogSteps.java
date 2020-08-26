@@ -35,24 +35,24 @@ public class CatalogSteps {
     }
 
     @When("I get names of books on screen and save them as {string}")
-    public void getNamesOfBooksAndSaveThemAsNameOfBooks(String booksNamesListKey) {
+    public void getNamesOfBooksAndSaveThem(String booksNamesListKey) {
         context.add(booksNamesListKey, catalogScreen.getListOfBooksNames());
     }
 
     @Then("List of books on screen is not equal to list of books saved as {string}")
-    public void listOfBooksIsNotEqualToListOfBooksSavedAsNameOfBooks(String booksNamesListKey) {
+    public void checkListOfBooksIsNotEqualToSavedListOfBooks(String booksNamesListKey) {
         List<String> expectedList = context.get(booksNamesListKey);
         Assert.assertNotEquals(catalogScreen.getListOfBooksNames(), expectedList,
                 "Lists of books are equal" + expectedList.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
 
     @And("I switch to {string} from side menu")
-    public void iOpenHartfordPublicLibraryFromSideMenu(String libraryName) {
+    public void openLibraryFromSideMenu(String libraryName) {
         catalogScreen.openLibrary(libraryName);
     }
 
     @And("I open catalog with age check")
-    public void iOpenCatalogWithAgeCheck() {
+    public void openCatalogWithAgeCheck() {
         bottomMenuForm.open(BottomMenu.CATALOG);
         ageGateScreen.approveAge();
     }
