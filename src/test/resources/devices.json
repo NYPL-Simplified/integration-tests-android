@@ -7,8 +7,8 @@
   },
   "Samsung_Galaxy": {
     "capabilities": {
-      "deviceName": "Samsung Galaxy S9",
-      "platformVersion": "8.0"
+      "deviceName": "Samsung Galaxy S10",
+      "platformVersion": "9.0"
     }
   }
 }

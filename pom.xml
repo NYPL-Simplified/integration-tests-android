@@ -13,8 +13,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>7</source>
-                    <target>7</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -79,18 +79,18 @@
             <artifactId>allure-cucumber5-jvm</artifactId>
             <version>2.13.3</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>ru.yandex.qatools.ashot</groupId>
+            <artifactId>ashot</artifactId>
+            <version>1.5.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-remote-driver</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
-
-    <dependency>
-        <groupId>ru.yandex.qatools.ashot</groupId>
-        <artifactId>ashot</artifactId>
-        <version>1.5.4</version>
-        <exclusions>
-            <exclusion>
-                <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-remote-driver</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-
 </project>
