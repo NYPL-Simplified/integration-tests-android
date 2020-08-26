@@ -51,9 +51,11 @@ public class CatalogSteps {
         catalogScreen.openLibrary(libraryName);
     }
 
-    @And("I open catalog with age check")
+    @And("I open Catalog")
     public void openCatalogWithAgeCheck() {
         bottomMenuForm.open(BottomMenu.CATALOG);
-        ageGateScreen.approveAge();
+        if (ageGateScreen.state().isDisplayed()) {
+            ageGateScreen.approveAge();
+        }
     }
 }
