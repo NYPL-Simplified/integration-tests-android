@@ -4,6 +4,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
+import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import org.openqa.selenium.By;
 
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 public class AndroidCatalogScreen extends CatalogScreen {
     private final IButton btnMenu =
             getElementFactory().getButton(By.xpath("//android.widget.ImageButton[@content-desc=\"Choose another library catalog…\"]"), "Menu");
+    private final ILabel lblCatalogName =
+            getElementFactory().getLabel(By.xpath("//android.view.ViewGroup[@resource-id=\"org.nypl.simplified.simplye:id/mainToolbar\"]//android.widget.TextView[2]"), "Catalog name");
     private final String LIBRARY_BUTTON_LOCATOR_PATTERN =
             "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/accountTitle\" and @text=\"%s\"]";
     private String BOOKS_LOCATOR = "//androidx.recyclerview.widget.RecyclerView[1]//android.widget.LinearLayout[@content-desc]";
@@ -51,5 +54,10 @@ public class AndroidCatalogScreen extends CatalogScreen {
     @Override
     public void clickBook(int index) {
         getBookWithGivenIndex(index).click();
+    }
+
+    @Override
+    public String getLibraryName() {
+        return lblCatalogName.getText();
     }
 }

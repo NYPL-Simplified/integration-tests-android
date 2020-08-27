@@ -74,4 +74,9 @@ public class CatalogSteps {
         catalogScreen.clickBook(1);
         bookDetailsScreen.downloadBook();
     }
+
+    @And("Current library is {string} in Catalog")
+    public void checkCurrentLibraryIsCorrect(String expectedLibraryName) {
+        Assert.assertEquals(expectedLibraryName, catalogScreen.getLibraryName(), "Current library name is not correct");
+    }
 }
