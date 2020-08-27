@@ -11,4 +11,8 @@ public abstract class BooksScreen extends Screen {
     public abstract boolean isNoBooksMessagePresent();
 
     public abstract boolean isBookPresent(String bookInfo);
+
+    public abstract int getCountOfBooks();
+
+    public abstract void refreshList();
 }
