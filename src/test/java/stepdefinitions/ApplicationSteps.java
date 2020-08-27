@@ -22,7 +22,7 @@ public class ApplicationSteps {
     }
 
     @And("I return to previous page")
-    public void iReturnToPreviousPage() {
+    public void returnToPreviousPage() {
         AqualityServices.getApplication().getDriver().navigate().back();
     }
 }
