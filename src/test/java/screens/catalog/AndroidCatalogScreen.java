@@ -1,5 +1,6 @@
 package screens.catalog;
 
+import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
@@ -13,14 +14,19 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidCatalogScreen extends CatalogScreen {
+    public static final String CATEGORY_INFO_LOCATOR_PART = "//android.view.ViewGroup[@resource-id=\"org.nypl.simplified.simplye:id/mainToolbar\"]//android.widget.TextView";
     private final IButton btnMenu =
             getElementFactory().getButton(By.xpath("//android.widget.ImageButton[@content-desc=\"Choose another library catalog…\"]"), "Menu");
     private final ILabel lblCatalogName =
-            getElementFactory().getLabel(By.xpath("//android.view.ViewGroup[@resource-id=\"org.nypl.simplified.simplye:id/mainToolbar\"]//android.widget.TextView[2]"), "Catalog name");
+            getElementFactory().getLabel(By.xpath(CATEGORY_INFO_LOCATOR_PART + "[2]"), "Catalog name");
+    private final ILabel lblCategoryName =
+            getElementFactory().getLabel(By.xpath(CATEGORY_INFO_LOCATOR_PART + "[1]"), "Category name");
     private final String LIBRARY_BUTTON_LOCATOR_PATTERN =
             "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/accountTitle\" and @text=\"%s\"]";
     private String BOOKS_LOCATOR = "//androidx.recyclerview.widget.RecyclerView[1]//android.widget.LinearLayout[@content-desc]";
     private String INFO_ATTRIBUTE = "content-desc";
+    private String CATEGORY_LOCATOR =
+            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneTitle\" and @text='%s']";
 
     public AndroidCatalogScreen() {
         super(By.id("feedWithGroups"));
@@ -59,5 +65,17 @@ public class AndroidCatalogScreen extends CatalogScreen {
     @Override
     public String getLibraryName() {
         return lblCatalogName.getText();
+    }
+
+    @Override
+    public void openCategory(String categoryName) {
+        IButton categoryButton = getElementFactory().getButton(By.xpath(String.format(CATEGORY_LOCATOR, categoryName)), categoryName);
+        categoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        categoryButton.click();
+    }
+
+    @Override
+    public String getCategoryName() {
+        return lblCategoryName.getName();
     }
 }

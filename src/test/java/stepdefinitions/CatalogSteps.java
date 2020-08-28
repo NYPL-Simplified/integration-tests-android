@@ -12,6 +12,7 @@ import screens.bookDetails.BookDetailsScreen;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
 import screens.catalog.CatalogScreen;
+import screens.subcategory.SubcategoryScreen;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class CatalogSteps {
     private final BottomMenuForm bottomMenuForm;
     private final CatalogScreen catalogScreen;
+    private final SubcategoryScreen subcategoryScreen;
     private final AgeGateScreen ageGateScreen;
     private final BookDetailsScreen bookDetailsScreen;
     private ScenarioContext context;
@@ -30,6 +32,7 @@ public class CatalogSteps {
         catalogScreen = AqualityServices.getScreenFactory().getScreen(CatalogScreen.class);
         ageGateScreen = AqualityServices.getScreenFactory().getScreen(AgeGateScreen.class);
         bookDetailsScreen = AqualityServices.getScreenFactory().getScreen(BookDetailsScreen.class);
+        subcategoryScreen = AqualityServices.getScreenFactory().getScreen(SubcategoryScreen.class);
     }
 
     @Then("Books feed is loaded")
@@ -78,5 +81,16 @@ public class CatalogSteps {
     @And("Current library is {string} in Catalog")
     public void checkCurrentLibraryIsCorrect(String expectedLibraryName) {
         Assert.assertEquals(expectedLibraryName, catalogScreen.getLibraryName(), "Current library name is not correct");
+    }
+
+    @And("I open {string} category")
+    @When("I open {string} subcategory")
+    public void iOpenNonfictionCategory(String categoryName) {
+        catalogScreen.openCategory(categoryName);
+    }
+
+    @Then("Current category name is {string}")
+    public void currentCategoryNameIsNonfiction(String expectedCategoryName) {
+        Assert.assertEquals(expectedCategoryName, catalogScreen.getCategoryName(), "Current category name is not correct");
     }
 }

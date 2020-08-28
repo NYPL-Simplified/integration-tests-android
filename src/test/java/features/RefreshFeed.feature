@@ -1,7 +1,8 @@
 Feature: Refresh Feed
+
   Scenario: Update Bookshelf List
     When I open application
-    When I open Catalog
+      And I open Catalog
       And I switch to 'The SimplyE Collection' from side menu
       And I get first book from shelf and save it as 'bookInfo'
       And I open Books

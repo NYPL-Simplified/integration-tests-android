@@ -19,4 +19,8 @@ public abstract class CatalogScreen extends Screen {
     public abstract void clickBook(int index);
 
     public abstract String getLibraryName();
+
+    public abstract void openCategory(String categoryName);
+
+    public abstract String getCategoryName();
 }
