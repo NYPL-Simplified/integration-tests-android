@@ -4,6 +4,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
@@ -55,6 +56,7 @@ public class CatalogSteps {
     }
 
     @And("I open Catalog")
+    @Given("Catalog is opened")
     public void openCatalogWithAgeCheck() {
         bottomMenuForm.open(BottomMenu.CATALOG);
         if (ageGateScreen.state().isDisplayed()) {
@@ -67,7 +69,7 @@ public class CatalogSteps {
         bottomMenuForm.open(BottomMenu.BOOKS);
     }
 
-    @And("I get first book from shelf and save it as {string}")
+    @And("I Get first book from shelf and save it as {string}")
     public void getBookFromShelfAndSaveItAsBookInfo(String bookInfoKey) {
         String bookName = catalogScreen.getBookName(1);
         context.add(bookInfoKey, bookName);
