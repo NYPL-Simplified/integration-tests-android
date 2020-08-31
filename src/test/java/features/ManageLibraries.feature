@@ -1,8 +1,8 @@
 Feature: Manage Libraries
 
   Background:
-    When I open application
-      And I add 'Hartford Public Library' account
+    Given Application is opened
+    When I add 'Hartford Public Library' account
     Then Account 'Hartford Public Library' is present on Accounts screen
 
   @logout
