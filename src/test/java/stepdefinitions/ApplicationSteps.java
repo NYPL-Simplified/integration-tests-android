@@ -27,4 +27,10 @@ public class ApplicationSteps {
     public void returnToPreviousPage() {
         AqualityServices.getApplication().getDriver().navigate().back();
     }
+
+    @When("I restart app")
+    public void restartApp() {
+        AqualityServices.getApplication().getDriver().closeApp();
+        AqualityServices.getApplication().getDriver().launchApp();
+    }
 }
