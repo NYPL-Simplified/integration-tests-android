@@ -87,28 +87,28 @@ public class CatalogSteps {
 
     @And("I open {string} category")
     @When("I open {string} subcategory")
-    public void iOpenNonfictionCategory(String categoryName) {
+    public void openCategory(String categoryName) {
         catalogScreen.openCategory(categoryName);
     }
 
     @Then("Current category name is {string}")
-    public void currentCategoryNameIsNonfiction(String expectedCategoryName) {
+    public void checkCurrentCategoryName(String expectedCategoryName) {
         Assert.assertEquals(expectedCategoryName, catalogScreen.getCategoryName(), "Current category name is not correct");
     }
 
     @Then("Subcategory screen is present")
-    public void subcategoryScreenIsPresent() {
+    public void checkSubcategoryScreenIsPresent() {
         Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), "Subcategory screen is not present");
     }
 
     @And("Subcategory name is {string}")
-    public void subcategoryNameIsDrama(String expectedSubcategoryName) {
+    public void checkSubcategoryNameIsCorrect(String expectedSubcategoryName) {
         Assert.assertEquals(expectedSubcategoryName, subcategoryScreen.getSubcategoryName(),
                 "Current subcategory name is not correct");
     }
 
     @And("Following subcategories are present:")
-    public void followingSubcategoriesArePresent(List<String> expectedValuesList) {
+    public void checkFollowingSubcategoriesArePresent(List<String> expectedValuesList) {
         Assert.assertTrue(expectedValuesList.stream().allMatch(x -> catalogScreen.isSubcategoryPresent(x)),
                 "Not all categories are present");
     }
