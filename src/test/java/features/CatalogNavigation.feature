@@ -26,7 +26,7 @@ Feature: Catalog Navigation
         | Science & Technology    |
         | Religion & Spirituality |
       And List of books on screen is not equal to list of books saved as 'listOfBooksOnMainPage'
-    When I return to previous page
+    When I return to previous screen
       And I open 'Fiction' category
     Then Current category name is 'Fiction'
       And Following subcategories are present:
