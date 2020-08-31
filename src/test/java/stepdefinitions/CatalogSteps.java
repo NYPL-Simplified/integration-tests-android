@@ -93,4 +93,21 @@ public class CatalogSteps {
     public void currentCategoryNameIsNonfiction(String expectedCategoryName) {
         Assert.assertEquals(expectedCategoryName, catalogScreen.getCategoryName(), "Current category name is not correct");
     }
+
+    @Then("Subcategory screen is present")
+    public void subcategoryScreenIsPresent() {
+        Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), "Subcategory screen is not present");
+    }
+
+    @And("Subcategory name is {string}")
+    public void subcategoryNameIsDrama(String expectedSubcategoryName) {
+        Assert.assertEquals(expectedSubcategoryName, subcategoryScreen.getSubcategoryName(),
+                "Current subcategory name is not correct");
+    }
+
+    @And("Following subcategories are present:")
+    public void followingSubcategoriesArePresent(List<String> expectedValuesList) {
+        Assert.assertTrue(expectedValuesList.stream().allMatch(x -> catalogScreen.isSubcategoryPresent(x)),
+                "Not all categories are present");
+    }
 }

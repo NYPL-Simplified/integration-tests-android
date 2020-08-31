@@ -1,8 +1,10 @@
 Feature: Catalog Navigation
 
+  Background:
+    Given Application is opened
+
   Scenario: Return to last library catalog
-    When I open application
-      And I add 'Hartford Public Library' account
+    When I add 'Hartford Public Library' account
     Then Account 'Hartford Public Library' is present on Accounts screen
     When I open Catalog
     Then Books feed is loaded
@@ -13,8 +15,7 @@ Feature: Catalog Navigation
       And Current library is 'Hartford Public Library' in Catalog
 
   Scenario: Navigate Lists
-    When I open application
-      And I open Catalog
+    When I open Catalog
     Then Books feed is loaded
     When I get names of books on screen and save them as 'listOfBooksOnMainPage'
       And I open 'Nonfiction' category
@@ -36,3 +37,4 @@ Feature: Catalog Navigation
       And List of books on screen is not equal to list of books saved as 'listOfBooksOnMainPage'
     When I open 'Drama' subcategory
     Then Subcategory screen is present
+      And Subcategory name is 'Drama'

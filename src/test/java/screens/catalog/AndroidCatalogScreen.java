@@ -69,13 +69,24 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     @Override
     public void openCategory(String categoryName) {
-        IButton categoryButton = getElementFactory().getButton(By.xpath(String.format(CATEGORY_LOCATOR, categoryName)), categoryName);
+        IButton categoryButton = getCategoryButton(categoryName);
         categoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         categoryButton.click();
     }
 
+    private IButton getCategoryButton(String categoryName) {
+        return getElementFactory().getButton(By.xpath(String.format(CATEGORY_LOCATOR, categoryName)), categoryName);
+    }
+
     @Override
     public String getCategoryName() {
-        return lblCategoryName.getName();
+        return lblCategoryName.getText();
+    }
+
+    @Override
+    public boolean isSubcategoryPresent(String subcategoryName) {
+        IButton subcategoryButton = getCategoryButton(subcategoryName);
+        subcategoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        return subcategoryButton.state().isDisplayed();
     }
 }

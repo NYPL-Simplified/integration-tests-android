@@ -2,6 +2,7 @@ package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import screens.eulaagreement.EulaAgreementScreen;
 import screens.welcome.WelcomeScreen;
@@ -16,6 +17,7 @@ public class ApplicationSteps {
     }
 
     @When("I open application")
+    @Given("Application is opened")
     public void openApplication() {
         eulaAgreementScreen.clickAgree();
         welcomeScreen.addALibraryLater();

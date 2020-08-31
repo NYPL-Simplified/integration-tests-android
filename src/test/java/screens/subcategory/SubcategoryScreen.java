@@ -7,4 +7,6 @@ public abstract class SubcategoryScreen extends Screen {
     protected SubcategoryScreen(By locator) {
         super(locator, "Subcategory");
     }
+
+    public abstract String getSubcategoryName();
 }
