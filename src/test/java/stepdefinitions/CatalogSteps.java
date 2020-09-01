@@ -74,8 +74,7 @@ public class CatalogSteps {
 
     @And("I Get first book from shelf and save it as {string}")
     public void getBookFromShelfAndSaveItAsBookInfo(String bookInfoKey) {
-        String bookName = catalogScreen.getBookName(1);
-        context.add(bookInfoKey, bookName);
+        context.add(bookInfoKey, catalogScreen.getBookName(1));
         catalogScreen.clickBook(1);
         bookDetailsScreen.downloadBook();
     }
@@ -111,5 +110,14 @@ public class CatalogSteps {
     public void checkFollowingSubcategoriesArePresent(List<String> expectedValuesList) {
         Assert.assertTrue(expectedValuesList.stream().allMatch(x -> catalogScreen.isSubcategoryPresent(x)),
                 "Not all categories are present");
+    }
+
+    @And("I reserve book in {string}-{string} category and save it as {string}")
+    public void iReserveBookInFictionDramaCategoryAndSaveItAsBookInfo(String categoryName, String subcategoryName, String bookInfoKey) {
+        catalogScreen.openCategory(categoryName);
+        catalogScreen.openCategory(subcategoryName);
+        catalogScreen.openBookForReserve();
+        bookDetailsScreen.reserveBook();
+        context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 }

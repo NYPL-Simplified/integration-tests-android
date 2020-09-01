@@ -32,5 +32,6 @@ public class AndroidAccountScreen extends AccountScreen {
     @Override
     public void logOut() {
         btnLogin.click();
+        AqualityServices.getConditionalWait().waitFor(() -> btnLogin.getText().equals("Log in"));
     }
 }

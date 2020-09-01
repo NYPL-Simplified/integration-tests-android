@@ -33,3 +33,23 @@ Feature: Manage Libraries
       And I switch to 'Hartford Public Library' from side menu
       And I open Books
     Then No books are present in Books list
+
+  @logout @cancelHold
+  Scenario: Switch Library Reservations
+    When I enter credentials for 'Hartford Public Library' account
+    Then Text on Login button is changed to Log out on Account screen
+    When I open Catalog
+      And I switch to 'Hartford Public Library' from side menu
+    Then Books feed is loaded
+    When I reserve book in 'Fiction'-'Drama' category and save it as 'bookInfo'
+      And I open Holds
+    Then Holds feed is loaded
+      And Book 'bookInfo' is present in Holds List
+    When I open Catalog
+      And I return to previous screen
+      And I switch to 'The SimplyE Collection' from side menu
+      And I open Holds
+    Then Holds feed is loaded
+      And No books are present in Holds list
+    When I open Catalog
+      And I switch to 'Hartford Public Library' from side menu

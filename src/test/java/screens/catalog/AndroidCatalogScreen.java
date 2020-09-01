@@ -14,9 +14,12 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidCatalogScreen extends CatalogScreen {
-    public static final String CATEGORY_INFO_LOCATOR_PART = "//android.view.ViewGroup[@resource-id=\"org.nypl.simplified.simplye:id/mainToolbar\"]//android.widget.TextView";
+    public static final String CATEGORY_INFO_LOCATOR_PART =
+            "//android.view.ViewGroup[@resource-id=\"org.nypl.simplified.simplye:id/mainToolbar\"]//android.widget.TextView";
     private final IButton btnMenu =
             getElementFactory().getButton(By.xpath("//android.widget.ImageButton[@content-desc=\"Choose another library catalog…\"]"), "Menu");
+    private final IButton btnReserve =
+            getElementFactory().getButton(By.xpath("//android.widget.Button[@content-desc=\"Reserve Button\"]/parent::android.widget.LinearLayout"), "Reserve");
     private final ILabel lblCatalogName =
             getElementFactory().getLabel(By.xpath(CATEGORY_INFO_LOCATOR_PART + "[2]"), "Catalog name");
     private final ILabel lblCategoryName =
@@ -88,5 +91,11 @@ public class AndroidCatalogScreen extends CatalogScreen {
         IButton subcategoryButton = getCategoryButton(subcategoryName);
         subcategoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         return subcategoryButton.state().isDisplayed();
+    }
+
+    @Override
+    public void openBookForReserve() {
+        btnReserve.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        btnReserve.click();
     }
 }
