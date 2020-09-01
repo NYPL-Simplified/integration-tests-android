@@ -23,7 +23,7 @@ public class ApplicationSteps {
         welcomeScreen.addALibraryLater();
     }
 
-    @And("I return to previous page")
+    @And("I return to previous screen")
     public void returnToPreviousPage() {
         AqualityServices.getApplication().getDriver().navigate().back();
     }

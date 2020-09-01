@@ -29,7 +29,7 @@ Feature: Manage Libraries
       And I open Books
     Then Book 'bookInfo' is present in Books List
     When I open Catalog
-      And I return to previous page
+      And I return to previous screen
       And I switch to 'Hartford Public Library' from side menu
       And I open Books
     Then No books are present in Books list
