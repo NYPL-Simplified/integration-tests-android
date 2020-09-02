@@ -8,7 +8,9 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,5 +99,25 @@ public class AndroidCatalogScreen extends CatalogScreen {
     public void openBookForReserve() {
         btnReserve.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         btnReserve.click();
+    }
+
+    @Override
+    public List<String> getListOfAllBooksNamesInFirstLane() {
+        List<String> currentBooksNames = getListOfVisibleBooksNamesInFirstLane();
+        List<String> bookNames = new ArrayList<>();
+        do {
+            bookNames.addAll(currentBooksNames);
+            IButton btnFirstLane = getElementFactory().getButton(By.xpath("(//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneCoversScroll\"])[1]"), "Fisrt lane");
+            btnFirstLane.getTouchActions().swipe(new Point(0, btnFirstLane.getElement().getCenter().y));
+            currentBooksNames = getListOfVisibleBooksNamesInFirstLane();
+        } while (!bookNames.containsAll(currentBooksNames));
+        return bookNames;
+    }
+
+    private List<String> getListOfVisibleBooksNamesInFirstLane() {
+        return getElementFactory().findElements(By.xpath("(//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneCoversScroll\"])[1]/android.widget.LinearLayout"), ElementType.LABEL)
+                .stream()
+                .map(x -> x.getAttribute("content-desc"))
+                .collect(Collectors.toList());
     }
 }

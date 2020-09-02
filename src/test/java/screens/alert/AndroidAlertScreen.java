@@ -1,5 +1,6 @@
 package screens.alert;
 
+import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
@@ -16,5 +17,6 @@ public class AndroidAlertScreen extends AlertScreen {
     @Override
     public void accept() {
         btnAccept.click();
+        btnAccept.getTouchActions().scrollToElement(SwipeDirection.DOWN);
     }
 }
