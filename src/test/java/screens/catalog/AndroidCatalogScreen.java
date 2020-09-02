@@ -89,4 +89,9 @@ public class AndroidCatalogScreen extends CatalogScreen {
         subcategoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         return subcategoryButton.state().isDisplayed();
     }
+
+    @Override
+    public void switchToCatalogTag(String catalogTab) {
+        getElementFactory().getButton(By.xpath("//android.widget.RadioButton[@text=\"" + catalogTab + "\"]"), catalogTab).click();
+    }
 }

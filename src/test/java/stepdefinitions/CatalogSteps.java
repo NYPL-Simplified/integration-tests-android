@@ -74,8 +74,7 @@ public class CatalogSteps {
 
     @And("I Get first book from shelf and save it as {string}")
     public void getBookFromShelfAndSaveItAsBookInfo(String bookInfoKey) {
-        String bookName = catalogScreen.getBookName(1);
-        context.add(bookInfoKey, bookName);
+        context.add(bookInfoKey, catalogScreen.getBookName(1));
         catalogScreen.clickBook(1);
         bookDetailsScreen.downloadBook();
     }
@@ -111,5 +110,79 @@ public class CatalogSteps {
     public void checkFollowingSubcategoriesArePresent(List<String> expectedValuesList) {
         Assert.assertTrue(expectedValuesList.stream().allMatch(x -> catalogScreen.isSubcategoryPresent(x)),
                 "Not all categories are present");
+    }
+
+    @When("I switch to {string} catalog tab")
+    public void iSwitchToAudiobooksCatalogTab(String catalogTab) {
+        catalogScreen.switchToCatalogTag(catalogTab);
+    }
+
+    @Then("All present books are audiobooks")
+    public void allPresentBooksAreAudiobooks() {
+        Assert.assertTrue(catalogScreen.getListOfBooksNames().stream().allMatch(x -> x.contains("audiobook")),
+                "Not all present books are audiobooks");
+    }
+
+    @Then("All present books are ebooks")
+    public void allPresentBooksAreEbooks() {
+        Assert.assertTrue(catalogScreen.getListOfBooksNames().stream().allMatch(x -> x.contains("ebook")),
+                "Not all present books are ebooks");
+    }
+
+    @And("I sort books by {string}")
+    public void iSortBooksByAuthor(String sortingCategory) {
+        subcategoryScreen.sortBy(sortingCategory);
+    }
+
+    @When("I save list of books as {string}")
+    public void iSaveListOfBooksAsRecentlyAddedListOfBooks(String booksInfoKey) {
+        context.add(booksInfoKey, subcategoryScreen.getBooksInfo());
+    }
+
+    @And("I select book by Availability - {string}")
+    public void iSelectBookByAvailabilityAvailableNow(String sortingCategory) {
+        subcategoryScreen.sortByAvailability(sortingCategory);
+    }
+
+    @Then("All books can be downloaded")
+    public void allBooksCanBeDownloaded() {
+        Assert.assertTrue(subcategoryScreen.getAllButtonsNames().stream().allMatch(x -> x.equals("Download")),
+                "Not all present books can be downloaded");
+    }
+
+    @Then("All books can be loaned or downloaded")
+    public void allBooksCanBeLoanedOrDownloaded() {
+        Assert.assertTrue(subcategoryScreen.getAllButtonsNames().stream().allMatch(x -> x.equals("Get")),
+                "Not all present books can be loaned or downloaded");
+    }
+
+    @Then("List of books on subcategory screen is equal to list of books saved as {string}")
+    public void listOfBooksOnSubcategoryScreenIsEqualToListOfBooksSavedAsRandomListOfBooks(String booksNamesListKey) {
+        List<String> expectedList = context.get(booksNamesListKey);
+        Assert.assertEquals(subcategoryScreen.getBooksInfo(), expectedList,
+                "Lists of books are not equal" + expectedList.stream().map(Object::toString).collect(Collectors.joining(", ")));
+    }
+
+    @Then("List of books on subcategory screen is not equal to list of books saved as {string}")
+    public void listOfBooksOnSubcategoryScreenIsNotEqualToListOfBooksSavedAsListOfBooks(String booksNamesListKey) {
+        List<String> expectedList = context.get(booksNamesListKey);
+        Assert.assertNotEquals(subcategoryScreen.getBooksInfo(), expectedList,
+                "Lists of books are equal" + expectedList.stream().map(Object::toString).collect(Collectors.joining(", ")));
+    }
+
+    @Then("Books are sorted by Author ascending")
+    public void booksAreSortedByAuthorAscending() {
+        List<String> list = subcategoryScreen.getAuthorsInfo();
+        Assert.assertEquals(list, list.stream().sorted().collect(Collectors.toList()),
+                "Lists of authors is not sorted properly" + list.stream().map(Object::toString).collect(Collectors.joining(", ")));
+
+    }
+
+    @Then("Books are sorted by Title ascending")
+    public void booksAreSortedByTitleAscending() {
+        List<String> list = subcategoryScreen.getTitlesInfo();
+        Assert.assertEquals(list, list.stream().sorted().collect(Collectors.toList()),
+                "Lists of authors is not sorted properly" + list.stream().map(Object::toString).collect(Collectors.joining(", ")));
+
     }
 }

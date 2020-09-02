@@ -25,4 +25,6 @@ public abstract class CatalogScreen extends Screen {
     public abstract String getCategoryName();
 
     public abstract boolean isSubcategoryPresent(String subcategoryName);
+
+    public abstract void switchToCatalogTag(String catalogTab);
 }
