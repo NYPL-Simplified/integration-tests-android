@@ -31,4 +31,9 @@ public class AndroidAccountsScreen extends AccountsScreen {
     public void addAccount() {
         addBtn.click();
     }
+
+    @Override
+    public void openFirstLibrary() {
+        getElementFactory().getButton(By.xpath("//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[1]"), "First library").click();
+    }
 }

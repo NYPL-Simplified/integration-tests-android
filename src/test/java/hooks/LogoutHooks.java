@@ -3,6 +3,7 @@ package hooks;
 import aquality.appium.mobile.application.AqualityServices;
 import io.cucumber.java.After;
 import screens.account.AccountScreen;
+import screens.accounts.AccountsScreen;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
 import screens.holds.HoldsScreen;
@@ -15,6 +16,7 @@ public class LogoutHooks {
         if (!accountScreen.state().isDisplayed()) {
             AqualityServices.getScreenFactory().getScreen(BottomMenuForm.class).open(BottomMenu.SETTINGS);
             AqualityServices.getScreenFactory().getScreen(SettingsScreen.class).openAccounts();
+            AqualityServices.getScreenFactory().getScreen(AccountsScreen.class).openFirstLibrary();
         }
         accountScreen.logOut();
     }

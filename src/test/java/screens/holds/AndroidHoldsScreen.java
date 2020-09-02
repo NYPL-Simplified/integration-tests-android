@@ -1,16 +1,19 @@
 package screens.holds;
 
+import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
+import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import org.openqa.selenium.By;
 
+@ScreenType(platform = PlatformName.ANDROID)
 public class AndroidHoldsScreen extends HoldsScreen {
     private final ILabel lblNoBooks = getElementFactory().getLabel(By.id("feedEmptyText"), "No Books Present");
     private final IButton btnCancel =
-            getElementFactory().getButton(By.xpath("//android.widget.Button[@content-desc=\"Cancel\"]"), "Cancel");
+            getElementFactory().getButton(By.xpath("//android.widget.Button[@text=\"Cancel Reservation\"]"), "Cancel");
     private final String BOOK_INFO_LOCATOR_PATTERN = "//android.widget.ImageView[@content-desc=\"%s\"]";
 
-    protected AndroidHoldsScreen() {
+    public AndroidHoldsScreen() {
         super(By.xpath("//android.widget.TextView[@content-desc=\"Search in Holds…\"]"));
     }
 

@@ -47,6 +47,8 @@ Feature: Manage Libraries
       And Book 'bookInfo' is present in Holds List
     When I open Catalog
       And I return to previous screen
+      And I return to previous screen
+      And I return to previous screen
       And I switch to 'The SimplyE Collection' from side menu
       And I open Holds
     Then Holds feed is loaded
