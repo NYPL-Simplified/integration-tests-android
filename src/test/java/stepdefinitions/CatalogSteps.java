@@ -15,10 +15,11 @@ import screens.bottommenu.BottomMenuForm;
 import screens.catalog.CatalogScreen;
 import screens.subcategory.SubcategoryScreen;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CatalogSteps {
+    public static final String LIBRARIES_FOR_CANCEL_CONTEXT_KEY = "librariesForCancel";
     private final BottomMenuForm bottomMenuForm;
     private final CatalogScreen catalogScreen;
     private final SubcategoryScreen subcategoryScreen;
@@ -108,12 +109,21 @@ public class CatalogSteps {
 
     @And("Following subcategories are present:")
     public void checkFollowingSubcategoriesArePresent(List<String> expectedValuesList) {
-        Assert.assertTrue(expectedValuesList.stream().allMatch(x -> catalogScreen.isSubcategoryPresent(x)),
+        Assert.assertTrue(expectedValuesList.stream().allMatch(catalogScreen::isSubcategoryPresent),
                 "Not all categories are present");
     }
 
     @And("I reserve book in {string}-{string} category and save it as {string}")
-    public void iReserveBookInFictionDramaCategoryAndSaveItAsBookInfo(String categoryName, String subcategoryName, String bookInfoKey) {
+    public void reserveBookInCategoryAndSaveIt(String categoryName, String subcategoryName, String bookInfoKey) {
+        String libraryName = catalogScreen.getLibraryName();
+        List<String> listOfLibraries;
+        if (context.containsKey(LIBRARIES_FOR_CANCEL_CONTEXT_KEY)) {
+            listOfLibraries = context.get(LIBRARIES_FOR_CANCEL_CONTEXT_KEY);
+        } else {
+            listOfLibraries = new ArrayList<>();
+        }
+        listOfLibraries.add(libraryName);
+        context.add(LIBRARIES_FOR_CANCEL_CONTEXT_KEY, listOfLibraries);
         catalogScreen.openCategory(categoryName);
         catalogScreen.openCategory(subcategoryName);
         catalogScreen.openBookForReserve();

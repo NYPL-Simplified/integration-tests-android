@@ -9,6 +9,8 @@ import org.openqa.selenium.By;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAccountScreen extends AccountScreen {
+    public static final String LOG_IN_BUTTON_VALUE = "Log in";
+    public static final String LOG_OUT_BUTTON_VALUE = "Log out";
     private final IButton btnLogin = getElementFactory().getButton(By.id("accountLoginButton"), "Log in");
     private final ITextBox txbCard = getElementFactory().getTextBox(By.id("authBasicUserField"), "Card");
     private final ITextBox txbPin = getElementFactory().getTextBox(By.id("authBasicPassField"), "Pin");
@@ -26,12 +28,12 @@ public class AndroidAccountScreen extends AccountScreen {
 
     @Override
     public boolean isLoginSuccessful() {
-        return AqualityServices.getConditionalWait().waitFor(() -> btnLogin.getText().equals("Log out"));
+        return AqualityServices.getConditionalWait().waitFor(() -> btnLogin.getText().equals(LOG_OUT_BUTTON_VALUE));
     }
 
     @Override
     public void logOut() {
         btnLogin.click();
-        AqualityServices.getConditionalWait().waitFor(() -> btnLogin.getText().equals("Log in"));
+        AqualityServices.getConditionalWait().waitFor(() -> btnLogin.getText().equals(LOG_IN_BUTTON_VALUE));
     }
 }

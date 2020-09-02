@@ -53,5 +53,3 @@ Feature: Manage Libraries
       And I open Holds
     Then Holds feed is loaded
       And No books are present in Holds list
-    When I open Catalog
-      And I switch to 'Hartford Public Library' from side menu

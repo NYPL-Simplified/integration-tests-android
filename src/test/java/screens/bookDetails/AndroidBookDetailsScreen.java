@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidBookDetailsScreen extends BookDetailsScreen {
+    public static final String CONTENT_ATTRIBUTE_NAME = "content-desc";
     private final IButton btnDownload =
             getElementFactory().getButton(By.xpath("//android.widget.Button[@content-desc=\"Download Button\"]"), "Download");
     private final IButton btnRead =
@@ -33,6 +34,6 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public String getBookInfo() {
-        return lblBookInfo.getAttribute("content-desc");
+        return lblBookInfo.getAttribute(CONTENT_ATTRIBUTE_NAME);
     }
 }

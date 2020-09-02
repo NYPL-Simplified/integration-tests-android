@@ -23,22 +23,22 @@ public class HoldsSteps {
     }
 
     @And("I open Holds")
-    public void iOpenHolds() {
+    public void openHolds() {
         bottomMenuForm.open(BottomMenu.HOLDS);
     }
 
     @Then("Holds feed is loaded")
-    public void holdsFeedIsLoaded() {
+    public void checkHoldsFeedIsLoaded() {
         Assert.assertTrue(holdsScreen.state().waitForDisplayed(), "Holds feed is not loaded");
     }
 
     @And("No books are present in Holds list")
-    public void noBooksArePresentInHoldsList() {
+    public void checkNoBooksArePresentInHoldsList() {
         Assert.assertTrue(holdsScreen.isNoBooksMessagePresent(), "Books are present in Holds list");
     }
 
     @And("Book {string} is present in Holds List")
-    public void bookBookInfoIsPresentInHoldsList(String bookInfoKey) {
+    public void checkBookBookInfoIsPresentInHoldsList(String bookInfoKey) {
         String bookInfo = context.get(bookInfoKey);
         Assert.assertTrue(holdsScreen.isBookPresent(bookInfo), "Book '" + bookInfo + "' is not present in Books List");
     }
