@@ -38,3 +38,26 @@ Feature: Catalog Navigation
     When I open 'Drama' subcategory
     Then Subcategory screen is present
       And Subcategory name is 'Drama'
+
+  Scenario: Browse Lanes/Categories
+    When I open Catalog
+    Then Books feed is loaded
+      And Count of books in first lane is up to 12
+    When I open 'Fiction' category
+    Then Current category name is 'Fiction'
+      And Following subcategories are present:
+        | Literary Fiction   |
+        | Science Fiction    |
+        | Mysteries          |
+        | Romance            |
+        | Historical Fiction |
+        | Horror             |
+        | Poetry             |
+        | Drama              |
+        | All Fiction        |
+    When I open 'Drama' subcategory
+    Then Subcategory screen is present
+      And Subcategory name is 'Drama'
+    When I open first book in subcategory list and save it as 'bookInfo'
+    Then Book 'bookInfo' is opened
+

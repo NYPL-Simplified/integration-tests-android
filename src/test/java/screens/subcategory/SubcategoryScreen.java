@@ -9,4 +9,8 @@ public abstract class SubcategoryScreen extends Screen {
     }
 
     public abstract String getSubcategoryName();
+
+    public abstract String getFirstBookInfo();
+
+    public abstract void openFirstBook();
 }
