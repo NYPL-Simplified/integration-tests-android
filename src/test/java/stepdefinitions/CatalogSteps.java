@@ -3,11 +3,14 @@ package stepdefinitions;
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import framework.utilities.ScenarioContext;
+import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import models.android.AndroidBookDetailsScreenInformationBlockModel;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 import screens.agegate.AgeGateScreen;
 import screens.bookDetails.BookDetailsScreen;
 import screens.bottommenu.BottomMenu;
@@ -15,7 +18,9 @@ import screens.bottommenu.BottomMenuForm;
 import screens.catalog.CatalogScreen;
 import screens.subcategory.SubcategoryScreen;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CatalogSteps {
@@ -146,5 +151,31 @@ public class CatalogSteps {
     public void openFirstBookInSubcategoryListAndSaveIt(String bookInfoKey) {
         context.add(bookInfoKey, subcategoryScreen.getFirstBookInfo());
         subcategoryScreen.openFirstBook();
+    }
+
+    @And("The following values in the information block are present:")
+    public void checkFollowingValuesInTheInformationBlockArePresent(
+            List<AndroidBookDetailsScreenInformationBlockModel> expectedValuesList) {
+        Assert.assertTrue(expectedValuesList.stream().allMatch(listElement ->
+                        bookDetailsScreen.isValueInTheInformationBlockPresent(listElement.getKey(),
+                                listElement.getValue())),
+                "Not all information block values are present");
+    }
+
+    @DataTableType
+    public AndroidBookDetailsScreenInformationBlockModel getAndroidBookDetailsScreenInformationBlockModel(
+            Map<String, String> entry) {
+        return AndroidBookDetailsScreenInformationBlockModel.createAndroidBookDetailsScreenInformationBlockModel(entry);
+    }
+
+
+
+    @And("Description has text")
+    public void checkDescriptionHasText(String description) {
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(bookDetailsScreen.isDescriptionPresent(), "Description does not present");
+        softAssert.assertEquals(bookDetailsScreen.getDescriptionText(), description, "Description has not "
+                + "correct text");
+        softAssert.assertAll();
     }
 }

@@ -61,3 +61,26 @@ Feature: Catalog Navigation
     When I open first book in subcategory list and save it as 'bookInfo'
     Then Book 'bookInfo' is opened
 
+  Scenario: View Book Details
+    When I open Catalog
+    Then Books feed is loaded
+    When I open 'Fiction' category
+    Then Current category name is 'Fiction'
+    When I open 'Literary Fiction' subcategory
+    Then Subcategory screen is present
+      And Subcategory name is 'Literary Fiction'
+    When I open first book in subcategory list and save it as 'bookInfo'
+    Then Book 'bookInfo' is opened
+      And The following values in the information block are present:
+        | key         | value                               |
+        | PUBLISHED   | 2018-04-25                          |
+        | PUBLISHER   | Ember: A Journal of Luminous Things |
+        | DISTRIBUTOR | Plympton                            |
+        | CATEGORIES  | Short Stories, Fantasy, Horror      |
+        | UPDATED     | 2019-11-11 00:26:52                 |
+      And Description has text
+    """Mohammad Hussain Mohammadi's "Dasht-e Leili" is a horrifying fictional recreation of the Dasht-e Leili massacre.
+    In December 2001, between several hundred and several thousand Taliban prisoners were shot, or suffocated to death
+    in metal shipping containers, then buried in a mass grave. Narrated by one of the victims as he struggles to
+    survive, Mohammadi's story is a gut-wrenching, vivid depiction of an oft-overlooked atrocity."""
+

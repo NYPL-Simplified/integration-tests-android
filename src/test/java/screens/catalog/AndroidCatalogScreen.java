@@ -33,7 +33,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
     private String BOOKS_LOCATOR = "//androidx.recyclerview.widget.RecyclerView[1]//android.widget.LinearLayout[@content-desc]";
     private String CATEGORY_LOCATOR =
             "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneTitle\" and @text='%s']";
-    private final IButton btnFirstLane = getElementFactory().getButton(By.xpath(LANE_XPATH_LOCATOR), "Fisrt lane");
+    private final IButton btnFirstLane = getElementFactory().getButton(By.xpath(LANE_XPATH_LOCATOR), "First lane");
 
     public AndroidCatalogScreen() {
         super(By.id("feedWithGroups"));
