@@ -14,7 +14,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     private final IButton btnRead =
             getElementFactory().getButton(By.xpath("//android.widget.Button[@content-desc=\"Read Button\"]"), "Read");
     private final IButton btnReserve =
-            getElementFactory().getButton(By.xpath("//android.widget.Button[@content-desc=\"Reserve Button\"]"), "Read");
+            getElementFactory().getButton(By.xpath("//android.widget.Button[@content-desc=\"Reserve Button\"]"), "Reserve");
     private final ILabel lblBookInfo = getElementFactory().getLabel(By.id("bookDetailCoverImage"), "Cover Image");
 
     public AndroidBookDetailsScreen() {
