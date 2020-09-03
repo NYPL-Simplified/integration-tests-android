@@ -58,6 +58,6 @@ Feature: Catalog Navigation
     When I open 'Drama' subcategory
     Then Subcategory screen is present
       And Subcategory name is 'Drama'
-    When I open first book page in subcategory list and save it as 'bookInfo'
+    When I open first book in subcategory list and save it as 'bookInfo'
     Then Book 'bookInfo' is opened
 

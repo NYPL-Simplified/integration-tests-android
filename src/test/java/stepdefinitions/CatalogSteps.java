@@ -132,17 +132,18 @@ public class CatalogSteps {
     }
 
     @And("Count of books in first lane is up to {int}")
-    public void countOfBooksInFirstLaneIsUpTo(int countOfBooks) {
-        Assert.assertTrue(countOfBooks >= catalogScreen.getListOfAllBooksNamesInFirstLane().size(), "Count of books is bigger then 12");
+    public void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks) {
+        Assert.assertTrue(countOfBooks >= catalogScreen.getListOfAllBooksNamesInFirstLane().size(),
+                "Count of books is bigger then " + countOfBooks);
     }
 
     @Then("Book {string} is opened")
-    public void bookBookInfoIsOpened(String bookInfoKey) {
+    public void checkBookInfoIsOpened(String bookInfoKey) {
         Assert.assertEquals(context.get(bookInfoKey), bookDetailsScreen.getBookInfo(), "Expected book is not opened");
     }
 
-    @When("I open first book page in subcategory list and save it as {string}")
-    public void iOpenFirstBookPageInSubcategoryListAndSaveItAsBookInfo(String bookInfoKey) {
+    @When("I open first book in subcategory list and save it as {string}")
+    public void openFirstBookInSubcategoryListAndSaveIt(String bookInfoKey) {
         context.add(bookInfoKey, subcategoryScreen.getFirstBookInfo());
         subcategoryScreen.openFirstBook();
     }

@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 public class AndroidCatalogScreen extends CatalogScreen {
     public static final String CATEGORY_INFO_LOCATOR_PART =
             "//android.view.ViewGroup[@resource-id=\"org.nypl.simplified.simplye:id/mainToolbar\"]//android.widget.TextView";
+    public static final String LANE_XPATH_LOCATOR = "(//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneCoversScroll\"])[1]";
+    public static final String CONTENT_VALUE_ATTRIBUTE = "content-desc";
     private final IButton btnMenu =
             getElementFactory().getButton(By.xpath("//android.widget.ImageButton[@content-desc=\"Choose another library catalog…\"]"), "Menu");
     private final IButton btnReserve =
@@ -29,9 +31,9 @@ public class AndroidCatalogScreen extends CatalogScreen {
     private final String LIBRARY_BUTTON_LOCATOR_PATTERN =
             "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/accountTitle\" and @text=\"%s\"]";
     private String BOOKS_LOCATOR = "//androidx.recyclerview.widget.RecyclerView[1]//android.widget.LinearLayout[@content-desc]";
-    private String INFO_ATTRIBUTE = "content-desc";
     private String CATEGORY_LOCATOR =
             "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneTitle\" and @text='%s']";
+    private final IButton btnFirstLane = getElementFactory().getButton(By.xpath(LANE_XPATH_LOCATOR), "Fisrt lane");
 
     public AndroidCatalogScreen() {
         super(By.id("feedWithGroups"));
@@ -39,10 +41,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     @Override
     public List<String> getListOfBooksNames() {
-        List<String> listOfNames = getElementFactory().findElements(By.xpath(BOOKS_LOCATOR), ElementType.LABEL)
-                .stream()
-                .map(x -> x.getAttribute("content-desc"))
-                .collect(Collectors.toList());
+        List<String> listOfNames = getValuesFromListOfLabels(LANE_XPATH_LOCATOR);
         AqualityServices.getLogger().info("Found list of books - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return listOfNames;
     }
@@ -55,7 +54,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     @Override
     public String getBookName(int index) {
-        return getBookWithGivenIndex(index).getAttribute(INFO_ATTRIBUTE);
+        return getBookWithGivenIndex(index).getAttribute(CONTENT_VALUE_ATTRIBUTE);
     }
 
     private IButton getBookWithGivenIndex(int index) {
@@ -107,7 +106,6 @@ public class AndroidCatalogScreen extends CatalogScreen {
         List<String> bookNames = new ArrayList<>();
         do {
             bookNames.addAll(currentBooksNames);
-            IButton btnFirstLane = getElementFactory().getButton(By.xpath("(//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneCoversScroll\"])[1]"), "Fisrt lane");
             btnFirstLane.getTouchActions().swipe(new Point(0, btnFirstLane.getElement().getCenter().y));
             currentBooksNames = getListOfVisibleBooksNamesInFirstLane();
         } while (!bookNames.containsAll(currentBooksNames));
@@ -115,9 +113,13 @@ public class AndroidCatalogScreen extends CatalogScreen {
     }
 
     private List<String> getListOfVisibleBooksNamesInFirstLane() {
-        return getElementFactory().findElements(By.xpath("(//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneCoversScroll\"])[1]/android.widget.LinearLayout"), ElementType.LABEL)
+        return getValuesFromListOfLabels(LANE_XPATH_LOCATOR + "/android.widget.LinearLayout");
+    }
+
+    private List<String> getValuesFromListOfLabels(String xpath) {
+        return getElementFactory().findElements(By.xpath(xpath), ElementType.LABEL)
                 .stream()
-                .map(x -> x.getAttribute("content-desc"))
+                .map(x -> x.getAttribute(CONTENT_VALUE_ATTRIBUTE))
                 .collect(Collectors.toList());
     }
 }
