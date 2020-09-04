@@ -26,5 +26,9 @@ public abstract class CatalogScreen extends Screen {
 
     public abstract boolean isSubcategoryPresent(String subcategoryName);
 
+    public abstract void openBookForReserve();
+
+    public abstract List<String> getListOfAllBooksNamesInFirstLane();
+
     public abstract void switchToCatalogTag(String catalogTab);
 }

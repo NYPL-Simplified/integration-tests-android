@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAccountsScreen extends AccountsScreen {
     private final IButton addBtn = getElementFactory().getButton(By.id("accountsMenuActionAccountAdd"), "Add account");
+    private IButton btnFirstLibrary =
+            getElementFactory().getButton(By.xpath("//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[1]"), "First library");
 
     public AndroidAccountsScreen() {
         super(By.id("accountOthers"));
@@ -30,5 +32,10 @@ public class AndroidAccountsScreen extends AccountsScreen {
     @Override
     public void addAccount() {
         addBtn.click();
+    }
+
+    @Override
+    public void openFirstLibrary() {
+        btnFirstLibrary.click();
     }
 }

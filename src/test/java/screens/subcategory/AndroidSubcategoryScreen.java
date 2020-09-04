@@ -21,6 +21,8 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     private final IButton btnSortBy = getElementFactory().getButton(By.xpath(SORTING_BUTTON_XPATH_PATTERN + "[2]"), "Sort By");
     private final IButton btnSortByAvailability =
             getElementFactory().getButton(By.xpath(SORTING_BUTTON_XPATH_PATTERN + "[1]"), "Sort By Availability");
+    private final ILabel lblFirstBookInfo =
+            getElementFactory().getLabel(By.xpath("//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\"]"), "First book info");
 
     public AndroidSubcategoryScreen() {
         super(By.xpath("//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.nypl.simplified.simplye:id/feedWithoutGroupsList\"]"));
@@ -87,5 +89,15 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
 
     private void selectCheckedListValue(String sortingCategory) {
         getElementFactory().getButton(By.xpath("//android.widget.CheckedTextView[@text=\"" + sortingCategory + "\"]"), sortingCategory).click();
+    }
+
+    @Override
+    public String getFirstBookInfo() {
+        return lblFirstBookInfo.getAttribute("content-desc");
+    }
+
+    @Override
+    public void openFirstBook() {
+        lblFirstBookInfo.click();
     }
 }
