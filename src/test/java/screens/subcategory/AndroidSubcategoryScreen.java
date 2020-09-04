@@ -15,14 +15,21 @@ import java.util.stream.Collectors;
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidSubcategoryScreen extends SubcategoryScreen {
     private static final String BOOKS_LOCATOR = "//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\"]";
-    private final String SORTING_BUTTON_XPATH_PATTERN = "//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/feedHeaderFacets\"]/android.widget.Button";
+    public static final String BOOK_BUTTON_XPATH =
+            "//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]/android.widget.Button";
+    private final String SORTING_BUTTON_XPATH_PATTERN =
+            "//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/feedHeaderFacets\"]/android.widget.Button";
     private final ILabel lblSubcategoryName =
             getElementFactory().getLabel(By.xpath("//android.view.ViewGroup[@resource-id=\"org.nypl.simplified.simplye:id/mainToolbar\"]//android.widget.TextView[1]"), "Category name");
     private final IButton btnSortBy = getElementFactory().getButton(By.xpath(SORTING_BUTTON_XPATH_PATTERN + "[2]"), "Sort By");
     private final IButton btnSortByAvailability =
             getElementFactory().getButton(By.xpath(SORTING_BUTTON_XPATH_PATTERN + "[1]"), "Sort By Availability");
     private final ILabel lblFirstBookInfo =
-            getElementFactory().getLabel(By.xpath("//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\"]"), "First book info");
+            getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR), "First book info");
+    private final String AUTHOR_INFO_XPATH =
+            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleAuthor\"]";
+    private final String BOOK_NAME_XPATH =
+            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleTitle\"]";
 
     public AndroidSubcategoryScreen() {
         super(By.xpath("//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.nypl.simplified.simplye:id/feedWithoutGroupsList\"]"));
@@ -57,34 +64,30 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public List<String> getAllButtonsNames() {
-        List<String> listOfNames = getElementFactory().findElements(By.xpath("//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]/android.widget.Button"), ElementType.LABEL)
-                .stream()
-                .map(IElement::getText)
-                .collect(Collectors.toList());
+        List<String> listOfNames = getValuesFromListOfLabels(BOOK_BUTTON_XPATH);
         AqualityServices.getLogger().info("Found list of buttons names - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return listOfNames;
-
     }
 
     @Override
     public List<String> getTitlesInfo() {
-
-        List<String> listOfNames = getElementFactory().findElements(By.xpath("//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleTitle\"]"), ElementType.LABEL)
-                .stream()
-                .map(IElement::getText)
-                .collect(Collectors.toList());
+        List<String> listOfNames = getValuesFromListOfLabels(BOOK_NAME_XPATH);
         AqualityServices.getLogger().info("Found list of titles - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return listOfNames;
     }
 
     @Override
     public List<String> getAuthorsInfo() {
-        List<String> listOfNames = getElementFactory().findElements(By.xpath("//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleAuthor\"]"), ElementType.LABEL)
+        List<String> listOfNames = getValuesFromListOfLabels(AUTHOR_INFO_XPATH);
+        AqualityServices.getLogger().info("Found list of authors - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        return listOfNames;
+    }
+
+    private List<String> getValuesFromListOfLabels(String xpath) {
+        return getElementFactory().findElements(By.xpath(xpath), ElementType.LABEL)
                 .stream()
                 .map(IElement::getText)
                 .collect(Collectors.toList());
-        AqualityServices.getLogger().info("Found list of authors - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
-        return listOfNames;
     }
 
     private void selectCheckedListValue(String sortingCategory) {

@@ -30,5 +30,5 @@ public abstract class CatalogScreen extends Screen {
 
     public abstract List<String> getListOfAllBooksNamesInFirstLane();
 
-    public abstract void switchToCatalogTag(String catalogTab);
+    public abstract void switchToCatalogTab(String catalogTab);
 }
