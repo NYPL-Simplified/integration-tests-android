@@ -159,12 +159,6 @@ public class CatalogSteps {
                 "Not all present books are audiobooks");
     }
 
-    @Then("All present books are ebooks")
-    public void allPresentBooksAreEbooks() {
-        Assert.assertTrue(catalogScreen.getListOfBooksNames().stream().allMatch(x -> x.contains("ebook")),
-                "Not all present books are ebooks");
-    }
-
     @And("I sort books by {string}")
     public void iSortBooksByAuthor(String sortingCategory) {
         subcategoryScreen.sortBy(sortingCategory);
@@ -188,15 +182,8 @@ public class CatalogSteps {
 
     @Then("All books can be loaned or downloaded")
     public void allBooksCanBeLoanedOrDownloaded() {
-        Assert.assertTrue(subcategoryScreen.getAllButtonsNames().stream().allMatch(x -> x.equals("Get")),
+        Assert.assertTrue(subcategoryScreen.getAllButtonsNames().stream().allMatch(x -> x.equals("Get") || x.equals("Download")),
                 "Not all present books can be loaned or downloaded");
-    }
-
-    @Then("List of books on subcategory screen is equal to list of books saved as {string}")
-    public void listOfBooksOnSubcategoryScreenIsEqualToListOfBooksSavedAsRandomListOfBooks(String booksNamesListKey) {
-        List<String> expectedList = context.get(booksNamesListKey);
-        Assert.assertEquals(subcategoryScreen.getBooksInfo(), expectedList,
-                "Lists of books are not equal" + expectedList.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
 
     @Then("List of books on subcategory screen is not equal to list of books saved as {string}")
@@ -209,9 +196,23 @@ public class CatalogSteps {
     @Then("Books are sorted by Author ascending")
     public void booksAreSortedByAuthorAscending() {
         List<String> list = subcategoryScreen.getAuthorsInfo();
-        Assert.assertEquals(list, list.stream().sorted().collect(Collectors.toList()),
+        List<String> listOfSurnames = getSurnames(list);
+        Assert.assertEquals(listOfSurnames, listOfSurnames.stream().sorted().collect(Collectors.toList()),
                 "Lists of authors is not sorted properly" + list.stream().map(Object::toString).collect(Collectors.joining(", ")));
+    }
 
+    private List<String> getSurnames(List<String> list) {
+        List<String> listOfSurnames = new ArrayList<>();
+        for (String authorName :
+                list) {
+            String[] separatedName = authorName.split(" ");
+            if (authorName.contains(",")) {
+                listOfSurnames.add(separatedName[0]);
+            } else {
+                listOfSurnames.add(separatedName[1]);
+            }
+        }
+        return listOfSurnames;
     }
 
     @Then("Books are sorted by Title ascending")

@@ -62,25 +62,29 @@ Feature: Catalog Navigation
     Then Book 'bookInfo' is opened
 
   Scenario: Sort Lists
-    When I add 'Hartford Public Library' account
-    Then Account 'Hartford Public Library' is present on Accounts screen
+    When I add 'Alameda County Library' account
+    Then Account 'Alameda County Library' is present on Accounts screen
     When I open Catalog
     Then Books feed is loaded
-    When I switch to 'Hartford Public Library' from side menu
+    When I switch to 'Alameda County Library' from side menu
     Then Books feed is loaded
     When I switch to 'Audiobooks' catalog tab
-    Then All present books are audiobooks
+    Then Books feed is loaded
+      And All present books are audiobooks
     When I switch to 'eBooks' catalog tab
-    Then All present books are ebooks
-    When I open 'Fiction' category
+      And I open 'Fiction' category
       And I open 'Drama' subcategory
-      And I sort books by 'Author'
-    Then Books are sorted by Author ascending
+    Then Subcategory screen is present
+    When I sort books by 'Author'
+    Then Subcategory screen is present
+      And Books are sorted by Author ascending
     When I sort books by 'Title'
-    Then Books are sorted by Title ascending
+    Then Subcategory screen is present
+      And Books are sorted by Title ascending
     When I save list of books as 'listOfBooks'
       And I sort books by 'Recently Added'
-    Then List of books on subcategory screen is not equal to list of books saved as 'listOfBooks'
+    Then Subcategory screen is present
+      And List of books on subcategory screen is not equal to list of books saved as 'listOfBooks'
     When I save list of books as 'recentlyAddedListOfBooks'
       And I sort books by 'Random'
     Then List of books on subcategory screen is not equal to list of books saved as 'recentlyAddedListOfBooks'
@@ -88,6 +92,6 @@ Feature: Catalog Navigation
       And I select book by Availability - 'Available now'
     Then All books can be loaned or downloaded
     When I select book by Availability - 'All'
-    Then List of books on subcategory screen is equal to list of books saved as 'randomListOfBooks'
+    Then Subcategory screen is present
     When I select book by Availability - 'Yours to keep'
     Then All books can be downloaded

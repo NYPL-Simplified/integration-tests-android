@@ -57,7 +57,7 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public List<String> getAllButtonsNames() {
-        List<String> listOfNames = getElementFactory().findElements(By.xpath(BOOKS_LOCATOR), ElementType.LABEL)
+        List<String> listOfNames = getElementFactory().findElements(By.xpath("//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]/android.widget.Button"), ElementType.LABEL)
                 .stream()
                 .map(IElement::getText)
                 .collect(Collectors.toList());
