@@ -1,7 +1,7 @@
 {
   "platformName" : "android",
   "isRemote": true,
-  "remoteConnectionUrl": "https://artemlebakov1:nasxqh9Lsz4VFf7yDUAo@hub-cloud.browserstack.com/wd/hub",
+  "remoteConnectionUrl": "",
   "screensLocation": "screens",
 
   "driverSettings": {
@@ -9,7 +9,7 @@
       "deviceKey": "Samsung_Galaxy",
       "capabilities": {
         "platformName": "Android",
-        "app": "bs://8b267f2f08418da208338a798f35928ed856616d",
+        "app": "",
         "automationName": "UiAutomator2",
         "adbExecTimeout": 10000
       }
