@@ -13,6 +13,6 @@ public class AndroidSearchForm extends SearchForm {
 
     @Override
     public void openSearchModal() {
-        getElementFactory().getButton(getLocator(), "Search button");
+        getElementFactory().getButton(getLocator(), "Search button").click();
     }
 }

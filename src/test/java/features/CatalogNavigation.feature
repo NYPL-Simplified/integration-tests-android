@@ -71,7 +71,7 @@ Feature: Catalog Navigation
     Then Search modal is closed
       And Search page is opened
     When I open first found book from the search result
-    Then Book 'Men Without Men' is opened
+    Then Book 'Men Without Men, ebook, by Vestal McIntyre' is opened
       And The following values in the information block are present:
         | key         | value                           |
         | PUBLISHED   | 2018-05-31                      |
@@ -84,9 +84,11 @@ Feature: Catalog Navigation
     Eric's return from London breathes life back into the “two-fers” group; grabbing two-for-one draft beers at the Phoenix, a lower Manhattan gay bar, just hasn’t been the same without the man whose magnetic personality holds the friends together. But then Bendiks decides it’s time to play matchmaker, setting Eric up on a series of blind dates, and the group dynamic warps beyond narrator Buttons’ control.
     """
     When I open related books
-    Then Count of books in first lane is up to 12
+    Then Current category name is 'Related Books'
+      And Count of books in first lane is up to 12
     When I open 'Vestal McIntyre' subcategory
-    Then Count of books in search result is up to 12
+    Then Current category name is 'Vestal McIntyre'
+      And Count of books in search result is up to 12
 
 
 

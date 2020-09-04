@@ -99,7 +99,11 @@ public class CatalogSteps {
 
     @Then("Current category name is {string}")
     public void checkCurrentCategoryName(String expectedCategoryName) {
-        Assert.assertEquals(expectedCategoryName, catalogScreen.getCategoryName(), "Current category name is not correct");
+        Assert.assertTrue(AqualityServices.getConditionalWait()
+                .waitFor(() -> catalogScreen.getCategoryName().equals(expectedCategoryName),
+                        "Wait while category become correct."),
+                String.format("Current category name is not correct. Expected '%1$s' but found '%2$s'",
+                        catalogScreen.getCategoryName(), expectedCategoryName));
     }
 
     @Then("Subcategory screen is present")
@@ -137,7 +141,6 @@ public class CatalogSteps {
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 
-    @Then("Count of books in first lane is up to {int}")
     @And("Count of books in first lane is up to {int}")
     public void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks) {
         Assert.assertTrue(countOfBooks >= catalogScreen.getListOfAllBooksNamesInFirstLane().size(),
@@ -146,8 +149,8 @@ public class CatalogSteps {
 
     @Then("Book {string} is opened")
     public void checkBookInfoIsOpened(String bookInfoKey) {
-        Assert.assertEquals(Optional.of(context.get(bookInfoKey)).orElse(bookInfoKey),
-                bookDetailsScreen.getBookInfo(), "Expected book is not opened");
+        Assert.assertEquals(bookDetailsScreen.getBookInfo(),
+                Optional.ofNullable(context.get(bookInfoKey)).orElse(bookInfoKey), "Expected book is not opened");
     }
 
     @When("I open first book in subcategory list and save it as {string}")
