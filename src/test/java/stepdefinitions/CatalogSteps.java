@@ -21,6 +21,7 @@ import screens.subcategory.SubcategoryScreen;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CatalogSteps {
@@ -144,7 +145,8 @@ public class CatalogSteps {
 
     @Then("Book {string} is opened")
     public void checkBookInfoIsOpened(String bookInfoKey) {
-        Assert.assertEquals(context.get(bookInfoKey), bookDetailsScreen.getBookInfo(), "Expected book is not opened");
+        Assert.assertEquals(Optional.of(context.get(bookInfoKey)).orElse(bookInfoKey),
+                bookDetailsScreen.getBookInfo(), "Expected book is not opened");
     }
 
     @When("I open first book in subcategory list and save it as {string}")
@@ -161,14 +163,6 @@ public class CatalogSteps {
                                 listElement.getValue())),
                 "Not all information block values are present");
     }
-
-    @DataTableType
-    public AndroidBookDetailsScreenInformationBlockModel getAndroidBookDetailsScreenInformationBlockModel(
-            Map<String, String> entry) {
-        return AndroidBookDetailsScreenInformationBlockModel.createAndroidBookDetailsScreenInformationBlockModel(entry);
-    }
-
-
 
     @And("Description has text")
     public void checkDescriptionHasText(String description) {

@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
         features = {"src/test/java/features"},
         glue = {
                 "hooks",
+                "transformers",
                 "stepdefinitions"
         },
         strict = true
