@@ -137,6 +137,7 @@ public class CatalogSteps {
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 
+    @Then("Count of books in first lane is up to {int}")
     @And("Count of books in first lane is up to {int}")
     public void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks) {
         Assert.assertTrue(countOfBooks >= catalogScreen.getListOfAllBooksNamesInFirstLane().size(),
@@ -171,5 +172,10 @@ public class CatalogSteps {
         softAssert.assertEquals(bookDetailsScreen.getDescriptionText(), description, "Description has not "
                 + "correct text");
         softAssert.assertAll();
+    }
+
+    @When("I open related books")
+    public void openRelatedBooks() {
+        bookDetailsScreen.clickRelatedBooks();
     }
 }

@@ -83,5 +83,10 @@ Feature: Catalog Navigation
     """
     Eric's return from London breathes life back into the “two-fers” group; grabbing two-for-one draft beers at the Phoenix, a lower Manhattan gay bar, just hasn’t been the same without the man whose magnetic personality holds the friends together. But then Bendiks decides it’s time to play matchmaker, setting Eric up on a series of blind dates, and the group dynamic warps beyond narrator Buttons’ control.
     """
+    When I open related books
+    Then Count of books in first lane is up to 12
+    When I open 'Vestal McIntyre' subcategory
+    Then Count of books in search result is up to 12
+
 
 

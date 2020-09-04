@@ -54,4 +54,10 @@ public class SearchSteps {
     public void selectFirstFoundBook() {
         searchPage.selectFirstFoundBook();
     }
+
+    @And("Count of books in search result is up to {int}")
+    public void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks) {
+        Assert.assertTrue(countOfBooks >= searchPage.getFoundBooksCount(),
+                "Count of books is bigger then " + countOfBooks);
+    }
 }

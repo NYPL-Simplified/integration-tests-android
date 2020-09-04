@@ -21,4 +21,6 @@ public abstract class BookDetailsScreen extends Screen {
     public abstract boolean isDescriptionPresent();
 
     public abstract String getDescriptionText();
+
+    public abstract void clickRelatedBooks();
 }

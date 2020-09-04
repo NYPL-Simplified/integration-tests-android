@@ -26,6 +26,9 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     private final ILabel lblBookDescription = getElementFactory().getLabel(
             By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookDetailDescriptionText\"]"),
             "Description");
+    private final IButton btnRelatedBooks = getElementFactory().getButton(
+            By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookDetailRelated\"]"),
+            "Related books button");
 
     public AndroidBookDetailsScreen() {
         super(By.id("bookDetailCover"));
@@ -65,5 +68,10 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     @Override
     public String getDescriptionText() {
         return lblBookDescription.getText();
+    }
+
+    @Override
+    public void clickRelatedBooks() {
+        btnRelatedBooks.click();
     }
 }
