@@ -107,6 +107,3 @@ Feature: Catalog Navigation
     When I open 'Harry Potter' subcategory
     Then Current category name is 'Harry Potter'
     And Count of books in search result is up to 12
-
-
-

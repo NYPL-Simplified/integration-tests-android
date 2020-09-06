@@ -34,6 +34,4 @@ public class AndroidSearchPage extends SearchPage {
     public int getFoundBooksCount() {
         return getFoundBooks().size();
     }
-
-
 }
