@@ -5,24 +5,24 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
-import screens.search.form.SearchForm;
+import screens.catalog.form.MainCatalogToolbarForm;
 import screens.search.modal.SearchModal;
-import screens.search.page.SearchPage;
+import screens.search.screen.SearchPage;
 
 public class SearchSteps {
     private final SearchPage searchPage;
-    private final SearchForm searchForm;
+    private final MainCatalogToolbarForm mainCatalogToolbarForm;
     private final SearchModal searchModal;
 
     public SearchSteps() {
         searchPage = AqualityServices.getScreenFactory().getScreen(SearchPage.class);
-        searchForm = AqualityServices.getScreenFactory().getScreen(SearchForm.class);
+        mainCatalogToolbarForm = AqualityServices.getScreenFactory().getScreen(MainCatalogToolbarForm.class);
         searchModal = AqualityServices.getScreenFactory().getScreen(SearchModal.class);
     }
 
     @When("I open search modal")
     public void openSearchModal() {
-        searchForm.openSearchModal();
+        mainCatalogToolbarForm.openSearchModal();
     }
 
     @Then("Search modal is opened")

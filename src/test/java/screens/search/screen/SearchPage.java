@@ -1,4 +1,4 @@
-package screens.search.page;
+package screens.search.screen;
 
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.Screen;

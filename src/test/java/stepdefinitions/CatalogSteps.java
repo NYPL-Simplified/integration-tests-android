@@ -3,24 +3,24 @@ package stepdefinitions;
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import framework.utilities.ScenarioContext;
-import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import models.android.AndroidBookDetailsScreenInformationBlockModel;
+import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import screens.agegate.AgeGateScreen;
 import screens.bookDetails.BookDetailsScreen;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
-import screens.catalog.CatalogScreen;
+import screens.catalog.form.MainCatalogToolbarForm;
+import screens.catalog.screen.CatalogScreen;
 import screens.subcategory.SubcategoryScreen;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,11 +31,13 @@ public class CatalogSteps {
     private final SubcategoryScreen subcategoryScreen;
     private final AgeGateScreen ageGateScreen;
     private final BookDetailsScreen bookDetailsScreen;
+    private final MainCatalogToolbarForm mainCatalogToolbarForm;
     private ScenarioContext context;
 
     @Inject
     public CatalogSteps(ScenarioContext context) {
         this.context = context;
+        mainCatalogToolbarForm = AqualityServices.getScreenFactory().getScreen(MainCatalogToolbarForm.class);
         bottomMenuForm = AqualityServices.getScreenFactory().getScreen(BottomMenuForm.class);
         catalogScreen = AqualityServices.getScreenFactory().getScreen(CatalogScreen.class);
         ageGateScreen = AqualityServices.getScreenFactory().getScreen(AgeGateScreen.class);
@@ -62,6 +64,7 @@ public class CatalogSteps {
 
     @And("I switch to {string} from side menu")
     public void openLibraryFromSideMenu(String libraryName) {
+        mainCatalogToolbarForm.chooseAnotherLibrary();
         catalogScreen.openLibrary(libraryName);
     }
 
@@ -88,7 +91,8 @@ public class CatalogSteps {
 
     @And("Current library is {string} in Catalog")
     public void checkCurrentLibraryIsCorrect(String expectedLibraryName) {
-        Assert.assertEquals(expectedLibraryName, catalogScreen.getLibraryName(), "Current library name is not correct");
+        Assert.assertEquals(expectedLibraryName, mainCatalogToolbarForm.getCatalogName(),
+                "Current library name is not correct");
     }
 
     @And("I open {string} category")
@@ -100,10 +104,10 @@ public class CatalogSteps {
     @Then("Current category name is {string}")
     public void checkCurrentCategoryName(String expectedCategoryName) {
         Assert.assertTrue(AqualityServices.getConditionalWait()
-                .waitFor(() -> catalogScreen.getCategoryName().equals(expectedCategoryName),
+                .waitFor(() -> mainCatalogToolbarForm.getCategoryName().equals(expectedCategoryName),
                         "Wait while category become correct."),
                 String.format("Current category name is not correct. Expected '%1$s' but found '%2$s'",
-                        catalogScreen.getCategoryName(), expectedCategoryName));
+                        mainCatalogToolbarForm.getCategoryName(), expectedCategoryName));
     }
 
     @Then("Subcategory screen is present")
@@ -125,7 +129,7 @@ public class CatalogSteps {
 
     @And("I reserve book in {string}-{string} category and save it as {string}")
     public void reserveBookInCategoryAndSaveIt(String categoryName, String subcategoryName, String bookInfoKey) {
-        String libraryName = catalogScreen.getLibraryName();
+        String libraryName = mainCatalogToolbarForm.getCatalogName();
         List<String> listOfLibraries;
         if (context.containsKey(LIBRARIES_FOR_CANCEL_CONTEXT_KEY)) {
             listOfLibraries = context.get(LIBRARIES_FOR_CANCEL_CONTEXT_KEY);
@@ -145,6 +149,16 @@ public class CatalogSteps {
     public void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks) {
         Assert.assertTrue(countOfBooks >= catalogScreen.getListOfAllBooksNamesInFirstLane().size(),
                 "Count of books is bigger then " + countOfBooks);
+    }
+
+    @And("Count of books in subcategory {string} lane is up to {int}")
+    public void checkCountOfBooksInSubcategoryLaneIsUpTo(String lineName, int countOfBooks) {
+        int foundCountOfBooks = catalogScreen
+                .getListOfAllBooksNamesInSubcategoryLane(lineName)
+                .size();
+        Assert.assertTrue(countOfBooks >= foundCountOfBooks,
+                String.format("Expected count of books bigger or equal to %1$s but found %2$s", countOfBooks,
+                        foundCountOfBooks));
     }
 
     @Then("Book {string} is opened")
@@ -169,16 +183,21 @@ public class CatalogSteps {
     }
 
     @And("Description has text")
-    public void checkDescriptionHasText(String description) {
+    public void checkDescriptionHasText(final String description) {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(bookDetailsScreen.isDescriptionPresent(), "Description does not present");
-        softAssert.assertEquals(bookDetailsScreen.getDescriptionText(), description, "Description has not "
-                + "correct text");
+        softAssert.assertEquals(StringUtils.trim(bookDetailsScreen.getDescriptionText()), StringUtils.trim(description),
+                "Description has not correct text");
         softAssert.assertAll();
     }
 
     @When("I open related books")
     public void openRelatedBooks() {
         bookDetailsScreen.clickRelatedBooks();
+    }
+
+    @When("I go back to the previous catalog screen")
+    public void goBackToThePreviousCatalogScreen() {
+        mainCatalogToolbarForm.goBack();
     }
 }

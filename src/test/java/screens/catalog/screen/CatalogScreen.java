@@ -1,9 +1,10 @@
-package screens.catalog;
+package screens.catalog.screen;
 
 import aquality.appium.mobile.screens.Screen;
 import org.openqa.selenium.By;
 
 import java.util.List;
+import java.util.Set;
 
 public abstract class CatalogScreen extends Screen {
     protected CatalogScreen(By locator) {
@@ -18,15 +19,13 @@ public abstract class CatalogScreen extends Screen {
 
     public abstract void clickBook(int index);
 
-    public abstract String getLibraryName();
-
     public abstract void openCategory(String categoryName);
-
-    public abstract String getCategoryName();
 
     public abstract boolean isSubcategoryPresent(String subcategoryName);
 
     public abstract void openBookForReserve();
 
-    public abstract List<String> getListOfAllBooksNamesInFirstLane();
+    public abstract Set<String> getListOfAllBooksNamesInFirstLane();
+
+    public abstract Set<String> getListOfAllBooksNamesInSubcategoryLane(String lineName);
 }
