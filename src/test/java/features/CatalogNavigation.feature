@@ -61,3 +61,37 @@ Feature: Catalog Navigation
     When I open first book in subcategory list and save it as 'bookInfo'
     Then Book 'bookInfo' is opened
 
+  Scenario: Sort Lists
+    When I add 'Alameda County Library' account
+    Then Account 'Alameda County Library' is present on Accounts screen
+    When I open Catalog
+    Then Books feed is loaded
+    When I switch to 'Alameda County Library' from side menu
+    Then Books feed is loaded
+    When I switch to 'Audiobooks' catalog tab
+    Then Books feed is loaded
+      And All present books are audiobooks
+    When I switch to 'eBooks' catalog tab
+      And I open 'Fiction' category
+      And I open 'Drama' subcategory
+    Then Subcategory screen is present
+    When I sort books by 'Author'
+    Then Subcategory screen is present
+      And Books are sorted by Author ascending
+    When I sort books by 'Title'
+    Then Subcategory screen is present
+      And Books are sorted by Title ascending
+    When I save list of books as 'listOfBooks'
+      And I sort books by 'Recently Added'
+    Then Subcategory screen is present
+      And List of books on subcategory screen is not equal to list of books saved as 'listOfBooks'
+    When I save list of books as 'recentlyAddedListOfBooks'
+      And I sort books by 'Random'
+    Then List of books on subcategory screen is not equal to list of books saved as 'recentlyAddedListOfBooks'
+    When I save list of books as 'randomListOfBooks'
+      And I select book by Availability - 'Available now'
+    Then All books can be loaned or downloaded
+    When I select book by Availability - 'All'
+    Then Subcategory screen is present
+    When I select book by Availability - 'Yours to keep'
+    Then All books can be downloaded

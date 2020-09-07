@@ -41,7 +41,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     @Override
     public List<String> getListOfBooksNames() {
-        List<String> listOfNames = getValuesFromListOfLabels(LANE_XPATH_LOCATOR);
+        List<String> listOfNames = getValuesFromListOfLabels(BOOKS_LOCATOR);
         AqualityServices.getLogger().info("Found list of books - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return listOfNames;
     }
@@ -92,6 +92,11 @@ public class AndroidCatalogScreen extends CatalogScreen {
         IButton subcategoryButton = getCategoryButton(subcategoryName);
         subcategoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         return subcategoryButton.state().isDisplayed();
+    }
+
+    @Override
+    public void switchToCatalogTab(String catalogTab) {
+        getElementFactory().getButton(By.xpath("//android.widget.RadioButton[@text=\"" + catalogTab + "\"]"), catalogTab).click();
     }
 
     @Override

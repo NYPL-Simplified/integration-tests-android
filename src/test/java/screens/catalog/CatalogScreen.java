@@ -29,4 +29,6 @@ public abstract class CatalogScreen extends Screen {
     public abstract void openBookForReserve();
 
     public abstract List<String> getListOfAllBooksNamesInFirstLane();
+
+    public abstract void switchToCatalogTab(String catalogTab);
 }
