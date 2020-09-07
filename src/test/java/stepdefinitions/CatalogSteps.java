@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 public class CatalogSteps {
     public static final String LIBRARIES_FOR_CANCEL_CONTEXT_KEY = "librariesForCancel";
+    public static final String DOWNLOAD_BUTTON_NAME = "Download";
     private final BottomMenuForm bottomMenuForm;
     private final CatalogScreen catalogScreen;
     private final SubcategoryScreen subcategoryScreen;
@@ -171,6 +172,80 @@ public class CatalogSteps {
     public void openFirstBookInSubcategoryListAndSaveIt(String bookInfoKey) {
         context.add(bookInfoKey, subcategoryScreen.getFirstBookInfo());
         subcategoryScreen.openFirstBook();
+    }
+
+    @When("I switch to {string} catalog tab")
+    public void switchToCatalogTab(String catalogTab) {
+        catalogScreen.switchToCatalogTab(catalogTab);
+    }
+
+    @Then("All present books are audiobooks")
+    public void checkAllPresentBooksAreAudiobooks() {
+        Assert.assertTrue(catalogScreen.getListOfBooksNames().stream().allMatch(x -> x.contains("audiobook")),
+                "Not all present books are audiobooks");
+    }
+
+    @And("I sort books by {string}")
+    public void sortBooksBy(String sortingCategory) {
+        subcategoryScreen.sortBy(sortingCategory);
+    }
+
+    @When("I save list of books as {string}")
+    public void saveListOfBooks(String booksInfoKey) {
+        context.add(booksInfoKey, subcategoryScreen.getBooksInfo());
+    }
+
+    @And("I select book by Availability - {string}")
+    public void selectBookByAvailability(String sortingCategory) {
+        subcategoryScreen.sortByAvailability(sortingCategory);
+    }
+
+    @Then("All books can be downloaded")
+    public void checkAllBooksCanBeDownloaded() {
+        Assert.assertTrue(subcategoryScreen.getAllButtonsNames().stream().allMatch(x -> x.equals(DOWNLOAD_BUTTON_NAME)),
+                "Not all present books can be downloaded");
+    }
+
+    @Then("All books can be loaned or downloaded")
+    public void checkAllBooksCanBeLoanedOrDownloaded() {
+        Assert.assertTrue(subcategoryScreen.getAllButtonsNames().stream().allMatch(x -> x.equals("Get") || x.equals(DOWNLOAD_BUTTON_NAME)),
+                "Not all present books can be loaned or downloaded");
+    }
+
+    @Then("List of books on subcategory screen is not equal to list of books saved as {string}")
+    public void checkListOfBooksOnSubcategoryScreenIsNotEqualToListOfSavedBooks(String booksNamesListKey) {
+        List<String> expectedList = context.get(booksNamesListKey);
+        Assert.assertNotEquals(subcategoryScreen.getBooksInfo(), expectedList,
+                "Lists of books are equal" + expectedList.stream().map(Object::toString).collect(Collectors.joining(", ")));
+    }
+
+    @Then("Books are sorted by Author ascending")
+    public void checkBooksAreSortedByAuthorAscending() {
+        List<String> list = subcategoryScreen.getAuthorsInfo();
+        List<String> listOfSurnames = getSurnames(list);
+        Assert.assertEquals(listOfSurnames, listOfSurnames.stream().sorted().collect(Collectors.toList()),
+                "Lists of authors is not sorted properly" + list.stream().map(Object::toString).collect(Collectors.joining(", ")));
+    }
+
+    @Then("Books are sorted by Title ascending")
+    public void booksAreSortedByTitleAscending() {
+        List<String> list = subcategoryScreen.getTitlesInfo();
+        Assert.assertEquals(list, list.stream().sorted().collect(Collectors.toList()),
+                "Lists of authors is not sorted properly" + list.stream().map(Object::toString).collect(Collectors.joining(", ")));
+    }
+
+    private List<String> getSurnames(List<String> list) {
+        List<String> listOfSurnames = new ArrayList<>();
+        for (String authorName :
+                list) {
+            String[] separatedName = authorName.split(" ");
+            if (authorName.contains(",")) {
+                listOfSurnames.add(separatedName[0]);
+            } else {
+                listOfSurnames.add(separatedName[1]);
+            }
+        }
+        return listOfSurnames;
     }
 
     @And("The following values in the information block are present:")

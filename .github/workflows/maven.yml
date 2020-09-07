@@ -1,0 +1,38 @@
+# This workflow will build a test Java + TestNG + Appium project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Test Run
+
+on:
+  workflow_dispatch:
+    branches: [ report_adding ]
+    inputs:
+      test_tag:
+        description: 'Tags to run'
+        required: true
+        default: '@example_tag'
+      bs_app_link:
+        description: 'app_url of uploaded to BS link'
+        required: true
+        default: 'bs://8b267f2f08418da208338a798f35928ed856616d'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Run tests
+      run: mvn clean test -Debookcard=${{secrets.BookCard }} -Debookpin=${{secrets.BookName}} -DremoteConnectionUrl=${{secrets.remoteConnectionUrl}} -DdriverSettings.android.capabilities.app=${{github.event.inputs.bs_app_link}} -Dcucumber.options="--tags '${{github.event.inputs.test_tag}}'"
+    - name: Generate Allure Report
+      uses: afiore/action-allure-report@v0.1.0
+    - name: Upload report
+      uses: actions/upload-artifact@v2.1.4
+      with:
+        name: allure-report
+        path: allure-report/

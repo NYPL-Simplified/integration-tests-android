@@ -27,5 +27,7 @@ public abstract class CatalogScreen extends Screen {
 
     public abstract Set<String> getListOfAllBooksNamesInFirstLane();
 
+    public abstract void switchToCatalogTab(String catalogTab);
+
     public abstract Set<String> getListOfAllBooksNamesInSubcategoryLane(String lineName);
 }
