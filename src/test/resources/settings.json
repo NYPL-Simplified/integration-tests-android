@@ -50,7 +50,7 @@
   "touchActions": {
     "swipe": {
       "duration": 1,
-      "retries": 30,
+      "retries": 90,
       "verticalOffset": 0.3,
       "horizontalOffset": 0.5
     }

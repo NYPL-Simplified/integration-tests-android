@@ -95,3 +95,50 @@ Feature: Catalog Navigation
     Then Subcategory screen is present
     When I select book by Availability - 'Yours to keep'
     Then All books can be downloaded
+
+  Scenario: View Book Details
+    When I add 'The New York Public Library' account
+    Then Account 'The New York Public Library' is present on Accounts screen
+    When I open Catalog
+    Then Books feed is loaded
+    When I switch to 'The New York Public Library' from side menu
+    Then Books feed is loaded
+    When I open Catalog
+    Then Books feed is loaded
+    When I open search modal
+    Then Search modal is opened
+    When I set text to the search textBox 'Harry Potter et les Reliques'
+      And I click apply search button
+    Then Search modal is closed
+      And Search page is opened
+    When I open first found book from the search result
+    Then Book 'Harry Potter et les Reliques de la Mort, ebook, by J. K. Rowling' is opened
+      And The following values in the information block are present:
+        | key         | value                 |
+        | PUBLISHED   | 2014-08-07            |
+        | PUBLISHER   | Pottermore Publishing |
+        | DISTRIBUTOR | Overdrive             |
+        | CATEGORIES  | Fantasy               |
+        | UPDATED     | 2020-09-05 08:39:02   |
+      And Description has text
+    """
+    Cette année, Harry a dix-sept ans et ne retourne pas à Poudlard. Avec Ron et Hermione, il se consacre à la dernière mission confiée par Dumbledore. Mais le Seigneur des Ténèbres règne en maître. Traqués, les trois fidèles amis sont contraints à la clandestinité. D'épreuves en révélations, le courage, les choix et les sacrifices de Harry seront déterminants dans la lutte contre les forces du Mal. Avec le dénouement de l'héroïque histoire de Harry Potter, J.K. Rowling signe un chef-d'oeuvre d'une grande humanité et d'une maîtrise incomparable.
+    """
+    When I open related books
+    Then Current category name is 'Related Books'
+      And Count of books in subcategory 'J. K. Rowling' lane is up to 12
+    When I open 'J. K. Rowling' subcategory
+    Then Current category name is 'J. K. Rowling'
+      And Count of books in search result is up to 12
+    When I go back to the previous catalog screen
+    Then Current category name is 'Related Books'
+    And Count of books in subcategory 'Similar titles recommended by NoveList' lane is up to 12
+    When I open 'Similar titles recommended by NoveList' subcategory
+    Then Current category name is 'Titles recommended by NoveList'
+    And Count of books in search result is up to 12
+    When I go back to the previous catalog screen
+    Then Current category name is 'Related Books'
+    And Count of books in subcategory 'Harry Potter' lane is up to 12
+    When I open 'Harry Potter' subcategory
+    Then Current category name is 'Harry Potter'
+    And Count of books in search result is up to 12

@@ -1,6 +1,7 @@
 package screens.bookDetails;
 
 import aquality.appium.mobile.screens.Screen;
+import constants.android.AndroidBookDetailsScreenInformationBlockKeys;
 import org.openqa.selenium.By;
 
 public abstract class BookDetailsScreen extends Screen {
@@ -13,4 +14,13 @@ public abstract class BookDetailsScreen extends Screen {
     public abstract void reserveBook();
 
     public abstract String getBookInfo();
+
+    public abstract boolean isValueInTheInformationBlockPresent(
+            AndroidBookDetailsScreenInformationBlockKeys key, String value);
+
+    public abstract boolean isDescriptionPresent();
+
+    public abstract String getDescriptionText();
+
+    public abstract void clickRelatedBooks();
 }
