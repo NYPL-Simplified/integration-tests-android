@@ -1,12 +1,15 @@
 Feature: Manage Libraries
 
-  Background:
-    Given Application is opened
-    When I add 'Hartford Public Library' account
-    Then Account 'Hartford Public Library' is present on Accounts screen
+  #Background:
+    #Given Application is opened
+    #When I add 'Hartford Public Library' account
+    #Then Account 'Hartford Public Library' is present on Accounts screen
 
   @logout
   Scenario: Add Library
+    Given Application is opened
+    When I add 'Hartford Public Library' account
+    Then Account 'Hartford Public Library' is present on Accounts screen
     When I enter credentials for 'Hartford Public Library' account
     Then Text on Login button is changed to Log out on Account screen
 
@@ -18,9 +21,9 @@ Feature: Manage Libraries
     Then Books feed is loaded
       And List of books on screen is not equal to list of books saved as 'nameOfBooks'
 
-  Scenario: Remove library
-    When I remove 'Hartford Public Library' account
-    Then Account 'Hartford Public Library' is not present on Accounts screen
+  #Scenario: Remove library
+  #  When I remove 'Hartford Public Library' account
+  #  Then Account 'Hartford Public Library' is not present on Accounts screen
 
   Scenario: Switch library bookshelf
     Given Catalog is opened
@@ -34,10 +37,10 @@ Feature: Manage Libraries
       And I open Books
     Then No books are present in Books list
 
-  @logout @cancelHold
+  #@logout @cancelHold
   Scenario: Switch Library Reservations
-    When I enter credentials for 'Hartford Public Library' account
-    Then Text on Login button is changed to Log out on Account screen
+    #When I enter credentials for 'Hartford Public Library' account
+    #Then Text on Login button is changed to Log out on Account screen
     When I open Catalog
       And I switch to 'Hartford Public Library' from side menu
     Then Books feed is loaded

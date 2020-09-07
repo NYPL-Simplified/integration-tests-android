@@ -1,9 +1,10 @@
 Feature: Catalog Navigation
 
-  Background:
-    Given Application is opened
+  #Background:
+    #Given Application is opened
 
   Scenario: Return to last library catalog
+    Given Application is opened
     When I add 'Hartford Public Library' account
     Then Account 'Hartford Public Library' is present on Accounts screen
     When I open Catalog

@@ -11,6 +11,7 @@ import org.testng.annotations.DataProvider;
                 "stepdefinitions"
         },
         plugin = {
+                "framework.plugin",
                 "io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm"
         },
         strict = true
