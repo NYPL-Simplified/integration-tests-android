@@ -18,7 +18,6 @@ Feature: Manage Libraries
     Then Books feed is loaded
       And List of books on screen is not equal to list of books saved as 'nameOfBooks'
 
-  @example_tag @example
   Scenario: Remove library
     When I remove 'Hartford Public Library' account
     Then Account 'Hartford Public Library' is not present on Accounts screen
