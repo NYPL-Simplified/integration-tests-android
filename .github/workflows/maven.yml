@@ -32,7 +32,7 @@ jobs:
     - name: Generate Allure Report
       uses: afiore/action-allure-report@v0.1.0
       with:
-          results-dir: target/allure-results
+        results-dir: target/allure-results
     - name: Upload report
       uses: actions/upload-artifact@v2.1.4
       with:
