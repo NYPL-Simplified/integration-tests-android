@@ -41,7 +41,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
     @Override
     public List<String> getListOfBooksNames() {
         List<String> listOfNames = getValuesFromListOfLabels(String.format(LANE_BY_NAME_LOCATOR_PART,
-                firstLaneName.getText()));
+                firstLaneName.getText()) + BOOK_COVER_IN_THE_LANE_LOCATOR);
         AqualityServices.getLogger().info("Found list of books - " + listOfNames.stream().map(Object::toString)
                 .collect(Collectors.joining(", ")));
         return listOfNames;
