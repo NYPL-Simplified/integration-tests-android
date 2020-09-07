@@ -1,4 +1,4 @@
-package screens.catalog.screen;
+package screens.catalog.screen.catalog;
 
 import aquality.appium.mobile.screens.Screen;
 import org.openqa.selenium.By;
@@ -22,8 +22,6 @@ public abstract class CatalogScreen extends Screen {
     public abstract void openCategory(String categoryName);
 
     public abstract boolean isSubcategoryPresent(String subcategoryName);
-
-    public abstract void openBookForReserve();
 
     public abstract Set<String> getListOfAllBooksNamesInFirstLane();
 
