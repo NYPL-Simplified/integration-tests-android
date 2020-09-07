@@ -10,6 +10,9 @@ import org.testng.annotations.DataProvider;
                 "hooks",
                 "stepdefinitions"
         },
+        plugin = {
+                "io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm"
+        },
         strict = true
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
