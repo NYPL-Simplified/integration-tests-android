@@ -88,7 +88,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     }
 
     @Override
-    public boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookAddButtonKeys key) {
+    public boolean isBookAddButtonTextEqualTo(AndroidBookAddButtonKeys key) {
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(String.format(BOOK_ADD_BUTTON_LOC, key.getKey())),
                 String.format("Book %1$s button", key.getKey()));
