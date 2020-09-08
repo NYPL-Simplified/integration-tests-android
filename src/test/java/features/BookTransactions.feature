@@ -17,7 +17,7 @@ Feature: Book Transactions
       | Drama   |
       And Reserve book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
-    When I cancel reservation of the book 'bookInfo'
+    When I click on the book 'bookInfo' button CANCEL on catalog books screen
     Then Book saved as 'bookInfo' should contain RESERVE button at catalog books screen
     When I open the book details for the subsequent reservation and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain CANCEL button at book details screen

@@ -9,9 +9,11 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.android.AndroidAttributes;
 import constants.android.catalog.AndroidBookAddButtonKeys;
+import constants.android.timeouts.BooksTimeouts;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
@@ -93,22 +95,23 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
 
     @Override
-    public String reserveBook() {
+    public AndroidCatalogBookModel reserveBook() {
         btnReserve.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         String reserveBookTitle = bookBlockWithReserve.findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL)
                 .getText();
+        AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(reserveBookTitle);
         btnReserve.click();
-        return reserveBookTitle;
+        return androidCatalogBookModel;
     }
 
 
     @Override
-    public void cancelReservationOfTheBook(String title) {
+    public void clickTheBookByTitleBtnWithKey(String title, AndroidBookAddButtonKeys key) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
-        final IButton btnCancel = getElementFactory().getButton(
+        final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
-                        AndroidBookAddButtonKeys.CANCEL.getKey())), "Book cancel button");
-        clickOnTheBookAddBtn(btnCancel);
+                        key.getKey())), String.format("Book %1$s button", key.getKey()));
+        clickOnTheBookAddBtn(bookAddBtn);
     }
 
     @Override
@@ -122,7 +125,8 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.getKey())),
                 String.format("Book %1$s button", key.getKey()));
-        return bookAddBtn.state().waitForDisplayed();
+        return bookAddBtn.state().waitForDisplayed(
+                Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
     private void clickOnTheBookAddBtn(IElement bookWithSpecificAddBtn) {

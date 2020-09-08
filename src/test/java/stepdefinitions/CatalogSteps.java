@@ -150,14 +150,14 @@ public class CatalogSteps {
     @And("Reserve book and save it as {string}")
     public void reserveBookAndSaveIt(String bookInfoKey) {
         saveLibraryForCancel();
-        String bookTitle = catalogBooksScreen.reserveBook();
-        context.add(bookInfoKey, catalogBooksScreen.getBookInfo(bookTitle));
+        AndroidCatalogBookModel catalogBookModel = catalogBooksScreen.reserveBook();
+        context.add(bookInfoKey, catalogBookModel);
     }
 
-    @When("I cancel reservation of the book {string}")
-    public void cancelReservationOfTheBook(String bookInfoKey) {
+    @When("I click on the book {string} button {} on catalog books screen")
+    public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, AndroidBookAddButtonKeys key) {
         AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
-        catalogBooksScreen.cancelReservationOfTheBook(androidCatalogBookModel.getTitle());
+        catalogBooksScreen.clickTheBookByTitleBtnWithKey(androidCatalogBookModel.getTitle(), key);
     }
 
     private void saveLibraryForCancel() {

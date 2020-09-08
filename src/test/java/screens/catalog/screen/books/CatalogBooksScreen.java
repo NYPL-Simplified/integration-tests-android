@@ -16,9 +16,9 @@ public abstract class CatalogBooksScreen extends Screen {
 
     public abstract AndroidCatalogBookModel getBookInfo(String title);
 
-    public abstract String reserveBook();
+    public abstract AndroidCatalogBookModel reserveBook();
 
-    public abstract void cancelReservationOfTheBook(String title);
+    public abstract void clickTheBookByTitleBtnWithKey(String title, AndroidBookAddButtonKeys key);
 
     public abstract void openBookDetailsForReserve();
 
