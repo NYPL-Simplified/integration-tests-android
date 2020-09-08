@@ -142,3 +142,30 @@ Feature: Catalog Navigation
     When I open 'Harry Potter' subcategory
     Then Current category name is 'Harry Potter'
     And Count of books in search result is up to 12
+
+  Scenario: Borrow book
+    Given Application is opened
+    When I add 'Hartford Public Library' account
+    Then Account 'Hartford Public Library' is present on Accounts screen
+    When I enter credentials for 'Hartford Public Library' account
+    Then Text on Login button is changed to Log out on Account screen
+    When I open Catalog
+    And I switch to 'The SimplyE Collection' from side menu
+    And I Download first book from shelf and save it as 'bookInfo'
+    Then Button 'Read' or 'Listen' is present on Book Info screen
+    When I open Catalog
+    And I switch to 'Hartford Public Library' from side menu
+    Then Books feed is loaded
+    When I Get book from given distributor in 'Fiction'-'Drama' category and save it as 'bookInfo':
+      | Overdrive          |
+      | RBdigital          |
+      | Baker and Taylor   |
+      | DPLA Exchange      |
+      | SimplyE collection |
+      | Open Bookshelf     |
+      | Biblioboard        |
+    Then Button 'Read' or 'Listen' is present on Book Info screen
+    When I return book
+    Then Book is returned
+    When I get book
+    Then Button 'Read' or 'Listen' is present on Book Info screen

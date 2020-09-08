@@ -83,7 +83,7 @@ public class CatalogSteps {
         bottomMenuForm.open(BottomMenu.BOOKS);
     }
 
-    @And("I Get first book from shelf and save it as {string}")
+    @And("I Download first book from shelf and save it as {string}")
     public void getBookFromShelfAndSaveItAsBookInfo(String bookInfoKey) {
         context.add(bookInfoKey, catalogScreen.getBookName(1));
         catalogScreen.clickBook(1);
