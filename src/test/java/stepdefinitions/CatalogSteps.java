@@ -2,12 +2,14 @@ package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
+import constants.android.catalog.AndroidBookAddButtonKeys;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import models.android.AndroidBookDetailsScreenInformationBlockModel;
+import models.android.AndroidCatalogBookModel;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
@@ -16,7 +18,8 @@ import screens.bookDetails.BookDetailsScreen;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
 import screens.catalog.form.MainCatalogToolbarForm;
-import screens.catalog.screen.CatalogScreen;
+import screens.catalog.screen.books.CatalogBooksScreen;
+import screens.catalog.screen.catalog.CatalogScreen;
 import screens.subcategory.SubcategoryScreen;
 
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ public class CatalogSteps {
     private final AgeGateScreen ageGateScreen;
     private final BookDetailsScreen bookDetailsScreen;
     private final MainCatalogToolbarForm mainCatalogToolbarForm;
+    private final CatalogBooksScreen catalogBooksScreen;
     private ScenarioContext context;
 
     @Inject
@@ -44,6 +48,7 @@ public class CatalogSteps {
         ageGateScreen = AqualityServices.getScreenFactory().getScreen(AgeGateScreen.class);
         bookDetailsScreen = AqualityServices.getScreenFactory().getScreen(BookDetailsScreen.class);
         subcategoryScreen = AqualityServices.getScreenFactory().getScreen(SubcategoryScreen.class);
+        catalogBooksScreen = AqualityServices.getScreenFactory().getScreen(CatalogBooksScreen.class);
     }
 
     @Then("Books feed is loaded")
@@ -128,8 +133,34 @@ public class CatalogSteps {
                 "Not all categories are present");
     }
 
-    @And("I reserve book in {string}-{string} category and save it as {string}")
-    public void reserveBookInCategoryAndSaveIt(String categoryName, String subcategoryName, String bookInfoKey) {
+    @When("I open category by chain:")
+    public void openCategoryByChain(List<String> categoriesChain) {
+        categoriesChain.forEach(this::openCategory);
+    }
+
+    @When("I open the book details for the subsequent reservation and save it as {string}")
+    @And("Open the book details for the subsequent reservation and save it as {string}")
+    public void openBookDetailsReserveBookAndSaveIt(String bookInfoKey) {
+        saveLibraryForCancel();
+        catalogBooksScreen.openBookDetailsForReserve();
+        bookDetailsScreen.reserveBook();
+        context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
+    }
+
+    @And("Reserve book and save it as {string}")
+    public void reserveBookAndSaveIt(String bookInfoKey) {
+        saveLibraryForCancel();
+        AndroidCatalogBookModel catalogBookModel = catalogBooksScreen.reserveBook();
+        context.add(bookInfoKey, catalogBookModel);
+    }
+
+    @When("I click on the book {string} button {} on catalog books screen")
+    public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, AndroidBookAddButtonKeys key) {
+        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
+        catalogBooksScreen.clickTheBookByTitleBtnWithKey(androidCatalogBookModel.getTitle(), key);
+    }
+
+    private void saveLibraryForCancel() {
         String libraryName = mainCatalogToolbarForm.getCatalogName();
         List<String> listOfLibraries;
         if (context.containsKey(LIBRARIES_FOR_CANCEL_CONTEXT_KEY)) {
@@ -139,11 +170,6 @@ public class CatalogSteps {
         }
         listOfLibraries.add(libraryName);
         context.add(LIBRARIES_FOR_CANCEL_CONTEXT_KEY, listOfLibraries);
-        catalogScreen.openCategory(categoryName);
-        catalogScreen.openCategory(subcategoryName);
-        catalogScreen.openBookForReserve();
-        bookDetailsScreen.reserveBook();
-        context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 
     @And("Count of books in first lane is up to {int}")
@@ -274,5 +300,42 @@ public class CatalogSteps {
     @When("I go back to the previous catalog screen")
     public void goBackToThePreviousCatalogScreen() {
         mainCatalogToolbarForm.goBack();
+    }
+
+
+    @And("Search page is opened")
+    public void checkSearchPageIsOpened() {
+        Assert.assertTrue(catalogBooksScreen.state().waitForDisplayed(), "Search page is not present");
+    }
+
+    @When("I open first found book from the search result")
+    public void selectFirstFoundBook() {
+        catalogBooksScreen.selectFirstFoundBook();
+    }
+
+    @And("Count of books in search result is up to {int}")
+    public void checkCountOfBooksInSearchResultIsUpTo(int countOfBooks) {
+        Assert.assertTrue(countOfBooks >= catalogBooksScreen.getFoundBooksCount(),
+                "Count of books is bigger then " + countOfBooks);
+    }
+
+    @Then("Book saved as {string} should contain {} button at catalog books screen")
+    public void checkThatSavedBookContainButtonAtCatalogBooksScreen(
+            final String bookInfoKey, final AndroidBookAddButtonKeys key) {
+        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
+        Assert.assertTrue(catalogBooksScreen.isBookAddButtonTextEqualTo(
+                androidCatalogBookModel.getTitle(), key),
+                String.format("Book with title '%1$s' add button does not contain text '%2$s'",
+                        androidCatalogBookModel.getTitle(), key.getKey()));
+    }
+
+    @Then("Book saved as {string} should contain {} button at book details screen")
+    public void checkThatSavedBookContainButtonAtBookDetailsScreen(
+            final String bookInfoKey, final AndroidBookAddButtonKeys key) {
+        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
+        Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(
+                androidCatalogBookModel.getTitle(), key),
+                String.format("Book with title %1$s add button does not contain text %2$s",
+                        androidCatalogBookModel.getTitle(), key.getKey()));
     }
 }

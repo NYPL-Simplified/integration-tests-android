@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.testng.Assert;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
@@ -22,7 +23,8 @@ public class HoldsSteps {
         holdsScreen = AqualityServices.getScreenFactory().getScreen(HoldsScreen.class);
     }
 
-    @And("I open Holds")
+    @When("I open Holds")
+    @And("Open Holds")
     public void openHolds() {
         bottomMenuForm.open(BottomMenu.HOLDS);
     }

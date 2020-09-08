@@ -1,4 +1,4 @@
-package screens.catalog.screen;
+package screens.catalog.screen.catalog;
 
 import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.AqualityServices;
@@ -28,9 +28,6 @@ public class AndroidCatalogScreen extends CatalogScreen {
     private static final String BOOKS_LOCATOR = "//androidx.recyclerview.widget.RecyclerView[1]"
             + "//android.widget.LinearLayout[@content-desc]";
 
-    private final IButton btnReserve =
-            getElementFactory().getButton(By.xpath("//android.widget.Button[@content-desc=\"Reserve Button\"]"
-                    + "/parent::android.widget.LinearLayout"), "Reserve");
     private final ILabel firstLaneName = getElementFactory().getLabel(
             By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneTitle\"]"), "First lane name");
 
@@ -89,12 +86,6 @@ public class AndroidCatalogScreen extends CatalogScreen {
     @Override
     public void switchToCatalogTab(String catalogTab) {
         getElementFactory().getButton(By.xpath("//android.widget.RadioButton[@text=\"" + catalogTab + "\"]"), catalogTab).click();
-    }
-
-    @Override
-    public void openBookForReserve() {
-        btnReserve.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        btnReserve.click();
     }
 
     @Override
