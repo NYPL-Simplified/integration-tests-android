@@ -343,4 +343,9 @@ public class CatalogSteps {
     public void iReserveBookAndSaveItAsBookInfo(String bookInfoKey) {
         context.add(bookInfoKey, catalogBooksScreen.downloadBook());
     }
+
+    @And("I delete book from book details screen")
+    public void iDeleteBookFromBookDetailsScreen() {
+        bookDetailsScreen.deleteBook();
+    }
 }

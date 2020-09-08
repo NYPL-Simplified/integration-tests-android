@@ -26,4 +26,6 @@ public abstract class BookDetailsScreen extends Screen {
     public abstract void clickRelatedBooks();
 
     public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookAddButtonKeys key);
+
+    public abstract void deleteBook();
 }
