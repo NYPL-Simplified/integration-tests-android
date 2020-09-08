@@ -23,4 +23,6 @@ public abstract class CatalogBooksScreen extends Screen {
     public abstract void openBookDetailsForReserve();
 
     public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookAddButtonKeys key);
+
+    public abstract AndroidCatalogBookModel downloadBook();
 }

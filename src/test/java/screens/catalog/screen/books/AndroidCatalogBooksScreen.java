@@ -23,7 +23,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
             + "concat(\"Search in \", "
             + "//*[@resource-id=\"org.nypl.simplified.simplye:id/mainToolbar\"]/android.widget.TextView[1]/@text))]";
 
-    private static final String BOOK_ADD_BUTTON_PART = "//android.widget.Button[@content-desc=\"%1$s\"]";
+    private static final String ADD_BOOK_BUTTON_PATTERN = "//android.widget.Button[@content-desc=\"%1$s\"]";
 
     private static final String BOOKS_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\"]";
     private static final String BOOK_BLOCK_BY_TITLE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" "
@@ -36,16 +36,13 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_ADD_BUTTON_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]"
             + "/android.widget.Button[@content-desc=\"%1$s\"]";
 
-    private final IButton btnReserve =
-            getElementFactory().getButton(
-                    By.xpath(String.format(BOOK_ADD_BUTTON_PART, AndroidBookAddButtonKeys.RESERVE.getKey())),
-                    "Button reserve");
-    private final ILabel bookBlockWithReserve =
-            getElementFactory().getLabel(
-                    By.xpath(String.format("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" "
-                                    + "and .//android.widget.Button[@content-desc=\"%1$s\"]]",
-                            AndroidBookAddButtonKeys.RESERVE.getKey())),
-                    "Book jacket with reserve button");
+    private final IButton btnReserve = getAddBookButton(AndroidBookAddButtonKeys.RESERVE);
+    private final IButton btnDownload = getAddBookButton(AndroidBookAddButtonKeys.DOWNLOAD);
+
+    private IButton getAddBookButton(AndroidBookAddButtonKeys button) {
+        String key = button.getKey();
+        return getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN, key)), key);
+    }
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
@@ -93,17 +90,10 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         return androidCatalogBookModel;
     }
 
-
     @Override
     public AndroidCatalogBookModel reserveBook() {
-        btnReserve.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        String reserveBookTitle = bookBlockWithReserve.findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL)
-                .getText();
-        AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(reserveBookTitle);
-        btnReserve.click();
-        return androidCatalogBookModel;
+        return performActionOnBook(btnReserve, AndroidBookAddButtonKeys.RESERVE);
     }
-
 
     @Override
     public void clickTheBookByTitleBtnWithKey(String title, AndroidBookAddButtonKeys key) {
@@ -116,7 +106,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public void openBookDetailsForReserve() {
-        clickOnTheBookAddBtn(bookBlockWithReserve);
+        clickOnTheBookAddBtn(getBookJacketWithGivenButtonLabel(AndroidBookAddButtonKeys.RESERVE));
     }
 
     @Override
@@ -127,6 +117,25 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
                 String.format("Book %1$s button", key.getKey()));
         return bookAddBtn.state().waitForDisplayed(
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+    }
+
+    @Override
+    public AndroidCatalogBookModel downloadBook() {
+        return performActionOnBook(btnDownload, AndroidBookAddButtonKeys.DOWNLOAD);
+    }
+
+    private AndroidCatalogBookModel performActionOnBook(IButton button, AndroidBookAddButtonKeys buttonName) {
+        button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        String reserveBookTitle =
+                getBookJacketWithGivenButtonLabel(buttonName).findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL).getText();
+        AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(reserveBookTitle);
+        button.click();
+        return androidCatalogBookModel;
+    }
+
+    private ILabel getBookJacketWithGivenButtonLabel(AndroidBookAddButtonKeys button) {
+        String key = button.getKey();
+        return getElementFactory().getLabel(By.xpath(String.format("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" " + "and .//android.widget.Button[@content-desc=\"%1$s\"]]", key)), "Book jacket with" + key);
     }
 
     private void clickOnTheBookAddBtn(IElement bookWithSpecificAddBtn) {
