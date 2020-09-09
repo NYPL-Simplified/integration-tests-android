@@ -18,6 +18,8 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     private static final String BOOKS_LOCATOR = "//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\"]";
     public static final String BOOK_BUTTON_XPATH =
             "//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]/android.widget.Button";
+    public static final String BOOK_COVER_LOCATOR_PATTERN =
+            "//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\" and @content-desc=\"%s\"]";
     private final String SORTING_BUTTON_XPATH_PATTERN =
             "//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/feedHeaderFacets\"]/android.widget.Button";
     private final ILabel lblSubcategoryName =
@@ -80,7 +82,7 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     @Override
     public void openBook(AndroidCatalogBookModel bookInfo) {
         String imageTitle = bookInfo.getImageTitle();
-        getElementFactory().getButton(By.xpath("//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\" and @content-desc=\"" + imageTitle + "\"]"), imageTitle).click();
+        getElementFactory().getButton(By.xpath(String.format(BOOK_COVER_LOCATOR_PATTERN, imageTitle)), imageTitle).click();
     }
 
     @Override

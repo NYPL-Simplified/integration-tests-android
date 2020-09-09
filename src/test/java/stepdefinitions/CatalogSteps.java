@@ -2,7 +2,7 @@ package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
-import constants.android.catalog.AndroidBookAddButtonKeys;
+import constants.android.catalog.AndroidBookActionButtonKeys;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -157,7 +157,7 @@ public class CatalogSteps {
     }
 
     @When("I click on the book {string} button {} on catalog books screen")
-    public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, AndroidBookAddButtonKeys key) {
+    public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, AndroidBookActionButtonKeys key) {
         AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
         catalogBooksScreen.clickTheBookByTitleBtnWithKey(androidCatalogBookModel.getTitle(), key);
     }
@@ -323,7 +323,7 @@ public class CatalogSteps {
 
     @Then("Book saved as {string} should contain {} button at catalog books screen")
     public void checkThatSavedBookContainButtonAtCatalogBooksScreen(
-            final String bookInfoKey, final AndroidBookAddButtonKeys key) {
+            final String bookInfoKey, final AndroidBookActionButtonKeys key) {
         AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
         Assert.assertTrue(catalogBooksScreen.isBookAddButtonTextEqualTo(
                 androidCatalogBookModel.getTitle(), key),
@@ -332,7 +332,7 @@ public class CatalogSteps {
     }
 
     @Then("I check that opened book contains {} button at book details screen")
-    public void checkThatSavedBookContainButtonAtBookDetailsScreen(final AndroidBookAddButtonKeys key) {
+    public void checkThatSavedBookContainButtonAtBookDetailsScreen(final AndroidBookActionButtonKeys key) {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(key),
                 String.format("Opened book add button does not contain text %1$s", key.getKey()));
     }
