@@ -336,7 +336,7 @@ public class CatalogSteps {
     }
 
     @And("I Download book and save it as {string}")
-    public void iReserveBookAndSaveItAsBookInfo(String bookInfoKey) {
+    public void downloadBookAndSaveItAs(String bookInfoKey) {
         context.add(bookInfoKey, catalogBooksScreen.downloadBook());
     }
 
