@@ -25,7 +25,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     private static final String ADD_BOOK_BUTTON_PATTERN = "//android.widget.Button[@content-desc=\"%1$s\"]";
 
-    private static final String BOOKS_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\"]";
+    private static final String BOOKS_LOC = ".//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\"]";
     private static final String BOOK_BLOCK_BY_TITLE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" "
             + "and .//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleTitle\" and contains(@text, '%1$s')]]";
 
@@ -75,20 +75,18 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
                         getElementFactory().getLabel(By.xpath(blockLoc + BOOK_IMAGE_LOC),
                                 "Book image content description").getAttribute(AndroidAttributes.CONTENT_DESC)
                 ))
-                .setTitle(Objects.requireNonNull(
-                        getElementFactory().getLabel(By.xpath(blockLoc + BOOK_TITLE_LOC), "Book title")
-                                .getText()
-                ))
-                .setAuthor(Objects.requireNonNull(
-                        getElementFactory().getLabel(By.xpath(blockLoc + BOOK_AUTHOR_LOC), "Book author")
-                                .getText()
-                ))
-                .setBookType(Objects.requireNonNull(
-                        getElementFactory().getLabel(By.xpath(blockLoc + BOOK_TYPE_LOC), "Book type")
-                                .getText()
-                ));
+                .setTitle(getBookParameter(blockLoc, BOOK_TITLE_LOC, "Book title"))
+                .setAuthor(getBookParameter(blockLoc, BOOK_AUTHOR_LOC, "Book author"))
+                .setBookType(getBookParameter(blockLoc, BOOK_TYPE_LOC, "Book type"));
         return androidCatalogBookModel;
     }
+
+    private String getBookParameter(String mainLocator, String subLocator, String name) {
+        return Objects.requireNonNull(
+                getElementFactory().getLabel(By.xpath(mainLocator + subLocator), name)
+                        .getText());
+    }
+
 
     @Override
     public AndroidCatalogBookModel reserveBook() {
