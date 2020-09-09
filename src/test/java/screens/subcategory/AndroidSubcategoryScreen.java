@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
+import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 
 import java.util.List;
@@ -74,6 +75,12 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
         List<String> listOfNames = getValuesFromListOfLabels(BOOK_NAME_XPATH);
         AqualityServices.getLogger().info("Found list of titles - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return listOfNames;
+    }
+
+    @Override
+    public void openBook(AndroidCatalogBookModel bookInfo) {
+        String imageTitle = bookInfo.getImageTitle();
+        getElementFactory().getButton(By.xpath("//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\" and @content-desc=\"" + imageTitle + "\"]"), imageTitle).click();
     }
 
     @Override

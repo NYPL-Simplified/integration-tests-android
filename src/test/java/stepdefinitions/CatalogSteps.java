@@ -90,7 +90,9 @@ public class CatalogSteps {
 
     @And("I Get first book from shelf and save it as {string}")
     public void getBookFromShelfAndSaveItAsBookInfo(String bookInfoKey) {
-        context.add(bookInfoKey, catalogScreen.getBookName(1));
+        AndroidCatalogBookModel bookModel = new AndroidCatalogBookModel();
+        bookModel.setImageTitle(catalogScreen.getBookName(1));
+        context.add(bookInfoKey, bookModel);
         catalogScreen.clickBook(1);
         bookDetailsScreen.downloadBook();
     }
@@ -343,5 +345,11 @@ public class CatalogSteps {
     @And("I delete book from book details screen")
     public void iDeleteBookFromBookDetailsScreen() {
         bookDetailsScreen.deleteBook();
+    }
+
+    @When("I open book {string} details by clicking on cover")
+    public void iOpenBookSBookInfoDetailsByClickingOnCover(String bookInfoKey) {
+        AndroidCatalogBookModel bookInfo = context.get(bookInfoKey);
+        subcategoryScreen.openBook(bookInfo);
     }
 }
