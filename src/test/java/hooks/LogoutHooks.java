@@ -9,7 +9,7 @@ import screens.accounts.AccountsScreen;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
 import screens.catalog.form.MainCatalogToolbarForm;
-import screens.catalog.screen.CatalogScreen;
+import screens.catalog.screen.catalog.CatalogScreen;
 import screens.holds.HoldsScreen;
 import screens.settings.SettingsScreen;
 

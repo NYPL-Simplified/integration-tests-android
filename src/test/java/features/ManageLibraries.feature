@@ -41,8 +41,11 @@ Feature: Manage Libraries
     When I open Catalog
       And I switch to 'Hartford Public Library' from side menu
     Then Books feed is loaded
-    When I reserve book in 'Fiction'-'Drama' category and save it as 'bookInfo'
-      And I open Holds
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+      And Open the book details for the subsequent reservation and save it as 'bookInfo'
+      And Open Holds
     Then Holds feed is loaded
       And Book 'bookInfo' is present in Holds List
     When I open Catalog
@@ -50,6 +53,6 @@ Feature: Manage Libraries
       And I return to previous screen
       And I return to previous screen
       And I switch to 'The SimplyE Collection' from side menu
-      And I open Holds
+      And Open Holds
     Then Holds feed is loaded
       And No books are present in Holds list
