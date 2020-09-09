@@ -110,8 +110,8 @@ public class CatalogSteps {
     @Then("Current category name is {string}")
     public void checkCurrentCategoryName(String expectedCategoryName) {
         Assert.assertTrue(AqualityServices.getConditionalWait()
-                .waitFor(() -> mainCatalogToolbarForm.getCategoryName().equals(expectedCategoryName),
-                        "Wait while category become correct."),
+                        .waitFor(() -> mainCatalogToolbarForm.getCategoryName().equals(expectedCategoryName),
+                                "Wait while category become correct."),
                 String.format("Current category name is not correct. Expected '%1$s' but found '%2$s'",
                         mainCatalogToolbarForm.getCategoryName(), expectedCategoryName));
     }
@@ -333,5 +333,10 @@ public class CatalogSteps {
     public void checkThatSavedBookContainButtonAtBookDetailsScreen(final AndroidBookAddButtonKeys key) {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(key),
                 String.format("Opened book add button does not contain text %1$s", key.getKey()));
+    }
+
+    @And("I Download book and save it as {string}")
+    public void downloadBookAndSaveItAs(String bookInfoKey) {
+        context.add(bookInfoKey, catalogBooksScreen.downloadBook());
     }
 }

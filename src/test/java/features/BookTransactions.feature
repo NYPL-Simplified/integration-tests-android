@@ -21,3 +21,12 @@ Feature: Book Transactions
     Then Book saved as 'bookInfo' should contain RESERVE button at catalog books screen
     When I open the book details for the subsequent reservation and save it as 'bookInfo'
     Then I check that opened book contains CANCEL button at book details screen
+
+  Scenario: Download from Bookshelf list
+    When I open Catalog
+    Then Books feed is loaded
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+      And I Download book and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
