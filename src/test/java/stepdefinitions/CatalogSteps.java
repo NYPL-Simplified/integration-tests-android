@@ -343,12 +343,12 @@ public class CatalogSteps {
     }
 
     @And("I delete book from book details screen")
-    public void iDeleteBookFromBookDetailsScreen() {
+    public void deleteBookFromBookDetailsScreen() {
         bookDetailsScreen.deleteBook();
     }
 
     @When("I open book {string} details by clicking on cover")
-    public void iOpenBookSBookInfoDetailsByClickingOnCover(String bookInfoKey) {
+    public void openBookDetailsByClickingOnCover(String bookInfoKey) {
         AndroidCatalogBookModel bookInfo = context.get(bookInfoKey);
         subcategoryScreen.openBook(bookInfo);
     }
