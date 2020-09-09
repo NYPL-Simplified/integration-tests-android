@@ -329,14 +329,10 @@ public class CatalogSteps {
                         androidCatalogBookModel.getTitle(), key.getKey()));
     }
 
-    @Then("Book saved as {string} should contain {} button at book details screen")
-    public void checkThatSavedBookContainButtonAtBookDetailsScreen(
-            final String bookInfoKey, final AndroidBookAddButtonKeys key) {
-        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
-        Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(
-                androidCatalogBookModel.getTitle(), key),
-                String.format("Book with title %1$s add button does not contain text %2$s",
-                        androidCatalogBookModel.getTitle(), key.getKey()));
+    @Then("I check that opened book contains {} button at book details screen")
+    public void checkThatSavedBookContainButtonAtBookDetailsScreen(final AndroidBookAddButtonKeys key) {
+        Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(key),
+                String.format("Opened book add button does not contain text %1$s", key.getKey()));
     }
 
     @And("I Download book and save it as {string}")
