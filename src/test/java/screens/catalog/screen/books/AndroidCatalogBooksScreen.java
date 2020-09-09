@@ -8,7 +8,7 @@ import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.android.AndroidAttributes;
-import constants.android.catalog.AndroidBookAddButtonKeys;
+import constants.android.catalog.AndroidBookActionButtonKeys;
 import constants.android.timeouts.BooksTimeouts;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
@@ -81,11 +81,11 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public AndroidCatalogBookModel reserveBook() {
-        return performActionOnBook(AndroidBookAddButtonKeys.RESERVE);
+        return performActionOnBook(AndroidBookActionButtonKeys.RESERVE);
     }
 
     @Override
-    public void clickTheBookByTitleBtnWithKey(String title, AndroidBookAddButtonKeys key) {
+    public void clickTheBookByTitleBtnWithKey(String title, AndroidBookActionButtonKeys key) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
@@ -95,11 +95,11 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public void openBookDetailsForReserve() {
-        clickOnTheBookAddBtn(getBookJacketWithGivenButtonLabel(AndroidBookAddButtonKeys.RESERVE));
+        clickOnTheBookAddBtn(getBookJacketWithGivenButtonLabel(AndroidBookActionButtonKeys.RESERVE));
     }
 
     @Override
-    public boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookAddButtonKeys key) {
+    public boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookActionButtonKeys key) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, bookTitle);
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.getKey())),
@@ -110,10 +110,10 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public AndroidCatalogBookModel downloadBook() {
-        return performActionOnBook(AndroidBookAddButtonKeys.DOWNLOAD);
+        return performActionOnBook(AndroidBookActionButtonKeys.DOWNLOAD);
     }
 
-    private AndroidCatalogBookModel performActionOnBook(AndroidBookAddButtonKeys buttonName) {
+    private AndroidCatalogBookModel performActionOnBook(AndroidBookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         String reserveBookTitle =
@@ -123,7 +123,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         return androidCatalogBookModel;
     }
 
-    private ILabel getBookJacketWithGivenButtonLabel(AndroidBookAddButtonKeys button) {
+    private ILabel getBookJacketWithGivenButtonLabel(AndroidBookActionButtonKeys button) {
         String key = button.getKey();
         return getElementFactory().getLabel(By.xpath(String.format("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" " + "and .//android.widget.Button[@content-desc=\"%1$s\"]]", key)), "Book jacket with" + key);
     }
@@ -133,7 +133,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         bookWithSpecificAddBtn.click();
     }
 
-    private IButton getAddBookButton(AndroidBookAddButtonKeys button) {
+    private IButton getAddBookButton(AndroidBookActionButtonKeys button) {
         String key = button.getKey();
         return getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN, key)), key);
     }

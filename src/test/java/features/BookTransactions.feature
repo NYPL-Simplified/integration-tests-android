@@ -30,3 +30,18 @@ Feature: Book Transactions
       | Drama   |
       And I Download book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+
+  Scenario: Delete from Bookshelf list
+    When I open Catalog
+    Then Books feed is loaded
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+      And I Download book and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open Books
+    Then Book 'bookInfo' is present in Books List
+    When I open book 'bookInfo' details by clicking on cover
+      And I delete book from book details screen
+      And I open Books
+    Then Book 'bookInfo' is not present in Books List

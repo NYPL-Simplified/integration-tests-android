@@ -6,7 +6,7 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.android.AndroidBookDetailsScreenInformationBlockKeys;
-import constants.android.catalog.AndroidBookAddButtonKeys;
+import constants.android.catalog.AndroidBookActionButtonKeys;
 import org.openqa.selenium.By;
 
 @ScreenType(platform = PlatformName.ANDROID)
@@ -18,22 +18,11 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
             + "and @text=\"%1$s\"]/following-sibling::*[@resource-id=\"org.nypl.simplified.simplye:id/value\"]";
     private static final String BOOK_ADD_BUTTON_LOC = "//android.widget.Button[@content-desc=\"%1$s\"]";
 
-    private final IButton btnDownload =
-            getElementFactory().getButton(
-                    By.xpath(String.format(BOOK_ADD_BUTTON_LOC, AndroidBookAddButtonKeys.DOWNLOAD.getKey())),
-                    AndroidBookAddButtonKeys.DOWNLOAD.getKey());
-    private final IButton btnRead =
-            getElementFactory().getButton(
-                    By.xpath(String.format(BOOK_ADD_BUTTON_LOC, AndroidBookAddButtonKeys.READ.getKey())),
-                    AndroidBookAddButtonKeys.READ.getKey());
-    private final IButton btnReserve =
-            getElementFactory().getButton(
-                    By.xpath(String.format(BOOK_ADD_BUTTON_LOC, AndroidBookAddButtonKeys.RESERVE.getKey())),
-                    AndroidBookAddButtonKeys.RESERVE.getKey());
-    private final IButton btnCancel =
-            getElementFactory().getButton(
-                    By.xpath(String.format(BOOK_ADD_BUTTON_LOC, AndroidBookAddButtonKeys.CANCEL.getKey())),
-                    AndroidBookAddButtonKeys.CANCEL.getKey());
+    private final IButton btnDownload = getActionButton(AndroidBookActionButtonKeys.DOWNLOAD);
+    private final IButton btnRead = getActionButton(AndroidBookActionButtonKeys.READ);
+    private final IButton btnReserve = getActionButton(AndroidBookActionButtonKeys.RESERVE);
+    private final IButton btnCancel = getActionButton(AndroidBookActionButtonKeys.CANCEL);
+    private final IButton btnDelete = getActionButton(AndroidBookActionButtonKeys.DELETE);
     private final ILabel lblBookInfo = getElementFactory().getLabel(By.id("bookDetailCoverImage"), "Cover Image");
     private final ILabel lblBookDescription = getElementFactory().getLabel(
             By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookDetailDescriptionText\"]"),
@@ -88,10 +77,20 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     }
 
     @Override
-    public boolean isBookAddButtonTextEqualTo(AndroidBookAddButtonKeys key) {
+    public boolean isBookAddButtonTextEqualTo(AndroidBookActionButtonKeys key) {
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(String.format(BOOK_ADD_BUTTON_LOC, key.getKey())),
                 String.format("Book %1$s button", key.getKey()));
         return bookAddBtn.state().waitForDisplayed();
+    }
+
+    @Override
+    public void deleteBook() {
+        btnDelete.click();
+    }
+
+    private IButton getActionButton(AndroidBookActionButtonKeys buttonKey) {
+        String key = buttonKey.getKey();
+        return getElementFactory().getButton(By.xpath(String.format(BOOK_ADD_BUTTON_LOC, key)), key);
     }
 }

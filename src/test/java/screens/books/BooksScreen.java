@@ -1,6 +1,7 @@
 package screens.books;
 
 import aquality.appium.mobile.screens.Screen;
+import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 
 public abstract class BooksScreen extends Screen {
@@ -10,7 +11,7 @@ public abstract class BooksScreen extends Screen {
 
     public abstract boolean isNoBooksMessagePresent();
 
-    public abstract boolean isBookPresent(String bookInfo);
+    public abstract boolean isBookPresent(AndroidCatalogBookModel bookInfo);
 
     public abstract int getCountOfBooks();
 
