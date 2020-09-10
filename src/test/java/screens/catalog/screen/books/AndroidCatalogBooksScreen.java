@@ -81,7 +81,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
 
     @Override
-    public AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookAddButtonKeys bookAddButtonKey) {
+    public AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys bookAddButtonKey) {
         return performActionOnBook(bookAddButtonKey);
     }
 

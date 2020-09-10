@@ -1,7 +1,7 @@
 package screens.bookDetails;
 
 import aquality.appium.mobile.screens.Screen;
-import constants.android.AndroidBookDetailsScreenInformationBlockKeys;
+import constants.android.bookdetals.AndroidBookDetailsScreenInformationBlockKeys;
 import constants.android.catalog.AndroidBookActionButtonKeys;
 import org.openqa.selenium.By;
 
@@ -28,4 +28,6 @@ public abstract class BookDetailsScreen extends Screen {
     public abstract void deleteBook();
 
     public abstract boolean isBookAddButtonTextEqualTo(AndroidBookActionButtonKeys key);
+
+    public abstract void clickActionButton(AndroidBookActionButtonKeys buttonKeys);
 }

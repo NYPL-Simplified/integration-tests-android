@@ -1,6 +1,6 @@
 package models.android;
 
-import constants.android.AndroidBookDetailsScreenInformationBlockKeys;
+import constants.android.bookdetals.AndroidBookDetailsScreenInformationBlockKeys;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
