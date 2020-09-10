@@ -16,13 +16,11 @@ public abstract class CatalogBooksScreen extends Screen {
 
     public abstract AndroidCatalogBookModel getBookInfo(String title);
 
-    public abstract AndroidCatalogBookModel reserveBook();
+    public abstract AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys bookAddButtonKey);
 
     public abstract void clickTheBookByTitleBtnWithKey(String title, AndroidBookActionButtonKeys key);
 
-    public abstract void openBookDetailsForReserve();
+    public abstract void openBookDetailsWithAction(AndroidBookActionButtonKeys action);
 
     public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookActionButtonKeys key);
-
-    public abstract AndroidCatalogBookModel downloadBook();
 }

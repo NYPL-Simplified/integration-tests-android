@@ -5,7 +5,7 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.android.AndroidBookDetailsScreenInformationBlockKeys;
+import constants.android.bookdetals.AndroidBookDetailsScreenInformationBlockKeys;
 import constants.android.catalog.AndroidBookActionButtonKeys;
 import org.openqa.selenium.By;
 
@@ -16,7 +16,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     private static final String CONTENT_ATTRIBUTE_NAME = "content-desc";
     private static final String INFORMATION_TAB_VALUE_LOC_PART = "//*[@resource-id=\"org.nypl.simplified.simplye:id/key\" "
             + "and @text=\"%1$s\"]/following-sibling::*[@resource-id=\"org.nypl.simplified.simplye:id/value\"]";
-    private static final String BOOK_ADD_BUTTON_LOC = "//android.widget.Button[@content-desc=\"%1$s\"]";
+    private static final String BOOK_ACTION_BUTTON_LOC = "//android.widget.Button[@content-desc=\"%1$s\"]";
 
     private final IButton btnDownload = getActionButton(AndroidBookActionButtonKeys.DOWNLOAD);
     private final IButton btnRead = getActionButton(AndroidBookActionButtonKeys.READ);
@@ -78,9 +78,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public boolean isBookAddButtonTextEqualTo(AndroidBookActionButtonKeys key) {
-        final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(String.format(BOOK_ADD_BUTTON_LOC, key.getKey())),
-                String.format("Book %1$s button", key.getKey()));
+        final IButton bookAddBtn = getActionButton(key);
         return bookAddBtn.state().waitForDisplayed();
     }
 
@@ -89,8 +87,13 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
         btnDelete.click();
     }
 
+    @Override
+    public void clickActionButton(AndroidBookActionButtonKeys buttonKeys) {
+        getActionButton(buttonKeys).click();
+    }
+
     private IButton getActionButton(AndroidBookActionButtonKeys buttonKey) {
         String key = buttonKey.getKey();
-        return getElementFactory().getButton(By.xpath(String.format(BOOK_ADD_BUTTON_LOC, key)), key);
+        return getElementFactory().getButton(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, key)), key);
     }
 }

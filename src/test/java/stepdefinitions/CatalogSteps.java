@@ -3,6 +3,7 @@ package stepdefinitions;
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import constants.android.catalog.AndroidBookActionButtonKeys;
+import constants.context.ContextLibrariesKeys;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -28,7 +29,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CatalogSteps {
-    public static final String LIBRARIES_FOR_CANCEL_CONTEXT_KEY = "librariesForCancel";
     public static final String DOWNLOAD_BUTTON_NAME = "Download";
     private final BottomMenuForm bottomMenuForm;
     private final CatalogScreen catalogScreen;
@@ -37,7 +37,7 @@ public class CatalogSteps {
     private final BookDetailsScreen bookDetailsScreen;
     private final MainCatalogToolbarForm mainCatalogToolbarForm;
     private final CatalogBooksScreen catalogBooksScreen;
-    private ScenarioContext context;
+    private final ScenarioContext context;
 
     @Inject
     public CatalogSteps(ScenarioContext context) {
@@ -140,21 +140,22 @@ public class CatalogSteps {
         categoriesChain.forEach(this::openCategory);
     }
 
-    @When("I open the book details for the subsequent reservation and save it as {string}")
-    @And("Open the book details for the subsequent reservation and save it as {string}")
-    public void openBookDetailsReserveBookAndSaveIt(String bookInfoKey) {
-        saveLibraryForCancel();
-        catalogBooksScreen.openBookDetailsForReserve();
-        bookDetailsScreen.reserveBook();
+    @When("I open the book details for the subsequent {} and save it as {string}")
+    @And("Open the book details for the subsequent {} and save it as {string}")
+    public void openBookDetailsExecuteBookActionAndSaveItToContext(
+            AndroidBookActionButtonKeys actionButtonKey, String bookInfoKey) {
+        catalogBooksScreen.openBookDetailsWithAction(actionButtonKey);
+        bookDetailsScreen.clickActionButton(actionButtonKey);
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 
-    @And("Reserve book and save it as {string}")
-    public void reserveBookAndSaveIt(String bookInfoKey) {
-        saveLibraryForCancel();
-        AndroidCatalogBookModel catalogBookModel = catalogBooksScreen.reserveBook();
+    @And("{} book and save it as {string}")
+    public void executeBookActionAndSaveItToContextAndLibraryCancel(
+            AndroidBookActionButtonKeys actionButtonKey, String bookInfoKey) {
+        AndroidCatalogBookModel catalogBookModel = catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey);
         context.add(bookInfoKey, catalogBookModel);
     }
+
 
     @When("I click on the book {string} button {} on catalog books screen")
     public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, AndroidBookActionButtonKeys key) {
@@ -162,16 +163,15 @@ public class CatalogSteps {
         catalogBooksScreen.clickTheBookByTitleBtnWithKey(androidCatalogBookModel.getTitle(), key);
     }
 
-    private void saveLibraryForCancel() {
+    @And("Save current library for {} books after test")
+    public void saveLibraryForCancel(ContextLibrariesKeys contextLibrariesKeys) {
         String libraryName = mainCatalogToolbarForm.getCatalogName();
-        List<String> listOfLibraries;
-        if (context.containsKey(LIBRARIES_FOR_CANCEL_CONTEXT_KEY)) {
-            listOfLibraries = context.get(LIBRARIES_FOR_CANCEL_CONTEXT_KEY);
-        } else {
-            listOfLibraries = new ArrayList<>();
-        }
+        List<String> listOfLibraries = context.containsKey(contextLibrariesKeys.getKey())
+                ? context.get(contextLibrariesKeys.getKey())
+                : new ArrayList<>();
+
         listOfLibraries.add(libraryName);
-        context.add(LIBRARIES_FOR_CANCEL_CONTEXT_KEY, listOfLibraries);
+        context.add(contextLibrariesKeys.getKey(), listOfLibraries);
     }
 
     @And("Count of books in first lane is up to {int}")
@@ -337,9 +337,9 @@ public class CatalogSteps {
                 String.format("Opened book add button does not contain text %1$s", key.getKey()));
     }
 
-    @And("I Download book and save it as {string}")
-    public void downloadBookAndSaveItAs(String bookInfoKey) {
-        context.add(bookInfoKey, catalogBooksScreen.downloadBook());
+    @And("I {} book and save it as {string}")
+    public void clickBookButtonAndSaveItAs(final AndroidBookActionButtonKeys key, String bookInfoKey) {
+        context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(key));
     }
 
     @And("I delete book from book details screen")
