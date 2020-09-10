@@ -6,6 +6,7 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 
 import java.util.List;
@@ -29,8 +30,8 @@ public class AndroidBooksScreen extends BooksScreen {
     }
 
     @Override
-    public boolean isBookPresent(String bookInfo) {
-        return getElementFactory().getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo)), "No Books Present").state().waitForDisplayed();
+    public boolean isBookPresent(AndroidCatalogBookModel bookInfo) {
+        return getElementFactory().getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle())), "No Books Present").state().waitForDisplayed();
     }
 
     @Override
