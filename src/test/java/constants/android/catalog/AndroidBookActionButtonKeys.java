@@ -6,7 +6,8 @@ public enum AndroidBookActionButtonKeys {
     CANCEL("Cancel Reservation Button"),
     READ("Read Button"),
     RESERVE("Reserve Button"),
-    DELETE("Delete Button");
+    DELETE("Delete Button"),
+    RETURN("Return Button");
 
     private final String key;
 

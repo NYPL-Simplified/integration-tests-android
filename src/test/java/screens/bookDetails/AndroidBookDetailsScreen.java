@@ -23,6 +23,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     private final IButton btnReserve = getActionButton(AndroidBookActionButtonKeys.RESERVE);
     private final IButton btnCancel = getActionButton(AndroidBookActionButtonKeys.CANCEL);
     private final IButton btnDelete = getActionButton(AndroidBookActionButtonKeys.DELETE);
+    private final IButton btnReturn = getActionButton(AndroidBookActionButtonKeys.RETURN);
     private final ILabel lblBookInfo = getElementFactory().getLabel(By.id("bookDetailCoverImage"), "Cover Image");
     private final ILabel lblBookDescription = getElementFactory().getLabel(
             By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookDetailDescriptionText\"]"),
@@ -82,6 +83,11 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
                 By.xpath(String.format(BOOK_ADD_BUTTON_LOC, key.getKey())),
                 String.format("Book %1$s button", key.getKey()));
         return bookAddBtn.state().waitForDisplayed();
+    }
+
+    @Override
+    public void returnBook() {
+        btnReturn.click();
     }
 
     @Override

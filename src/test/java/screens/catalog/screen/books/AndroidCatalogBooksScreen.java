@@ -113,6 +113,11 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         return performActionOnBook(AndroidBookActionButtonKeys.DOWNLOAD);
     }
 
+    @Override
+    public AndroidCatalogBookModel borrowBook() {
+        return performActionOnBook(AndroidBookActionButtonKeys.GET);
+    }
+
     private AndroidCatalogBookModel performActionOnBook(AndroidBookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
