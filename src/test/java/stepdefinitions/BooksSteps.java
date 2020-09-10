@@ -46,4 +46,10 @@ public class BooksSteps {
     public void refreshListOfBooks() {
         booksScreen.refreshList();
     }
+
+    @And("I Read book {string}")
+    public void iReadBookBookInfo(String bookInfoKey) {
+        AndroidCatalogBookModel bookInfo = context.get(bookInfoKey);
+        booksScreen.readBook(bookInfo);
+    }
 }

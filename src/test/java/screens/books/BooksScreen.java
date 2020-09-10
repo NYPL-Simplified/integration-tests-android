@@ -16,4 +16,6 @@ public abstract class BooksScreen extends Screen {
     public abstract int getCountOfBooks();
 
     public abstract void refreshList();
+
+    public abstract void readBook(AndroidCatalogBookModel bookInfo);
 }

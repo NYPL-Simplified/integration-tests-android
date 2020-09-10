@@ -31,6 +31,19 @@ Feature: Book Transactions
       And I Download book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
 
+  Scenario: Read from Bookshelf list
+    When I open Catalog
+    Then Books feed is loaded
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+    Then Subcategory screen is present
+    When I Download book and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open Books
+      And I Read book 'bookInfo'
+    Then Book cover is present on screen
+
   Scenario: Delete from Bookshelf list
     When I open Catalog
     Then Books feed is loaded

@@ -6,6 +6,7 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import constants.android.catalog.AndroidBookActionButtonKeys;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 
@@ -43,5 +44,11 @@ public class AndroidBooksScreen extends BooksScreen {
     public void refreshList() {
         btnMenu.click();
         btnRefresh.click();
+    }
+
+    @Override
+    public void readBook(AndroidCatalogBookModel bookInfo) {
+        String readButtonName = AndroidBookActionButtonKeys.READ.getKey();
+        getElementFactory().getButton(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle()) + "//following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"" + readButtonName + "\"]"), readButtonName).click();
     }
 }
