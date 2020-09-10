@@ -28,8 +28,10 @@ public class AndroidCatalogScreen extends CatalogScreen {
     private static final String BOOKS_LOCATOR = "//androidx.recyclerview.widget.RecyclerView[1]"
             + "//android.widget.LinearLayout[@content-desc]";
 
+    private static final String FEED_LANE_TITLES_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneTitle\"]";
+
     private final ILabel firstLaneName = getElementFactory().getLabel(
-            By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneTitle\"]"), "First lane name");
+            By.xpath(FEED_LANE_TITLES_LOC), "First lane name");
 
     public AndroidCatalogScreen() {
         super(By.id("feedWithGroups"));
@@ -42,6 +44,12 @@ public class AndroidCatalogScreen extends CatalogScreen {
         AqualityServices.getLogger().info("Found list of books - " + listOfNames.stream().map(Object::toString)
                 .collect(Collectors.joining(", ")));
         return listOfNames;
+    }
+
+    @Override
+    public boolean isCategoryPageLoad() {
+        return AqualityServices.getConditionalWait().waitFor(() ->
+                getElementFactory().findElements(By.xpath(FEED_LANE_TITLES_LOC), ElementType.LABEL).size() > 0);
     }
 
     @Override

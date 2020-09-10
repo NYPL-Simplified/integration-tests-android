@@ -59,6 +59,17 @@ Feature: Book Transactions
     Then Books feed is loaded
     When I open category by chain:
       | Essential Reads on Feminism |
+    Then Current category name is 'Essential Reads on Feminism'
     When I open the book details for the subsequent GET and save it as 'bookInfo'
       And Save current library for CANCEL_GET books after test
+    Then I check that opened book contains READ button at book details screen
+
+  Scenario: Download from Book detail view
+    When I open Catalog
+    Then Books feed is loaded
+    When I open category by chain:
+      | Fiction   |
+      | Mysteries |
+    Then Current category name is 'Mysteries'
+    When I open the book details for the subsequent DOWNLOAD and save it as 'bookInfo'
     Then I check that opened book contains READ button at book details screen

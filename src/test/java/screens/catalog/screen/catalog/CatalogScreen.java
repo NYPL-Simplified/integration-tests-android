@@ -13,6 +13,8 @@ public abstract class CatalogScreen extends Screen {
 
     public abstract List<String> getListOfBooksNames();
 
+    public abstract boolean isCategoryPageLoad();
+
     public abstract void openLibrary(String libraryName);
 
     public abstract String getBookName(int index);
