@@ -157,7 +157,6 @@ public class CatalogSteps {
     }
 
 
-
     @When("I click on the book {string} button {} on catalog books screen")
     public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, AndroidBookActionButtonKeys key) {
         AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);

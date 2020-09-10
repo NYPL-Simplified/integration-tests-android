@@ -39,13 +39,13 @@ Feature: Book Transactions
     When I open category by chain:
       | Fiction |
       | Drama   |
-    And Download book and save it as 'bookInfo'
+      And Download book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open Books
     Then Book 'bookInfo' is present in Books List
     When I open book 'bookInfo' details by clicking on cover
-    And I delete book from book details screen
-    And I open Books
+      And I delete book from book details screen
+      And I open Books
     Then Book 'bookInfo' is not present in Books List
 
   @logout @cancelGet

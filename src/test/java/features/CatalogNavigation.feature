@@ -132,13 +132,13 @@ Feature: Catalog Navigation
       And Count of books in search result is up to 12
     When I go back to the previous catalog screen
     Then Current category name is 'Related Books'
-    And Count of books in subcategory 'Similar titles recommended by NoveList' lane is up to 12
+      And Count of books in subcategory 'Similar titles recommended by NoveList' lane is up to 12
     When I open 'Similar titles recommended by NoveList' subcategory
     Then Current category name is 'Titles recommended by NoveList'
-    And Count of books in search result is up to 12
+      And Count of books in search result is up to 12
     When I go back to the previous catalog screen
     Then Current category name is 'Related Books'
-    And Count of books in subcategory 'Harry Potter' lane is up to 12
+      And Count of books in subcategory 'Harry Potter' lane is up to 12
     When I open 'Harry Potter' subcategory
     Then Current category name is 'Harry Potter'
-    And Count of books in search result is up to 12
+      And Count of books in search result is up to 12
