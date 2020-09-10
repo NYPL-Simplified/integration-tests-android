@@ -79,9 +79,10 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
                         .getText());
     }
 
+
     @Override
-    public AndroidCatalogBookModel reserveBook() {
-        return performActionOnBook(AndroidBookAddButtonKeys.RESERVE);
+    public AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookAddButtonKeys bookAddButtonKey) {
+        return performActionOnBook(bookAddButtonKey);
     }
 
     @Override
@@ -108,17 +109,13 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
-    @Override
-    public AndroidCatalogBookModel downloadBook() {
-        return performActionOnBook(AndroidBookAddButtonKeys.DOWNLOAD);
-    }
 
     private AndroidCatalogBookModel performActionOnBook(AndroidBookAddButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        String reserveBookTitle =
+        String bookTitle =
                 getBookJacketWithGivenButtonLabel(buttonName).findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL).getText();
-        AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(reserveBookTitle);
+        AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
         button.click();
         return androidCatalogBookModel;
     }

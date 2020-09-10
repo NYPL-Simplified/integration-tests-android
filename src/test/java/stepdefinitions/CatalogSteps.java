@@ -147,10 +147,10 @@ public class CatalogSteps {
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 
-    @And("Reserve book and save it as {string}")
-    public void reserveBookAndSaveIt(String bookInfoKey) {
+    @And("Reserve book save for cancel reservation and save it as {string}")
+    public void reserveBookSaveForCancelReservationAndSaveIt(String bookInfoKey) {
         saveLibraryForCancel();
-        AndroidCatalogBookModel catalogBookModel = catalogBooksScreen.reserveBook();
+        AndroidCatalogBookModel catalogBookModel = catalogBooksScreen.scrollToTheBookAndClickAddButton(AndroidBookAddButtonKeys.RESERVE);
         context.add(bookInfoKey, catalogBookModel);
     }
 
@@ -335,8 +335,8 @@ public class CatalogSteps {
                 String.format("Opened book add button does not contain text %1$s", key.getKey()));
     }
 
-    @And("I Download book and save it as {string}")
-    public void downloadBookAndSaveItAs(String bookInfoKey) {
-        context.add(bookInfoKey, catalogBooksScreen.downloadBook());
+    @And("I {} book and save it as {string}")
+    public void clickBookButtonAndSaveItAs(final AndroidBookAddButtonKeys key, String bookInfoKey) {
+        context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(key));
     }
 }

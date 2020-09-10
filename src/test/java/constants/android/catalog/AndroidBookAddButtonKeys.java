@@ -5,7 +5,8 @@ public enum AndroidBookAddButtonKeys {
     DOWNLOAD("Download Button"),
     CANCEL("Cancel Reservation Button"),
     READ("Read Button"),
-    RESERVE("Reserve Button");
+    RESERVE("Reserve Button"),
+    REMOVE("Remove Button");
 
     private final String key;
 
