@@ -144,7 +144,7 @@ public class CatalogSteps {
     @And("Open the book details for the subsequent {} and save it as {string}")
     public void openBookDetailsExecuteBookActionAndSaveItToContext(
             AndroidBookActionButtonKeys actionButtonKey, String bookInfoKey) {
-        catalogBooksScreen.openBookDetailsForReserve();
+        catalogBooksScreen.openBookDetailsWithAction(actionButtonKey);
         bookDetailsScreen.clickActionButton(actionButtonKey);
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }

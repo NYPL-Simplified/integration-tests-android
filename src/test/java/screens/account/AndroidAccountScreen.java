@@ -40,7 +40,7 @@ public class AndroidAccountScreen extends AccountScreen {
     @Override
     public boolean isLoginSuccessful() {
         return AqualityServices.getConditionalWait().waitFor(() ->
-                btnLogin.getText().equals(AndroidAccountScreenLoginStatus.LOG_IN.getStatus()));
+                btnLogout.getText().equals(AndroidAccountScreenLoginStatus.LOG_OUT.getStatus()));
     }
 
     @Override

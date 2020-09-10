@@ -17,6 +17,7 @@ import screens.holds.HoldsScreen;
 import screens.settings.SettingsScreen;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class LogoutHooks {
@@ -58,7 +59,7 @@ public class LogoutHooks {
         accountScreen.logOut();
     }
 
-    @After(value = "@cancelGet", order = 2)
+    @After(value = "@cancelHold", order = 2)
     public void cancelHold() {
         List<String> librariesForCancel = context.get("librariesForCancel");
         for (String library : librariesForCancel) {
@@ -73,19 +74,21 @@ public class LogoutHooks {
     @After(value = "@cancelGet", order = 2)
     public void cancelGet() {
         List<String> librariesForCancelGet = context.get("librariesForCancelGet");
-        librariesForCancelGet.forEach(library -> {
-            bottomMenuForm.open(BottomMenu.CATALOG);
-            mainCatalogToolbarForm.chooseAnotherLibrary();
-            catalogScreen.openLibrary(library);
-            bottomMenuForm.open(BottomMenu.BOOKS);
 
-            IntStream.range(0, booksScreen.getCountOfBooksWithAction(AndroidBookActionButtonKeys.READ))
-                    .forEach(index -> {
-                        booksScreen.openBookPage(index, AndroidBookActionButtonKeys.READ);
-                        bookDetailsScreen.clickActionButton(AndroidBookActionButtonKeys.RETURN);
-                        bookDetailsScreen.isBookAddButtonTextEqualTo(AndroidBookActionButtonKeys.GET);
-                        bottomMenuForm.open(BottomMenu.BOOKS);
-                    });
-        });
+        Optional.ofNullable(librariesForCancelGet).ifPresent(libraries ->
+                libraries.forEach(library -> {
+                    bottomMenuForm.open(BottomMenu.CATALOG);
+                    mainCatalogToolbarForm.chooseAnotherLibrary();
+                    catalogScreen.openLibrary(library);
+                    bottomMenuForm.open(BottomMenu.BOOKS);
+
+                    IntStream.range(0, booksScreen.getCountOfBooksWithAction(AndroidBookActionButtonKeys.READ))
+                            .forEach(index -> {
+                                booksScreen.openBookPage(index, AndroidBookActionButtonKeys.READ);
+                                bookDetailsScreen.clickActionButton(AndroidBookActionButtonKeys.RETURN);
+                                bookDetailsScreen.isBookAddButtonTextEqualTo(AndroidBookActionButtonKeys.GET);
+                                bottomMenuForm.open(BottomMenu.BOOKS);
+                            });
+                }));
     }
 }

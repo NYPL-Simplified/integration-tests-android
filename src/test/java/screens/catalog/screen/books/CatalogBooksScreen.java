@@ -20,7 +20,7 @@ public abstract class CatalogBooksScreen extends Screen {
 
     public abstract void clickTheBookByTitleBtnWithKey(String title, AndroidBookActionButtonKeys key);
 
-    public abstract void openBookDetailsForReserve();
+    public abstract void openBookDetailsWithAction(AndroidBookActionButtonKeys action);
 
     public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookActionButtonKeys key);
 }
