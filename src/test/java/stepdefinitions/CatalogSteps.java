@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class CatalogSteps {
     public static final String DOWNLOAD_BUTTON_NAME = "Download";
@@ -137,7 +138,12 @@ public class CatalogSteps {
 
     @When("I open category by chain:")
     public void openCategoryByChain(List<String> categoriesChain) {
-        categoriesChain.forEach(this::openCategory);
+        IntStream.range(0, categoriesChain.size()).forEach(index -> {
+            openCategory(categoriesChain.get(index));
+            if (index != categoriesChain.size() - 1) {
+                Assert.assertTrue(catalogScreen.isCategoryPageLoad(), "Check that category page has been loaded");
+            }
+        });
     }
 
     @When("I open the book details for the subsequent {} and save it as {string}")
@@ -352,4 +358,16 @@ public class CatalogSteps {
         AndroidCatalogBookModel bookInfo = context.get(bookInfoKey);
         subcategoryScreen.openBook(bookInfo);
     }
+
+    @When("I press on the book details screen at the action button {}")
+    @And("Press on the book details screen at the action button {}")
+    public void pressOnTheBookDetailsScreenAtTheActionButton(AndroidBookActionButtonKeys actionButton) {
+        bookDetailsScreen.clickActionButton(actionButton);
+    }
+
+    @Then("I check that the action button text equal to the {}")
+    public void checkThatTheActionButtonTextEqualToTheExpected(AndroidBookActionButtonKeys actionButton) {
+        bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton);
+    }
+
 }

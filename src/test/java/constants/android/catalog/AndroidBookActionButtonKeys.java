@@ -7,7 +7,7 @@ public enum AndroidBookActionButtonKeys {
     READ("Read Button"),
     RESERVE("Reserve Button"),
     DELETE("Delete Button"),
-    RETURN("Return");
+    RETURN("Return Now Button");
 
     private final String key;
 

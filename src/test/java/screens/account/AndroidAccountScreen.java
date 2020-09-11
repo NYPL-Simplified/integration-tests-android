@@ -45,11 +45,13 @@ public class AndroidAccountScreen extends AccountScreen {
 
     @Override
     public void logOut() {
+        final String loginTextBeforeLogout = txbCard.getText();
+        final String passwordTextBeforeLogout = txbPin.getText();
         btnLogout.click();
         AqualityServices.getConditionalWait().waitFor(() ->
                         btnLogin.getText().equals(AndroidAccountScreenLoginStatus.LOG_IN.getStatus())
-                                && txbCard.getText().equals(AndroidAccountScreenLoginFields.BARCODE.getName())
-                                && txbPin.getText().equals(AndroidAccountScreenLoginFields.PIN.getName()),
+                                && !txbCard.getText().equals(loginTextBeforeLogout)
+                                && !txbPin.getText().equals(passwordTextBeforeLogout),
                 Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getTimeoutMillis()));
     }
 
