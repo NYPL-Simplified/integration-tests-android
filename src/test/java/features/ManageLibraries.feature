@@ -44,7 +44,8 @@ Feature: Manage Libraries
     When I open category by chain:
       | Fiction |
       | Drama   |
-      And Open the book details for the subsequent reservation and save it as 'bookInfo'
+      And I open the book details for the subsequent RESERVE and save it as 'bookInfo'
+      And Save current library for CANCEL_HOLD books after test
       And Open Holds
     Then Holds feed is loaded
       And Book 'bookInfo' is present in Holds List

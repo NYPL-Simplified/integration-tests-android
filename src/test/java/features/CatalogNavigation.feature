@@ -132,13 +132,29 @@ Feature: Catalog Navigation
       And Count of books in search result is up to 12
     When I go back to the previous catalog screen
     Then Current category name is 'Related Books'
-    And Count of books in subcategory 'Similar titles recommended by NoveList' lane is up to 12
+      And Count of books in subcategory 'Similar titles recommended by NoveList' lane is up to 12
     When I open 'Similar titles recommended by NoveList' subcategory
     Then Current category name is 'Titles recommended by NoveList'
-    And Count of books in search result is up to 12
+      And Count of books in search result is up to 12
     When I go back to the previous catalog screen
     Then Current category name is 'Related Books'
-    And Count of books in subcategory 'Harry Potter' lane is up to 12
+      And Count of books in subcategory 'Harry Potter' lane is up to 12
     When I open 'Harry Potter' subcategory
     Then Current category name is 'Harry Potter'
-    And Count of books in search result is up to 12
+      And Count of books in search result is up to 12
+
+  @logout @cancelHold
+  Scenario: Reserve Book (hold)
+    When I add 'Hartford Public Library' account
+    Then Account 'Hartford Public Library' is present on Accounts screen
+    When I enter credentials for 'Hartford Public Library' account
+    Then Text on Login button is changed to Log out on Account screen
+    When I open Catalog
+      And I switch to 'Hartford Public Library' from side menu
+    Then Books feed is loaded
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+      And RESERVE book and save it as 'bookInfo'
+      And Save current library for CANCEL_HOLD books after test
+    Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
