@@ -45,7 +45,7 @@ Feature: Book Transactions
     Then Book 'bookInfo' is not present in Books List
 
   @logout @cancelGet
-  Scenario: Check out
+  Scenario: Check out from Book Detail View
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
     When I enter credentials for 'The New York Public Library' account
@@ -70,9 +70,8 @@ Feature: Book Transactions
     When I open the book details for the subsequent DOWNLOAD and save it as 'bookInfo'
     Then I check that opened book contains READ button at book details screen
 
-
   @logout @cancelGet
-  Scenario: Return
+  Scenario: Return from Book Detail View
     When I add 'LYRASIS' account
     Then Account 'LYRASIS' is present on Accounts screen
     When I enter credentials for 'LYRASIS' account
