@@ -15,11 +15,7 @@ Feature: Book Transactions
     When I open category by chain:
       | Fiction |
       | Drama   |
-      And RESERVE book and save it as 'bookInfo'
-      And Save current library for CANCEL_HOLD books after test
-    Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
-    When I click on the book 'bookInfo' button CANCEL on catalog books screen
-    Then Book saved as 'bookInfo' should contain RESERVE button at catalog books screen
+    Then Current category name is 'Drama'
     When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
       And Save current library for CANCEL_HOLD books after test
     Then I check that opened book contains CANCEL button at book details screen
