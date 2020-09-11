@@ -62,13 +62,14 @@ public class LogoutHooks {
     @After(value = "@cancelHold", order = 2)
     public void cancelHold() {
         List<String> librariesForCancel = context.get("librariesForCancel");
-        for (String library : librariesForCancel) {
-            bottomMenuForm.open(BottomMenu.CATALOG);
-            mainCatalogToolbarForm.chooseAnotherLibrary();
-            catalogScreen.openLibrary(library);
-            bottomMenuForm.open(BottomMenu.HOLDS);
-            holdsScreen.cancelReservations();
-        }
+        Optional.ofNullable(librariesForCancel).ifPresent(libraries ->
+                libraries.forEach(library -> {
+                    bottomMenuForm.open(BottomMenu.CATALOG);
+                    mainCatalogToolbarForm.chooseAnotherLibrary();
+                    catalogScreen.openLibrary(library);
+                    bottomMenuForm.open(BottomMenu.HOLDS);
+                    holdsScreen.cancelReservations();
+                }));
     }
 
     @After(value = "@cancelGet", order = 2)

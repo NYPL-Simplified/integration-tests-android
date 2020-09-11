@@ -358,4 +358,16 @@ public class CatalogSteps {
         AndroidCatalogBookModel bookInfo = context.get(bookInfoKey);
         subcategoryScreen.openBook(bookInfo);
     }
+
+    @When("I press on the book details screen at the action button {}")
+    @And("Press on the book details screen at the action button {}")
+    public void pressOnTheBookDetailsScreenAtTheActionButton(AndroidBookActionButtonKeys actionButton) {
+        bookDetailsScreen.clickActionButton(actionButton);
+    }
+
+    @Then("I check that the action button text equal to the {}")
+    public void checkThatTheActionButtonTextEqualToTheExpected(AndroidBookActionButtonKeys actionButton) {
+        bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton);
+    }
+
 }

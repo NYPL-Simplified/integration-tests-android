@@ -1,5 +1,7 @@
 package screens.books;
 
+import aquality.appium.mobile.actions.SwipeDirection;
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -50,9 +52,10 @@ public class AndroidBooksScreen extends BooksScreen {
 
     @Override
     public boolean isBookPresent(AndroidCatalogBookModel bookInfo) {
-        return getElementFactory()
+        ILabel book = getElementFactory()
                 .getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle())),
-                        "No Books Present")
+                        "No Books Present");
+        return book
                 .state()
                 .waitForDisplayed();
     }
