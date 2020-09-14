@@ -15,7 +15,6 @@ public class AndroidReaderScreen extends ReaderScreen {
         super(By.id("//android.view.View[@resource-id=\"reflowable-book-frame\"]"));
     }
 
-
     @Override
     public String getBookName() {
         String text = lblBookName.getText();

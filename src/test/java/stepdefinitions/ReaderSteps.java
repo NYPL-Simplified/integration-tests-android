@@ -19,7 +19,7 @@ public class ReaderSteps {
     }
 
     @Then("Book {string} is present on screen")
-    public void bookBookInfoIsPresentOnScreen(String bookInfoKey) {
+    public void checkBookInfoIsPresentOnScreen(String bookInfoKey) {
         AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
         Assert.assertEquals(androidCatalogBookModel.getTitle(), readerScreen.getBookName(), "Book name is not correct");
     }
