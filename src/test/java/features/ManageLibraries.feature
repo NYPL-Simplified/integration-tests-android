@@ -5,11 +5,6 @@ Feature: Manage Libraries
     When I add 'Hartford Public Library' account
     Then Account 'Hartford Public Library' is present on Accounts screen
 
-  @logout
-  Scenario: Add Library
-    When I enter credentials for 'Hartford Public Library' account
-    Then Text on Login button is changed to Log out on Account screen
-
   Scenario: Switch Library Catalogs
     Given Catalog is opened
     Then Books feed is loaded
