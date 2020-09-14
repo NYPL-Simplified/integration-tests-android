@@ -5,10 +5,6 @@ Feature: Manage Libraries
     When I add 'Hartford Public Library' account
     Then Account 'Hartford Public Library' is present on Accounts screen
 
-  Scenario: Add Library
-    When I add 'LYRASIS' account
-    Then Account 'LYRASIS' is present on Accounts screen
-
   Scenario: Switch Library Catalogs
     Given Catalog is opened
     Then Books feed is loaded
