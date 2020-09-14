@@ -21,4 +21,6 @@ public abstract class BooksScreen extends Screen {
     public abstract void openBookPage(int index, AndroidBookActionButtonKeys actionKey);
 
     public abstract void refreshList();
+
+    public abstract void readBook(AndroidCatalogBookModel bookInfo);
 }

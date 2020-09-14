@@ -158,8 +158,7 @@ public class CatalogSteps {
     @And("{} book and save it as {string}")
     public void executeBookActionAndSaveItToContextAndLibraryCancel(
             AndroidBookActionButtonKeys actionButtonKey, String bookInfoKey) {
-        AndroidCatalogBookModel catalogBookModel = catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey);
-        context.add(bookInfoKey, catalogBookModel);
+        context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey));
     }
 
 
@@ -343,11 +342,6 @@ public class CatalogSteps {
                 String.format("Opened book add button does not contain text %1$s", key.getKey()));
     }
 
-    @And("I {} book and save it as {string}")
-    public void clickBookButtonAndSaveItAs(final AndroidBookActionButtonKeys key, String bookInfoKey) {
-        context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(key));
-    }
-
     @And("I delete book from book details screen")
     public void deleteBookFromBookDetailsScreen() {
         bookDetailsScreen.deleteBook();
@@ -369,5 +363,4 @@ public class CatalogSteps {
     public void checkThatTheActionButtonTextEqualToTheExpected(AndroidBookActionButtonKeys actionButton) {
         bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton);
     }
-
 }

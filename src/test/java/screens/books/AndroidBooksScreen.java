@@ -1,7 +1,5 @@
 package screens.books;
 
-import aquality.appium.mobile.actions.SwipeDirection;
-import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -10,7 +8,6 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.android.catalog.AndroidBookActionButtonKeys;
 import models.android.AndroidCatalogBookModel;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 
 import java.util.List;
@@ -30,6 +27,8 @@ public class AndroidBooksScreen extends BooksScreen {
 
     private static final String BOOKS_WITH_ACTION_LOC = String.format(
             "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" and .%1$s]", BOOK_ACTION_BUTTON_LOC);
+    public static final String BOOK_INFO_BUTTON_PATTERN =
+            "%s//following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%s\"]";
 
     private final ILabel lblNoBooks = getElementFactory().getLabel(By.id("feedEmptyText"), "No Books Present");
     private final IButton btnMenu =
@@ -83,5 +82,11 @@ public class AndroidBooksScreen extends BooksScreen {
     public void refreshList() {
         btnMenu.click();
         btnRefresh.click();
+    }
+
+    @Override
+    public void readBook(AndroidCatalogBookModel bookInfo) {
+        String readButtonName = AndroidBookActionButtonKeys.READ.getKey();
+        getElementFactory().getButton(By.xpath(String.format(BOOK_INFO_BUTTON_PATTERN, String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle()), readButtonName)), readButtonName).click();
     }
 }
