@@ -48,8 +48,7 @@ public class BooksSteps {
     }
 
     @And("I Read book {string}")
-    public void iReadBookBookInfo(String bookInfoKey) {
-        AndroidCatalogBookModel bookInfo = context.get(bookInfoKey);
-        booksScreen.readBook(bookInfo);
+    public void readBook(String bookInfoKey) {
+        booksScreen.readBook(context.get(bookInfoKey));
     }
 }

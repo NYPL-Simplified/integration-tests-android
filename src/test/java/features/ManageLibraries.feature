@@ -5,11 +5,6 @@ Feature: Manage Libraries
     When I add 'Hartford Public Library' account
     Then Account 'Hartford Public Library' is present on Accounts screen
 
-  @logout
-  Scenario: Add Library
-    When I enter credentials for 'Hartford Public Library' account
-    Then Text on Login button is changed to Log out on Account screen
-
   Scenario: Switch Library Catalogs
     Given Catalog is opened
     Then Books feed is loaded
@@ -44,7 +39,8 @@ Feature: Manage Libraries
     When I open category by chain:
       | Fiction |
       | Drama   |
-      And Open the book details for the subsequent reservation and save it as 'bookInfo'
+      And I open the book details for the subsequent RESERVE and save it as 'bookInfo'
+      And Save current library for CANCEL_HOLD books after test
       And Open Holds
     Then Holds feed is loaded
       And Book 'bookInfo' is present in Holds List

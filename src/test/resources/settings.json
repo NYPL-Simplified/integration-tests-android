@@ -1,7 +1,7 @@
 {
   "platformName" : "android",
   "isRemote": true,
-  "remoteConnectionUrl": "",
+  "remoteConnectionUrl": null,
   "screensLocation": "screens",
 
   "driverSettings": {
@@ -9,7 +9,7 @@
       "deviceKey": "Samsung_Galaxy",
       "capabilities": {
         "platformName": "Android",
-        "app": "",
+        "app": null,
         "automationName": "UiAutomator2",
         "adbExecTimeout": 10000
       }
