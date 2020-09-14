@@ -8,5 +8,5 @@ public abstract class ReaderScreen extends Screen {
         super(locator, "Reader");
     }
 
-    public abstract boolean isBookCoverPresent();
+    public abstract String getBookName();
 }

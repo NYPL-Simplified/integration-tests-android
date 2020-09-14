@@ -36,11 +36,11 @@ Feature: Book Transactions
       | Fiction |
       | Drama   |
     Then Subcategory screen is present
-    When I Download book and save it as 'bookInfo'
+    When DOWNLOAD book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open Books
       And I Read book 'bookInfo'
-    Then Book cover is present on screen
+    Then Book 'bookInfo' is present on screen
 
   Scenario: Delete from Bookshelf list
     When I open Catalog
