@@ -367,7 +367,6 @@ public class CatalogSteps {
     public void iReturnBookFromBookDetailsScreen() {
         bookDetailsScreen.returnBook();
     }
-}
 
     @Then("I check that the action button text equal to the {}")
     public void checkThatTheActionButtonTextEqualToTheExpected(AndroidBookActionButtonKeys actionButton) {

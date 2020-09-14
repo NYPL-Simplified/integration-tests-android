@@ -109,7 +109,6 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
-
     @Override
     public AndroidCatalogBookModel borrowBook() {
         return performActionOnBook(AndroidBookActionButtonKeys.GET);
