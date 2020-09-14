@@ -358,11 +358,6 @@ public class CatalogSteps {
         bookDetailsScreen.clickActionButton(actionButton);
     }
 
-    @And("I Borrow book and save it as {string}")
-    public void iBorrowBookAndSaveItAsBookInfo(String bookInfoKey) {
-        context.add(bookInfoKey, catalogBooksScreen.borrowBook());
-    }
-
     @And("I return book from book details screen")
     public void iReturnBookFromBookDetailsScreen() {
         bookDetailsScreen.returnBook();

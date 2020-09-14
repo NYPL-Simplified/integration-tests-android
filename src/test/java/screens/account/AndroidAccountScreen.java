@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.android.account.AndroidAccountScreenLoginStatus;
 import constants.android.timeouts.AuthorizationTimeouts;
+import constants.android.timeouts.BooksTimeouts;
 import framework.utilities.keyboard.KeyboardUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -57,6 +58,7 @@ public class AndroidAccountScreen extends AccountScreen {
 
     @Override
     public boolean isLoginSuccessful() {
+        btnLogout.state().waitForExist(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
         return AqualityServices.getConditionalWait().waitFor(() ->
                 btnLogout.getText().equals(AndroidAccountScreenLoginStatus.LOG_OUT.getStatus()));
     }

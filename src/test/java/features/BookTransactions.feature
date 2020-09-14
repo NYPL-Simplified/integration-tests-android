@@ -42,26 +42,28 @@ Feature: Book Transactions
       And I Read book 'bookInfo'
     Then Book 'bookInfo' is present on screen
 
-  @logout
+  @logout @cancelGet
   Scenario: Return from Bookshelf list
-    When I add 'Hartford Public Library' account
-    Then Account 'Hartford Public Library' is present on Accounts screen
-    When I enter credentials for 'Hartford Public Library' account
+    When I add 'LYRASIS' account
+    Then Account 'LYRASIS' is present on Accounts screen
+    When I enter credentials for 'LYRASIS' account
     Then Text on Login button is changed to Log out on Account screen
     When I open Catalog
-      And I switch to 'Hartford Public Library' from side menu
+      And I switch to 'LYRASIS' from side menu
     Then Books feed is loaded
     When I open category by chain:
-      | Fiction |
-      | Drama   |
-      And Open the book details for the subsequent reservation and save it as 'bookInfo'
-      And I Borrow book and save it as 'bookInfo'
+      | Nonfiction   |
+      | Art & Design |
+      | Photography  |
+      And GET book and save it as 'bookInfo'
+      And Save current library for CANCEL_GET books after test
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open Books
     Then Book 'bookInfo' is present in Books List
     When I open book 'bookInfo' details by clicking on cover
-      And I return book from book details screen
-      And I open Books
+      And Press on the book details screen at the action button RETURN
+    Then I check that the action button text equal to the GET
+    When I open Books
     Then Book 'bookInfo' is not present in Books List
 
   Scenario: Delete from Bookshelf list
