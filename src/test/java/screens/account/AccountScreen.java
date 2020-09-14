@@ -10,7 +10,11 @@ public abstract class AccountScreen extends Screen {
 
     public abstract void enterCredentials(String ebookCardValue, String ebookPinValue);
 
+    public abstract void enterCredentialsViaKeyboard(String ebookCardValue, String ebookPinValue);
+
     public abstract boolean isLoginSuccessful();
+
+    public abstract boolean isLogoutSuccessful();
 
     public abstract void logOut();
 }
