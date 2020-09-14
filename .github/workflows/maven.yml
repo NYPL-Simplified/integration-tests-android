@@ -28,7 +28,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Run tests
-      run: mvn clean test -Daquality.token=${{secrets.TRACKING_API_TOKEN}} -Daquality.suiteName="${{github.event.inputs.test_tag}}" -Debookcard=${{secrets.BookCard }} -Debookpin=${{secrets.BookPin}} -DremoteConnectionUrl=${{secrets.remoteConnectionUrl}} -DdriverSettings.android.capabilities.app=${{github.event.inputs.bs_app_link}} -Dcucumber.options="--tags '${{github.event.inputs.test_tag}}'"
+      run: mvn clean test -Daquality.buildName=${{GITHUB_RUN_NUMBER}} -Daquality.token=${{secrets.TRACKING_API_TOKEN}} -Daquality.suiteName="${{github.event.inputs.test_tag}}" -Debookcard=${{secrets.BookCard }} -Debookpin=${{secrets.BookPin}} -DremoteConnectionUrl=${{secrets.remoteConnectionUrl}} -DdriverSettings.android.capabilities.app=${{github.event.inputs.bs_app_link}} -Dcucumber.options="--tags '${{github.event.inputs.test_tag}}'"
     - name: Generate Allure Report
       uses: afiore/action-allure-report@v0.1.0
     - name: Upload report
