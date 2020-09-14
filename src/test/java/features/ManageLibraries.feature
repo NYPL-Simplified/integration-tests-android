@@ -7,8 +7,8 @@ Feature: Manage Libraries
 
   @logout
   Scenario: Add Library
-    When I enter credentials for 'Hartford Public Library' account
-    Then Text on Login button is changed to Log out on Account screen
+    When I add 'LYRASIS' account
+    Then Account 'LYRASIS' is present on Accounts screen
 
   Scenario: Switch Library Catalogs
     Given Catalog is opened
