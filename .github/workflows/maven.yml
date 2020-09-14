@@ -5,7 +5,7 @@ name: Test Run
 
 on:
   workflow_dispatch:
-    branches: [ master ]
+    branches: [ aquality_tracking ]
     inputs:
       test_tag:
         description: 'Tags to run'
