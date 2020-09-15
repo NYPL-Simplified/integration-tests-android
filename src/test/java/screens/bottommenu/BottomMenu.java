@@ -1,19 +1,25 @@
 package screens.bottommenu;
 
+import aquality.appium.mobile.application.AqualityServices;
+import aquality.appium.mobile.application.PlatformName;
+
 public enum BottomMenu {
-    SETTINGS("tabSettings"),
-    HOLDS("tabHolds"),
-    BOOKS("tabBooks"),
-    CATALOG("tabCatalog");
+    SETTINGS("tabSettings", "Settings"),
+    HOLDS("tabHolds", null),
+    BOOKS("tabBooks", "My Books"),
+    CATALOG("tabCatalog", "Catalog");
 
-    private String catalog;
+    private static final PlatformName platformName = AqualityServices.getApplication().getPlatformName();
 
-    BottomMenu(String catalog) {
-        this.catalog = catalog;
+    private String androidCatalogName;
+    private String iosCatalogName;
+
+    BottomMenu(String androidCatalogName, String iosCatalogName) {
+        this.androidCatalogName = androidCatalogName;
+        this.iosCatalogName = iosCatalogName;
     }
 
-    @Override
-    public String toString() {
-        return catalog;
+    public String getItemName() {
+        return platformName.equals(PlatformName.ANDROID) ? androidCatalogName : iosCatalogName;
     }
 }
