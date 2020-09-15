@@ -106,11 +106,6 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
         getActionButton(buttonKeys).click();
     }
 
-    @Override
-    public void returnBook() {
-        btnReturn.click();
-    }
-
     private IButton getActionButton(AndroidBookActionButtonKeys buttonKey) {
         String key = buttonKey.getKey();
         return getElementFactory().getButton(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, key)), key);

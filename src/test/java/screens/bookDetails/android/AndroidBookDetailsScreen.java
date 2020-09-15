@@ -100,11 +100,6 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     }
 
     @Override
-    public void returnBook() {
-        btnReturn.click();
-    }
-
-    @Override
     public void deleteBook() {
         btnDelete.click();
     }

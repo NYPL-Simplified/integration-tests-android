@@ -31,6 +31,4 @@ public abstract class BookDetailsScreen extends Screen {
     public abstract boolean isBookAddButtonTextEqualTo(AndroidBookActionButtonKeys key);
 
     public abstract void clickActionButton(AndroidBookActionButtonKeys buttonKeys);
-
-    public abstract void returnBook();
 }
