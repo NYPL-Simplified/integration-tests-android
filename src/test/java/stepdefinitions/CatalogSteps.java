@@ -161,7 +161,6 @@ public class CatalogSteps {
         context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey));
     }
 
-
     @When("I click on the book {string} button {} on catalog books screen")
     public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, AndroidBookActionButtonKeys key) {
         AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
@@ -361,6 +360,7 @@ public class CatalogSteps {
 
     @Then("I check that the action button text equal to the {}")
     public void checkThatTheActionButtonTextEqualToTheExpected(AndroidBookActionButtonKeys actionButton) {
-        bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton);
+        Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton),
+                "I check that the action button text equal to the " + actionButton.getKey());
     }
 }

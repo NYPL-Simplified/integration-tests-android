@@ -1,5 +1,6 @@
 package screens.books.android;
 
+import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -55,9 +56,10 @@ public class AndroidBooksScreen extends BooksScreen {
         ILabel book = getElementFactory()
                 .getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle())),
                         "No Books Present");
-        return book
-                .state()
-                .waitForDisplayed();
+        if (!book.state().waitForDisplayed()) {
+            book.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
+        return book.state().waitForDisplayed();
     }
 
     @Override

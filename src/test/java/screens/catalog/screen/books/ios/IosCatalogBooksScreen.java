@@ -106,7 +106,6 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
-
     private AndroidCatalogBookModel performActionOnBook(AndroidBookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);

@@ -56,6 +56,7 @@ public class LogoutHooks {
             settingsScreen.openAccounts();
             accountsScreen.openFirstLibrary();
         }
+        accountScreen.logOut();
         if (!accountScreen.isLogoutSuccessful()) {
             accountScreen.logOut();
         }

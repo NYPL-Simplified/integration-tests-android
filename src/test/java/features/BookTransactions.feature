@@ -42,6 +42,29 @@ Feature: Book Transactions
       And I Read book 'bookInfo'
     Then Book 'bookInfo' is present on screen
 
+  @logout @cancelGet
+  Scenario: Return from Bookshelf list
+    When I add 'LYRASIS' account
+    Then Account 'LYRASIS' is present on Accounts screen
+    When I enter credentials for 'LYRASIS' account
+    Then Text on Login button is changed to Log out on Account screen
+    When I open Catalog
+      And I switch to 'LYRASIS' from side menu
+    Then Books feed is loaded
+    When I open category by chain:
+      | Fiction   |
+      | Adventure |
+      And GET book and save it as 'bookInfo'
+      And Save current library for CANCEL_GET books after test
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open Books
+    Then Book 'bookInfo' is present in Books List
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button RETURN
+    Then I check that the action button text equal to the GET
+    When I open Books
+    Then Book 'bookInfo' is not present in Books List
+
   Scenario: Delete from Bookshelf list
     When I open Catalog
     Then Books feed is loaded
