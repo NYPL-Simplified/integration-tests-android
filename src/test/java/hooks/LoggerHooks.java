@@ -19,7 +19,7 @@ public class LoggerHooks {
     public void addLogToScenario(Scenario scenario) {
         byte[] data = Logger.getInstance().getLoggerInfoBytes();
         AqualityServices.getLogger().info(format("Scenario '%s' end", scenario.getName()));
-        scenario.attach(data, "text/plain", "log");
+        scenario.attach(data, "text/plain", "log.txt");
         Logger.getInstance().removeAppender();
     }
 }
