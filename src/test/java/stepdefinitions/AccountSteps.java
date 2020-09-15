@@ -31,6 +31,8 @@ public class AccountSteps {
         bottomMenuForm.open(BottomMenu.SETTINGS);
         settingsScreen.openAccounts();
         accountsScreen.addAccount();
+        Assert.assertTrue(addAccountScreen.state().waitForDisplayed(),
+                "Checking that add accounts screen visible");
         addAccountScreen.selectLibrary(libraryName);
     }
 
@@ -46,7 +48,7 @@ public class AccountSteps {
 
     @When("I remove {string} account")
     public void removeAccount(String libraryName) {
-        addAccountScreen.deleteLibrary(libraryName);
+        accountsScreen.deleteLibrary(libraryName);
         alertScreen.state().waitForExist();
         alertScreen.accept();
         bottomMenuForm.open(BottomMenu.SETTINGS);

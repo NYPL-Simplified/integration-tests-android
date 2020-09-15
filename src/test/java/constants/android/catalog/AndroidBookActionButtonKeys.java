@@ -1,21 +1,29 @@
 package constants.android.catalog;
 
+import aquality.appium.mobile.application.AqualityServices;
+import aquality.appium.mobile.application.PlatformName;
+
 public enum AndroidBookActionButtonKeys {
-    GET("Get Button"),
-    DOWNLOAD("Download Button"),
-    CANCEL("Cancel Reservation Button"),
-    READ("Read Button"),
-    RESERVE("Reserve Button"),
-    DELETE("Delete Button"),
-    RETURN("Return Now Button");
+    GET("Get Button", "Get"),
+    DOWNLOAD("Download Button", "Get"),
+    CANCEL("Cancel Reservation Button", "Cancel"),
+    READ("Read Button", "Read"),
+    RESERVE("Reserve Button", "Reserve"),
+    DELETE("Delete Button", "Delete"),
+    RETURN("Return Now Button", "Return");
 
-    private final String key;
+    private static final PlatformName platformName = AqualityServices.getApplication().getPlatformName();
 
-    AndroidBookActionButtonKeys(String key) {
-        this.key = key;
+    private String androidKey;
+    private String iosKey;
+
+
+    AndroidBookActionButtonKeys(String androidKey, String iosKey) {
+        this.androidKey = androidKey;
+        this.iosKey = iosKey;
     }
 
     public String getKey() {
-        return key;
+        return platformName.equals(PlatformName.ANDROID) ? androidKey : iosKey;
     }
 }

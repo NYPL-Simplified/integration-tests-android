@@ -27,11 +27,4 @@ public class AndroidAddAccountScreen extends AddAccountScreen {
     private IButton getLibraryButton(String libraryName) {
         return getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, '" + libraryName + "')]"), libraryName);
     }
-
-    @Override
-    public void deleteLibrary(String libraryName) {
-        IButton buttonToWaitFor = getLibraryButton(libraryName);
-        TouchAction action = new TouchAction(AqualityServices.getApplication().getDriver());
-        action.longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(buttonToWaitFor.getElement()))).release().perform();
-    }
 }

@@ -15,28 +15,28 @@ import java.util.List;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosBooksScreen extends BooksScreen {
-    private static final String MAIN_ELEMENT_LOC = "";
+    private static final String MAIN_ELEMENT_LOC = "//XCUIElementTypeButton[@name=\"All\"]";
 
-    private static final String BOOKS_LOC = "";
+    private static final String BOOKS_LOC = "//XCUIElementTypeCollectionView//XCUIElementTypeCell";
 
-    private static final String BOOK_IMAGE_LOC = "";
-    private static final String BOOK_TITLE_LOC = "";
-    private static final String BOOK_AUTHOR_LOC = "";
-    private static final String BOOK_TYPE_LOC = "";
-    private static final String BOOK_ACTION_BUTTON_LOC = "";
+    private static final String BOOK_IMAGE_LOC = ""; // does not contain text on the ios
+    private static final String BOOK_TYPE_LOC = ""; // does not exist on the ios
+    private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]\n";
 
     private static final String BOOKS_WITH_ACTION_LOC = String.format(
-            "%1$s", BOOK_ACTION_BUTTON_LOC);
+            "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_ACTION_BUTTON_LOC);
     public static final String BOOK_INFO_BUTTON_PATTERN = "";
 
-    private final ILabel lblNoBooks = getElementFactory().getLabel(By.xpath(""), "No Books Present");
+    private final ILabel lblNoBooks = getElementFactory().getLabel(
+            By.xpath("//XCUIElementTypeStaticText[@name=\"Visit the Catalog to add books to My Books.\"]"),
+            "No Books Present");
     private final IButton btnMenu =
             getElementFactory().getButton(By.xpath(""),
                     "Menu");
     private final IButton btnRefresh = getElementFactory().getButton(By.xpath(""), "Refresh");
-    private final String BOOK_INFO_LOCATOR_PATTERN = " ";
+    private final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]\n";
     private final List<IElement> booksList = getElementFactory().findElements(
-            By.xpath(""),
+            By.xpath("//XCUIElementTypeCollectionView//XCUIElementTypeCell"),
             ElementType.LABEL);
 
     public IosBooksScreen() {

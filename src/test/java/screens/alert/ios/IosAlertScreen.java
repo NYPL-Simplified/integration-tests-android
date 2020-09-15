@@ -1,21 +1,20 @@
 package screens.alert.ios;
 
 import aquality.appium.mobile.application.PlatformName;
-import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import org.openqa.selenium.By;
 import screens.alert.AlertScreen;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosAlertScreen extends AlertScreen {
-    private final IButton btnAccept = getElementFactory().getButton(By.xpath(""), "Accept");
+    private static final String MAIN_ELEMENT = "//XCUIElementTypeButton[contains(@name, \"trailing\")]";
 
     public IosAlertScreen() {
-        super(By.id(""));
+        super(By.xpath(MAIN_ELEMENT));
     }
 
     @Override
     public void accept() {
-        btnAccept.click();
+        getElementFactory().getButton(By.xpath(MAIN_ELEMENT), "Delete library").click();
     }
 }
