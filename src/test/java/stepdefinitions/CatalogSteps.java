@@ -358,11 +358,6 @@ public class CatalogSteps {
         bookDetailsScreen.clickActionButton(actionButton);
     }
 
-    @And("I return book from book details screen")
-    public void iReturnBookFromBookDetailsScreen() {
-        bookDetailsScreen.returnBook();
-    }
-
     @Then("I check that the action button text equal to the {}")
     public void checkThatTheActionButtonTextEqualToTheExpected(AndroidBookActionButtonKeys actionButton) {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton),
