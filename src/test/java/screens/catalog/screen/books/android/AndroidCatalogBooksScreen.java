@@ -110,11 +110,6 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
-    @Override
-    public AndroidCatalogBookModel borrowBook() {
-        return performActionOnBook(AndroidBookActionButtonKeys.GET);
-    }
-
     private AndroidCatalogBookModel performActionOnBook(AndroidBookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);

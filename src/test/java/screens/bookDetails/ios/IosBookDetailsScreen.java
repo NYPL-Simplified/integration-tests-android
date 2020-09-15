@@ -35,6 +35,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private final IButton btnReserve = getActionButton(AndroidBookActionButtonKeys.RESERVE);
     private final IButton btnCancel = getActionButton(AndroidBookActionButtonKeys.CANCEL);
     private final IButton btnDelete = getActionButton(AndroidBookActionButtonKeys.DELETE);
+    private final IButton btnReturn = getActionButton(AndroidBookActionButtonKeys.RETURN);
     private final IButton btnRelatedBooks = getElementFactory().getButton(By.xpath(""),
             "Related books button");
 
@@ -103,6 +104,11 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     @Override
     public void clickActionButton(AndroidBookActionButtonKeys buttonKeys) {
         getActionButton(buttonKeys).click();
+    }
+
+    @Override
+    public void returnBook() {
+        btnReturn.click();
     }
 
     private IButton getActionButton(AndroidBookActionButtonKeys buttonKey) {
