@@ -159,29 +159,25 @@ Feature: Catalog Navigation
       And Save current library for CANCEL_HOLD books after test
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
 
+  @logout @cancelGet
   Scenario: Borrow book
-    Given Application is opened
-    When I add 'Hartford Public Library' account
-    Then Account 'Hartford Public Library' is present on Accounts screen
-    When I enter credentials for 'Hartford Public Library' account
+    When I add 'LYRASIS' account
+    Then Account 'LYRASIS' is present on Accounts screen
+    When I enter credentials for 'LYRASIS' account
     Then Text on Login button is changed to Log out on Account screen
     When I open Catalog
-    And I switch to 'The SimplyE Collection' from side menu
-    And I Download first book from shelf and save it as 'bookInfo'
-    Then Button 'Read' or 'Listen' is present on Book Info screen
-    When I open Catalog
-    And I switch to 'Hartford Public Library' from side menu
+      And I switch to 'LYRASIS' from side menu
     Then Books feed is loaded
-    When I Get book from given distributor in 'Fiction'-'Drama' category and save it as 'bookInfo':
-      | Overdrive          |
-      | RBdigital          |
-      | Baker and Taylor   |
-      | DPLA Exchange      |
-      | SimplyE collection |
-      | Open Bookshelf     |
-      | Biblioboard        |
-    Then Button 'Read' or 'Listen' is present on Book Info screen
-    When I return book
-    Then Book is returned
-    When I get book
-    Then Button 'Read' or 'Listen' is present on Book Info screen
+    When I open category by chain:
+      | Nonfiction   |
+      | Art & Design |
+      | Art          |
+      And Save current library for CANCEL_GET books after test
+      And I open the book details for the subsequent GET and save it as 'bookInfo'
+      And I check that opened book contains READ button at book details screen
+      And Press on the book details screen at the action button RETURN
+      And I check that the action button text equal to the GET
+      And I return to previous screen
+      And I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button GET
+    Then I check that the action button text equal to the READ
