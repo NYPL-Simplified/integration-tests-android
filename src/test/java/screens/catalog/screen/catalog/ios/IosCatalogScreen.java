@@ -32,7 +32,7 @@ public class IosCatalogScreen extends CatalogScreen {
     private static final String LIBRARY_BUTTON_LOCATOR_PATTERN =
             "//XCUIElementTypeButton[@name=\"%1$s\"]";
 
-    private static final String BOOKS_LOCATOR = null;
+    private static final String BOOKS_LOCATOR = "//XCUIElementTypeTable//XCUIElementTypeCell//XCUIElementTypeButton[@name]";
 
     private final ILabel firstLaneName = getElementFactory().getLabel(
             By.xpath(FEED_LANE_TITLES_LOC), "First lane name");
