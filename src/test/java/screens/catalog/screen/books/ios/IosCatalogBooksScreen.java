@@ -20,22 +20,18 @@ import java.util.Objects;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosCatalogBooksScreen extends CatalogBooksScreen {
-    private static final String MAIN_ELEMENT = "//android.widget.TextView[contains(@content-desc, "
-            + "concat(\"Search in \", "
-            + "//*[@resource-id=\"org.nypl.simplified.simplye:id/mainToolbar\"]/android.widget.TextView[1]/@text))]";
+    private static final String MAIN_ELEMENT = "";
 
-    private static final String ADD_BOOK_BUTTON_PATTERN = "//android.widget.Button[@content-desc=\"%1$s\"]";
+    private static final String ADD_BOOK_BUTTON_PATTERN = "";
 
-    private static final String BOOKS_LOC = ".//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\"]";
-    private static final String BOOK_BLOCK_BY_TITLE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" "
-            + "and .//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleTitle\" and contains(@text, '%1$s')]]";
+    private static final String BOOKS_LOC = "";
+    private static final String BOOK_BLOCK_BY_TITLE_LOC = "";
 
-    private static final String BOOK_IMAGE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\"]";
-    private static final String BOOK_TITLE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleTitle\"]";
-    private static final String BOOK_AUTHOR_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleAuthor\"]";
-    private static final String BOOK_TYPE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleMeta\"]";
-    private static final String BOOK_ADD_BUTTON_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]"
-            + "/android.widget.Button[@content-desc=\"%1$s\"]";
+    private static final String BOOK_IMAGE_LOC = "";
+    private static final String BOOK_TITLE_LOC = "";
+    private static final String BOOK_AUTHOR_LOC = "";
+    private static final String BOOK_TYPE_LOC = "";
+    private static final String BOOK_ADD_BUTTON_LOC = "";
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
@@ -123,7 +119,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private ILabel getBookJacketWithGivenButtonLabel(AndroidBookActionButtonKeys button) {
         String key = button.getKey();
-        return getElementFactory().getLabel(By.xpath(String.format("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" " + "and .//android.widget.Button[@content-desc=\"%1$s\"]]", key)), "Book jacket with" + key);
+        return getElementFactory().getLabel(null, "Book jacket with" + key);
     }
 
     private void clickOnTheSpecificBookElement(IElement bookWithSpecificAddBtn) {

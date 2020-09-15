@@ -10,10 +10,10 @@ import screens.reader.ReaderScreen;
 @ScreenType(platform = PlatformName.IOS)
 public class IosReaderScreen extends ReaderScreen {
     private final ILabel lblBookName =
-            getElementFactory().getLabel(By.xpath("//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/reader_title_text\"]"), "Book Cover");
+            getElementFactory().getLabel(null, "Book Cover");
 
     public IosReaderScreen() {
-        super(By.id("//android.view.View[@resource-id=\"reflowable-book-frame\"]"));
+        super(By.xpath(""));
     }
 
     @Override

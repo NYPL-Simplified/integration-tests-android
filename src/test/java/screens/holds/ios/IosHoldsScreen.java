@@ -15,24 +15,20 @@ import java.time.Duration;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosHoldsScreen extends HoldsScreen {
-    private final ILabel lblNoBooks = getElementFactory().getLabel(By.id("feedEmptyText"), "No Books Present");
+    private final ILabel lblNoBooks = getElementFactory().getLabel(null, "No Books Present");
     private final IButton btnCancel =
-            getElementFactory().getButton(By.xpath("//android.widget.Button[@text=\"Cancel Reservation\"]"), "Cancel");
-    private final String BOOK_INFO_LOCATOR_PATTERN = "//android.widget.ImageView[@content-desc=\"%s\"]";
+            getElementFactory().getButton(null, "Cancel");
+    private final String BOOK_INFO_LOCATOR_PATTERN = null;
 
-    private static final String BOOK_ACTION_BUTTON_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]"
-            + "/android.widget.Button[@content-desc=\"%1$s\"]";
-    private static final String BOOK_BLOCK_BY_TITLE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" "
-            + "and .//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleTitle\" and contains(@text, '%1$s')]]";
+    private static final String BOOK_ACTION_BUTTON_LOC = null;
+    private static final String BOOK_BLOCK_BY_TITLE_LOC = null;
 
-    private static final String BOOK_ADD_BUTTON_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]"
-            + "/android.widget.Button[@content-desc=\"%1$s\"]";
+    private static final String BOOK_ADD_BUTTON_LOC = null;
 
-    private static final String BOOKS_WITH_ACTION_LOC = String.format(
-            "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" and .%1$s]", BOOK_ACTION_BUTTON_LOC);
+    private static final String BOOKS_WITH_ACTION_LOC = null;
 
     public IosHoldsScreen() {
-        super(By.xpath("//android.widget.TextView[@content-desc=\"Search in Holds…\"]"));
+        super(By.xpath(""));
     }
 
     @Override

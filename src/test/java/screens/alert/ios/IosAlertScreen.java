@@ -8,10 +8,10 @@ import screens.alert.AlertScreen;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosAlertScreen extends AlertScreen {
-    private final IButton btnAccept = getElementFactory().getButton(By.id("android:id/button1"), "Accept");
+    private final IButton btnAccept = getElementFactory().getButton(By.xpath(""), "Accept");
 
     public IosAlertScreen() {
-        super(By.id("android:id/message"));
+        super(By.id(""));
     }
 
     @Override

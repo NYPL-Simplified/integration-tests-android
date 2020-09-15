@@ -15,30 +15,28 @@ import java.util.List;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosBooksScreen extends BooksScreen {
-    private static final String MAIN_ELEMENT_LOC = "//android.widget.TextView[@content-desc=\"Search in Books…\"]";
+    private static final String MAIN_ELEMENT_LOC = "";
 
-    private static final String BOOKS_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\"]";
+    private static final String BOOKS_LOC = "";
 
-    private static final String BOOK_IMAGE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\"]";
-    private static final String BOOK_TITLE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleTitle\"]";
-    private static final String BOOK_AUTHOR_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleAuthor\"]";
-    private static final String BOOK_TYPE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleMeta\"]";
-    private static final String BOOK_ACTION_BUTTON_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]"
-            + "/android.widget.Button[@content-desc=\"%1$s\"]";
+    private static final String BOOK_IMAGE_LOC = "";
+    private static final String BOOK_TITLE_LOC = "";
+    private static final String BOOK_AUTHOR_LOC = "";
+    private static final String BOOK_TYPE_LOC = "";
+    private static final String BOOK_ACTION_BUTTON_LOC = "";
 
     private static final String BOOKS_WITH_ACTION_LOC = String.format(
-            "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\" and .%1$s]", BOOK_ACTION_BUTTON_LOC);
-    public static final String BOOK_INFO_BUTTON_PATTERN =
-            "%s//following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%s\"]";
+            "%1$s", BOOK_ACTION_BUTTON_LOC);
+    public static final String BOOK_INFO_BUTTON_PATTERN = "";
 
-    private final ILabel lblNoBooks = getElementFactory().getLabel(By.id("feedEmptyText"), "No Books Present");
+    private final ILabel lblNoBooks = getElementFactory().getLabel(By.xpath(""), "No Books Present");
     private final IButton btnMenu =
-            getElementFactory().getButton(By.xpath("//android.widget.ImageView[@content-desc=\"More options\"]"),
+            getElementFactory().getButton(By.xpath(""),
                     "Menu");
-    private final IButton btnRefresh = getElementFactory().getButton(By.id("title"), "Refresh");
-    private final String BOOK_INFO_LOCATOR_PATTERN = "//android.widget.ImageView[@content-desc=\"%s\"]";
+    private final IButton btnRefresh = getElementFactory().getButton(By.xpath(""), "Refresh");
+    private final String BOOK_INFO_LOCATOR_PATTERN = " ";
     private final List<IElement> booksList = getElementFactory().findElements(
-            By.xpath("//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\"]"),
+            By.xpath(""),
             ElementType.LABEL);
 
     public IosBooksScreen() {

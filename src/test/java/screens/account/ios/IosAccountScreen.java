@@ -16,8 +16,7 @@ import java.time.Duration;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosAccountScreen extends AccountScreen {
-    private static final String LOGIN_BTN_LOC_PATTERN =
-            "//*[@resource-id=\"org.nypl.simplified.simplye:id/accountLoginButton\" and @text=\"%1$s\"]";
+    private static final String LOGIN_BTN_LOC_PATTERN = "%1$s";
 
     private final IButton btnLogin = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AndroidAccountScreenLoginStatus.LOG_IN.getStatus())),
@@ -25,11 +24,11 @@ public class IosAccountScreen extends AccountScreen {
     private final IButton btnLogout = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AndroidAccountScreenLoginStatus.LOG_OUT.getStatus())),
             "Log out");
-    private final ITextBox txbCard = getElementFactory().getTextBox(By.id("authBasicUserField"), "Card");
-    private final ITextBox txbPin = getElementFactory().getTextBox(By.id("authBasicPassField"), "Pin");
+    private final ITextBox txbCard = getElementFactory().getTextBox(By.id(""), "Card");
+    private final ITextBox txbPin = getElementFactory().getTextBox(By.id(""), "Pin");
 
     public IosAccountScreen() {
-        super(By.id("auth"));
+        super(By.id(""));
     }
 
     @Override

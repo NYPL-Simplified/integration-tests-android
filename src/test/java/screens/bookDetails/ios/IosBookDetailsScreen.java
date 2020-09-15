@@ -19,17 +19,15 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private static final String INFORMATION_TAB_LABELS_NAME_PART = "Information tab %1$s value";
 
     private static final String CONTENT_ATTRIBUTE_NAME = "content-desc";
-    private static final String INFORMATION_TAB_VALUE_LOC_PART = "//*[@resource-id=\"org.nypl.simplified.simplye:id/key\" "
-            + "and @text=\"%1$s\"]/following-sibling::*[@resource-id=\"org.nypl.simplified.simplye:id/value\"]";
-    private static final String BOOK_ACTION_BUTTON_LOC = "//android.widget.Button[@content-desc=\"%1$s\"]";
+    private static final String INFORMATION_TAB_VALUE_LOC_PART = "%1$s";
+    private static final String BOOK_ACTION_BUTTON_LOC = "%1$s";
 
 
-    private final ILabel lblBookInfo = getElementFactory().getLabel(By.id("bookDetailCoverImage"), "Cover Image");
-    private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.id("bookDetailTitle"), "Book title");
-    private final ILabel lblBookFormatInfo = getElementFactory().getLabel(By.id("bookDetailFormat"), "Book format");
-    private final ILabel lblBookAuthorsInfo = getElementFactory().getLabel(By.id("bookDetailAuthors"), "Book Authors");
-    private final ILabel lblBookDescription = getElementFactory().getLabel(
-            By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookDetailDescriptionText\"]"),
+    private final ILabel lblBookInfo = getElementFactory().getLabel(By.xpath(""), "Cover Image");
+    private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.xpath(""), "Book title");
+    private final ILabel lblBookFormatInfo = getElementFactory().getLabel(By.xpath(""), "Book format");
+    private final ILabel lblBookAuthorsInfo = getElementFactory().getLabel(By.xpath(""), "Book Authors");
+    private final ILabel lblBookDescription = getElementFactory().getLabel(By.xpath(""),
             "Description");
 
     private final IButton btnDownload = getActionButton(AndroidBookActionButtonKeys.DOWNLOAD);
@@ -37,12 +35,11 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private final IButton btnReserve = getActionButton(AndroidBookActionButtonKeys.RESERVE);
     private final IButton btnCancel = getActionButton(AndroidBookActionButtonKeys.CANCEL);
     private final IButton btnDelete = getActionButton(AndroidBookActionButtonKeys.DELETE);
-    private final IButton btnRelatedBooks = getElementFactory().getButton(
-            By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookDetailRelated\"]"),
+    private final IButton btnRelatedBooks = getElementFactory().getButton(By.xpath(""),
             "Related books button");
 
     public IosBookDetailsScreen() {
-        super(By.id("bookDetailCover"));
+        super(By.xpath(""));
     }
 
     @Override

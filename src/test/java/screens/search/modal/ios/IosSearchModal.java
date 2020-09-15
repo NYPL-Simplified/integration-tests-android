@@ -10,14 +10,14 @@ import screens.search.modal.SearchModal;
 @ScreenType(platform = PlatformName.IOS)
 public class IosSearchModal extends SearchModal {
     private final ITextBox txbSearch = getElementFactory().getTextBox(
-            By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/searchDialogText\"]"),
+            null,
             "Search value input");
     private final IButton btnSearch = getElementFactory().getButton(
-            By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/buttonPanel\"]//android.widget.Button"),
+            null,
             "Apply search button");
 
     public IosSearchModal() {
-        super(By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/parentPanel\"]"));
+        super(By.xpath(""));
     }
 
     @Override

@@ -29,7 +29,7 @@ public class IosMainCatalogToolbarForm extends MainCatalogToolbarForm {
     private final IButton btnSearch = getElementFactory().getButton(By.xpath(MAIN_ELEMENT_LOC +
             "//XCUIElementTypeButton[@name=\"Search\"]"), "Search");
     private final IButton btnMoreOptions = getElementFactory().getButton(
-            By.xpath(MAIN_ELEMENT_LOC + "//android.widget.ImageView[@content-desc=\"More options\"]"), "Menu"); // not defined on the ios app
+            By.xpath(MAIN_ELEMENT_LOC + " "), "Menu"); // not defined on the ios app
 
     public IosMainCatalogToolbarForm() {
         super(By.xpath(MAIN_ELEMENT_LOC));

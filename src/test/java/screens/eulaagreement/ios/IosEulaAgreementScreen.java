@@ -8,10 +8,10 @@ import screens.eulaagreement.EulaAgreementScreen;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosEulaAgreementScreen extends EulaAgreementScreen {
-    private final IButton btnAgree = getElementFactory().getButton(By.id("splashEulaAgree"), "Eula Agree");
+    private final IButton btnAgree = getElementFactory().getButton(null, "Eula Agree");
 
     public IosEulaAgreementScreen() {
-        super(By.id("splashEulaAgree"));
+        super(By.xpath(""));
     }
 
     @Override
