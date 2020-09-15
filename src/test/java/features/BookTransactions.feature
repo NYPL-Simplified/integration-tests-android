@@ -52,9 +52,8 @@ Feature: Book Transactions
       And I switch to 'LYRASIS' from side menu
     Then Books feed is loaded
     When I open category by chain:
-      | Nonfiction   |
-      | Art & Design |
-      | Photography  |
+      | Fiction   |
+      | Adventure |
       And GET book and save it as 'bookInfo'
       And Save current library for CANCEL_GET books after test
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen

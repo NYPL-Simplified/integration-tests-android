@@ -365,6 +365,7 @@ public class CatalogSteps {
 
     @Then("I check that the action button text equal to the {}")
     public void checkThatTheActionButtonTextEqualToTheExpected(AndroidBookActionButtonKeys actionButton) {
-        bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton);
+        Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton),
+                "I check that the action button text equal to the " + actionButton.getKey());
     }
 }
