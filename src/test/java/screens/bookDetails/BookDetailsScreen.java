@@ -13,8 +13,6 @@ public abstract class BookDetailsScreen extends Screen {
 
     public abstract void downloadBook();
 
-    public abstract void reserveBook();
-
     public abstract AndroidCatalogBookModel getBookInfo();
 
     public abstract boolean isValueInTheInformationBlockPresent(

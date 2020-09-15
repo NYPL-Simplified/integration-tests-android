@@ -23,13 +23,6 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
             + "and @text=\"%1$s\"]/following-sibling::*[@resource-id=\"org.nypl.simplified.simplye:id/value\"]";
     private static final String BOOK_ACTION_BUTTON_LOC = "//android.widget.Button[@content-desc=\"%1$s\"]";
 
-
-    private final IButton btnDownload =
-            getElementFactory().getButton(By.xpath("//android.widget.Button[@content-desc=\"Download Button\"]"), "Download");
-    private final IButton btnRead =
-            getElementFactory().getButton(By.xpath("//android.widget.Button[@content-desc=\"Read Button\"]"), "Read");
-    private final IButton btnReserve =
-            getElementFactory().getButton(By.xpath("//android.widget.Button[@content-desc=\"Reserve Button\"]"), "Reserve");
     private final ILabel lblBookInfo = getElementFactory().getLabel(By.id("bookDetailCoverImage"), "Cover Image");
     private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.id("bookDetailTitle"), "Book title");
     private final ILabel lblBookFormatInfo = getElementFactory().getLabel(By.id("bookDetailFormat"), "Book format");
@@ -38,12 +31,12 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
             By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookDetailDescriptionText\"]"),
             "Description");
 
-    private final IButton btnDownload = getActionButton(AndroidBookActionButtonKeys.DOWNLOAD);
     private final IButton btnRead = getActionButton(AndroidBookActionButtonKeys.READ);
     private final IButton btnReserve = getActionButton(AndroidBookActionButtonKeys.RESERVE);
     private final IButton btnCancel = getActionButton(AndroidBookActionButtonKeys.CANCEL);
     private final IButton btnDelete = getActionButton(AndroidBookActionButtonKeys.DELETE);
     private final IButton btnReturn = getActionButton(AndroidBookActionButtonKeys.RETURN);
+    private final IButton btnDownload = getActionButton(AndroidBookActionButtonKeys.DOWNLOAD);
     private final IButton btnRelatedBooks = getElementFactory().getButton(
             By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookDetailRelated\"]"),
             "Related books button");
@@ -56,11 +49,6 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     public void downloadBook() {
         btnDownload.click();
         btnRead.state().waitForDisplayed();
-    }
-
-    @Override
-    public void reserveBook() {
-        btnReserve.click();
     }
 
     @Override

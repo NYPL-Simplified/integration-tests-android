@@ -50,11 +50,6 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     }
 
     @Override
-    public void reserveBook() {
-        btnReserve.click();
-    }
-
-    @Override
     public AndroidCatalogBookModel getBookInfo() {
         return new AndroidCatalogBookModel()
                 .setImageTitle(lblBookInfo.getAttribute(CONTENT_ATTRIBUTE_NAME))
