@@ -15,4 +15,6 @@ public abstract class AccountsScreen extends Screen {
     public abstract void addAccount();
 
     public abstract void openFirstLibrary();
+
+    public abstract void deleteLibrary(String libraryName);
 }
