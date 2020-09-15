@@ -6,6 +6,7 @@ import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import models.android.AndroidCatalogBookModel;
 import org.testng.Assert;
 import screens.books.BooksScreen;
 
@@ -26,8 +27,14 @@ public class BooksSteps {
 
     @Then("Book {string} is present in Books List")
     public void checkBookInfoIsPresentInBooksList(String bookInfoKey) {
-        String bookInfo = context.get(bookInfoKey);
+        AndroidCatalogBookModel bookInfo = context.get(bookInfoKey);
         Assert.assertTrue(booksScreen.isBookPresent(bookInfo), "Book '" + bookInfo + "' is not present in Books List");
+    }
+
+    @Then("Book {string} is not present in Books List")
+    public void checkBookInfoIsNotPresentInBooksList(String bookInfoKey) {
+        AndroidCatalogBookModel bookInfo = context.get(bookInfoKey);
+        Assert.assertFalse(booksScreen.isBookPresent(bookInfo), "Book '" + bookInfo + "' is present in Books List");
     }
 
     @And("Count of books is equal to {int}")
@@ -38,5 +45,10 @@ public class BooksSteps {
     @When("I refresh list of books")
     public void refreshListOfBooks() {
         booksScreen.refreshList();
+    }
+
+    @And("I Read book {string}")
+    public void readBook(String bookInfoKey) {
+        booksScreen.readBook(context.get(bookInfoKey));
     }
 }
