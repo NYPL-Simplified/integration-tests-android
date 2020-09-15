@@ -37,8 +37,6 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
             "Description");
     private final IButton btnDownload = getActionButton(AndroidBookActionButtonKeys.DOWNLOAD);
     private final IButton btnRead = getActionButton(AndroidBookActionButtonKeys.READ);
-    private final IButton btnReserve = getActionButton(AndroidBookActionButtonKeys.RESERVE);
-    private final IButton btnCancel = getActionButton(AndroidBookActionButtonKeys.CANCEL);
     private final IButton btnDelete = getActionButton(AndroidBookActionButtonKeys.DELETE);
     private final IButton btnRelatedBooks = getElementFactory().getButton(By.xpath(""), // does not exist on the ios
             "Related books button");
@@ -51,11 +49,6 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     public void downloadBook() {
         btnDownload.click();
         btnRead.state().waitForDisplayed();
-    }
-
-    @Override
-    public void reserveBook() {
-        btnReserve.click();
     }
 
     @Override

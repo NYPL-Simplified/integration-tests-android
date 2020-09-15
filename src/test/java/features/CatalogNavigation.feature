@@ -158,3 +158,26 @@ Feature: Catalog Navigation
       And RESERVE book and save it as 'bookInfo'
       And Save current library for CANCEL_HOLD books after test
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
+
+  @logout @cancelGet
+  Scenario: Borrow book
+    When I add 'LYRASIS' account
+    Then Account 'LYRASIS' is present on Accounts screen
+    When I enter credentials for 'LYRASIS' account
+    Then Text on Login button is changed to Log out on Account screen
+    When I open Catalog
+      And I switch to 'LYRASIS' from side menu
+    Then Books feed is loaded
+    When I open category by chain:
+      | Nonfiction   |
+      | Art & Design |
+      | Art          |
+      And Save current library for CANCEL_GET books after test
+      And I open the book details for the subsequent GET and save it as 'bookInfo'
+      And I check that opened book contains READ button at book details screen
+      And Press on the book details screen at the action button RETURN
+      And I check that the action button text equal to the GET
+      And I return to previous screen
+      And I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button GET
+    Then I check that the action button text equal to the READ

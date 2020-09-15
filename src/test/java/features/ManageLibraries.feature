@@ -20,7 +20,7 @@ Feature: Manage Libraries
   Scenario: Switch library bookshelf
     Given Catalog is opened
     When I switch to 'The SimplyE Collection' from side menu
-      And I Get first book from shelf and save it as 'bookInfo'
+      And I Download first book from shelf and save it as 'bookInfo'
       And I open Books
     Then Book 'bookInfo' is present in Books List
     When I open Catalog
