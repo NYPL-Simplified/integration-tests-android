@@ -22,8 +22,6 @@ import java.util.Objects;
 public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeCollectionView";
 
-    private static final String ADD_BOOK_BUTTON_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
-
     private static final String BOOKS_LOC = ".//XCUIElementTypeCell";
     private static final String BOOK_BLOCK_BY_TITLE_LOC = "//XCUIElementTypeCell"
             + "[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
@@ -34,6 +32,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_AUTHOR_LOC = "//XCUIElementTypeStaticText[@name][2]";
     private static final String BOOK_TYPE_LOC = ""; // does not exist on ios
     private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
+    public static final String BOOK_OF_TYPE_WITH_BUTTON_LOCATOR_PATTERN = "";
 
     private final IButton btnDontAllowNotifications = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Don’t Allow\"]"),
             "Dont allow notifications");
@@ -118,17 +117,14 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     public AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.getKey();
         IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
-        button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        if (!button.state().isDisplayed()) {
+            button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
         String bookTitle =
-                getElementFactory().getButton(By.xpath("//android.view.ViewGroup[" + getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType) + "]" + BOOKS_LOC), key).getText();
+                getElementFactory().getButton(By.xpath("" + getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType) + ""), key).getText();
         AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
         button.click();
         return androidCatalogBookModel;
-    }
-
-    private String getBookAddButtonLocatorWithGivenType(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
-        String key = actionButtonKey.getKey();
-        return String.format("//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleMeta\" and @text=\"%1$s\"]/following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%2$s\"]", bookType, key);
     }
 
     private AndroidCatalogBookModel performActionOnBook(AndroidBookActionButtonKeys buttonName) {
@@ -156,8 +152,8 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         bookWithSpecificAddBtn.click();
     }
 
-    private IButton getAddBookButton(AndroidBookActionButtonKeys button) {
-        String key = button.getKey();
-        return getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN, key)), key);
+    private String getBookAddButtonLocatorWithGivenType(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
+        String key = actionButtonKey.getKey();
+        return String.format(BOOK_OF_TYPE_WITH_BUTTON_LOCATOR_PATTERN, bookType, key);
     }
 }

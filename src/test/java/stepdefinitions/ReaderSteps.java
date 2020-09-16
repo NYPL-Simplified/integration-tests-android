@@ -29,59 +29,52 @@ public class ReaderSteps {
     }
 
     @Then("Book page number is {int}")
-    public void bookPageNumberIs(int pageNumber) {
-        Assert.assertEquals(pageNumber, readerScreen.getPageNumber(), "Book page number is not correct");
-    }
-
-    @When("I scroll for book start")
-    public void iScrollForBookStart() {
-        readerScreen.scrollForBookStart();
+    public void checkBookPageNumberIs(int pageNumber) {
+        Assert.assertEquals(pageNumber, getPageNumber(readerScreen.getPageNumberInfo()), "Book page number is not correct");
     }
 
     @When("I swipe from left to right book corner")
-    public void iSwipeFromLeftToRightBookCorner() {
+    public void swipeFromLeftToRightBookCorner() {
         readerScreen.swipeFromLeftToRight();
     }
 
     @When("I swipe from right to left book corner")
-    public void iSwipeFromRightToLeftBookCorner() {
+    public void swipeFromRightToLeftBookCorner() {
         readerScreen.swipeFromRightToLeft();
     }
 
     @When("I click on left book corner")
-    public void iClickOnLeftBookCorner() {
+    public void clickOnLeftBookCorner() {
         readerScreen.clickLeftCorner();
     }
 
     @When("I click on right book corner")
-    public void iClickOnRightBookCorner() {
+    public void clickOnRightBookCorner() {
         readerScreen.clickRightCorner();
     }
 
     @When("I save page info as {string}")
-    public void iSavePageInfoAsPageInfo(String pageNumberInfo) {
+    public void savePageInfoAsPageInfo(String pageNumberInfo) {
         context.add(pageNumberInfo, readerScreen.getPageNumberInfo());
     }
 
     @Then("Book page number is bigger then previous {string}")
-    public void bookPageNumberIsBiggerThenPreviousPageInfo(String pageNumberInfo) {
+    public void checkBookPageNumberIsBiggerThenPreviousPageInfo(String pageNumberInfo) {
         String actualBookInfo = readerScreen.getPageNumberInfo();
         String expectedBookInfo = context.get(pageNumberInfo);
         int expectedPageNumber = getPageNumber(expectedBookInfo);
         int actualPageNumber = getPageNumber(actualBookInfo);
         Assert.assertTrue(expectedPageNumber + 1 == actualPageNumber ||
-                ((actualPageNumber == 1 || expectedPageNumber == 1) && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))));
+                (actualPageNumber == 1 && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))));
     }
 
     public int getPageNumber(String text) {
-        Pattern ptrn = Pattern.compile("Page (\\d+) of \\d+ \\(.*\\)");
-        Matcher matcher = ptrn.matcher(text);
+        Matcher matcher = getMatcher(text);
         return matcher.find() ? Integer.parseInt(matcher.group(1)) : 0;
     }
 
     public String getChapterName(String text) {
-        Pattern ptrn = Pattern.compile("Page (\\d+) of \\d+ (\\(.*\\))");
-        Matcher matcher = ptrn.matcher(text);
+        Matcher matcher = getMatcher(text);
         return matcher.find() ? matcher.group(2) : "";
     }
 
@@ -92,7 +85,11 @@ public class ReaderSteps {
         int expectedPageNumber = getPageNumber(expectedBookInfo);
         int actualPageNumber = getPageNumber(actualBookInfo);
         Assert.assertTrue(expectedPageNumber - 1 == actualPageNumber ||
-                ((actualPageNumber == 1 || expectedPageNumber == 1) && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))));
+                (actualPageNumber == 1 && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))));
+    }
 
+    private Matcher getMatcher(String text) {
+        Pattern pattern = Pattern.compile("Page (\\d+) of \\d+ (\\(.*\\))");
+        return pattern.matcher(text);
     }
 }

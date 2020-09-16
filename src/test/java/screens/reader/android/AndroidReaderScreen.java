@@ -1,6 +1,5 @@
 package screens.reader.android;
 
-import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.ILabel;
@@ -12,9 +11,6 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import screens.reader.ReaderScreen;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidReaderScreen extends ReaderScreen {
@@ -36,18 +32,6 @@ public class AndroidReaderScreen extends ReaderScreen {
         String text = lblBookName.getText();
         AqualityServices.getLogger().info("Book name - " + text);
         return text;
-    }
-
-    @Override
-    public int getPageNumber() {
-        Pattern ptrn = Pattern.compile("Page (\\d+) of \\d+ \\(.*\\)");
-        Matcher matcher = ptrn.matcher(lblPageNumber.getText());
-        return matcher.find() ? Integer.parseInt(matcher.group(1)) : 0;
-    }
-
-    @Override
-    public void scrollForBookStart() {
-        lblBookTextPage.getTouchActions().scrollToElement(SwipeDirection.RIGHT);
     }
 
     @Override

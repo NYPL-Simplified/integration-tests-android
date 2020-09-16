@@ -36,6 +36,8 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_TYPE_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleMeta\"]";
     private static final String BOOK_ADD_BUTTON_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]"
             + "/android.widget.Button[@content-desc=\"%1$s\"]";
+    public static final String BOOK_OF_TYPE_BUTTON_PATTERN =
+            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleMeta\" and @text=\"%1$s\"]/following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%2$s\"]";
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
@@ -151,6 +153,6 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     private String getBookAddButtonLocatorWithGivenType(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.getKey();
-        return String.format("//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleMeta\" and @text=\"%1$s\"]/following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%2$s\"]", bookType, key);
+        return String.format(BOOK_OF_TYPE_BUTTON_PATTERN, bookType, key);
     }
 }
