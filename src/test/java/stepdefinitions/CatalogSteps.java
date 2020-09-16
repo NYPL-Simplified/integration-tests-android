@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class CatalogSteps {
-    public static final String DOWNLOAD_BUTTON_NAME = "Download";
     private final BottomMenuForm bottomMenuForm;
     private final CatalogScreen catalogScreen;
     private final SubcategoryScreen subcategoryScreen;
@@ -240,13 +239,18 @@ public class CatalogSteps {
 
     @Then("All books can be downloaded")
     public void checkAllBooksCanBeDownloaded() {
-        Assert.assertTrue(subcategoryScreen.getAllButtonsNames().stream().allMatch(x -> x.equals(DOWNLOAD_BUTTON_NAME)),
+        Assert.assertTrue(subcategoryScreen.getAllButtonsNames()
+                        .stream()
+                        .allMatch(x -> x.equals(BookActionButtonKeys.DOWNLOAD.i18n())),
                 "Not all present books can be downloaded");
     }
 
     @Then("All books can be loaned or downloaded")
     public void checkAllBooksCanBeLoanedOrDownloaded() {
-        Assert.assertTrue(subcategoryScreen.getAllButtonsNames().stream().allMatch(x -> x.equals("Get") || x.equals(DOWNLOAD_BUTTON_NAME)),
+        Assert.assertTrue(subcategoryScreen.getAllButtonsNames()
+                        .stream()
+                        .allMatch(x -> x.equals(BookActionButtonKeys.GET.i18n())
+                                || x.equals(BookActionButtonKeys.DOWNLOAD.i18n())),
                 "Not all present books can be loaned or downloaded");
     }
 
