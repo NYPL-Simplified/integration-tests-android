@@ -5,7 +5,7 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.application.account.AndroidAccountScreenLoginStatus;
+import constants.localization.application.account.AccountScreenLoginStatus;
 import constants.application.timeouts.AuthorizationTimeouts;
 import framework.utilities.keyboard.KeyboardUtils;
 import org.openqa.selenium.By;
@@ -19,10 +19,10 @@ public class IosAccountScreen extends AccountScreen {
     private static final String LOGIN_BTN_LOC_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]\n";
 
     private final IButton btnLogin = getElementFactory().getButton(
-            By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AndroidAccountScreenLoginStatus.LOG_IN.getStatus())),
+            By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AccountScreenLoginStatus.LOG_IN.i18n())),
             "Log in");
     private final IButton btnLogout = getElementFactory().getButton(
-            By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AndroidAccountScreenLoginStatus.LOG_OUT.getStatus())),
+            By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AccountScreenLoginStatus.LOG_OUT.i18n())),
             "Log out");
     private final IButton btnApproveSignOut = getElementFactory().getButton(
             By.xpath("//XCUIElementTypeButton[@name=\"Sign Out\"]"),
@@ -61,13 +61,13 @@ public class IosAccountScreen extends AccountScreen {
     @Override
     public boolean isLoginSuccessful() {
         return AqualityServices.getConditionalWait().waitFor(() ->
-                btnLogout.getText().equals(AndroidAccountScreenLoginStatus.LOG_OUT.getStatus()));
+                btnLogout.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n()));
     }
 
     @Override
     public boolean isLogoutSuccessful() {
         return AqualityServices.getConditionalWait().waitFor(() ->
-                btnLogin.getText().equals(AndroidAccountScreenLoginStatus.LOG_IN.getStatus()));
+                btnLogin.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n()));
     }
 
     @Override
@@ -77,7 +77,7 @@ public class IosAccountScreen extends AccountScreen {
         btnLogout.click();
         btnApproveSignOut.click();
         AqualityServices.getConditionalWait().waitFor(() ->
-                        btnLogin.getText().equals(AndroidAccountScreenLoginStatus.LOG_IN.getStatus())
+                        btnLogin.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n())
                                 && !txbCard.getText().equals(loginTextBeforeLogout)
                                 && !txbPin.getText().equals(passwordTextBeforeLogout),
                 Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getTimeoutMillis()));

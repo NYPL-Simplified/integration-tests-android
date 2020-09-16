@@ -11,17 +11,11 @@ public abstract class SubcategoryScreen extends Screen {
         super(locator, "Subcategory");
     }
 
-    public abstract String getSubcategoryName();
-
     public abstract String getFirstBookInfo();
 
     public abstract void openFirstBook();
 
-    public abstract void sortBy(String sortingCategory);
-
     public abstract List<String> getBooksInfo();
-
-    public abstract void sortByAvailability(String sortingCategory);
 
     public abstract List<String> getAllButtonsNames();
 

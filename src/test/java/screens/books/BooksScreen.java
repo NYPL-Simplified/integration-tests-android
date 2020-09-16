@@ -1,7 +1,7 @@
 package screens.books;
 
 import aquality.appium.mobile.screens.Screen;
-import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 
@@ -16,9 +16,9 @@ public abstract class BooksScreen extends Screen {
 
     public abstract int getCountOfBooks();
 
-    public abstract int getCountOfBooksWithAction(AndroidBookActionButtonKeys actionKey);
+    public abstract int getCountOfBooksWithAction(BookActionButtonKeys actionKey);
 
-    public abstract void openBookPage(int index, AndroidBookActionButtonKeys actionKey);
+    public abstract void openBookPage(int index, BookActionButtonKeys actionKey);
 
     public abstract void refreshList();
 

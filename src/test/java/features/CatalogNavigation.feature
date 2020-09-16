@@ -4,15 +4,15 @@ Feature: Catalog Navigation
     Given Application is opened
 
   Scenario: Return to last library catalog
-    When I add 'Hartford Public Library' account
-    Then Account 'Hartford Public Library' is present on Accounts screen
+    When I add 'The New York Public Library' account
+    Then Account 'The New York Public Library' is present on Accounts screen
     When I open Catalog
     Then Books feed is loaded
-    When I switch to 'Hartford Public Library' from side menu
+    When I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
     When I restart app
     Then Books feed is loaded
-      And Current library is 'Hartford Public Library' in Catalog
+      And Current library is 'The New York Public Library' in Catalog
 
   Scenario: Navigate Lists
     When I open Catalog
@@ -75,25 +75,25 @@ Feature: Catalog Navigation
       And I open 'Fiction' category
       And I open 'Drama' subcategory
     Then Subcategory screen is present
-    When I sort books by 'Author'
+    When I sort books by AUTHOR
     Then Subcategory screen is present
       And Books are sorted by Author ascending
-    When I sort books by 'Title'
+    When I sort books by TITLE
     Then Subcategory screen is present
       And Books are sorted by Title ascending
     When I save list of books as 'listOfBooks'
-      And I sort books by 'Recently Added'
+      And I sort books by RECENTLY_ADDED
     Then Subcategory screen is present
       And List of books on subcategory screen is not equal to list of books saved as 'listOfBooks'
     When I save list of books as 'recentlyAddedListOfBooks'
-      And I sort books by 'Random'
+      And I sort books by RANDOM
     Then List of books on subcategory screen is not equal to list of books saved as 'recentlyAddedListOfBooks'
     When I save list of books as 'randomListOfBooks'
-      And I select book by Availability - 'Available now'
+      And Change books visibility to show AVAILABLE_NOW
     Then All books can be loaned or downloaded
-    When I select book by Availability - 'All'
+    When I change books visibility to show ALL
     Then Subcategory screen is present
-    When I select book by Availability - 'Yours to keep'
+    When I change books visibility to show YOURS_TO_KEEP
     Then All books can be downloaded
 
   Scenario: View Book Details

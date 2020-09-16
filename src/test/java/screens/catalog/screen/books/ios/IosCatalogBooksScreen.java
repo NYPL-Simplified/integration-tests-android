@@ -8,7 +8,7 @@ import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.AndroidAttributes;
-import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
@@ -82,16 +82,16 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
 
     @Override
-    public AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys bookAddButtonKey) {
+    public AndroidCatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
         return performActionOnBook(bookAddButtonKey);
     }
 
     @Override
-    public void clickTheBookByTitleBtnWithKey(String title, AndroidBookActionButtonKeys key) {
+    public void clickTheBookByTitleBtnWithKey(String title, BookActionButtonKeys key) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
-                        key.getKey())), String.format("Book %1$s button", key.getKey()));
+                        key.i18n())), String.format("Book %1$s button", key.i18n()));
         clickOnTheSpecificBookElement(bookAddBtn);
 
         if (btnDontAllowNotifications.state().waitForDisplayed()) {
@@ -100,21 +100,21 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public void openBookDetailsWithAction(AndroidBookActionButtonKeys action) {
+    public void openBookDetailsWithAction(BookActionButtonKeys action) {
         clickOnTheSpecificBookElement(getBookJacketWithGivenButtonLabel(action));
     }
 
     @Override
-    public boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookActionButtonKeys key) {
+    public boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, bookTitle);
         final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.getKey())),
-                String.format("Book %1$s button", key.getKey()));
+                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.i18n())),
+                String.format("Book %1$s button", key.i18n()));
         return bookAddBtn.state().waitForDisplayed(
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
-    private AndroidCatalogBookModel performActionOnBook(AndroidBookActionButtonKeys buttonName) {
+    private AndroidCatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         String bookTitle =
@@ -128,8 +128,8 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         return androidCatalogBookModel;
     }
 
-    private ILabel getBookJacketWithGivenButtonLabel(AndroidBookActionButtonKeys button) {
-        String key = button.getKey();
+    private ILabel getBookJacketWithGivenButtonLabel(BookActionButtonKeys button) {
+        String key = button.i18n();
         return getElementFactory().getLabel(By.xpath(String.format(BOOK_BLOCK_BY_BUTTON_LOC, key)),
                 "Book jacket with btn " + key);
     }
@@ -139,8 +139,8 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         bookWithSpecificAddBtn.click();
     }
 
-    private IButton getAddBookButton(AndroidBookActionButtonKeys button) {
-        String key = button.getKey();
+    private IButton getAddBookButton(BookActionButtonKeys button) {
+        String key = button.i18n();
         return getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN, key)), key);
     }
 }

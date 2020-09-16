@@ -1,8 +1,8 @@
 package screens.bookDetails;
 
 import aquality.appium.mobile.screens.Screen;
-import constants.application.bookdetals.AndroidBookDetailsScreenInformationBlockKeys;
-import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.localization.application.bookdetals.BookDetailsScreenInformationBlockKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 
@@ -16,7 +16,7 @@ public abstract class BookDetailsScreen extends Screen {
     public abstract AndroidCatalogBookModel getBookInfo();
 
     public abstract boolean isValueInTheInformationBlockPresent(
-            AndroidBookDetailsScreenInformationBlockKeys key, String value);
+            BookDetailsScreenInformationBlockKeys key, String value);
 
     public abstract boolean isDescriptionPresent();
 
@@ -26,7 +26,7 @@ public abstract class BookDetailsScreen extends Screen {
 
     public abstract void deleteBook();
 
-    public abstract boolean isBookAddButtonTextEqualTo(AndroidBookActionButtonKeys key);
+    public abstract boolean isBookAddButtonTextEqualTo(BookActionButtonKeys key);
 
-    public abstract void clickActionButton(AndroidBookActionButtonKeys buttonKeys);
+    public abstract void clickActionButton(BookActionButtonKeys buttonKeys);
 }

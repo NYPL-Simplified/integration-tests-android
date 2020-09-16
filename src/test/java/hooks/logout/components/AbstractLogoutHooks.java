@@ -1,10 +1,8 @@
 package hooks.logout.components;
 
 import aquality.appium.mobile.application.AqualityServices;
-import com.google.inject.Inject;
-import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import framework.utilities.ScenarioContext;
-import io.cucumber.java.After;
 import screens.account.AccountScreen;
 import screens.accounts.AccountsScreen;
 import screens.bookDetails.BookDetailsScreen;
@@ -73,11 +71,11 @@ public abstract class AbstractLogoutHooks extends BaseSteps {
                     catalogScreen.openLibrary(library);
                     bottomMenuForm.open(BottomMenu.BOOKS);
 
-                    IntStream.range(0, booksScreen.getCountOfBooksWithAction(AndroidBookActionButtonKeys.READ))
+                    IntStream.range(0, booksScreen.getCountOfBooksWithAction(BookActionButtonKeys.READ))
                             .forEach(index -> {
-                                booksScreen.openBookPage(index, AndroidBookActionButtonKeys.READ);
-                                bookDetailsScreen.clickActionButton(AndroidBookActionButtonKeys.RETURN);
-                                bookDetailsScreen.isBookAddButtonTextEqualTo(AndroidBookActionButtonKeys.GET);
+                                booksScreen.openBookPage(index, BookActionButtonKeys.READ);
+                                bookDetailsScreen.clickActionButton(BookActionButtonKeys.RETURN);
+                                bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.GET);
                                 bottomMenuForm.open(BottomMenu.BOOKS);
                             });
                 }));

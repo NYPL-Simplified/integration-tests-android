@@ -5,7 +5,7 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import framework.utilities.swipe.SwipeElementUtils;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
@@ -62,13 +62,13 @@ public class IosBooksScreen extends BooksScreen {
     }
 
     @Override
-    public int getCountOfBooksWithAction(AndroidBookActionButtonKeys actionKey) {
+    public int getCountOfBooksWithAction(BookActionButtonKeys actionKey) {
         return getElementFactory().findElements(
                 By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionKey)), ElementType.LABEL).size();
     }
 
     @Override
-    public void openBookPage(int index, AndroidBookActionButtonKeys actionKey) {
+    public void openBookPage(int index, BookActionButtonKeys actionKey) {
         getElementFactory()
                 .findElements(By.xpath(String.format(BOOKS_WITH_ACTION_LOC, actionKey)), ElementType.BUTTON)
                 .get(index)
@@ -82,7 +82,7 @@ public class IosBooksScreen extends BooksScreen {
 
     @Override
     public void readBook(AndroidCatalogBookModel bookInfo) {
-        String readButtonName = AndroidBookActionButtonKeys.READ.getKey();
+        String readButtonName = BookActionButtonKeys.READ.i18n();
         getElementFactory().getButton(By.xpath(String.format(BOOK_INFO_BUTTON_PATTERN, String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle()), readButtonName)), readButtonName).click();
     }
 }

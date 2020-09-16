@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosCatalogScreen extends CatalogScreen {
+
     private static final String MAIN_ELEMENT = "//XCUIElementTypeTable[.//XCUIElementTypeButton]";
 
     private static final String CATEGORY_LOCATOR = "(//XCUIElementTypeButton[@name=\"%1$s\"])[1]";
@@ -97,7 +98,7 @@ public class IosCatalogScreen extends CatalogScreen {
 
     @Override
     public void switchToCatalogTab(String catalogTab) {
-        getElementFactory().getButton(By.xpath("//android.widget.RadioButton[@text=\"" + catalogTab + "\"]"), catalogTab).click();
+        getElementFactory().getButton(By.xpath(String.format("//XCUIElementTypeButton[@name=\"%1$s\"]", catalogTab)), catalogTab).click();
     }
 
     @Override

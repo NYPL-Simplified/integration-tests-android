@@ -2,9 +2,10 @@ package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
-import constants.application.catalog.AndroidBookActionButtonKeys;
-import constants.application.facetedSearch.AndroidFacetAvailabilityKeys;
 import constants.context.ContextLibrariesKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
+import constants.localization.application.facetedSearch.FacetAvailabilityKeys;
+import constants.localization.application.facetedSearch.FacetSortByKeys;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -104,7 +105,7 @@ public class CatalogSteps {
 
     @And("Current library is {string} in Catalog")
     public void checkCurrentLibraryIsCorrect(String expectedLibraryName) {
-        Assert.assertEquals(expectedLibraryName, mainCatalogToolbarForm.getCatalogName(),
+        Assert.assertEquals(mainCatalogToolbarForm.getCatalogName(), expectedLibraryName,
                 "Current library name is not correct");
     }
 
@@ -115,6 +116,7 @@ public class CatalogSteps {
     }
 
     @Then("Current category name is {string}")
+    @And("Subcategory name is {string}")
     public void checkCurrentCategoryName(String expectedCategoryName) {
         Assert.assertTrue(AqualityServices.getConditionalWait()
                         .waitFor(() -> mainCatalogToolbarForm.getCategoryName().equals(expectedCategoryName),
@@ -126,12 +128,6 @@ public class CatalogSteps {
     @Then("Subcategory screen is present")
     public void checkSubcategoryScreenIsPresent() {
         Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), "Subcategory screen is not present");
-    }
-
-    @And("Subcategory name is {string}")
-    public void checkSubcategoryNameIsCorrect(String expectedSubcategoryName) {
-        Assert.assertEquals(expectedSubcategoryName, subcategoryScreen.getSubcategoryName(),
-                "Current subcategory name is not correct");
     }
 
     @And("Following subcategories are present:")
@@ -153,7 +149,7 @@ public class CatalogSteps {
     @When("I open the book details for the subsequent {} and save it as {string}")
     @And("Open the book details for the subsequent {} and save it as {string}")
     public void openBookDetailsExecuteBookActionAndSaveItToContext(
-            AndroidBookActionButtonKeys actionButtonKey, String bookInfoKey) {
+            BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         catalogBooksScreen.openBookDetailsWithAction(actionButtonKey);
         bookDetailsScreen.clickActionButton(actionButtonKey);
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
@@ -161,12 +157,12 @@ public class CatalogSteps {
 
     @And("{} book and save it as {string}")
     public void executeBookActionAndSaveItToContextAndLibraryCancel(
-            AndroidBookActionButtonKeys actionButtonKey, String bookInfoKey) {
+            BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey));
     }
 
     @When("I click on the book {string} button {} on catalog books screen")
-    public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, AndroidBookActionButtonKeys key) {
+    public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
         AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
         catalogBooksScreen.clickTheBookByTitleBtnWithKey(androidCatalogBookModel.getTitle(), key);
     }
@@ -227,23 +223,19 @@ public class CatalogSteps {
 
     @Then("All present books are audiobooks")
     public void checkAllPresentBooksAreAudiobooks() {
-        Assert.assertTrue(catalogScreen.getListOfBooksNames().stream().allMatch(x -> x.contains("audiobook")),
+        Assert.assertTrue(catalogScreen.getListOfBooksNames().stream().allMatch(x -> x.toLowerCase().contains("audiobook")),
                 "Not all present books are audiobooks");
     }
 
-    @And("I sort books by {string}")
-    public void sortBooksBy(String sortingCategory) {
-        subcategoryScreen.sortBy(sortingCategory);
+    @And("I sort books by {}")
+    public void sortBooksBy(FacetSortByKeys sortingCategory) {
+        facetedSearchScreen.sortBy();
+        facetedSearchScreen.changeSortByTo(sortingCategory);
     }
 
     @When("I save list of books as {string}")
     public void saveListOfBooks(String booksInfoKey) {
         context.add(booksInfoKey, subcategoryScreen.getBooksInfo());
-    }
-
-    @And("I select book by Availability - {string}")
-    public void selectBookByAvailability(String sortingCategory) {
-        subcategoryScreen.sortByAvailability(sortingCategory);
     }
 
     @Then("All books can be downloaded")
@@ -341,18 +333,18 @@ public class CatalogSteps {
 
     @Then("Book saved as {string} should contain {} button at catalog books screen")
     public void checkThatSavedBookContainButtonAtCatalogBooksScreen(
-            final String bookInfoKey, final AndroidBookActionButtonKeys key) {
+            final String bookInfoKey, final BookActionButtonKeys key) {
         AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
         Assert.assertTrue(catalogBooksScreen.isBookAddButtonTextEqualTo(
                 androidCatalogBookModel.getTitle(), key),
                 String.format("Book with title '%1$s' add button does not contain text '%2$s'",
-                        androidCatalogBookModel.getTitle(), key.getKey()));
+                        androidCatalogBookModel.getTitle(), key.i18n()));
     }
 
     @Then("I check that opened book contains {} button at book details screen")
-    public void checkThatSavedBookContainButtonAtBookDetailsScreen(final AndroidBookActionButtonKeys key) {
+    public void checkThatSavedBookContainButtonAtBookDetailsScreen(final BookActionButtonKeys key) {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(key),
-                String.format("Opened book add button does not contain text %1$s", key.getKey()));
+                String.format("Opened book add button does not contain text %1$s", key.i18n()));
     }
 
     @And("I delete book from book details screen")
@@ -368,19 +360,20 @@ public class CatalogSteps {
 
     @When("I press on the book details screen at the action button {}")
     @And("Press on the book details screen at the action button {}")
-    public void pressOnTheBookDetailsScreenAtTheActionButton(AndroidBookActionButtonKeys actionButton) {
+    public void pressOnTheBookDetailsScreenAtTheActionButton(BookActionButtonKeys actionButton) {
         bookDetailsScreen.clickActionButton(actionButton);
     }
 
     @Then("I check that the action button text equal to the {}")
-    public void checkThatTheActionButtonTextEqualToTheExpected(AndroidBookActionButtonKeys actionButton) {
+    public void checkThatTheActionButtonTextEqualToTheExpected(BookActionButtonKeys actionButton) {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton),
-                "I check that the action button text equal to the " + actionButton.getKey());
+                "I check that the action button text equal to the " + actionButton.i18n());
     }
 
+    @When("I change books visibility to show {}")
     @And("Change books visibility to show {}")
-    public void checkThatTheActionButtonTextEqualToTheExpected(AndroidFacetAvailabilityKeys androidFacetAvailabilityKeys) {
+    public void checkThatTheActionButtonTextEqualToTheExpected(FacetAvailabilityKeys facetAvailabilityKeys) {
         facetedSearchScreen.openAvailabilityMenu();
-        facetedSearchScreen.changeAvailabilityTo(androidFacetAvailabilityKeys);
+        facetedSearchScreen.changeAvailabilityTo(facetAvailabilityKeys);
     }
 }
