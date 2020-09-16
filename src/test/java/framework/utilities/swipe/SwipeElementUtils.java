@@ -19,4 +19,13 @@ public final class SwipeElementUtils {
         ITouchActions touchActions = AqualityServices.getTouchActions();
         touchActions.swipe(center, new Point(upperLeft.x, upperLeft.y + dimensions.height / 2));
     }
+
+    public static void swipeElementDown(IElement element) {
+        Point upperLeft = element.getElement().getLocation();
+        Point center = element.getElement().getCenter();
+        Dimension dimensions = element.getElement().getSize();
+
+        ITouchActions touchActions = AqualityServices.getTouchActions();
+        touchActions.swipe(center, new Point(upperLeft.x + dimensions.width / 2, upperLeft.y + dimensions.height));
+    }
 }

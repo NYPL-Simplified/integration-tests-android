@@ -7,7 +7,7 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.android.catalog.AndroidBookActionButtonKeys;
+import constants.application.catalog.AndroidBookActionButtonKeys;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 import screens.books.BooksScreen;

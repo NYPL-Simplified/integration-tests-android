@@ -1,7 +1,7 @@
 {
-  "platformName" : "android",
+  "platformName" : "ios",
   "isRemote": true,
-  "remoteConnectionUrl": null,
+  "remoteConnectionUrl": "",
   "screensLocation": "screens",
 
   "driverSettings": {
@@ -9,16 +9,16 @@
       "deviceKey": "Samsung_Galaxy",
       "capabilities": {
         "platformName": "Android",
-        "app": null,
+        "app": "",
         "automationName": "UiAutomator2",
         "adbExecTimeout": 10000
       }
     },
     "ios": {
       "deviceKey": "iOS_Simulator",
-      "applicationPath": "",
       "capabilities": {
         "platformName": "iOS",
+        "app": "",
         "automationName": "XCUITest",
         "bundleId": ""
       }
@@ -35,7 +35,7 @@
     "timeoutImplicit" : 0,
     "timeoutCondition" : 15,
     "timeoutPollingInterval": 300,
-    "timeoutCommand":120
+    "timeoutCommand": 120
   },
   "retry": {
     "number": 2,

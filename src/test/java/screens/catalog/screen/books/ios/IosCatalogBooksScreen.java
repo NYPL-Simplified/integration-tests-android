@@ -7,9 +7,9 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.android.AndroidAttributes;
-import constants.android.catalog.AndroidBookActionButtonKeys;
-import constants.android.timeouts.BooksTimeouts;
+import constants.application.AndroidAttributes;
+import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.application.timeouts.BooksTimeouts;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 import screens.catalog.screen.books.CatalogBooksScreen;
@@ -20,19 +20,23 @@ import java.util.Objects;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosCatalogBooksScreen extends CatalogBooksScreen {
-    private static final String MAIN_ELEMENT = "";
+    private static final String MAIN_ELEMENT = "//XCUIElementTypeCollectionView";
 
-    private static final String ADD_BOOK_BUTTON_PATTERN = "";
+    private static final String ADD_BOOK_BUTTON_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
-    private static final String BOOKS_LOC = "";
-    private static final String BOOK_BLOCK_BY_TITLE_LOC = "";
+    private static final String BOOKS_LOC = ".//XCUIElementTypeCell";
+    private static final String BOOK_BLOCK_BY_TITLE_LOC = "//XCUIElementTypeCell"
+            + "[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
+    private static final String BOOK_BLOCK_BY_BUTTON_LOC = "//XCUIElementTypeCell[.//XCUIElementTypeButton[@name=\"%1$s\"]]";
 
-    private static final String BOOK_IMAGE_LOC = "";
-    private static final String BOOK_TITLE_LOC = "";
-    private static final String BOOK_AUTHOR_LOC = "";
-    private static final String BOOK_TYPE_LOC = "";
-    private static final String BOOK_ADD_BUTTON_LOC = "";
+    private static final String BOOK_IMAGE_LOC = "//XCUIElementTypeImage";
+    private static final String BOOK_TITLE_LOC = "//XCUIElementTypeStaticText[@name][1]";
+    private static final String BOOK_AUTHOR_LOC = "//XCUIElementTypeStaticText[@name][2]";
+    private static final String BOOK_TYPE_LOC = ""; // does not exist on ios
+    private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
+    private final IButton btnDontAllowNotifications = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Don’t Allow\"]"),
+            "Dont allow notifications");
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
 
@@ -89,6 +93,10 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
                         key.getKey())), String.format("Book %1$s button", key.getKey()));
         clickOnTheSpecificBookElement(bookAddBtn);
+
+        if (btnDontAllowNotifications.state().waitForDisplayed()) {
+            btnDontAllowNotifications.click();
+        }
     }
 
     @Override
@@ -113,12 +121,17 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
                 getBookJacketWithGivenButtonLabel(buttonName).findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL).getText();
         AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
         button.click();
+
+        if (btnDontAllowNotifications.state().waitForDisplayed()) {
+            btnDontAllowNotifications.click();
+        }
         return androidCatalogBookModel;
     }
 
     private ILabel getBookJacketWithGivenButtonLabel(AndroidBookActionButtonKeys button) {
         String key = button.getKey();
-        return getElementFactory().getLabel(null, "Book jacket with" + key);
+        return getElementFactory().getLabel(By.xpath(String.format(BOOK_BLOCK_BY_BUTTON_LOC, key)),
+                "Book jacket with btn " + key);
     }
 
     private void clickOnTheSpecificBookElement(IElement bookWithSpecificAddBtn) {

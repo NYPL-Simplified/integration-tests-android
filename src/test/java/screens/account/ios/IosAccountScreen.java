@@ -5,8 +5,8 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.android.account.AndroidAccountScreenLoginStatus;
-import constants.android.timeouts.AuthorizationTimeouts;
+import constants.application.account.AndroidAccountScreenLoginStatus;
+import constants.application.timeouts.AuthorizationTimeouts;
 import framework.utilities.keyboard.KeyboardUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -16,7 +16,7 @@ import java.time.Duration;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosAccountScreen extends AccountScreen {
-    private static final String LOGIN_BTN_LOC_PATTERN = "%1$s";
+    private static final String LOGIN_BTN_LOC_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]\n";
 
     private final IButton btnLogin = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AndroidAccountScreenLoginStatus.LOG_IN.getStatus())),
@@ -24,11 +24,14 @@ public class IosAccountScreen extends AccountScreen {
     private final IButton btnLogout = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AndroidAccountScreenLoginStatus.LOG_OUT.getStatus())),
             "Log out");
-    private final ITextBox txbCard = getElementFactory().getTextBox(By.id(""), "Card");
-    private final ITextBox txbPin = getElementFactory().getTextBox(By.id(""), "Pin");
+    private final IButton btnApproveSignOut = getElementFactory().getButton(
+            By.xpath("//XCUIElementTypeButton[@name=\"Sign Out\"]"),
+            "Log out approve");
+    private final ITextBox txbCard = getElementFactory().getTextBox(By.xpath("//XCUIElementTypeTextField[@value]"), "Card");
+    private final ITextBox txbPin = getElementFactory().getTextBox(By.xpath("//XCUIElementTypeSecureTextField[@value]"), "Pin");
 
     public IosAccountScreen() {
-        super(By.id(""));
+        super(By.xpath("//XCUIElementTypeNavigationBar[@name=\"Account\"]"));
     }
 
     @Override
@@ -72,6 +75,7 @@ public class IosAccountScreen extends AccountScreen {
         final String loginTextBeforeLogout = txbCard.getText();
         final String passwordTextBeforeLogout = txbPin.getText();
         btnLogout.click();
+        btnApproveSignOut.click();
         AqualityServices.getConditionalWait().waitFor(() ->
                         btnLogin.getText().equals(AndroidAccountScreenLoginStatus.LOG_IN.getStatus())
                                 && !txbCard.getText().equals(loginTextBeforeLogout)

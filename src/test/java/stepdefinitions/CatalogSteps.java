@@ -2,7 +2,8 @@ package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
-import constants.android.catalog.AndroidBookActionButtonKeys;
+import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.application.facetedSearch.AndroidFacetAvailabilityKeys;
 import constants.context.ContextLibrariesKeys;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
@@ -21,6 +22,7 @@ import screens.bottommenu.BottomMenuForm;
 import screens.catalog.form.MainCatalogToolbarForm;
 import screens.catalog.screen.books.CatalogBooksScreen;
 import screens.catalog.screen.catalog.CatalogScreen;
+import screens.facetedSearch.FacetedSearchScreen;
 import screens.subcategory.SubcategoryScreen;
 
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class CatalogSteps {
     private final BookDetailsScreen bookDetailsScreen;
     private final MainCatalogToolbarForm mainCatalogToolbarForm;
     private final CatalogBooksScreen catalogBooksScreen;
+    private final FacetedSearchScreen facetedSearchScreen;
     private final ScenarioContext context;
 
     @Inject
@@ -50,6 +53,7 @@ public class CatalogSteps {
         bookDetailsScreen = AqualityServices.getScreenFactory().getScreen(BookDetailsScreen.class);
         subcategoryScreen = AqualityServices.getScreenFactory().getScreen(SubcategoryScreen.class);
         catalogBooksScreen = AqualityServices.getScreenFactory().getScreen(CatalogBooksScreen.class);
+        facetedSearchScreen = AqualityServices.getScreenFactory().getScreen(FacetedSearchScreen.class);
     }
 
     @Then("Books feed is loaded")
@@ -170,6 +174,16 @@ public class CatalogSteps {
     @And("Save current library for {} books after test")
     public void saveLibraryForCancel(ContextLibrariesKeys contextLibrariesKeys) {
         String libraryName = mainCatalogToolbarForm.getCatalogName();
+        List<String> listOfLibraries = context.containsKey(contextLibrariesKeys.getKey())
+                ? context.get(contextLibrariesKeys.getKey())
+                : new ArrayList<>();
+
+        listOfLibraries.add(libraryName);
+        context.add(contextLibrariesKeys.getKey(), listOfLibraries);
+    }
+
+    @And("Save current {string} library for {} books after test")
+    public void saveLibraryForCancel(String libraryName, ContextLibrariesKeys contextLibrariesKeys) {
         List<String> listOfLibraries = context.containsKey(contextLibrariesKeys.getKey())
                 ? context.get(contextLibrariesKeys.getKey())
                 : new ArrayList<>();
@@ -362,5 +376,11 @@ public class CatalogSteps {
     public void checkThatTheActionButtonTextEqualToTheExpected(AndroidBookActionButtonKeys actionButton) {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton),
                 "I check that the action button text equal to the " + actionButton.getKey());
+    }
+
+    @And("Change books visibility to show {}")
+    public void checkThatTheActionButtonTextEqualToTheExpected(AndroidFacetAvailabilityKeys androidFacetAvailabilityKeys) {
+        facetedSearchScreen.openAvailabilityMenu();
+        facetedSearchScreen.changeAvailabilityTo(androidFacetAvailabilityKeys);
     }
 }

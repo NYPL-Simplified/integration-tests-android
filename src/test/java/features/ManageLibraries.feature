@@ -31,24 +31,25 @@ Feature: Manage Libraries
 
   @logout @cancelHold
   Scenario: Switch Library Reservations
-    When I enter credentials for 'Hartford Public Library' account
+    When I add 'Hartford Public Library' account
+    Then Account 'Hartford Public Library' is present on Accounts screen
+    When I enter credentials for 'The New York Public Library' account
     Then Text on Login button is changed to Log out on Account screen
     When I open Catalog
-      And I switch to 'Hartford Public Library' from side menu
+      And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
     When I open category by chain:
-      | Fiction |
-      | Drama   |
+      | 2020's Hottest Books |
+      And Change books visibility to show ALL
       And I open the book details for the subsequent RESERVE and save it as 'bookInfo'
-      And Save current library for CANCEL_HOLD books after test
+      And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
       And Open Holds
     Then Holds feed is loaded
       And Book 'bookInfo' is present in Holds List
     When I open Catalog
       And I return to previous screen
       And I return to previous screen
-      And I return to previous screen
-      And I switch to 'The SimplyE Collection' from side menu
+      And I switch to 'Hartford Public Library' from side menu
       And Open Holds
     Then Holds feed is loaded
       And No books are present in Holds list
