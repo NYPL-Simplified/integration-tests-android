@@ -22,6 +22,7 @@ import java.util.Objects;
 public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeCollectionView";
 
+    private static final String ADD_BOOK_BUTTON_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
     private static final String BOOKS_LOC = ".//XCUIElementTypeCell";
     private static final String BOOK_BLOCK_BY_TITLE_LOC = "//XCUIElementTypeCell"
             + "[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
@@ -155,5 +156,10 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private String getBookAddButtonLocatorWithGivenType(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.getKey();
         return String.format(BOOK_OF_TYPE_WITH_BUTTON_LOCATOR_PATTERN, bookType, key);
+    }
+
+    private IButton getAddBookButton(AndroidBookActionButtonKeys button) {
+        String key = button.getKey();
+        return getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN, key)), key);
     }
 }
