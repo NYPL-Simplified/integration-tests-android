@@ -1,11 +1,11 @@
-package constants.android.catalog;
+package constants.application.catalog;
 
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 
 public enum AndroidBookActionButtonKeys {
     GET("Get Button", "Get"),
-    DOWNLOAD("Download Button", "Get"),
+    DOWNLOAD("Download Button", "Download"),
     CANCEL("Cancel Reservation Button", "Cancel"),
     READ("Read Button", "Read"),
     RESERVE("Reserve Button", "Reserve"),

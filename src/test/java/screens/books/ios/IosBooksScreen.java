@@ -2,11 +2,11 @@ package screens.books.ios;
 
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
-import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.android.catalog.AndroidBookActionButtonKeys;
+import constants.application.catalog.AndroidBookActionButtonKeys;
+import framework.utilities.swipe.SwipeElementUtils;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 import screens.books.BooksScreen;
@@ -27,13 +27,11 @@ public class IosBooksScreen extends BooksScreen {
             "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_ACTION_BUTTON_LOC);
     public static final String BOOK_INFO_BUTTON_PATTERN = "";
 
+    private final ILabel mainBooksElementColleciton = getElementFactory().getLabel(
+            By.xpath("//XCUIElementTypeCollectionView"), "Elements collection container");
     private final ILabel lblNoBooks = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeStaticText[@name=\"Visit the Catalog to add books to My Books.\"]"),
             "No Books Present");
-    private final IButton btnMenu =
-            getElementFactory().getButton(By.xpath(""),
-                    "Menu");
-    private final IButton btnRefresh = getElementFactory().getButton(By.xpath(""), "Refresh");
     private final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]\n";
     private final List<IElement> booksList = getElementFactory().findElements(
             By.xpath("//XCUIElementTypeCollectionView//XCUIElementTypeCell"),
@@ -79,8 +77,7 @@ public class IosBooksScreen extends BooksScreen {
 
     @Override
     public void refreshList() {
-        btnMenu.click();
-        btnRefresh.click();
+        SwipeElementUtils.swipeElementDown(mainBooksElementColleciton);
     }
 
     @Override

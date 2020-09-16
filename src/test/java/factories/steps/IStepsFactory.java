@@ -4,5 +4,6 @@ import stepdefinitions.BaseSteps;
 
 public interface IStepsFactory {
 
-    <T extends BaseSteps> T getSteps(Class<T> clazz);
+    @SuppressWarnings("unchecked")
+    <T extends BaseSteps> T getSteps(Class<T> clazz, Object... args);
 }

@@ -1,4 +1,4 @@
-package constants.android.account;
+package constants.application.account;
 
 public enum AndroidAccountScreenLoginFields {
     BARCODE("Barcode"),

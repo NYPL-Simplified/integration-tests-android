@@ -1,7 +1,7 @@
 package screens.holds;
 
 import aquality.appium.mobile.screens.Screen;
-import constants.android.catalog.AndroidBookActionButtonKeys;
+import constants.application.catalog.AndroidBookActionButtonKeys;
 import org.openqa.selenium.By;
 
 public abstract class HoldsScreen extends Screen {

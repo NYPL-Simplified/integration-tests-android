@@ -5,9 +5,9 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.android.bookdetals.AndroidBookDetailsScreenInformationBlockKeys;
-import constants.android.catalog.AndroidBookActionButtonKeys;
-import constants.android.timeouts.BooksTimeouts;
+import constants.application.bookdetals.AndroidBookDetailsScreenInformationBlockKeys;
+import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.application.timeouts.BooksTimeouts;
 import models.android.AndroidCatalogBookModel;
 import org.openqa.selenium.By;
 import screens.bookDetails.BookDetailsScreen;
@@ -20,14 +20,14 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     private static final String INFORMATION_TAB_LABELS_NAME_PART = "Information tab %1$s value";
 
-    private static final String CONTENT_ATTRIBUTE_NAME = "content-desc";
+    private static final String NAME_ATTRIBUTE_NAME = "name";
 
     private static final String INFORMATION_TAB_VALUE_LOC_PART = "(//XCUIElementTypeStaticText[contains(@name, \"%1$s\")]"
             + "/following-sibling::XCUIElementTypeStaticText[@name])[1]";
     private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
 
 
-    private final ILabel lblBookInfo = getElementFactory().getLabel(By.xpath(""), "Cover Image"); // does not exist on the ios
+    private final ILabel lblBookInfo = getElementFactory().getLabel(By.xpath("//XCUIElementTypeImage[1]"), "Cover Image");
     private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.xpath("(//XCUIElementTypeOther//XCUIElementTypeStaticText[@name])[1]"), "Book title");
     private final ILabel lblBookFormatInfo = getElementFactory().getLabel(By.xpath(""), "Book format"); // does not exist on the ios
     private final ILabel lblBookAuthorsInfo = getElementFactory().getLabel(
@@ -40,6 +40,8 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private final IButton btnDelete = getActionButton(AndroidBookActionButtonKeys.DELETE);
     private final IButton btnRelatedBooks = getElementFactory().getButton(By.xpath(""), // does not exist on the ios
             "Related books button");
+    private final IButton btnDontAllowNotifications = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Don’t Allow\"]"),
+            "Dont allow notifications");
 
     public IosBookDetailsScreen() {
         super(By.xpath(MAIN_ELEMENT));
@@ -54,9 +56,9 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     @Override
     public AndroidCatalogBookModel getBookInfo() {
         return new AndroidCatalogBookModel()
-                .setImageTitle(lblBookInfo.getAttribute(CONTENT_ATTRIBUTE_NAME))
+//                .setImageTitle(lblBookInfo.getAttribute(NAME_ATTRIBUTE_NAME))
                 .setTitle(lblBookTitleInfo.getText())
-                .setBookType(lblBookFormatInfo.getText())
+//                .setBookType(lblBookFormatInfo.getText())
                 .setAuthor(lblBookAuthorsInfo.getText());
     }
 
@@ -101,6 +103,9 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     @Override
     public void clickActionButton(AndroidBookActionButtonKeys buttonKeys) {
         getActionButton(buttonKeys).click();
+        if (btnDontAllowNotifications.state().waitForDisplayed()) {
+            btnDontAllowNotifications.click();
+        }
     }
 
     private IButton getActionButton(AndroidBookActionButtonKeys buttonKey) {
