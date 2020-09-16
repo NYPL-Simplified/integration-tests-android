@@ -17,9 +17,6 @@ public class IosFacetedSearchScreen extends FacetedSearchScreen {
             By.xpath(String.format("(%1$s//XCUIElementTypeButton)[2]", MAIN_ELEMENT)),
             "Availability button");
 
-
-
-
     public IosFacetedSearchScreen() {
         super(By.xpath(MAIN_ELEMENT));
     }
