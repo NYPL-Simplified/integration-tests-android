@@ -1,4 +1,4 @@
-package constants.android.timeouts;
+package constants.application.timeouts;
 
 public enum AuthorizationTimeouts {
     TIMEOUT_USER_LOGGED_OUT(120000);

@@ -1,8 +1,8 @@
-package hooks;
+package hooks.logout.components;
 
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
-import constants.android.catalog.AndroidBookActionButtonKeys;
+import constants.application.catalog.AndroidBookActionButtonKeys;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.After;
 import screens.account.AccountScreen;
@@ -15,27 +15,27 @@ import screens.catalog.form.MainCatalogToolbarForm;
 import screens.catalog.screen.catalog.CatalogScreen;
 import screens.holds.HoldsScreen;
 import screens.settings.SettingsScreen;
+import stepdefinitions.BaseSteps;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-public class LogoutHooks {
+public abstract class AbstractLogoutHooks extends BaseSteps {
 
-    private final AccountScreen accountScreen;
-    private final AccountsScreen accountsScreen;
-    private final BottomMenuForm bottomMenuForm;
-    private final SettingsScreen settingsScreen;
-    private final CatalogScreen catalogScreen;
-    private final HoldsScreen holdsScreen;
-    private final BooksScreen booksScreen;
-    private final BookDetailsScreen bookDetailsScreen;
-    private final MainCatalogToolbarForm mainCatalogToolbarForm;
+    protected final AccountScreen accountScreen;
+    protected final AccountsScreen accountsScreen;
+    protected final BottomMenuForm bottomMenuForm;
+    protected final SettingsScreen settingsScreen;
+    protected final CatalogScreen catalogScreen;
+    protected final HoldsScreen holdsScreen;
+    protected final BooksScreen booksScreen;
+    protected final BookDetailsScreen bookDetailsScreen;
+    protected final MainCatalogToolbarForm mainCatalogToolbarForm;
 
-    private ScenarioContext context;
+    protected ScenarioContext context;
 
-    @Inject
-    public LogoutHooks(ScenarioContext context) {
+    public AbstractLogoutHooks(ScenarioContext context) {
         accountScreen = AqualityServices.getScreenFactory().getScreen(AccountScreen.class);
         accountsScreen = AqualityServices.getScreenFactory().getScreen(AccountsScreen.class);
         bottomMenuForm = AqualityServices.getScreenFactory().getScreen(BottomMenuForm.class);
@@ -49,20 +49,8 @@ public class LogoutHooks {
         this.context = context;
     }
 
-    @After(value = "@logout", order = 1)
-    public void closeApplication() {
-        if (!accountScreen.state().isDisplayed()) {
-            bottomMenuForm.open(BottomMenu.SETTINGS);
-            settingsScreen.openAccounts();
-            accountsScreen.openFirstLibrary();
-        }
-        accountScreen.logOut();
-        if (!accountScreen.isLogoutSuccessful()) {
-            accountScreen.logOut();
-        }
-    }
+    public abstract void closeApplication();
 
-    @After(value = "@cancelHold", order = 2)
     public void cancelHold() {
         List<String> librariesForCancel = context.get("librariesForCancel");
         Optional.ofNullable(librariesForCancel).ifPresent(libraries ->
@@ -75,7 +63,6 @@ public class LogoutHooks {
                 }));
     }
 
-    @After(value = "@cancelGet", order = 2)
     public void cancelGet() {
         List<String> librariesForCancelGet = context.get("librariesForCancelGet");
 

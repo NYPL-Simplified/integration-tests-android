@@ -1,4 +1,4 @@
-package constants.android.timeouts;
+package constants.application.timeouts;
 
 public enum BooksTimeouts {
     TIMEOUT_BOOK_CHANGES_STATUS(120000);

@@ -1,4 +1,4 @@
-package constants.android.bookdetals;
+package constants.application.bookdetals;
 
 public enum AndroidBookDetailsScreenInformationBlockKeys {
     PUBLISHED("Published"),
