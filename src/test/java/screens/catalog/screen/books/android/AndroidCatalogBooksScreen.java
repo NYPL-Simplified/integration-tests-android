@@ -110,6 +110,20 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
+    @Override
+    public AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
+        String key = actionButtonKey.getKey();
+        IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
+        if (!button.state().isDisplayed()) {
+            button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
+        String bookTitle =
+                getElementFactory().getButton(By.xpath("//android.view.ViewGroup[" + getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType) + "]//*[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdle\"]"), key).getText();
+        AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
+        button.click();
+        return androidCatalogBookModel;
+    }
+
     private AndroidCatalogBookModel performActionOnBook(AndroidBookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
@@ -133,5 +147,10 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     private IButton getAddBookButton(AndroidBookActionButtonKeys button) {
         String key = button.getKey();
         return getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN, key)), key);
+    }
+
+    private String getBookAddButtonLocatorWithGivenType(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
+        String key = actionButtonKey.getKey();
+        return String.format("//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleMeta\" and @text=\"%1$s\"]/following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%2$s\"]", bookType, key);
     }
 }
