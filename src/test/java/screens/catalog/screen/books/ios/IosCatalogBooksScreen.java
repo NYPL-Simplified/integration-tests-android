@@ -33,7 +33,6 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_AUTHOR_LOC = "//XCUIElementTypeStaticText[@name][2]";
     private static final String BOOK_TYPE_LOC = ""; // does not exist on ios
     private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
-    public static final String BOOK_OF_TYPE_WITH_BUTTON_LOCATOR_PATTERN = "";
 
     private final IButton btnDontAllowNotifications = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Don’t Allow\"]"),
             "Dont allow notifications");
@@ -122,7 +121,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
             button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
         String bookTitle =
-                getElementFactory().getButton(By.xpath("" + getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType) + ""), key).getText();
+                getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key).getText();
         AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
         button.click();
         return androidCatalogBookModel;
@@ -155,7 +154,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private String getBookAddButtonLocatorWithGivenType(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.getKey();
-        return String.format(BOOK_OF_TYPE_WITH_BUTTON_LOCATOR_PATTERN, bookType, key);
+        return String.format("", bookType, key);
     }
 
     private IButton getAddBookButton(AndroidBookActionButtonKeys button) {

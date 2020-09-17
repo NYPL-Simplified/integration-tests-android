@@ -2,6 +2,8 @@ package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
+import constants.RegEx;
+import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,7 +12,6 @@ import org.testng.Assert;
 import screens.reader.ReaderScreen;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ReaderSteps {
     private final ReaderScreen readerScreen;
@@ -89,7 +90,6 @@ public class ReaderSteps {
     }
 
     private Matcher getMatcher(String text) {
-        Pattern pattern = Pattern.compile("Page (\\d+) of \\d+ (\\(.*\\))");
-        return pattern.matcher(text);
+        return RegExUtil.getMatcher(text, RegEx.PAGE_NUMBER_REGEX);
     }
 }
