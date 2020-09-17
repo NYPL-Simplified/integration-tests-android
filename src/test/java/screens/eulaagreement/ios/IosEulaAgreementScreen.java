@@ -18,4 +18,9 @@ public class IosEulaAgreementScreen extends EulaAgreementScreen {
     public void clickAgree() {
         btnAgree.click();
     }
+
+    @Override
+    public boolean isVanillaApp() {
+        return false;
+    }
 }

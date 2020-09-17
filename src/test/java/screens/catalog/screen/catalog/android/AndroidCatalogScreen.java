@@ -18,18 +18,17 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidCatalogScreen extends CatalogScreen {
-    private static final String CATEGORY_LOCATOR =
-            "//*[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneTitle\" and @text=\"%1$s\"]";
-    private static final String LANE_BY_NAME_LOCATOR_PART = CATEGORY_LOCATOR +
-            "/following-sibling::*[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneCoversScroll\"]";
+    private static final String CATEGORY_LOCATOR = "//*[contains(@resource-id, \"feedLaneTitle\") and @text=\"%1$s\"]";
+    private static final String LANE_BY_NAME_LOCATOR_PART =
+            CATEGORY_LOCATOR + "/following-sibling::*[contains(@resource-id,\"feedLaneCoversScroll\")]";
     private static final String BOOK_COVER_IN_THE_LANE_LOCATOR = "/android.widget.LinearLayout";
     private static final String CONTENT_VALUE_ATTRIBUTE = "content-desc";
     private static final String LIBRARY_BUTTON_LOCATOR_PATTERN =
-            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/accountTitle\" and @text=\"%s\"]";
+            "//android.widget.TextView[contains(@resource-id,\"accountTitle\") and @text=\"%s\"]";
     private static final String BOOKS_LOCATOR = "//androidx.recyclerview.widget.RecyclerView[1]"
             + "//android.widget.LinearLayout[@content-desc]";
 
-    private static final String FEED_LANE_TITLES_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/feedLaneTitle\"]";
+    private static final String FEED_LANE_TITLES_LOC = "//*[contains(@resource-id,\"feedLaneTitle\")]";
 
     private final ILabel firstLaneName = getElementFactory().getLabel(
             By.xpath(FEED_LANE_TITLES_LOC), "First lane name");
@@ -77,7 +76,9 @@ public class AndroidCatalogScreen extends CatalogScreen {
     @Override
     public void openCategory(String categoryName) {
         IButton categoryButton = getCategoryButton(categoryName);
-        categoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        if (!categoryButton.state().isDisplayed()) {
+            categoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
         categoryButton.click();
     }
 

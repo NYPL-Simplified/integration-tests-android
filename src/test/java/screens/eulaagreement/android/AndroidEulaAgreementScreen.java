@@ -9,6 +9,7 @@ import screens.eulaagreement.EulaAgreementScreen;
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidEulaAgreementScreen extends EulaAgreementScreen {
     private final IButton btnAgree = getElementFactory().getButton(By.id("splashEulaAgree"), "Eula Agree");
+    private final IButton btnVanilla = getElementFactory().getButton(By.xpath("//*[contains(@resource-id,\"org.nypl.simplified.vanilla\")]"), "Vanilla marker");
 
     public AndroidEulaAgreementScreen() {
         super(By.id("splashEulaAgree"));
@@ -17,5 +18,10 @@ public class AndroidEulaAgreementScreen extends EulaAgreementScreen {
     @Override
     public void clickAgree() {
         btnAgree.click();
+    }
+
+    @Override
+    public boolean isVanillaApp() {
+        return btnVanilla.state().waitForDisplayed();
     }
 }

@@ -9,8 +9,8 @@ import screens.facetedSearch.FacetedSearchScreen;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidFacetedSearchScreen extends FacetedSearchScreen {
-    private static final String MAIN_ELEMENT = "//*[@resource-id=\"org.nypl.simplified.simplye:id/feedHeaderFacets\"]";
-    private static final String AVAILABILITY_SELECTION = "//*[@resource-id=\"org.nypl.simplified.simplye:id/select_dialog_listview\"]"
+    private static final String MAIN_ELEMENT = "//*[contains(@resource-id,\"feedHeaderFacets\")]";
+    private static final String AVAILABILITY_SELECTION = "//*[contains(@resource-id,\"select_dialog_listview\")]"
             + "//*[@text=\"%1$s\"]";
 
     private final IButton availabilityButton = getElementFactory().getButton(
@@ -32,5 +32,4 @@ public class AndroidFacetedSearchScreen extends FacetedSearchScreen {
         getElementFactory().getButton(By.xpath(String.format(AVAILABILITY_SELECTION, key.getKey())),
                 "Availability type " + key.getKey()).click();
     }
-
 }
