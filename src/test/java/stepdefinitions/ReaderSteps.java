@@ -63,10 +63,10 @@ public class ReaderSteps {
     public void checkBookPageNumberIsBiggerThenPreviousPageInfo(String pageNumberInfo) {
         String actualBookInfo = readerScreen.getPageNumberInfo();
         String expectedBookInfo = context.get(pageNumberInfo);
-        int expectedPageNumber = getPageNumber(expectedBookInfo);
+        int expectedPageNumber = getPageNumber(expectedBookInfo) + 1;
         int actualPageNumber = getPageNumber(actualBookInfo);
-        Assert.assertTrue(expectedPageNumber + 1 == actualPageNumber ||
-                (actualPageNumber == 1 && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))));
+        Assert.assertTrue(expectedPageNumber == actualPageNumber ||
+                (actualPageNumber == 1 && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))), String.format("Page number is not correct (actual - %d, expected - %d)", actualPageNumber, expectedPageNumber));
     }
 
     public int getPageNumber(String text) {
@@ -83,10 +83,10 @@ public class ReaderSteps {
     public void bookPageNumberIsSmallerThenPreviousPageInfo(String pageNumberInfo) {
         String actualBookInfo = readerScreen.getPageNumberInfo();
         String expectedBookInfo = context.get(pageNumberInfo);
-        int expectedPageNumber = getPageNumber(expectedBookInfo);
+        int expectedPageNumber = getPageNumber(expectedBookInfo) - 1;
         int actualPageNumber = getPageNumber(actualBookInfo);
-        Assert.assertTrue(expectedPageNumber - 1 == actualPageNumber ||
-                (actualPageNumber == 1 && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))));
+        Assert.assertTrue(expectedPageNumber == actualPageNumber ||
+                (actualPageNumber == 1 && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))), String.format("Page number is not correct (actual - %d, expected - %d)", actualPageNumber, expectedPageNumber));
     }
 
     private Matcher getMatcher(String text) {
