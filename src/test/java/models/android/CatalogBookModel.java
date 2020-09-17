@@ -5,8 +5,8 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class AndroidCatalogBookModel {
-    public AndroidCatalogBookModel() {}
+public class CatalogBookModel {
+    public CatalogBookModel() {}
 
     private String imageTitle;
     private String title;

@@ -6,7 +6,7 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.subcategory.SubcategoryScreen;
 
@@ -20,14 +20,23 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
             "//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]/android.widget.Button";
     public static final String BOOK_COVER_LOCATOR_PATTERN =
             "//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\" and @content-desc=\"%s\"]";
+    private static final String AUTHOR_INFO_XPATH =
+            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleAuthor\"]";
+    private static final String BOOK_NAME_XPATH =
+            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleTitle\"]";
+    private static final String TYPE_INFO_XPATH =
+            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleMeta\"]";
+
     private final String SORTING_BUTTON_XPATH_PATTERN =
             "//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/feedHeaderFacets\"]/android.widget.Button";
-    private final ILabel lblFirstBookInfo =
-            getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR), "First book info");
-    private final String AUTHOR_INFO_XPATH =
-            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleAuthor\"]";
-    private final String BOOK_NAME_XPATH =
-            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleTitle\"]";
+    private final ILabel lblFirstBookImageCover =
+            getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR), "First book image info");
+    private final ILabel lblFirstBookTitle =
+            getElementFactory().getLabel(By.xpath(BOOK_NAME_XPATH), "First book title");
+    private final ILabel lblFirstBookType =
+            getElementFactory().getLabel(By.xpath(TYPE_INFO_XPATH), "First book type");
+    private final ILabel lblFirstBookAuthor =
+            getElementFactory().getLabel(By.xpath(AUTHOR_INFO_XPATH), "First book author");
 
     public AndroidSubcategoryScreen() {
         super(By.xpath("//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.nypl.simplified.simplye:id/feedWithoutGroupsList\"]"));
@@ -58,7 +67,7 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     }
 
     @Override
-    public void openBook(AndroidCatalogBookModel bookInfo) {
+    public void openBook(CatalogBookModel bookInfo) {
         String imageTitle = bookInfo.getImageTitle();
         getElementFactory().getButton(By.xpath(String.format(BOOK_COVER_LOCATOR_PATTERN, imageTitle)), imageTitle).click();
     }
@@ -78,12 +87,16 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     }
 
     @Override
-    public String getFirstBookInfo() {
-        return lblFirstBookInfo.getAttribute("content-desc");
+    public CatalogBookModel getFirstBookInfo() {
+        return new CatalogBookModel()
+                .setImageTitle(lblFirstBookImageCover.getAttribute("content-desc"))
+                .setTitle(lblFirstBookTitle.getText())
+                .setAuthor(lblFirstBookAuthor.getText())
+                .setBookType(lblFirstBookType.getText());
     }
 
     @Override
     public void openFirstBook() {
-        lblFirstBookInfo.click();
+        lblFirstBookImageCover.click();
     }
 }

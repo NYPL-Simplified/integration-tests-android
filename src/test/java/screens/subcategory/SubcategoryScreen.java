@@ -1,7 +1,7 @@
 package screens.subcategory;
 
 import aquality.appium.mobile.screens.Screen;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public abstract class SubcategoryScreen extends Screen {
         super(locator, "Subcategory");
     }
 
-    public abstract String getFirstBookInfo();
+    public abstract CatalogBookModel getFirstBookInfo();
 
     public abstract void openFirstBook();
 
@@ -23,5 +23,5 @@ public abstract class SubcategoryScreen extends Screen {
 
     public abstract List<String> getTitlesInfo();
 
-    public abstract void openBook(AndroidCatalogBookModel bookInfo);
+    public abstract void openBook(CatalogBookModel bookInfo);
 }

@@ -111,7 +111,8 @@ Feature: Catalog Navigation
       And I click apply search button
     Then Search modal is closed
       And Search page is opened
-    When I open first found book from the search result
+    When I switch to 'eBooks' catalog tab
+      And Open first found book from the search result
     Then Book 'Harry Potter et les Reliques de la Mort, ebook, by J. K. Rowling' is opened
       And The following values in the information block are present:
         | key         | value                 |
@@ -119,7 +120,7 @@ Feature: Catalog Navigation
         | PUBLISHER   | Pottermore Publishing |
         | DISTRIBUTOR | Overdrive             |
         | CATEGORIES  | Fantasy               |
-        | UPDATED     | 2020-09-05 08:39:02   |
+        | UPDATED     | 2020-09-17 08:45:57   |
       And Description has text
     """
     Cette année, Harry a dix-sept ans et ne retourne pas à Poudlard. Avec Ron et Hermione, il se consacre à la dernière mission confiée par Dumbledore. Mais le Seigneur des Ténèbres règne en maître. Traqués, les trois fidèles amis sont contraints à la clandestinité. D'épreuves en révélations, le courage, les choix et les sacrifices de Harry seront déterminants dans la lutte contre les forces du Mal. Avec le dénouement de l'héroïque histoire de Harry Potter, J.K. Rowling signe un chef-d'oeuvre d'une grande humanité et d'une maîtrise incomparable.
@@ -145,12 +146,12 @@ Feature: Catalog Navigation
 
   @logout @cancelHold
   Scenario: Reserve Book (hold)
-    When I add 'Hartford Public Library' account
-    Then Account 'Hartford Public Library' is present on Accounts screen
-    When I enter credentials for 'Hartford Public Library' account
+    When I add 'The New York Public Library' account
+    Then Account 'The New York Public Library' is present on Accounts screen
+    When I enter credentials for 'The New York Public Library' account
     Then Text on Login button is changed to Log out on Account screen
     When I open Catalog
-      And I switch to 'Hartford Public Library' from side menu
+      And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
     When I open category by chain:
       | Fiction |
@@ -161,17 +162,15 @@ Feature: Catalog Navigation
 
   @logout @cancelGet
   Scenario: Borrow book
-    When I add 'LYRASIS' account
-    Then Account 'LYRASIS' is present on Accounts screen
-    When I enter credentials for 'LYRASIS' account
+    When I add 'The New York Public Library' account
+    Then Account 'The New York Public Library' is present on Accounts screen
+    When I enter credentials for 'The New York Public Library' account
     Then Text on Login button is changed to Log out on Account screen
     When I open Catalog
-      And I switch to 'LYRASIS' from side menu
+      And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
     When I open category by chain:
-      | Nonfiction   |
-      | Art & Design |
-      | Art          |
+      | Essential Reads on Feminism |
       And Save current library for CANCEL_GET books after test
       And I open the book details for the subsequent GET and save it as 'bookInfo'
       And I check that opened book contains READ button at book details screen

@@ -8,7 +8,7 @@ import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.localization.application.bookdetals.BookDetailsScreenInformationBlockKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.bookDetails.BookDetailsScreen;
 
@@ -49,8 +49,8 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     }
 
     @Override
-    public AndroidCatalogBookModel getBookInfo() {
-        return new AndroidCatalogBookModel()
+    public CatalogBookModel getBookInfo() {
+        return new CatalogBookModel()
                 .setImageTitle(lblBookInfo.getAttribute(CONTENT_ATTRIBUTE_NAME))
                 .setTitle(lblBookTitleInfo.getText())
                 .setBookType(lblBookFormatInfo.getText())

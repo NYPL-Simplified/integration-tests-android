@@ -10,7 +10,7 @@ import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.AndroidAttributes;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.catalog.screen.books.CatalogBooksScreen;
 
@@ -59,11 +59,11 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public AndroidCatalogBookModel getBookInfo(final String title) {
-        final AndroidCatalogBookModel androidCatalogBookModel = new AndroidCatalogBookModel();
+    public CatalogBookModel getBookInfo(final String title) {
+        final CatalogBookModel catalogBookModel = new CatalogBookModel();
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
 
-        androidCatalogBookModel
+        catalogBookModel
                 .setImageTitle(Objects.requireNonNull(
                         getElementFactory().getLabel(By.xpath(blockLoc + BOOK_IMAGE_LOC),
                                 "Book image content description").getAttribute(AndroidAttributes.CONTENT_DESC)
@@ -71,7 +71,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
                 .setTitle(getBookParameter(blockLoc, BOOK_TITLE_LOC, "Book title"))
                 .setAuthor(getBookParameter(blockLoc, BOOK_AUTHOR_LOC, "Book author"))
                 .setBookType(getBookParameter(blockLoc, BOOK_TYPE_LOC, "Book type"));
-        return androidCatalogBookModel;
+        return catalogBookModel;
     }
 
     private String getBookParameter(String mainLocator, String subLocator, String name) {
@@ -82,7 +82,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
 
     @Override
-    public AndroidCatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
+    public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
         return performActionOnBook(bookAddButtonKey);
     }
 
@@ -110,14 +110,14 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
-    private AndroidCatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
+    private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         String bookTitle =
                 getBookJacketWithGivenButtonLabel(buttonName).findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL).getText();
-        AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
+        CatalogBookModel catalogBookModel = getBookInfo(bookTitle);
         button.click();
-        return androidCatalogBookModel;
+        return catalogBookModel;
     }
 
     private ILabel getBookJacketWithGivenButtonLabel(BookActionButtonKeys button) {

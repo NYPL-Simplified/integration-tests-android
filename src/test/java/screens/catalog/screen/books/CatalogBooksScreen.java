@@ -2,7 +2,7 @@ package screens.catalog.screen.books;
 
 import aquality.appium.mobile.screens.Screen;
 import constants.localization.application.catalog.BookActionButtonKeys;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 
 public abstract class CatalogBooksScreen extends Screen {
@@ -14,9 +14,9 @@ public abstract class CatalogBooksScreen extends Screen {
 
     public abstract int getFoundBooksCount();
 
-    public abstract AndroidCatalogBookModel getBookInfo(String title);
+    public abstract CatalogBookModel getBookInfo(String title);
 
-    public abstract AndroidCatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey);
+    public abstract CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey);
 
     public abstract void clickTheBookByTitleBtnWithKey(String title, BookActionButtonKeys key);
 

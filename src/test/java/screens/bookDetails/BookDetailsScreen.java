@@ -3,7 +3,7 @@ package screens.bookDetails;
 import aquality.appium.mobile.screens.Screen;
 import constants.localization.application.bookdetals.BookDetailsScreenInformationBlockKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 
 public abstract class BookDetailsScreen extends Screen {
@@ -13,7 +13,7 @@ public abstract class BookDetailsScreen extends Screen {
 
     public abstract void downloadBook();
 
-    public abstract AndroidCatalogBookModel getBookInfo();
+    public abstract CatalogBookModel getBookInfo();
 
     public abstract boolean isValueInTheInformationBlockPresent(
             BookDetailsScreenInformationBlockKeys key, String value);

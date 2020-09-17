@@ -8,7 +8,7 @@ import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.localization.application.catalog.BookActionButtonKeys;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.books.BooksScreen;
 
@@ -52,7 +52,7 @@ public class AndroidBooksScreen extends BooksScreen {
     }
 
     @Override
-    public boolean isBookPresent(AndroidCatalogBookModel bookInfo) {
+    public boolean isBookPresent(CatalogBookModel bookInfo) {
         ILabel book = getElementFactory()
                 .getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle())),
                         "No Books Present");
@@ -88,7 +88,7 @@ public class AndroidBooksScreen extends BooksScreen {
     }
 
     @Override
-    public void readBook(AndroidCatalogBookModel bookInfo) {
+    public void readBook(CatalogBookModel bookInfo) {
         String readButtonName = BookActionButtonKeys.READ.i18n();
         getElementFactory().getButton(By.xpath(String.format(BOOK_INFO_BUTTON_PATTERN, String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle()), readButtonName)), readButtonName).click();
     }

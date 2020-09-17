@@ -12,7 +12,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import models.android.AndroidBookDetailsScreenInformationBlockModel;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
@@ -95,7 +95,7 @@ public class CatalogSteps {
 
     @And("I Download first book from shelf and save it as {string}")
     public void getBookFromShelfAndSaveItAsBookInfo(String bookInfoKey) {
-        AndroidCatalogBookModel bookModel = new AndroidCatalogBookModel();
+        CatalogBookModel bookModel = new CatalogBookModel();
         bookModel.setImageTitle(catalogScreen.getBookName(1));
         context.add(bookInfoKey, bookModel);
         catalogScreen.clickBook(1);
@@ -162,8 +162,8 @@ public class CatalogSteps {
 
     @When("I click on the book {string} button {} on catalog books screen")
     public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
-        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
-        catalogBooksScreen.clickTheBookByTitleBtnWithKey(androidCatalogBookModel.getTitle(), key);
+        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
+        catalogBooksScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
     }
 
     @And("Save current library for {} books after test")
@@ -325,6 +325,7 @@ public class CatalogSteps {
     }
 
     @When("I open first found book from the search result")
+    @And("Open first found book from the search result")
     public void selectFirstFoundBook() {
         catalogBooksScreen.selectFirstFoundBook();
     }
@@ -338,11 +339,11 @@ public class CatalogSteps {
     @Then("Book saved as {string} should contain {} button at catalog books screen")
     public void checkThatSavedBookContainButtonAtCatalogBooksScreen(
             final String bookInfoKey, final BookActionButtonKeys key) {
-        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
+        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         Assert.assertTrue(catalogBooksScreen.isBookAddButtonTextEqualTo(
-                androidCatalogBookModel.getTitle(), key),
+                catalogBookModel.getTitle(), key),
                 String.format("Book with title '%1$s' add button does not contain text '%2$s'",
-                        androidCatalogBookModel.getTitle(), key.i18n()));
+                        catalogBookModel.getTitle(), key.i18n()));
     }
 
     @Then("I check that opened book contains {} button at book details screen")
@@ -358,7 +359,7 @@ public class CatalogSteps {
 
     @When("I open book {string} details by clicking on cover")
     public void openBookDetailsByClickingOnCover(String bookInfoKey) {
-        AndroidCatalogBookModel bookInfo = context.get(bookInfoKey);
+        CatalogBookModel bookInfo = context.get(bookInfoKey);
         subcategoryScreen.openBook(bookInfo);
     }
 

@@ -3,11 +3,10 @@ package screens.subcategory.ios;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
-import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.subcategory.SubcategoryScreen;
 
@@ -23,8 +22,10 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
     private static final String AUTHOR_INFO_XPATH = "//XCUIElementTypeStaticText[@name][2]";
     private static final String BOOK_NAME_XPATH = "//XCUIElementTypeStaticText[@name][1]";
 
-    private final ILabel lblFirstBookInfo =
-            getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR), "First book info");
+    private final ILabel lblFirstBookName =
+            getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR + BOOK_NAME_XPATH), "First book name");
+    private final ILabel lblFirstBookAuthor =
+            getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR + AUTHOR_INFO_XPATH), "First book author");
 
     public IosSubcategoryScreen() {
         super(By.xpath("//XCUIElementTypeCollectionView"));
@@ -55,7 +56,7 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
     }
 
     @Override
-    public void openBook(AndroidCatalogBookModel bookInfo) {
+    public void openBook(CatalogBookModel bookInfo) {
         String imageTitle = bookInfo.getImageTitle();
         getElementFactory().getButton(By.xpath(String.format(BOOK_COVER_LOCATOR_PATTERN, imageTitle)), imageTitle).click();
     }
@@ -75,12 +76,14 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
     }
 
     @Override
-    public String getFirstBookInfo() {
-        return lblFirstBookInfo.getAttribute("name");
+    public CatalogBookModel getFirstBookInfo() {
+        return new CatalogBookModel()
+                .setTitle(lblFirstBookName.getText())
+                .setAuthor(lblFirstBookAuthor.getText());
     }
 
     @Override
     public void openFirstBook() {
-        lblFirstBookInfo.click();
+        lblFirstBookName.click();
     }
 }
