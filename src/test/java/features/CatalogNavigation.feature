@@ -72,8 +72,9 @@ Feature: Catalog Navigation
     Then Books feed is loaded
       And All present books are audiobooks
     When I switch to 'eBooks' catalog tab
-      And I open 'Fiction' category
-      And I open 'Drama' subcategory
+      And Open category by chain:
+        | Fiction |
+        | Drama   |
     Then Subcategory screen is present
     When I sort books by AUTHOR
     Then Subcategory screen is present

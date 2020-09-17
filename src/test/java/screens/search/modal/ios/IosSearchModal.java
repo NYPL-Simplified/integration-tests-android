@@ -4,24 +4,29 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import framework.utilities.keyboard.KeyboardUtils;
+import io.appium.java_client.android.nativekey.AndroidKey;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import screens.search.modal.SearchModal;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosSearchModal extends SearchModal {
+    private static final String MAIN_ELEMENT = "//XCUIElementTypeSearchField[@name=\"Search \"]";
+
     private final ITextBox txbSearch = getElementFactory().getTextBox(
-            null,
+            By.xpath(MAIN_ELEMENT),
             "Search value input");
     private final IButton btnSearch = getElementFactory().getButton(
-            null,
-            "Apply search button");
+            By.xpath("//XCUIElementTypeButton[@name=\"Search\"]"), "Search");
 
     public IosSearchModal() {
-        super(By.xpath(""));
+        super(By.xpath(MAIN_ELEMENT));
     }
 
     @Override
     public void setSearchedText(String text) {
+        txbSearch.click();
         txbSearch.sendKeys(text);
     }
 

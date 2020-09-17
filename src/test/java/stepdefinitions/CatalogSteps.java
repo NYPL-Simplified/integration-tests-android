@@ -136,6 +136,7 @@ public class CatalogSteps {
     }
 
     @When("I open category by chain:")
+    @And("Open category by chain:")
     public void openCategoryByChain(List<String> categoriesChain) {
         IntStream.range(0, categoriesChain.size()).forEach(index -> {
             openCategory(categoriesChain.get(index));

@@ -9,10 +9,13 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.core.elements.ElementsCount;
+import constants.application.timeouts.AuthorizationTimeouts;
+import constants.application.timeouts.CategoriesTimeouts;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import screens.catalog.screen.catalog.CatalogScreen;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,7 +57,8 @@ public class IosCatalogScreen extends CatalogScreen {
     @Override
     public boolean isCategoryPageLoad() {
         return AqualityServices.getConditionalWait().waitFor(() ->
-                getElementFactory().findElements(By.xpath(FEED_LANE_TITLES_LOC), ElementType.LABEL).size() > 0);
+                        getElementFactory().findElements(By.xpath(FEED_LANE_TITLES_LOC), ElementType.LABEL).size() > 0,
+                Duration.ofMillis(CategoriesTimeouts.TIMEOUT_WAIT_UNTIL_CATEGORY_PAGE_LOAD.getTimeoutMillis()));
     }
 
     @Override
