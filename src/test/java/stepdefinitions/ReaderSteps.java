@@ -86,7 +86,7 @@ public class ReaderSteps {
         int expectedPageNumber = getPageNumber(expectedBookInfo) - 1;
         int actualPageNumber = getPageNumber(actualBookInfo);
         Assert.assertTrue(expectedPageNumber == actualPageNumber ||
-                (actualPageNumber == 1 && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))), String.format("Page number is not correct (actual - %d, expected - %d)", actualPageNumber, expectedPageNumber));
+                (!getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))), String.format("Page number is not correct (actual - %d, expected - %d)", actualPageNumber, expectedPageNumber));
     }
 
     private Matcher getMatcher(String text) {
