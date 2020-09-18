@@ -2,6 +2,7 @@ package screens.bookDetails.ios;
 
 import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.PlatformName;
+import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
@@ -42,6 +43,10 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
             "Related books button");
     private final IButton btnDontAllowNotifications = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Don’t Allow\"]"),
             "Dont allow notifications");
+    private final IButton btnOkCannotAddBook = getElementFactory().getButton(
+            By.xpath("//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[@name=\"Borrowing failed\"]]"
+                    + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"OK\"]"),
+            "Button ok");
 
     public IosBookDetailsScreen() {
         super(By.xpath(MAIN_ELEMENT));
@@ -103,6 +108,9 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
         getActionButton(buttonKeys).click();
         if (btnDontAllowNotifications.state().waitForDisplayed()) {
             btnDontAllowNotifications.click();
+        }
+        if (btnOkCannotAddBook.state().isDisplayed()) {
+            btnOkCannotAddBook.click();
         }
     }
 

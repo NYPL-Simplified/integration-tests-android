@@ -12,10 +12,10 @@ import screens.search.modal.SearchModal;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosSearchModal extends SearchModal {
-    private static final String MAIN_ELEMENT = "//XCUIElementTypeSearchField[@name=\"Search \"]";
+    private static final String MAIN_ELEMENT = "//XCUIElementTypeButton[@name=\"Search\"]";
 
     private final ITextBox txbSearch = getElementFactory().getTextBox(
-            By.xpath(MAIN_ELEMENT),
+            By.xpath("//XCUIElementTypeSearchField[contains(@name, \"Search\")]"),
             "Search value input");
     private final IButton btnSearch = getElementFactory().getButton(
             By.xpath("//XCUIElementTypeButton[@name=\"Search\"]"), "Search");
@@ -26,7 +26,6 @@ public class IosSearchModal extends SearchModal {
 
     @Override
     public void setSearchedText(String text) {
-        txbSearch.click();
         txbSearch.sendKeys(text);
     }
 

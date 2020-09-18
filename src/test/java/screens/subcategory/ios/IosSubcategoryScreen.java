@@ -20,7 +20,7 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
     private static final String BOOK_COVER_LOCATOR_PATTERN = "//XCUIElementTypeCell"
             + "[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
     private static final String AUTHOR_INFO_XPATH = "//XCUIElementTypeStaticText[@name][2]";
-    private static final String BOOK_NAME_XPATH = "//XCUIElementTypeStaticText[@name][1]";
+    private static final String BOOK_NAME_XPATH = "//XCUIElementTypeStaticText[@name and not(.//ancestor::XCUIElementTypeButton)][1]";
 
     private final ILabel lblFirstBookName =
             getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR + BOOK_NAME_XPATH), "First book name");
@@ -33,9 +33,9 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public List<String> getBooksInfo() {
-        List<String> listOfNames = getElementFactory().findElements(By.xpath(BOOKS_LOCATOR), ElementType.LABEL)
+        List<String> listOfNames = getElementFactory().findElements(By.xpath(BOOKS_LOCATOR + BOOK_NAME_XPATH), ElementType.LABEL)
                 .stream()
-                .map(x -> x.getAttribute("name"))
+                .map(IElement::getText)
                 .collect(Collectors.toList());
         AqualityServices.getLogger().info("Found list of books - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return listOfNames;
@@ -43,15 +43,15 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public List<String> getAllButtonsNames() {
-        List<String> listOfNames = getValuesFromListOfLabels(BOOK_BUTTON_XPATH);
-        AqualityServices.getLogger().info("Found list of buttons names - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        List<String> listOfNames = getValuesFromListOfLabels(BOOKS_LOCATOR + BOOK_BUTTON_XPATH);
+        AqualityServices.getLogger().info("Found list of buttons names - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining("; ")));
         return listOfNames;
     }
 
     @Override
     public List<String> getTitlesInfo() {
-        List<String> listOfNames = getValuesFromListOfLabels(BOOK_NAME_XPATH);
-        AqualityServices.getLogger().info("Found list of titles - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        List<String> listOfNames = getValuesFromListOfLabels(BOOKS_LOCATOR + BOOK_NAME_XPATH);
+        AqualityServices.getLogger().info("Found list of titles - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining("; ")));
         return listOfNames;
     }
 
@@ -63,8 +63,8 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public List<String> getAuthorsInfo() {
-        List<String> listOfNames = getValuesFromListOfLabels(AUTHOR_INFO_XPATH);
-        AqualityServices.getLogger().info("Found list of authors - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        List<String> listOfNames = getValuesFromListOfLabels(BOOKS_LOCATOR + AUTHOR_INFO_XPATH);
+        AqualityServices.getLogger().info("Found list of authors - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining("; ")));
         return listOfNames;
     }
 

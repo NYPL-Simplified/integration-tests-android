@@ -20,6 +20,7 @@ Feature: Catalog Navigation
     When I get names of books on screen and save them as 'listOfBooksOnMainPage'
       And I open 'Nonfiction' category
     Then Current category name is 'Nonfiction'
+      And Books feed is loaded
       And Following subcategories are present:
         | History                 |
         | Philosophy              |
@@ -29,6 +30,7 @@ Feature: Catalog Navigation
     When I return to previous screen
       And I open 'Fiction' category
     Then Current category name is 'Fiction'
+      And Books feed is loaded
       And Following subcategories are present:
         | Literary Fiction |
         | Science Fiction  |
@@ -72,7 +74,8 @@ Feature: Catalog Navigation
     Then Books feed is loaded
       And All present books are audiobooks
     When I switch to 'eBooks' catalog tab
-      And Open category by chain:
+    Then Books feed is loaded
+    When I open category by chain:
         | Fiction |
         | Drama   |
     Then Subcategory screen is present
@@ -113,7 +116,8 @@ Feature: Catalog Navigation
     Then Search modal is closed
       And Search page is opened
     When I switch to 'eBooks' catalog tab
-      And Open first found book from the search result
+    Then Subcategory screen is present
+    When I open first found book from the search result
     Then Book 'Harry Potter et les Reliques de la Mort, ebook, by J. K. Rowling' is opened
       And The following values in the information block are present:
         | key         | value                 |
@@ -155,8 +159,8 @@ Feature: Catalog Navigation
       And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
     When I open category by chain:
-      | Fiction |
-      | Drama   |
+      | 2020's Hottest Books |
+      And Change books visibility to show ALL
       And RESERVE book and save it as 'bookInfo'
       And Save current library for CANCEL_HOLD books after test
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen

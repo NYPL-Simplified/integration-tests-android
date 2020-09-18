@@ -2,6 +2,7 @@ package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
+import constants.application.timeouts.CategoriesTimeouts;
 import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.localization.application.facetedSearch.FacetAvailabilityKeys;
@@ -26,6 +27,7 @@ import screens.catalog.screen.catalog.CatalogScreen;
 import screens.facetedSearch.FacetedSearchScreen;
 import screens.subcategory.SubcategoryScreen;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +60,9 @@ public class CatalogSteps {
 
     @Then("Books feed is loaded")
     public void booksFeedIsLoaded() {
-        Assert.assertTrue(catalogScreen.state().waitForDisplayed(), "Books feed is not loaded");
+        Assert.assertTrue(catalogScreen.state().waitForDisplayed(Duration.ofMillis(
+                CategoriesTimeouts.TIMEOUT_WAIT_UNTIL_CATEGORY_PAGE_LOAD.getTimeoutMillis())),
+                "Books feed is not loaded");
     }
 
     @When("I get names of books on screen and save them as {string}")
@@ -279,13 +283,18 @@ public class CatalogSteps {
 
     private List<String> getSurnames(List<String> list) {
         List<String> listOfSurnames = new ArrayList<>();
-        for (String authorName :
-                list) {
-            String[] separatedName = authorName.split(" ");
-            if (authorName.contains(",")) {
-                listOfSurnames.add(separatedName[0]);
+        for (String authorName : list) {
+            String[] separatedName = authorName.split("\\s");
+            if (separatedName.length > 1) {
+                if (authorName.contains(",")) {
+                    listOfSurnames.add(separatedName[0]);
+                } else if (authorName.contains("."))  {
+                    listOfSurnames.add(separatedName[separatedName.length - 1]);
+                } else {
+                    listOfSurnames.add(separatedName[1]);
+                }
             } else {
-                listOfSurnames.add(separatedName[1]);
+                listOfSurnames.add(separatedName[0]);
             }
         }
         return listOfSurnames;

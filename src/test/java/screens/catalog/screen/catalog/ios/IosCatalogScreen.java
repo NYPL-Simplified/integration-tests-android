@@ -9,7 +9,6 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.core.elements.ElementsCount;
-import constants.application.timeouts.AuthorizationTimeouts;
 import constants.application.timeouts.CategoriesTimeouts;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
@@ -23,16 +22,13 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosCatalogScreen extends CatalogScreen {
-
-    private static final String MAIN_ELEMENT = "//XCUIElementTypeTable[.//XCUIElementTypeButton]";
-
     private static final String CATEGORY_LOCATOR = "(//XCUIElementTypeButton[@name=\"%1$s\"])[1]";
     private static final String LANE_BY_NAME_LOCATOR_PART = "(//XCUIElementTypeOther[.//XCUIElementTypeButton[@name=\"%1$s\"]]"
             + "/following-sibling::XCUIElementTypeCell)[1]";
     private static final String BOOK_COVER_IN_THE_LANE_LOCATOR = "/XCUIElementTypeButton";
     private static final String NAME_ATTRIBUTE = "name";
     private static final String FEED_LANE_TITLES_LOC = "//XCUIElementTypeOther[./following-sibling::XCUIElementTypeCell[1]]"
-            + "/XCUIElementTypeButton[1]";
+            + "//XCUIElementTypeButton[1]";
     private static final String LIBRARY_BUTTON_LOCATOR_PATTERN =
             "//XCUIElementTypeButton[@name=\"%1$s\"]";
 
@@ -42,7 +38,7 @@ public class IosCatalogScreen extends CatalogScreen {
             By.xpath(FEED_LANE_TITLES_LOC), "First lane name");
 
     public IosCatalogScreen() {
-        super(By.xpath(MAIN_ELEMENT));
+        super(By.xpath(FEED_LANE_TITLES_LOC));
     }
 
     @Override
@@ -85,7 +81,9 @@ public class IosCatalogScreen extends CatalogScreen {
     @Override
     public void openCategory(String categoryName) {
         IButton categoryButton = getCategoryButton(categoryName);
-        categoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        if (!categoryButton.state().waitForDisplayed()) {
+            categoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
         categoryButton.click();
     }
 
