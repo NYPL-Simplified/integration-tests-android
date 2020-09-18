@@ -34,6 +34,7 @@ public class IosReaderScreen extends ReaderScreen {
             getElementFactory().getButton(By.xpath(""), "Chapters");
     private final ILabel lblTable =
             getElementFactory().getLabel(By.id(""), "Table");
+    private final IButton btnFontSettings = getElementFactory().getButton(By.id(""), "Chapters");
 
     public IosReaderScreen() {
         super(By.xpath(""));
@@ -101,6 +102,16 @@ public class IosReaderScreen extends ReaderScreen {
             button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
         button.click();
+    }
+
+    @Override
+    public void openFontSettings() {
+        btnFontSettings.click();
+    }
+
+    @Override
+    public void openTableOfContents() {
+        btnChapters.click();
     }
 
     private List<ILabel> getChapters() {

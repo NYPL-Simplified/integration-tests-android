@@ -40,3 +40,23 @@ Feature: Read EPUB
       And Press on the book details screen at the action button READ
     Then Book 'bookInfo' is present on screen
       And Each chapter can be opened from Table of Contents
+
+  Scenario: Navigate View options
+    When I open Catalog
+    Then Books feed is loaded
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+      And DOWNLOAD book of 'eBook' type and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
+    Then Book 'bookInfo' is present on screen
+    When I return to previous screen
+      And Press on the book details screen at the action button READ
+    Then Book 'bookInfo' is present on screen
+    When I open font choices for book
+    Then Font choices screen is present
+    When I return to previous screen
+      And I open Table of Contents
+    Then Table of Contents is opened

@@ -11,7 +11,9 @@ import io.cucumber.java.en.When;
 import models.android.AndroidCatalogBookModel;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
+import screens.fontchoicesscreen.FontChoicesScreen;
 import screens.reader.ReaderScreen;
+import screens.tableofcontents.TableOfContentsScreen;
 
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -19,10 +21,14 @@ import java.util.regex.Matcher;
 public class ReaderSteps {
     private final ReaderScreen readerScreen;
     private final ScenarioContext context;
+    private final TableOfContentsScreen tableOfContentsScreen;
+    private final FontChoicesScreen fontChoicesScreen;
 
     @Inject
     public ReaderSteps(ScenarioContext context) {
         readerScreen = AqualityServices.getScreenFactory().getScreen(ReaderScreen.class);
+        tableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(TableOfContentsScreen.class);
+        fontChoicesScreen = AqualityServices.getScreenFactory().getScreen(FontChoicesScreen.class);
         this.context = context;
     }
 
@@ -106,5 +112,25 @@ public class ReaderSteps {
             softAssert.assertEquals(getChapterName(readerScreen.getPageNumberInfo()), chapter, "Chapter name is not correct");
         }
         softAssert.assertAll();
+    }
+
+    @When("I open font choices for book")
+    public void iOpenFontChoicesForBook() {
+        readerScreen.openFontSettings();
+    }
+
+    @And("I open Table of Contents")
+    public void iOpenTableOfContents() {
+        readerScreen.openTableOfContents();
+    }
+
+    @Then("Table of Contents is opened")
+    public void tableOfContentsIsOpened() {
+        Assert.assertTrue(tableOfContentsScreen.state().waitForDisplayed(), "Table of Contents is not opened");
+    }
+
+    @Then("Font choices screen is present")
+    public void fontChoicesScreenIsPresent() {
+        Assert.assertTrue(fontChoicesScreen.state().waitForDisplayed(), "Font choices screen is not opened");
     }
 }
