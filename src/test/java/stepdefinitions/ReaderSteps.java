@@ -115,22 +115,22 @@ public class ReaderSteps {
     }
 
     @When("I open font choices for book")
-    public void iOpenFontChoicesForBook() {
+    public void openFontChoicesForBook() {
         readerScreen.openFontSettings();
     }
 
     @And("I open Table of Contents")
-    public void iOpenTableOfContents() {
+    public void openTableOfContents() {
         readerScreen.openTableOfContents();
     }
 
     @Then("Table of Contents is opened")
-    public void tableOfContentsIsOpened() {
+    public void checkTableOfContentsIsOpened() {
         Assert.assertTrue(tableOfContentsScreen.state().waitForDisplayed(), "Table of Contents is not opened");
     }
 
     @Then("Font choices screen is present")
-    public void fontChoicesScreenIsPresent() {
+    public void checkFontChoicesScreenIsPresent() {
         Assert.assertTrue(fontChoicesScreen.state().waitForDisplayed(), "Font choices screen is not opened");
     }
 }
