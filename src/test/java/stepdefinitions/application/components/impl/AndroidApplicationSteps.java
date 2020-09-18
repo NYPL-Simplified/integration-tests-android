@@ -8,7 +8,9 @@ import stepdefinitions.application.components.AbstractApplicationSteps;
 public class AndroidApplicationSteps extends AbstractApplicationSteps {
 
     public void openApplication() {
-        eulaAgreementScreen.clickAgree();
+        if (!eulaAgreementScreen.isVanillaApp()) {
+            eulaAgreementScreen.clickAgree();
+        }
         welcomeScreen.addALibraryLater();
     }
 }

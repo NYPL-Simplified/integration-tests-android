@@ -15,9 +15,9 @@ import screens.reader.ReaderScreen;
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidReaderScreen extends ReaderScreen {
     private final ILabel lblBookName =
-            getElementFactory().getLabel(By.xpath("//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/reader_title_text\"]"), "Book Cover");
+            getElementFactory().getLabel(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_title_text\")]"), "Book Cover");
     private final ILabel lblPageNumber =
-            getElementFactory().getLabel(By.xpath("//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/reader_position_text\"]"), "Page Number Info");
+            getElementFactory().getLabel(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_position_text\")]"), "Page Number");
     private final ILabel lblPage =
             getElementFactory().getLabel(By.xpath("//android.webkit.WebView"), "Page View");
 

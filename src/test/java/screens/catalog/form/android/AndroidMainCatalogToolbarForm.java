@@ -9,7 +9,7 @@ import screens.catalog.form.MainCatalogToolbarForm;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidMainCatalogToolbarForm extends MainCatalogToolbarForm {
-    private static final String MAIN_ELEMENT_LOC = "//*[@resource-id=\"org.nypl.simplified.simplye:id/mainToolbar\"]";
+    private static final String MAIN_ELEMENT_LOC = "//*[contains(@resource-id,\"mainToolbar\")]";
     private static final String CATEGORY_INFO_LOCATOR_PART = MAIN_ELEMENT_LOC + "//android.widget.TextView";
 
     private final IButton btnChooseAnotherLibrary =
@@ -26,8 +26,8 @@ public class AndroidMainCatalogToolbarForm extends MainCatalogToolbarForm {
     private final ILabel lblCatalogName =
             getElementFactory().getLabel(By.xpath(CATEGORY_INFO_LOCATOR_PART + "[2]"), "Catalog name");
 
-    private final IButton btnSearch = getElementFactory().getButton(By.xpath(MAIN_ELEMENT_LOC +
-            "//*[@resource-id=\"org.nypl.simplified.simplye:id/catalogMenuActionSearch\"]"), "Search");
+    private final IButton btnSearch =
+            getElementFactory().getButton(By.xpath(MAIN_ELEMENT_LOC + "//*[contains(@resource-id,\"catalogMenuActionSearch\")]"), "Search");
     private final IButton btnMoreOptions =
             getElementFactory().getButton(
                     By.xpath(MAIN_ELEMENT_LOC + "//android.widget.ImageView[@content-desc=\"More options\"]"),

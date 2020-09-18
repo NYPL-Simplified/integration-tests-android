@@ -17,8 +17,7 @@ import java.time.Duration;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAccountScreen extends AccountScreen {
-    private static final String LOGIN_BTN_LOC_PATTERN =
-            "//*[@resource-id=\"org.nypl.simplified.simplye:id/accountLoginButton\" and @text=\"%1$s\"]";
+    private static final String LOGIN_BTN_LOC_PATTERN = "//*[contains(@resource-id,\"accountLoginButton\") and @text=\"%1$s\"]";
 
     private final IButton btnLogin = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AndroidAccountScreenLoginStatus.LOG_IN.getStatus())),
@@ -81,5 +80,4 @@ public class AndroidAccountScreen extends AccountScreen {
                                 && !txbPin.getText().equals(passwordTextBeforeLogout),
                 Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getTimeoutMillis()));
     }
-
 }
