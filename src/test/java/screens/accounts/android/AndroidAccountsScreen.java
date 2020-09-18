@@ -44,7 +44,6 @@ public class AndroidAccountsScreen extends AccountsScreen {
         btnFirstLibrary.click();
     }
 
-
     @Override
     public void deleteLibrary(String libraryName) {
         IButton buttonToWaitFor = getLibraryButton(libraryName);

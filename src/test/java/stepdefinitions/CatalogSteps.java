@@ -83,7 +83,7 @@ public class CatalogSteps {
     @Given("Catalog is opened")
     public void openCatalogWithAgeCheck() {
         bottomMenuForm.open(BottomMenu.CATALOG);
-        if (ageGateScreen.state().isDisplayed()) {
+        if (ageGateScreen.state().isExist()) {
             ageGateScreen.approveAge();
         }
     }

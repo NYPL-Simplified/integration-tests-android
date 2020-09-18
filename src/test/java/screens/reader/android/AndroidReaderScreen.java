@@ -89,7 +89,7 @@ public class AndroidReaderScreen extends ReaderScreen {
         Set<String> bookNames = new HashSet<>();
         do {
             bookNames.addAll(listOfChapters);
-            SwipeElementUtils.swipeElementUp(lblTable);
+            SwipeElementUtils.swipeThroughEntireElementUp(lblTable);
             listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
         } while (!bookNames.containsAll(listOfChapters));
         AqualityServices.getApplication().getDriver().navigate().back();
