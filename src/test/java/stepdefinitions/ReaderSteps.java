@@ -2,6 +2,8 @@ package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
+import constants.RegEx;
+import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,7 +12,6 @@ import org.testng.Assert;
 import screens.reader.ReaderScreen;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ReaderSteps {
     private final ReaderScreen readerScreen;
@@ -62,10 +63,10 @@ public class ReaderSteps {
     public void checkBookPageNumberIsBiggerThenPreviousPageInfo(String pageNumberInfo) {
         String actualBookInfo = readerScreen.getPageNumberInfo();
         String expectedBookInfo = context.get(pageNumberInfo);
-        int expectedPageNumber = getPageNumber(expectedBookInfo);
+        int expectedPageNumber = getPageNumber(expectedBookInfo) + 1;
         int actualPageNumber = getPageNumber(actualBookInfo);
-        Assert.assertTrue(expectedPageNumber + 1 == actualPageNumber ||
-                (actualPageNumber == 1 && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))));
+        Assert.assertTrue(expectedPageNumber == actualPageNumber ||
+                (actualPageNumber == 1 && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))), String.format("Page number is not correct (actual - %d, expected - %d)", actualPageNumber, expectedPageNumber));
     }
 
     public int getPageNumber(String text) {
@@ -82,14 +83,13 @@ public class ReaderSteps {
     public void bookPageNumberIsSmallerThenPreviousPageInfo(String pageNumberInfo) {
         String actualBookInfo = readerScreen.getPageNumberInfo();
         String expectedBookInfo = context.get(pageNumberInfo);
-        int expectedPageNumber = getPageNumber(expectedBookInfo);
+        int expectedPageNumber = getPageNumber(expectedBookInfo) - 1;
         int actualPageNumber = getPageNumber(actualBookInfo);
-        Assert.assertTrue(expectedPageNumber - 1 == actualPageNumber ||
-                (actualPageNumber == 1 && !getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))));
+        Assert.assertTrue(expectedPageNumber == actualPageNumber ||
+                (!getChapterName(expectedBookInfo).equals(getChapterName(actualBookInfo))), String.format("Page number is not correct (actual - %d, expected - %d)", actualPageNumber, expectedPageNumber));
     }
 
     private Matcher getMatcher(String text) {
-        Pattern pattern = Pattern.compile("Page (\\d+) of \\d+ (\\(.*\\))");
-        return pattern.matcher(text);
+        return RegExUtil.getMatcher(text, RegEx.PAGE_NUMBER_REGEX);
     }
 }
