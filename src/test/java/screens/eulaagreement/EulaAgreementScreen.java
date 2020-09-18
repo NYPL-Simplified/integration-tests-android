@@ -9,4 +9,6 @@ public abstract class EulaAgreementScreen extends Screen {
     }
 
     public abstract void clickAgree();
+
+    public abstract boolean isVanillaApp();
 }

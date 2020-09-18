@@ -23,4 +23,6 @@ public abstract class CatalogBooksScreen extends Screen {
     public abstract void openBookDetailsWithAction(BookActionButtonKeys action);
 
     public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key);
+
+    public abstract AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys actionButtonKey, String bookType);
 }

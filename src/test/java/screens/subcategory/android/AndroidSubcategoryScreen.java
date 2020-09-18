@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidSubcategoryScreen extends SubcategoryScreen {
-    private static final String BOOKS_LOCATOR = "//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\"]";
+    private static final String BOOKS_LOCATOR = "//android.widget.ImageView[contains(@resource-id,\"bookCellIdleCover\")]";
     public static final String BOOK_BUTTON_XPATH =
-            "//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleButtons\"]/android.widget.Button";
+            "//android.widget.LinearLayout[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button";
     public static final String BOOK_COVER_LOCATOR_PATTERN =
             "//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\" and @content-desc=\"%s\"]";
     private static final String AUTHOR_INFO_XPATH =
@@ -39,7 +39,7 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
             getElementFactory().getLabel(By.xpath(AUTHOR_INFO_XPATH), "First book author");
 
     public AndroidSubcategoryScreen() {
-        super(By.xpath("//androidx.recyclerview.widget.RecyclerView[@resource-id=\"org.nypl.simplified.simplye:id/feedWithoutGroupsList\"]"));
+        super(By.xpath("//androidx.recyclerview.widget.RecyclerView[contains(@resource-id,\"feedWithoutGroupsList\")]"));
     }
 
     @Override

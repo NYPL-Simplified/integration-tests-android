@@ -19,24 +19,22 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     private static final String INFORMATION_TAB_LABELS_NAME_PART = "Information tab %1$s value";
 
     private static final String CONTENT_ATTRIBUTE_NAME = "content-desc";
-    private static final String INFORMATION_TAB_VALUE_LOC_PART = "//*[@resource-id=\"org.nypl.simplified.simplye:id/key\" "
-            + "and @text=\"%1$s\"]/following-sibling::*[@resource-id=\"org.nypl.simplified.simplye:id/value\"]";
+    private static final String INFORMATION_TAB_VALUE_LOC_PART =
+            "//*[contains(@resource-id,\"key\") and @text=\"%1$s\"]/following-sibling::*[contains(@resource-id,\":id/value\")]";
     private static final String BOOK_ACTION_BUTTON_LOC = "//android.widget.Button[@content-desc=\"%1$s\"]";
 
     private final ILabel lblBookInfo = getElementFactory().getLabel(By.id("bookDetailCoverImage"), "Cover Image");
     private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.id("bookDetailTitle"), "Book title");
     private final ILabel lblBookFormatInfo = getElementFactory().getLabel(By.id("bookDetailFormat"), "Book format");
     private final ILabel lblBookAuthorsInfo = getElementFactory().getLabel(By.id("bookDetailAuthors"), "Book Authors");
-    private final ILabel lblBookDescription = getElementFactory().getLabel(
-            By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookDetailDescriptionText\"]"),
-            "Description");
+    private final ILabel lblBookDescription =
+            getElementFactory().getLabel(By.xpath("//*[contains(@resource-id,\"bookDetailDescriptionText\")]"), "Description");
 
     private final IButton btnDownload = getActionButton(BookActionButtonKeys.DOWNLOAD);
     private final IButton btnRead = getActionButton(BookActionButtonKeys.READ);
     private final IButton btnDelete = getActionButton(BookActionButtonKeys.DELETE);
-    private final IButton btnRelatedBooks = getElementFactory().getButton(
-            By.xpath("//*[@resource-id=\"org.nypl.simplified.simplye:id/bookDetailRelated\"]"),
-            "Related books button");
+    private final IButton btnRelatedBooks =
+            getElementFactory().getButton(By.xpath("//*[contains(@resource-id,\"bookDetailRelated\")]"), "Related books button");
 
     public AndroidBookDetailsScreen() {
         super(By.id("bookDetailCover"));
