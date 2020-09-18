@@ -99,8 +99,9 @@ public class AndroidReaderScreen extends ReaderScreen {
 
     @Override
     public void openChapter(String chapter) {
+        btnChapters.click();
         IButton button = getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\") and @text=\"" + chapter + "\"]"), chapter);
-        if (!button.state().isDisplayed()){
+        if (!button.state().isDisplayed()) {
             button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
         button.click();
