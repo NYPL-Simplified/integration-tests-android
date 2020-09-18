@@ -9,8 +9,8 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.core.elements.ElementsCount;
+import framework.utilities.swipe.SwipeElementUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
 import screens.catalog.screen.catalog.CatalogScreen;
 
 import java.util.HashSet;
@@ -114,7 +114,7 @@ public class IosCatalogScreen extends CatalogScreen {
                 String.format("Subcategory %1$s line", lineName));
         do {
             bookNames.addAll(currentBooksNames);
-            subcategoryLine.getTouchActions().swipe(new Point(0, subcategoryLine.getElement().getCenter().y));
+            SwipeElementUtils.swipeFromRightToLeft(subcategoryLine);
             currentBooksNames = getListOfVisibleBooksNamesInSubcategoryLane(lineName);
         } while (!bookNames.containsAll(currentBooksNames));
         return bookNames;

@@ -4,6 +4,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import framework.utilities.swipe.SwipeElementUtils;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
@@ -19,11 +20,9 @@ public class IosReaderScreen extends ReaderScreen {
     private final ILabel lblBookName =
             getElementFactory().getLabel(By.xpath(""), "Book Cover");
     private final ILabel lblPageNumber =
-            getElementFactory().getLabel(By.xpath(""), "Page Number");
-    private final ILabel lblBookTextPage =
-            getElementFactory().getLabel(By.xpath(""), "Page Number");
+            getElementFactory().getLabel(By.xpath(""), "Page Number Info");
     private final ILabel lblPage =
-            getElementFactory().getLabel(By.xpath(""), "Page Number");
+            getElementFactory().getLabel(By.xpath(""), "Page View");
 
     public IosReaderScreen() {
         super(By.xpath(""));
@@ -44,7 +43,7 @@ public class IosReaderScreen extends ReaderScreen {
 
     @Override
     public void swipeFromRightToLeft() {
-        lblPage.getTouchActions().swipe(new Point(0, lblPage.getElement().getCenter().y));
+        SwipeElementUtils.swipeFromRightToLeft(lblPage);
     }
 
     @Override

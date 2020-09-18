@@ -14,7 +14,6 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.Rectangle;
 import screens.reader.ReaderScreen;
 
 import java.util.HashSet;
@@ -29,7 +28,7 @@ public class AndroidReaderScreen extends ReaderScreen {
     private final ILabel lblPageNumber =
             getElementFactory().getLabel(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_position_text\")]"), "Page Number");
     private final ILabel lblPage =
-            getElementFactory().getLabel(By.xpath("//android.webkit.WebView"), "Page Number");
+            getElementFactory().getLabel(By.xpath("//android.webkit.WebView"), "Page View");
     private final ILabel lblTable =
             getElementFactory().getLabel(By.id("reader_toc_list"), "Table");
     private final IButton btnChapters =
@@ -52,13 +51,12 @@ public class AndroidReaderScreen extends ReaderScreen {
 
     @Override
     public void swipeFromLeftToRight() {
-        Rectangle rectangle = lblPage.getElement().getRect();
-        lblPage.getTouchActions().swipe(new Point(rectangle.x + rectangle.width - 1, lblPage.getElement().getCenter().y));
+        SwipeElementUtils.swipeFromLeftToRight(lblPage);
     }
 
     @Override
     public void swipeFromRightToLeft() {
-        lblPage.getTouchActions().swipe(new Point(0, lblPage.getElement().getCenter().y));
+        SwipeElementUtils.swipeFromRightToLeft(lblPage);
     }
 
     @Override

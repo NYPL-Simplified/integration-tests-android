@@ -41,6 +41,8 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
+    private String RELATIVE_BOOK_TITLE_LOCATOR_PATTERN =
+            "//android.view.ViewGroup[%s]//*[contains(@resource-id,\"bookCellIdle\")]";
 
     public AndroidCatalogBooksScreen() {
         super(By.xpath(MAIN_ELEMENT));
@@ -120,7 +122,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
             button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
         String bookTitle =
-                getElementFactory().getButton(By.xpath("//android.view.ViewGroup[" + getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType) + "]//*[contains(@resource-id,\"bookCellIdle\")]"), key).getText();
+                getElementFactory().getButton(By.xpath(String.format(RELATIVE_BOOK_TITLE_LOCATOR_PATTERN, getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType))), key).getText();
         AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
         button.click();
         return androidCatalogBookModel;
