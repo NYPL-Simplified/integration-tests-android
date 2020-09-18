@@ -19,16 +19,16 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     public static final String BOOK_BUTTON_XPATH =
             "//android.widget.LinearLayout[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button";
     public static final String BOOK_COVER_LOCATOR_PATTERN =
-            "//android.widget.ImageView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleCover\" and @content-desc=\"%s\"]";
+            "//android.widget.ImageView[contains(@resource-id, \"bookCellIdleCover\") and @content-desc=\"%s\"]";
     private static final String AUTHOR_INFO_XPATH =
-            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleAuthor\"]";
+            "//android.widget.TextView[contains(@resource-id, \"bookCellIdleAuthor\")]";
     private static final String BOOK_NAME_XPATH =
-            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleTitle\"]";
+            "//android.widget.TextView[contains(@resource-id, \"bookCellIdleTitle\")]";
     private static final String TYPE_INFO_XPATH =
-            "//android.widget.TextView[@resource-id=\"org.nypl.simplified.simplye:id/bookCellIdleMeta\"]";
+            "//android.widget.TextView[contains(@resource-id, \"bookCellIdleMeta\")]";
 
     private final String SORTING_BUTTON_XPATH_PATTERN =
-            "//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/feedHeaderFacets\"]/android.widget.Button";
+            "//android.widget.LinearLayout[contains(@resource-id, \"feedHeaderFacets\")]/android.widget.Button";
     private final ILabel lblFirstBookImageCover =
             getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR), "First book image info");
     private final ILabel lblFirstBookTitle =
