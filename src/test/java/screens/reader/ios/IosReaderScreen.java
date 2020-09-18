@@ -12,6 +12,8 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import screens.reader.ReaderScreen;
 
+import java.util.Set;
+
 @ScreenType(platform = PlatformName.IOS)
 public class IosReaderScreen extends ReaderScreen {
     private final ILabel lblBookName =
@@ -63,5 +65,15 @@ public class IosReaderScreen extends ReaderScreen {
     @Override
     public String getPageNumberInfo() {
         return lblPageNumber.getText();
+    }
+
+    @Override
+    public Set<String> getListOfChapters() {
+        return null;
+    }
+
+    @Override
+    public void openChapter(String chapter) {
+
     }
 }

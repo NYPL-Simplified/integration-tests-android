@@ -3,12 +3,15 @@ package stepdefinitions;
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import framework.utilities.ScenarioContext;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import models.android.AndroidCatalogBookModel;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 import screens.reader.ReaderScreen;
 
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,7 +78,7 @@ public class ReaderSteps {
 
     public String getChapterName(String text) {
         Matcher matcher = getMatcher(text);
-        return matcher.find() ? matcher.group(2) : "";
+        return matcher.find() ? matcher.group(3) : "";
     }
 
     @Then("Book page number is smaller then previous {string}")
@@ -89,7 +92,19 @@ public class ReaderSteps {
     }
 
     private Matcher getMatcher(String text) {
-        Pattern pattern = Pattern.compile("Page (\\d+) of \\d+ (\\(.*\\))");
+        Pattern pattern = Pattern.compile("Page (\\d+) of \\d+ (\\((.*)\\))");
         return pattern.matcher(text);
+    }
+
+    @And("Each chapter can be opened from Table of Contents")
+    public void eachChapterCanBeOpenedFromTableOfContents() {
+        SoftAssert softAssert = new SoftAssert();
+        Set<String> chapters = readerScreen.getListOfChapters();
+        for (String chapter :
+                chapters) {
+            readerScreen.openChapter(chapter);
+            Assert.assertEquals(getChapterName(readerScreen.getPageNumberInfo()), chapter, "Chapter name is not correct");
+        }
+        softAssert.assertAll();
     }
 }
