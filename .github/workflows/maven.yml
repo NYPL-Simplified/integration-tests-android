@@ -5,7 +5,7 @@ name: Test Run
 
 on:
   workflow_dispatch:
-    branches: [ master ]
+    branches: [ navigate_by_toc ]
     inputs:
       test_tag:
         description: 'Tags to run'
@@ -14,7 +14,11 @@ on:
       bs_app_link:
         description: 'app_url of uploaded to BS link'
         required: true
-        default: 'bs://8b267f2f08418da208338a798f35928ed856616d'
+        default: 'bs://aafff93db3cce6d9fb0b794c5a86f4e56fabfc43'
+      platform_name:
+        description: 'Platform name'
+        required: true
+        default: 'android'
 
 jobs:
   build:
@@ -28,7 +32,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Run tests
-      run: mvn clean test -Daquality.buildName="Android_smoke" -Daquality.token=${{secrets.TRACKING_API_TOKEN}} -Daquality.suiteName="${{github.event.inputs.test_tag}}" -Debookcard=${{secrets.BookCard }} -Debookpin=${{secrets.BookPin}} -DremoteConnectionUrl=${{secrets.remoteConnectionUrl}} -DdriverSettings.android.capabilities.app=${{github.event.inputs.bs_app_link}} -Dcucumber.options="--tags '${{github.event.inputs.test_tag}}'"
+      run: mvn clean test -Daquality.buildName="Android_smoke" -Daquality.token=${{secrets.TRACKING_API_TOKEN}} -Daquality.suiteName="${{github.event.inputs.test_tag}}" -Debookcard=${{secrets.BookCard }} -Debookpin=${{secrets.BookPin}} -DremoteConnectionUrl=${{secrets.remoteConnectionUrl}} -DplatformName=${{github.event.inputs.platform_name}} -DdriverSettings.android.capabilities.app=${{github.event.inputs.bs_app_link}} -Dcucumber.options="--tags '${{github.event.inputs.test_tag}}'"
     - name: Generate Allure Report
       uses: afiore/action-allure-report@v0.1.0
     - name: Upload report

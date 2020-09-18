@@ -1,7 +1,9 @@
 Feature: Read EPUB
 
-  Scenario: Navigate by Page
+  Background:
     Given Application is opened
+
+  Scenario: Navigate by Page
     When I open Catalog
     Then Books feed is loaded
     When I open category by chain:
@@ -25,3 +27,16 @@ Feature: Read EPUB
     When I save page info as 'pageInfo'
       And I swipe from left to right book corner
     Then Book page number is 1
+
+  Scenario: Navigate by Table of Contents Menu
+    When I open Catalog
+    Then Books feed is loaded
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+      And DOWNLOAD book of 'eBook' type and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
+    Then Book 'bookInfo' is present on screen
+      And Each chapter can be opened from Table of Contents

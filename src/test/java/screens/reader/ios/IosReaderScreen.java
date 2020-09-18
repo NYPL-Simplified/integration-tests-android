@@ -1,9 +1,13 @@
 package screens.reader.ios;
 
+import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
+import aquality.appium.mobile.elements.ElementType;
+import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import aquality.selenium.core.elements.interfaces.IElement;
 import framework.utilities.swipe.SwipeElementUtils;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.offset.PointOption;
@@ -13,6 +17,11 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import screens.reader.ReaderScreen;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @ScreenType(platform = PlatformName.IOS)
 public class IosReaderScreen extends ReaderScreen {
     private final ILabel lblBookName =
@@ -21,6 +30,10 @@ public class IosReaderScreen extends ReaderScreen {
             getElementFactory().getLabel(By.xpath(""), "Page Number Info");
     private final ILabel lblPage =
             getElementFactory().getLabel(By.xpath(""), "Page View");
+    private final IButton btnChapters =
+            getElementFactory().getButton(By.xpath(""), "Chapters");
+    private final ILabel lblTable =
+            getElementFactory().getLabel(By.id(""), "Table");
 
     public IosReaderScreen() {
         super(By.xpath(""));
@@ -62,5 +75,35 @@ public class IosReaderScreen extends ReaderScreen {
     @Override
     public String getPageNumberInfo() {
         return lblPageNumber.getText();
+    }
+
+    @Override
+    public Set<String> getListOfChapters() {
+        btnChapters.click();
+        lblTable.state().waitForExist();
+        List<String> listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
+        Set<String> bookNames = new HashSet<>();
+        do {
+            bookNames.addAll(listOfChapters);
+            SwipeElementUtils.swipeThroughEntireElementUp(lblTable);
+            listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
+        } while (!bookNames.containsAll(listOfChapters));
+        AqualityServices.getApplication().getDriver().navigate().back();
+        AqualityServices.getLogger().info("Found chapters - " + listOfChapters.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        return bookNames;
+    }
+
+    @Override
+    public void openChapter(String chapter) {
+        btnChapters.click();
+        IButton button = getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\") and @text=\"" + chapter + "\"]"), chapter);
+        if (!button.state().isDisplayed()) {
+            button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
+        button.click();
+    }
+
+    private List<ILabel> getChapters() {
+        return getElementFactory().findElements(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\")]"), ElementType.LABEL);
     }
 }
