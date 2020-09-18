@@ -97,13 +97,13 @@ public class ReaderSteps {
     }
 
     @And("Each chapter can be opened from Table of Contents")
-    public void eachChapterCanBeOpenedFromTableOfContents() {
+    public void checkEachChapterCanBeOpenedFromTableOfContents() {
         SoftAssert softAssert = new SoftAssert();
         Set<String> chapters = readerScreen.getListOfChapters();
         for (String chapter :
                 chapters) {
             readerScreen.openChapter(chapter);
-            Assert.assertEquals(getChapterName(readerScreen.getPageNumberInfo()), chapter, "Chapter name is not correct");
+            softAssert.assertEquals(getChapterName(readerScreen.getPageNumberInfo()), chapter, "Chapter name is not correct");
         }
         softAssert.assertAll();
     }
