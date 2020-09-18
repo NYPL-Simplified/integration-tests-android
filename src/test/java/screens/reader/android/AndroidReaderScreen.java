@@ -1,9 +1,14 @@
 package screens.reader.android;
 
+import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
+import aquality.appium.mobile.elements.ElementType;
+import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import aquality.selenium.core.elements.interfaces.IElement;
+import framework.utilities.swipe.SwipeElementUtils;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
@@ -11,6 +16,11 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import screens.reader.ReaderScreen;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidReaderScreen extends ReaderScreen {
@@ -20,6 +30,14 @@ public class AndroidReaderScreen extends ReaderScreen {
             getElementFactory().getLabel(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_position_text\")]"), "Page Number");
     private final ILabel lblPage =
             getElementFactory().getLabel(By.xpath("//android.webkit.WebView"), "Page Number");
+    private final ILabel lblTable =
+            getElementFactory().getLabel(By.id("reader_toc_list"), "Table");
+    private final IButton btnChapters =
+            getElementFactory().getButton(By.xpath("//android.widget.ImageView[@content-desc=\"Show table of contents\"]"), "Chapters");
+
+    private List<ILabel> getChapters() {
+        return getElementFactory().findElements(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\")]"), ElementType.LABEL);
+    }
 
     public AndroidReaderScreen() {
         super(By.id("//android.view.View[@resource-id=\"reflowable-book-frame\"]"));
@@ -61,5 +79,30 @@ public class AndroidReaderScreen extends ReaderScreen {
     @Override
     public String getPageNumberInfo() {
         return lblPageNumber.getText();
+    }
+
+    @Override
+    public Set<String> getListOfChapters() {
+        btnChapters.click();
+        lblTable.state().waitForExist();
+        List<String> listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
+        Set<String> bookNames = new HashSet<>();
+        do {
+            bookNames.addAll(listOfChapters);
+            SwipeElementUtils.swipeElementUp(lblTable);
+            listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
+        } while (!bookNames.containsAll(listOfChapters));
+        AqualityServices.getApplication().getDriver().navigate().back();
+        AqualityServices.getLogger().info("Found chapters - " + listOfChapters.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        return bookNames;
+    }
+
+    @Override
+    public void openChapter(String chapter) {
+        IButton button = getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\") and @text=\"" + chapter + "\"]"), chapter);
+        if (!button.state().isDisplayed()){
+            button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
+        button.click();
     }
 }

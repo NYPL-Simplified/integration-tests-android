@@ -6,7 +6,7 @@ Feature: Refresh Feed
     When I open Catalog
       And I switch to 'The SimplyE Collection' from side menu
       And I Download first book from shelf and save it as 'bookInfo'
-      And I open Books
+      #And I open Books
     Then Book 'bookInfo' is present in Books List
       And Count of books is equal to 1
     When I refresh list of books
