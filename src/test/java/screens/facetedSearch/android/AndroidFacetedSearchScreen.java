@@ -10,8 +10,8 @@ import screens.facetedSearch.FacetedSearchScreen;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidFacetedSearchScreen extends FacetedSearchScreen {
-    private static final String MAIN_ELEMENT = "//*[contains(@resource-id,\"feedHeaderFacets\")]";
-    private static final String AVAILABILITY_SELECTION = "//*[contains(@resource-id,\"select_dialog_listview\")]"
+    private static final String MAIN_ELEMENT = "//*[@resource-id=\"org.nypl.simplified.simplye:id/feedHeaderFacets\"]";
+    private static final String FACET_SEARCH_SELECTION = "//*[@resource-id=\"org.nypl.simplified.simplye:id/select_dialog_listview\"]"
             + "//*[@text=\"%1$s\"]";
     private static final String SORTING_BUTTON_XPATH_PATTERN =
             "//android.widget.LinearLayout[@resource-id=\"org.nypl.simplified.simplye:id/feedHeaderFacets\"]/android.widget.Button";

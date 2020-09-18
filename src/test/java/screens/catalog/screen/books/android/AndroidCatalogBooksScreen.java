@@ -115,7 +115,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
+    public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.i18n();
         IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
         if (!button.state().isDisplayed()) {
@@ -138,8 +138,8 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         return catalogBookModel;
     }
 
-    private ILabel getBookJacketWithGivenButtonLabel(AndroidBookActionButtonKeys button) {
-        String key = button.getKey();
+    private ILabel getBookJacketWithGivenButtonLabel(BookActionButtonKeys button) {
+        String key = button.i18n();
         return getElementFactory().getLabel(By.xpath(String.format("//*[contains(@resource-id,\"bookCellIdle\") " + "and .//android.widget.Button[@content-desc=\"%1$s\"]]", key)), "Book jacket with" + key);
     }
 
@@ -153,8 +153,8 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         return getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN, key)), key);
     }
 
-    private String getBookAddButtonLocatorWithGivenType(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
-        String key = actionButtonKey.getKey();
+    private String getBookAddButtonLocatorWithGivenType(BookActionButtonKeys actionButtonKey, String bookType) {
+        String key = actionButtonKey.i18n();
         return String.format(BOOK_OF_TYPE_BUTTON_PATTERN, bookType, key);
     }
 }

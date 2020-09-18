@@ -118,15 +118,15 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
-        String key = actionButtonKey.getKey();
+    public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
+        String key = actionButtonKey.i18n();
         IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
         if (!button.state().isDisplayed()) {
             button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
         String bookTitle =
                 getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key).getText();
-        AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
+        CatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
         button.click();
         return androidCatalogBookModel;
     }
@@ -159,8 +159,8 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         bookWithSpecificAddBtn.click();
     }
 
-    private String getBookAddButtonLocatorWithGivenType(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
-        String key = actionButtonKey.getKey();
+    private String getBookAddButtonLocatorWithGivenType(BookActionButtonKeys actionButtonKey, String bookType) {
+        String key = actionButtonKey.i18n();
         return String.format("", bookType, key);
     }
 

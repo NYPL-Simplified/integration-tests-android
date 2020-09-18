@@ -166,7 +166,7 @@ public class CatalogSteps {
     }
 
     @And("{} book of {string} type and save it as {string}")
-    public void performActionOnBookOfTypeAndSaveIt(AndroidBookActionButtonKeys actionButtonKey, String bookType, String bookInfoKey) {
+    public void performActionOnBookOfTypeAndSaveIt(BookActionButtonKeys actionButtonKey, String bookType, String bookInfoKey) {
         context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey, bookType));
     }
 
