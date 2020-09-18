@@ -23,7 +23,6 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeCollectionView";
 
     private static final String ADD_BOOK_BUTTON_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
-
     private static final String BOOKS_LOC = ".//XCUIElementTypeCell";
     private static final String BOOK_BLOCK_BY_TITLE_LOC = "//XCUIElementTypeCell"
             + "[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
@@ -114,6 +113,20 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
+    @Override
+    public AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
+        String key = actionButtonKey.getKey();
+        IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
+        if (!button.state().isDisplayed()) {
+            button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
+        String bookTitle =
+                getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key).getText();
+        AndroidCatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
+        button.click();
+        return androidCatalogBookModel;
+    }
+
     private AndroidCatalogBookModel performActionOnBook(AndroidBookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
@@ -137,6 +150,11 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private void clickOnTheSpecificBookElement(IElement bookWithSpecificAddBtn) {
         bookWithSpecificAddBtn.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         bookWithSpecificAddBtn.click();
+    }
+
+    private String getBookAddButtonLocatorWithGivenType(AndroidBookActionButtonKeys actionButtonKey, String bookType) {
+        String key = actionButtonKey.getKey();
+        return String.format("", bookType, key);
     }
 
     private IButton getAddBookButton(AndroidBookActionButtonKeys button) {
