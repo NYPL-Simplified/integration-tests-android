@@ -21,10 +21,13 @@ public class IosBooksScreen extends BooksScreen {
 
     private static final String BOOK_IMAGE_LOC = ""; // does not contain text on the ios
     private static final String BOOK_TYPE_LOC = ""; // does not exist on the ios
-    private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]\n";
+    private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
+    private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
     private static final String BOOKS_WITH_ACTION_LOC = String.format(
             "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_ACTION_BUTTON_LOC);
+    private static final String BOOKS_BY_TITLE_LOC = String.format(
+            "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_INFO_LOCATOR_PATTERN);
     public static final String BOOK_INFO_BUTTON_PATTERN = "";
 
     private final ILabel mainBooksElementColleciton = getElementFactory().getLabel(
@@ -32,7 +35,6 @@ public class IosBooksScreen extends BooksScreen {
     private final ILabel lblNoBooks = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeStaticText[@name=\"Visit the Catalog to add books to My Books.\"]"),
             "No Books Present");
-    private final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]\n";
     private final List<IElement> booksList = getElementFactory().findElements(
             By.xpath("//XCUIElementTypeCollectionView//XCUIElementTypeCell"),
             ElementType.LABEL);
@@ -49,7 +51,7 @@ public class IosBooksScreen extends BooksScreen {
     @Override
     public boolean isBookPresent(CatalogBookModel bookInfo) {
         ILabel book = getElementFactory()
-                .getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle())),
+                .getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getTitle())),
                         "No Books Present");
         return book
                 .state()
@@ -83,6 +85,9 @@ public class IosBooksScreen extends BooksScreen {
     @Override
     public void readBook(CatalogBookModel bookInfo) {
         String readButtonName = BookActionButtonKeys.READ.i18n();
-        getElementFactory().getButton(By.xpath(String.format(BOOK_INFO_BUTTON_PATTERN, String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle()), readButtonName)), readButtonName).click();
+        getElementFactory().getButton(By.xpath(String.format(BOOKS_BY_TITLE_LOC,  bookInfo.getTitle())),
+                "The book " + bookInfo.getTitle())
+                .findChildElement(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, readButtonName)), ElementType.BUTTON)
+                .click();
     }
 }

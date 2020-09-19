@@ -27,6 +27,9 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
             + "/following-sibling::XCUIElementTypeStaticText[@name])[1]";
     private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
 
+    private static final String BTN_APPROVE_BOOK_ACTION = "//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]"
+            + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"%1$s\"]";
+
 
     private final ILabel lblBookInfo = getElementFactory().getLabel(By.xpath("//XCUIElementTypeImage[1]"), "Cover Image");
     private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.xpath("(//XCUIElementTypeOther//XCUIElementTypeStaticText[@name])[1]"), "Book title");
@@ -100,7 +103,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public void deleteBook() {
-        btnDelete.click();
+        clickActionButton(BookActionButtonKeys.DELETE);
     }
 
     @Override
@@ -111,6 +114,11 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
         }
         if (btnOkCannotAddBook.state().isDisplayed()) {
             btnOkCannotAddBook.click();
+        }
+
+        IButton btnApproveAction = getElementFactory().getButton(By.xpath(String.format(BTN_APPROVE_BOOK_ACTION, buttonKeys.i18n())), buttonKeys.i18n());
+        if (btnApproveAction.state().isDisplayed()) {
+            btnApproveAction.click();
         }
     }
 

@@ -57,8 +57,8 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public void openBook(CatalogBookModel bookInfo) {
-        String imageTitle = bookInfo.getImageTitle();
-        getElementFactory().getButton(By.xpath(String.format(BOOK_COVER_LOCATOR_PATTERN, imageTitle)), imageTitle).click();
+        String title = bookInfo.getTitle();
+        getElementFactory().getButton(By.xpath(String.format(BOOK_COVER_LOCATOR_PATTERN, title)), title).click();
     }
 
     @Override
