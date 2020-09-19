@@ -67,10 +67,6 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
 
         catalogBookModel
-//                .setImageTitle(Objects.requireNonNull(
-//                        getElementFactory().getLabel(By.xpath(blockLoc + BOOK_IMAGE_LOC),
-//                                "Book image content description").getAttribute()
-//                ))
                 .setTitle(getBookParameter(blockLoc, BOOK_TITLE_LOC, "Book title"))
                 .setAuthor(getBookParameter(blockLoc, BOOK_AUTHOR_LOC, "Book author"))
                 .setBookType(getBookParameter(blockLoc, BOOK_TYPE_LOC, "Book type"));
