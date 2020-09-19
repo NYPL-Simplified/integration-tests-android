@@ -46,8 +46,6 @@ public class IosAccountScreen extends AccountScreen {
         enterDataViaKeyboard(txbCard, ebookCardValue);
         enterDataViaKeyboard(txbPin, ebookPinValue);
         KeyboardUtils.hideKeyboard();
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> !KeyboardUtils.isKeyboardVisible()),
-                "Checking that keyboard is not shown");
         btnLogin.click();
     }
 
