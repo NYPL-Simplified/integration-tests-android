@@ -133,4 +133,77 @@ public class ReaderSteps {
     public void checkFontChoicesScreenIsPresent() {
         Assert.assertTrue(fontChoicesScreen.state().waitForDisplayed(), "Font choices screen is not opened");
     }
+
+    @And("I increase text font size")
+    public void iIncreaseTextFontSize() {
+        readerScreen.openFontSettings();
+        fontChoicesScreen.setSetting(SettingScrrenButton.INCREASE_FONT_SETTINGS);
+        AqualityServices.getApplication().getDriver().navigate().back();
+    }
+
+    @When("I decrease text font size")
+    public void iDecreaseTextFontSize() {
+        readerScreen.openFontSettings();
+        fontChoicesScreen.setSetting(SettingScrrenButton.DECREASE_FONT_SETTINGS);
+        AqualityServices.getApplication().getDriver().navigate().back();
+    }
+
+    @When("I save font size as {string}")
+    public void iSaveFontSizeAsFontSize() {
+        context.add(readerScreen.getFontSize());
+    }
+
+    @Then("Font size {string} is increased")
+    public void fontSizeFontSizeIsIncreased(String fontSizeKey) {
+        double previousFontSize = context.get(fontSizeKey);
+        Assert.assertTrue(readerScreen.getFontSize() > previousFontSize, "Font size is not increased");
+    }
+
+    @Then("Font size {string} is decreased")
+    public void fontSizeFontSizeIsDecreased(String fontSizeKey) {
+        double previousFontSize = context.get(fontSizeKey);
+        Assert.assertTrue(readerScreen.getFontSize() < previousFontSize, "Font size is not decreased");
+    }
+
+    @When("I change font style to serif")
+    public void iChangeFontStyleToSerif() {
+        readerScreen.openFontSettings();
+        fontChoicesScreen.setSetting(SettingScrrenButton.SERFIF);
+        AqualityServices.getApplication().getDriver().navigate().back();
+    }
+
+    @When("I change font style to sans-serif arial")
+    public void iChangeFontStyleToSansSerifArial() {
+        readerScreen.openFontSettings();
+        fontChoicesScreen.setSetting(SettingScrrenButton.SANS_SERIF_ARIAL);
+        AqualityServices.getApplication().getDriver().navigate().back();
+    }
+
+    @When("I change font style to alternative sans")
+    public void iChangeFontStyleToAlternativeSans() {
+        readerScreen.openFontSettings();
+        fontChoicesScreen.setSetting(SettingScrrenButton.ALTERNATIVE_SANS);
+        AqualityServices.getApplication().getDriver().navigate().back();
+    }
+
+    @When("I change contrast to white text on black")
+    public void iChangeContrastToWhiteTextOnBlack() {
+        readerScreen.openFontSettings();
+        fontChoicesScreen.setSetting(SettingScrrenButton.WHITE_TEXT_ON_BLACK);
+        AqualityServices.getApplication().getDriver().navigate().back();
+    }
+
+    @When("I change contrast to black text on white")
+    public void iChangeContrastToBlackTextOnWhite() {
+        readerScreen.openFontSettings();
+        fontChoicesScreen.setSetting(SettingScrrenButton.BLACK_TEXT_ON_WHITE);
+        AqualityServices.getApplication().getDriver().navigate().back();
+    }
+
+    @When("I change contrast to black text on sepia")
+    public void iChangeContrastToBlackTextOnSepia() {
+        readerScreen.openFontSettings();
+        fontChoicesScreen.setSetting(SettingScrrenButton.BLACK_TEXT_ON_SEPIA);
+        AqualityServices.getApplication().getDriver().navigate().back();
+    }
 }

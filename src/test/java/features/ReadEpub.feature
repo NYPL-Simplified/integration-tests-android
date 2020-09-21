@@ -60,3 +60,33 @@ Feature: Read EPUB
     When I return to previous screen
       And I open Table of Contents
     Then Table of Contents is opened
+
+  Scenario: Change, View Font and Contrast Settings
+    When I open Catalog
+    Then Books feed is loaded
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+      And DOWNLOAD book of 'eBook' type and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+    Then Book 'bookInfo' is present on screen
+    When I save font size as 'fontSize'
+      And I increase text font size
+    Then Font size 'fontSize' is increased
+    When I save font size as 'fontSize'
+      And I decrease text font size
+    Then Font size 'fontSize' is decreased
+    When I change font style to serif
+    Then Book text displays in 'serif' font
+    When I change font style to sans-serif arial
+    Then Book text displays in 'sans-serif arial'
+    When I change font style to alternative sans
+    Then Book text displays in 'alternative sans' font
+    When I change contrast to white text on black
+    Then Book text displays white-text on black
+    When I change contrast to black text on white
+    Then Book text displays black-text on white
+    When I change contrast to black text on sepia
+    Then Book text displays black-text on sepia
+    #brightness check should be here, but appium for android(and ios probably) does not support brightness info
