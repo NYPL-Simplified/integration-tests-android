@@ -1,28 +1,31 @@
 package framework.utilities.keyboard;
 
 import aquality.appium.mobile.application.AqualityServices;
+import io.appium.java_client.HasOnScreenKeyboard;
+import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.android.nativekey.PressesKey;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
 import org.openqa.selenium.interactions.Actions;
 
 public final class KeyboardUtils {
-    private KeyboardUtils() {}
+    private KeyboardUtils() {
+    }
 
-    @SuppressWarnings("unchecked")
     public static boolean isKeyboardVisible() {
-        return ((AndroidDriver<AndroidElement>)AqualityServices.getApplication().getDriver()).isKeyboardShown();
+        return ((HasOnScreenKeyboard) AqualityServices.getApplication().getDriver()).isKeyboardShown();
     }
 
-    @SuppressWarnings("unchecked")
     public static void hideKeyboard() {
-        ((AndroidDriver<AndroidElement>)AqualityServices.getApplication().getDriver()).hideKeyboard();
+        AqualityServices.getApplication().getDriver().hideKeyboard();
     }
 
-    @SuppressWarnings("unchecked")
     public static void pressKey(AndroidKey androidKey) {
-        ((AndroidDriver<AndroidElement>)AqualityServices.getApplication().getDriver()).pressKey(new KeyEvent(androidKey));
+        ((PressesKey) AqualityServices.getApplication().getDriver()).pressKey(new KeyEvent(androidKey));
     }
 
 }

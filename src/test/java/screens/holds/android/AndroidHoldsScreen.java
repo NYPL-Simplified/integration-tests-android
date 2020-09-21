@@ -6,7 +6,7 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
 import org.openqa.selenium.By;
 import screens.holds.HoldsScreen;
@@ -55,20 +55,20 @@ public class AndroidHoldsScreen extends HoldsScreen {
     }
 
     @Override
-    public void clickTheBookByTitleBtnWithKey(String title, AndroidBookActionButtonKeys key) {
+    public void clickTheBookByTitleBtnWithKey(String title, BookActionButtonKeys key) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
-                        key.getKey())), String.format("Book %1$s button", key.getKey()));
+                        key.i18n())), String.format("Book %1$s button", key.i18n()));
         clickOnTheSpecificBookElement(bookAddBtn);
     }
 
     @Override
-    public boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookActionButtonKeys key) {
+    public boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, bookTitle);
         final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.getKey())),
-                String.format("Book %1$s button", key.getKey()));
+                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.i18n())),
+                String.format("Book %1$s button", key.i18n()));
         return bookAddBtn.state().waitForDisplayed(
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }

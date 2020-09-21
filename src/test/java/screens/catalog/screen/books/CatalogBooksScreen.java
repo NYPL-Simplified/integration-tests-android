@@ -1,8 +1,8 @@
 package screens.catalog.screen.books;
 
 import aquality.appium.mobile.screens.Screen;
-import constants.application.catalog.AndroidBookActionButtonKeys;
-import models.android.AndroidCatalogBookModel;
+import constants.localization.application.catalog.BookActionButtonKeys;
+import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 
 public abstract class CatalogBooksScreen extends Screen {
@@ -14,15 +14,15 @@ public abstract class CatalogBooksScreen extends Screen {
 
     public abstract int getFoundBooksCount();
 
-    public abstract AndroidCatalogBookModel getBookInfo(String title);
+    public abstract CatalogBookModel getBookInfo(String title);
 
-    public abstract AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys bookAddButtonKey);
+    public abstract CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey);
 
-    public abstract void clickTheBookByTitleBtnWithKey(String title, AndroidBookActionButtonKeys key);
+    public abstract void clickTheBookByTitleBtnWithKey(String title, BookActionButtonKeys key);
 
-    public abstract void openBookDetailsWithAction(AndroidBookActionButtonKeys action);
+    public abstract void openBookDetailsWithAction(BookActionButtonKeys action);
 
-    public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookActionButtonKeys key);
+    public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key);
 
-    public abstract AndroidCatalogBookModel scrollToTheBookAndClickAddButton(AndroidBookActionButtonKeys actionButtonKey, String bookType);
+    public abstract CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType);
 }

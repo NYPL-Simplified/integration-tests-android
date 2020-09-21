@@ -1,7 +1,7 @@
 package stepdefinitions.holds;
 
 import com.google.inject.Inject;
-import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -39,13 +39,13 @@ public class HoldsSteps extends AbstractHoldsSteps {
     }
 
     @When("I click on the book {string} button {} on the holds screen")
-    public void clickOnTheBookAddButtonOnTheHoldsScreen(String bookInfoKey, AndroidBookActionButtonKeys key) {
+    public void clickOnTheBookAddButtonOnTheHoldsScreen(String bookInfoKey, BookActionButtonKeys key) {
         abstractHoldsSteps.clickOnTheBookAddButtonOnTheHoldsScreen(bookInfoKey, key);
     }
 
     @Then("Book saved as {string} should contain {} button at the hold screen")
     public void checkThatSavedBookContainButtonAtTheHoldScreen(
-            final String bookInfoKey, final AndroidBookActionButtonKeys key) {
+            final String bookInfoKey, final BookActionButtonKeys key) {
         abstractHoldsSteps.checkThatSavedBookContainButtonAtTheHoldScreen(bookInfoKey, key);
     }
 }

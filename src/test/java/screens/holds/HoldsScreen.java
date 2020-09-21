@@ -1,7 +1,7 @@
 package screens.holds;
 
 import aquality.appium.mobile.screens.Screen;
-import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import org.openqa.selenium.By;
 
 public abstract class HoldsScreen extends Screen {
@@ -15,7 +15,7 @@ public abstract class HoldsScreen extends Screen {
 
     public abstract void cancelReservations();
 
-    public abstract void clickTheBookByTitleBtnWithKey(String title, AndroidBookActionButtonKeys key);
+    public abstract void clickTheBookByTitleBtnWithKey(String title, BookActionButtonKeys key);
 
-    public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, AndroidBookActionButtonKeys key);
+    public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key);
 }
