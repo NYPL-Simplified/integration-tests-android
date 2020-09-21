@@ -3,11 +3,9 @@ package screens.reader.android;
 import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
-import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import aquality.selenium.core.elements.interfaces.IElement;
 import framework.utilities.swipe.SwipeElementUtils;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.offset.PointOption;
@@ -15,9 +13,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import screens.reader.ReaderScreen;
+import screens.tableofcontents.TableOfContentsScreen;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,14 +26,9 @@ public class AndroidReaderScreen extends ReaderScreen {
             getElementFactory().getLabel(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_position_text\")]"), "Page Number");
     private final ILabel lblPage =
             getElementFactory().getLabel(By.xpath("//android.webkit.WebView"), "Page View");
-    private final ILabel lblTable =
-            getElementFactory().getLabel(By.id("reader_toc_list"), "Table");
+    private final IButton btnFontSettings = getElementFactory().getButton(By.id("reader_settings"), "Chapters");
     private final IButton btnChapters =
             getElementFactory().getButton(By.xpath("//android.widget.ImageView[@content-desc=\"Show table of contents\"]"), "Chapters");
-
-    private List<ILabel> getChapters() {
-        return getElementFactory().findElements(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\")]"), ElementType.LABEL);
-    }
 
     public AndroidReaderScreen() {
         super(By.id("//android.view.View[@resource-id=\"reflowable-book-frame\"]"));
@@ -82,16 +74,11 @@ public class AndroidReaderScreen extends ReaderScreen {
     @Override
     public Set<String> getListOfChapters() {
         btnChapters.click();
-        lblTable.state().waitForExist();
-        List<String> listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
-        Set<String> bookNames = new HashSet<>();
-        do {
-            bookNames.addAll(listOfChapters);
-            SwipeElementUtils.swipeThroughEntireElementUp(lblTable);
-            listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
-        } while (!bookNames.containsAll(listOfChapters));
+        TableOfContentsScreen tableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(TableOfContentsScreen.class);
+        tableOfContentsScreen.state().waitForExist();
+        Set<String> bookNames = tableOfContentsScreen.getListOfBookChapters();
         AqualityServices.getApplication().getDriver().navigate().back();
-        AqualityServices.getLogger().info("Found chapters - " + listOfChapters.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        AqualityServices.getLogger().info("Found chapters - " + bookNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return bookNames;
     }
 
@@ -103,5 +90,15 @@ public class AndroidReaderScreen extends ReaderScreen {
             button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
         button.click();
+    }
+
+    @Override
+    public void openFontSettings() {
+        btnFontSettings.click();
+    }
+
+    @Override
+    public void openTableOfContents() {
+        btnChapters.click();
     }
 }

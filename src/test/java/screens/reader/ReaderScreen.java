@@ -25,4 +25,8 @@ public abstract class ReaderScreen extends Screen {
     public abstract Set<String> getListOfChapters();
 
     public abstract void openChapter(String chapter);
+
+    public abstract void openFontSettings();
+
+    public abstract void openTableOfContents();
 }
