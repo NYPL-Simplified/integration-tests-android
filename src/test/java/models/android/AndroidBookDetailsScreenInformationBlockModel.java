@@ -1,6 +1,6 @@
 package models.android;
 
-import constants.application.bookdetals.AndroidBookDetailsScreenInformationBlockKeys;
+import constants.localization.application.bookdetals.BookDetailsScreenInformationBlockKeys;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -11,13 +11,13 @@ import java.util.Map;
 public class AndroidBookDetailsScreenInformationBlockModel {
     public AndroidBookDetailsScreenInformationBlockModel() {}
 
-    private AndroidBookDetailsScreenInformationBlockKeys key;
+    private BookDetailsScreenInformationBlockKeys key;
     private String value;
 
     public static AndroidBookDetailsScreenInformationBlockModel createAndroidBookDetailsScreenInformationBlockModel(
             Map<String, String> entry) {
         return new AndroidBookDetailsScreenInformationBlockModel()
-                .setKey(AndroidBookDetailsScreenInformationBlockKeys.valueOf(entry.get("key")))
+                .setKey(BookDetailsScreenInformationBlockKeys.valueOf(entry.get("key")))
                 .setValue(entry.get("value"));
     }
 }

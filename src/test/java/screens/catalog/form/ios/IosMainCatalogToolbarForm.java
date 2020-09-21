@@ -10,7 +10,6 @@ import screens.catalog.form.MainCatalogToolbarForm;
 @ScreenType(platform = PlatformName.IOS)
 public class IosMainCatalogToolbarForm extends MainCatalogToolbarForm {
     private static final String MAIN_ELEMENT_LOC = "//XCUIElementTypeNavigationBar";
-    private static final String CATEGORY_INFO_LOCATOR_PART = MAIN_ELEMENT_LOC + "//XCUIElementTypeStaticText";
 
     private final IButton btnChooseAnotherLibrary =
             getElementFactory().getButton(
@@ -21,15 +20,11 @@ public class IosMainCatalogToolbarForm extends MainCatalogToolbarForm {
             By.xpath(MAIN_ELEMENT_LOC + "//XCUIElementTypeButton[@name=\"Back\"]"),
             "Back button");
 
-    private final ILabel lblCategoryName =
-            getElementFactory().getLabel(By.xpath(CATEGORY_INFO_LOCATOR_PART + "[1]"), "Category name");
-    private final ILabel lblCatalogName =
-            getElementFactory().getLabel(By.xpath(CATEGORY_INFO_LOCATOR_PART + "[2]"), "Catalog name"); // not defined on the ios app
+    private final ILabel lblCategoryAndCatalogName =
+            getElementFactory().getLabel(By.xpath(MAIN_ELEMENT_LOC + "//XCUIElementTypeStaticText"), "Catalog name");
 
     private final IButton btnSearch = getElementFactory().getButton(By.xpath(MAIN_ELEMENT_LOC +
             "//XCUIElementTypeButton[@name=\"Search\"]"), "Search");
-    private final IButton btnMoreOptions = getElementFactory().getButton(
-            By.xpath(MAIN_ELEMENT_LOC + " "), "Menu"); // not defined on the ios app
 
     public IosMainCatalogToolbarForm() {
         super(By.xpath(MAIN_ELEMENT_LOC));
@@ -47,12 +42,12 @@ public class IosMainCatalogToolbarForm extends MainCatalogToolbarForm {
 
     @Override
     public String getCatalogName() {
-        return lblCatalogName.getText();
+        return lblCategoryAndCatalogName.getText();
     }
 
     @Override
     public String getCategoryName() {
-        return lblCategoryName.getText();
+        return lblCategoryAndCatalogName.getText();
     }
 
     @Override
@@ -62,6 +57,6 @@ public class IosMainCatalogToolbarForm extends MainCatalogToolbarForm {
 
     @Override
     public void openMoreOptions() {
-        btnMoreOptions.click();
+        // does not exist on the ios need to be skipped
     }
 }

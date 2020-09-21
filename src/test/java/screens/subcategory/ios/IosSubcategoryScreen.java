@@ -3,11 +3,10 @@ package screens.subcategory.ios;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
-import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.subcategory.SubcategoryScreen;
 
@@ -16,74 +15,56 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosSubcategoryScreen extends SubcategoryScreen {
-    private static final String BOOKS_LOCATOR = null;
-    public static final String BOOK_BUTTON_XPATH = null;
-    public static final String BOOK_COVER_LOCATOR_PATTERN = null;
-    private final String SORTING_BUTTON_XPATH_PATTERN = null;
-    private final ILabel lblSubcategoryName = getElementFactory().getLabel(null, "Category name");
-    private final IButton btnSortBy = getElementFactory().getButton(null, "Sort By");
-    private final IButton btnSortByAvailability =
-            getElementFactory().getButton(null, "Sort By Availability");
-    private final ILabel lblFirstBookInfo =
-            getElementFactory().getLabel(null, "First book info");
-    private final String AUTHOR_INFO_XPATH = null;
-    private final String BOOK_NAME_XPATH = null;
+    private static final String BOOKS_LOCATOR = "//XCUIElementTypeCell";
+    private static final String BOOK_BUTTON_XPATH = BOOKS_LOCATOR + "//XCUIElementTypeButton";
+    private static final String BOOK_COVER_LOCATOR_PATTERN = "//XCUIElementTypeCell"
+            + "[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
+    private static final String AUTHOR_INFO_XPATH = "//XCUIElementTypeStaticText[@name][2]";
+    private static final String BOOK_NAME_XPATH = "//XCUIElementTypeStaticText[@name and not(.//ancestor::XCUIElementTypeButton)][1]";
+
+    private final ILabel lblFirstBookName =
+            getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR + BOOK_NAME_XPATH), "First book name");
+    private final ILabel lblFirstBookAuthor =
+            getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR + AUTHOR_INFO_XPATH), "First book author");
 
     public IosSubcategoryScreen() {
-        super(By.xpath(""));
-    }
-
-    @Override
-    public String getSubcategoryName() {
-        return lblSubcategoryName.getText();
-    }
-
-    @Override
-    public void sortBy(String sortingCategory) {
-        btnSortBy.click();
-        selectCheckedListValue(sortingCategory);
+        super(By.xpath("//XCUIElementTypeCollectionView"));
     }
 
     @Override
     public List<String> getBooksInfo() {
-        List<String> listOfNames = getElementFactory().findElements(By.xpath(BOOKS_LOCATOR), ElementType.LABEL)
+        List<String> listOfNames = getElementFactory().findElements(By.xpath(BOOKS_LOCATOR + BOOK_NAME_XPATH), ElementType.LABEL)
                 .stream()
-                .map(x -> x.getAttribute("content-desc"))
+                .map(IElement::getText)
                 .collect(Collectors.toList());
         AqualityServices.getLogger().info("Found list of books - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return listOfNames;
     }
 
     @Override
-    public void sortByAvailability(String sortingCategory) {
-        btnSortByAvailability.click();
-        selectCheckedListValue(sortingCategory);
-    }
-
-    @Override
     public List<String> getAllButtonsNames() {
-        List<String> listOfNames = getValuesFromListOfLabels(BOOK_BUTTON_XPATH);
-        AqualityServices.getLogger().info("Found list of buttons names - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        List<String> listOfNames = getValuesFromListOfLabels(BOOKS_LOCATOR + BOOK_BUTTON_XPATH);
+        AqualityServices.getLogger().info("Found list of buttons names - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining("; ")));
         return listOfNames;
     }
 
     @Override
     public List<String> getTitlesInfo() {
-        List<String> listOfNames = getValuesFromListOfLabels(BOOK_NAME_XPATH);
-        AqualityServices.getLogger().info("Found list of titles - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        List<String> listOfNames = getValuesFromListOfLabels(BOOKS_LOCATOR + BOOK_NAME_XPATH);
+        AqualityServices.getLogger().info("Found list of titles - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining("; ")));
         return listOfNames;
     }
 
     @Override
-    public void openBook(AndroidCatalogBookModel bookInfo) {
-        String imageTitle = bookInfo.getImageTitle();
-        getElementFactory().getButton(By.xpath(String.format(BOOK_COVER_LOCATOR_PATTERN, imageTitle)), imageTitle).click();
+    public void openBook(CatalogBookModel bookInfo) {
+        String title = bookInfo.getTitle();
+        getElementFactory().getButton(By.xpath(String.format(BOOK_COVER_LOCATOR_PATTERN, title)), title).click();
     }
 
     @Override
     public List<String> getAuthorsInfo() {
-        List<String> listOfNames = getValuesFromListOfLabels(AUTHOR_INFO_XPATH);
-        AqualityServices.getLogger().info("Found list of authors - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        List<String> listOfNames = getValuesFromListOfLabels(BOOKS_LOCATOR + AUTHOR_INFO_XPATH);
+        AqualityServices.getLogger().info("Found list of authors - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining("; ")));
         return listOfNames;
     }
 
@@ -94,17 +75,15 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
                 .collect(Collectors.toList());
     }
 
-    private void selectCheckedListValue(String sortingCategory) {
-        getElementFactory().getButton(null, sortingCategory).click();
-    }
-
     @Override
-    public String getFirstBookInfo() {
-        return lblFirstBookInfo.getAttribute("content-desc");
+    public CatalogBookModel getFirstBookInfo() {
+        return new CatalogBookModel()
+                .setTitle(lblFirstBookName.getText())
+                .setAuthor(lblFirstBookAuthor.getText());
     }
 
     @Override
     public void openFirstBook() {
-        lblFirstBookInfo.click();
+        lblFirstBookName.click();
     }
 }

@@ -2,16 +2,18 @@ package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
-import constants.application.catalog.AndroidBookActionButtonKeys;
-import constants.application.facetedSearch.AndroidFacetAvailabilityKeys;
+import constants.application.timeouts.CategoriesTimeouts;
 import constants.context.ContextLibrariesKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
+import constants.localization.application.facetedSearch.FacetAvailabilityKeys;
+import constants.localization.application.facetedSearch.FacetSortByKeys;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import models.android.AndroidBookDetailsScreenInformationBlockModel;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
@@ -25,6 +27,7 @@ import screens.catalog.screen.catalog.CatalogScreen;
 import screens.facetedSearch.FacetedSearchScreen;
 import screens.subcategory.SubcategoryScreen;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +35,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class CatalogSteps {
-    public static final String DOWNLOAD_BUTTON_NAME = "Download";
     private final BottomMenuForm bottomMenuForm;
     private final CatalogScreen catalogScreen;
     private final SubcategoryScreen subcategoryScreen;
@@ -58,7 +60,9 @@ public class CatalogSteps {
 
     @Then("Books feed is loaded")
     public void booksFeedIsLoaded() {
-        Assert.assertTrue(catalogScreen.state().waitForDisplayed(), "Books feed is not loaded");
+        Assert.assertTrue(catalogScreen.state().waitForDisplayed(Duration.ofMillis(
+                CategoriesTimeouts.TIMEOUT_WAIT_UNTIL_CATEGORY_PAGE_LOAD.getTimeoutMillis())),
+                "Books feed is not loaded");
     }
 
     @When("I get names of books on screen and save them as {string}")
@@ -95,7 +99,7 @@ public class CatalogSteps {
 
     @And("I Download first book from shelf and save it as {string}")
     public void getBookFromShelfAndSaveItAsBookInfo(String bookInfoKey) {
-        AndroidCatalogBookModel bookModel = new AndroidCatalogBookModel();
+        CatalogBookModel bookModel = new CatalogBookModel();
         bookModel.setImageTitle(catalogScreen.getBookName(1));
         context.add(bookInfoKey, bookModel);
         catalogScreen.clickBook(1);
@@ -104,7 +108,7 @@ public class CatalogSteps {
 
     @And("Current library is {string} in Catalog")
     public void checkCurrentLibraryIsCorrect(String expectedLibraryName) {
-        Assert.assertEquals(expectedLibraryName, mainCatalogToolbarForm.getCatalogName(),
+        Assert.assertEquals(mainCatalogToolbarForm.getCatalogName(), expectedLibraryName,
                 "Current library name is not correct");
     }
 
@@ -115,6 +119,7 @@ public class CatalogSteps {
     }
 
     @Then("Current category name is {string}")
+    @And("Subcategory name is {string}")
     public void checkCurrentCategoryName(String expectedCategoryName) {
         Assert.assertTrue(AqualityServices.getConditionalWait()
                         .waitFor(() -> mainCatalogToolbarForm.getCategoryName().equals(expectedCategoryName),
@@ -128,12 +133,6 @@ public class CatalogSteps {
         Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), "Subcategory screen is not present");
     }
 
-    @And("Subcategory name is {string}")
-    public void checkSubcategoryNameIsCorrect(String expectedSubcategoryName) {
-        Assert.assertEquals(expectedSubcategoryName, subcategoryScreen.getSubcategoryName(),
-                "Current subcategory name is not correct");
-    }
-
     @And("Following subcategories are present:")
     public void checkFollowingSubcategoriesArePresent(List<String> expectedValuesList) {
         Assert.assertTrue(expectedValuesList.stream().allMatch(catalogScreen::isSubcategoryPresent),
@@ -141,6 +140,7 @@ public class CatalogSteps {
     }
 
     @When("I open category by chain:")
+    @And("Open category by chain:")
     public void openCategoryByChain(List<String> categoriesChain) {
         IntStream.range(0, categoriesChain.size()).forEach(index -> {
             openCategory(categoriesChain.get(index));
@@ -153,7 +153,7 @@ public class CatalogSteps {
     @When("I open the book details for the subsequent {} and save it as {string}")
     @And("Open the book details for the subsequent {} and save it as {string}")
     public void openBookDetailsExecuteBookActionAndSaveItToContext(
-            AndroidBookActionButtonKeys actionButtonKey, String bookInfoKey) {
+            BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         catalogBooksScreen.openBookDetailsWithAction(actionButtonKey);
         bookDetailsScreen.clickActionButton(actionButtonKey);
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
@@ -161,19 +161,19 @@ public class CatalogSteps {
 
     @And("{} book and save it as {string}")
     public void executeBookActionAndSaveItToContextAndLibraryCancel(
-            AndroidBookActionButtonKeys actionButtonKey, String bookInfoKey) {
+            BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey));
     }
 
     @And("{} book of {string} type and save it as {string}")
-    public void performActionOnBookOfTypeAndSaveIt(AndroidBookActionButtonKeys actionButtonKey, String bookType, String bookInfoKey) {
+    public void performActionOnBookOfTypeAndSaveIt(BookActionButtonKeys actionButtonKey, String bookType, String bookInfoKey) {
         context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey, bookType));
     }
 
     @When("I click on the book {string} button {} on catalog books screen")
-    public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, AndroidBookActionButtonKeys key) {
-        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
-        catalogBooksScreen.clickTheBookByTitleBtnWithKey(androidCatalogBookModel.getTitle(), key);
+    public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
+        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
+        catalogBooksScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
     }
 
     @And("Save current library for {} books after test")
@@ -232,13 +232,14 @@ public class CatalogSteps {
 
     @Then("All present books are audiobooks")
     public void checkAllPresentBooksAreAudiobooks() {
-        Assert.assertTrue(catalogScreen.getListOfBooksNames().stream().allMatch(x -> x.contains("audiobook")),
+        Assert.assertTrue(catalogScreen.getListOfBooksNames().stream().allMatch(x -> x.toLowerCase().contains("audiobook")),
                 "Not all present books are audiobooks");
     }
 
-    @And("I sort books by {string}")
-    public void sortBooksBy(String sortingCategory) {
-        subcategoryScreen.sortBy(sortingCategory);
+    @And("I sort books by {}")
+    public void sortBooksBy(FacetSortByKeys sortingCategory) {
+        facetedSearchScreen.sortBy();
+        facetedSearchScreen.changeSortByTo(sortingCategory);
     }
 
     @When("I save list of books as {string}")
@@ -246,20 +247,20 @@ public class CatalogSteps {
         context.add(booksInfoKey, subcategoryScreen.getBooksInfo());
     }
 
-    @And("I select book by Availability - {string}")
-    public void selectBookByAvailability(String sortingCategory) {
-        subcategoryScreen.sortByAvailability(sortingCategory);
-    }
-
     @Then("All books can be downloaded")
     public void checkAllBooksCanBeDownloaded() {
-        Assert.assertTrue(subcategoryScreen.getAllButtonsNames().stream().allMatch(x -> x.equals(DOWNLOAD_BUTTON_NAME)),
+        Assert.assertTrue(subcategoryScreen.getAllButtonsNames()
+                        .stream()
+                        .allMatch(x -> x.equals(BookActionButtonKeys.DOWNLOAD.i18n())),
                 "Not all present books can be downloaded");
     }
 
     @Then("All books can be loaned or downloaded")
     public void checkAllBooksCanBeLoanedOrDownloaded() {
-        Assert.assertTrue(subcategoryScreen.getAllButtonsNames().stream().allMatch(x -> x.equals("Get") || x.equals(DOWNLOAD_BUTTON_NAME)),
+        Assert.assertTrue(subcategoryScreen.getAllButtonsNames()
+                        .stream()
+                        .allMatch(x -> x.equals(BookActionButtonKeys.GET.i18n())
+                                || x.equals(BookActionButtonKeys.DOWNLOAD.i18n())),
                 "Not all present books can be loaned or downloaded");
     }
 
@@ -287,13 +288,18 @@ public class CatalogSteps {
 
     private List<String> getSurnames(List<String> list) {
         List<String> listOfSurnames = new ArrayList<>();
-        for (String authorName :
-                list) {
-            String[] separatedName = authorName.split(" ");
-            if (authorName.contains(",")) {
-                listOfSurnames.add(separatedName[0]);
+        for (String authorName : list) {
+            String[] separatedName = authorName.split("\\s");
+            if (separatedName.length > 1) {
+                if (authorName.contains(",")) {
+                    listOfSurnames.add(separatedName[0]);
+                } else if (authorName.contains("."))  {
+                    listOfSurnames.add(separatedName[separatedName.length - 1]);
+                } else {
+                    listOfSurnames.add(separatedName[1]);
+                }
             } else {
-                listOfSurnames.add(separatedName[1]);
+                listOfSurnames.add(separatedName[0]);
             }
         }
         return listOfSurnames;
@@ -334,6 +340,7 @@ public class CatalogSteps {
     }
 
     @When("I open first found book from the search result")
+    @And("Open first found book from the search result")
     public void selectFirstFoundBook() {
         catalogBooksScreen.selectFirstFoundBook();
     }
@@ -346,18 +353,18 @@ public class CatalogSteps {
 
     @Then("Book saved as {string} should contain {} button at catalog books screen")
     public void checkThatSavedBookContainButtonAtCatalogBooksScreen(
-            final String bookInfoKey, final AndroidBookActionButtonKeys key) {
-        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
+            final String bookInfoKey, final BookActionButtonKeys key) {
+        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         Assert.assertTrue(catalogBooksScreen.isBookAddButtonTextEqualTo(
-                androidCatalogBookModel.getTitle(), key),
+                catalogBookModel.getTitle(), key),
                 String.format("Book with title '%1$s' add button does not contain text '%2$s'",
-                        androidCatalogBookModel.getTitle(), key.getKey()));
+                        catalogBookModel.getTitle(), key.i18n()));
     }
 
     @Then("I check that opened book contains {} button at book details screen")
-    public void checkThatSavedBookContainButtonAtBookDetailsScreen(final AndroidBookActionButtonKeys key) {
+    public void checkThatSavedBookContainButtonAtBookDetailsScreen(final BookActionButtonKeys key) {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(key),
-                String.format("Opened book add button does not contain text %1$s", key.getKey()));
+                String.format("Opened book add button does not contain text %1$s", key.i18n()));
     }
 
     @And("I delete book from book details screen")
@@ -367,25 +374,26 @@ public class CatalogSteps {
 
     @When("I open book {string} details by clicking on cover")
     public void openBookDetailsByClickingOnCover(String bookInfoKey) {
-        AndroidCatalogBookModel bookInfo = context.get(bookInfoKey);
+        CatalogBookModel bookInfo = context.get(bookInfoKey);
         subcategoryScreen.openBook(bookInfo);
     }
 
     @When("I press on the book details screen at the action button {}")
     @And("Press on the book details screen at the action button {}")
-    public void pressOnTheBookDetailsScreenAtTheActionButton(AndroidBookActionButtonKeys actionButton) {
+    public void pressOnTheBookDetailsScreenAtTheActionButton(BookActionButtonKeys actionButton) {
         bookDetailsScreen.clickActionButton(actionButton);
     }
 
     @Then("I check that the action button text equal to the {}")
-    public void checkThatTheActionButtonTextEqualToTheExpected(AndroidBookActionButtonKeys actionButton) {
+    public void checkThatTheActionButtonTextEqualToTheExpected(BookActionButtonKeys actionButton) {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton),
-                "I check that the action button text equal to the " + actionButton.getKey());
+                "I check that the action button text equal to the " + actionButton.i18n());
     }
 
+    @When("I change books visibility to show {}")
     @And("Change books visibility to show {}")
-    public void checkThatTheActionButtonTextEqualToTheExpected(AndroidFacetAvailabilityKeys androidFacetAvailabilityKeys) {
+    public void checkThatTheActionButtonTextEqualToTheExpected(FacetAvailabilityKeys facetAvailabilityKeys) {
         facetedSearchScreen.openAvailabilityMenu();
-        facetedSearchScreen.changeAvailabilityTo(androidFacetAvailabilityKeys);
+        facetedSearchScreen.changeAvailabilityTo(facetAvailabilityKeys);
     }
 }

@@ -1,9 +1,9 @@
 package stepdefinitions.holds.components;
 
 import aquality.appium.mobile.application.AqualityServices;
-import constants.application.catalog.AndroidBookActionButtonKeys;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import framework.utilities.ScenarioContext;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.testng.Assert;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
@@ -35,17 +35,17 @@ public abstract class AbstractHoldsSteps extends BaseSteps {
 
     public abstract void checkBookBookInfoIsPresentInHoldsList(String bookInfoKey);
 
-    public void clickOnTheBookAddButtonOnTheHoldsScreen(String bookInfoKey, AndroidBookActionButtonKeys key) {
-        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
-        holdsScreen.clickTheBookByTitleBtnWithKey(androidCatalogBookModel.getTitle(), key);
+    public void clickOnTheBookAddButtonOnTheHoldsScreen(String bookInfoKey, BookActionButtonKeys key) {
+        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
+        holdsScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
     }
 
     public void checkThatSavedBookContainButtonAtTheHoldScreen(
-            final String bookInfoKey, final AndroidBookActionButtonKeys key) {
-        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
+            final String bookInfoKey, final BookActionButtonKeys key) {
+        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         Assert.assertTrue(holdsScreen.isBookAddButtonTextEqualTo(
-                androidCatalogBookModel.getTitle(), key),
+                catalogBookModel.getTitle(), key),
                 String.format("Book with title '%1$s' add button does not contain text '%2$s'",
-                        androidCatalogBookModel.getTitle(), key.getKey()));
+                        catalogBookModel.getTitle(), key.i18n()));
     }
 }

@@ -25,9 +25,11 @@ import java.util.stream.Collectors;
 @ScreenType(platform = PlatformName.IOS)
 public class IosReaderScreen extends ReaderScreen {
     private final ILabel lblBookName =
-            getElementFactory().getLabel(By.xpath(""), "Book Cover");
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeWebView/parent::XCUIElementTypeOther"
+                    + "/following-sibling::XCUIElementTypeOther[1]/XCUIElementTypeStaticText "), "Book Name");
     private final ILabel lblPageNumber =
-            getElementFactory().getLabel(By.xpath(""), "Page Number Info");
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeWebView/parent::XCUIElementTypeOther"
+                    + "/following-sibling::XCUIElementTypeOther[2]/XCUIElementTypeStaticText "), "Page Number Info");
     private final ILabel lblPage =
             getElementFactory().getLabel(By.xpath(""), "Page View");
     private final IButton btnChapters =

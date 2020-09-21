@@ -4,15 +4,15 @@ Feature: Catalog Navigation
     Given Application is opened
 
   Scenario: Return to last library catalog
-    When I add 'Hartford Public Library' account
-    Then Account 'Hartford Public Library' is present on Accounts screen
+    When I add 'The New York Public Library' account
+    Then Account 'The New York Public Library' is present on Accounts screen
     When I open Catalog
     Then Books feed is loaded
-    When I switch to 'Hartford Public Library' from side menu
+    When I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
     When I restart app
     Then Books feed is loaded
-      And Current library is 'Hartford Public Library' in Catalog
+      And Current library is 'The New York Public Library' in Catalog
 
   Scenario: Navigate Lists
     When I open Catalog
@@ -20,6 +20,7 @@ Feature: Catalog Navigation
     When I get names of books on screen and save them as 'listOfBooksOnMainPage'
       And I open 'Nonfiction' category
     Then Current category name is 'Nonfiction'
+      And Books feed is loaded
       And Following subcategories are present:
         | History                 |
         | Philosophy              |
@@ -29,6 +30,7 @@ Feature: Catalog Navigation
     When I return to previous screen
       And I open 'Fiction' category
     Then Current category name is 'Fiction'
+      And Books feed is loaded
       And Following subcategories are present:
         | Literary Fiction |
         | Science Fiction  |
@@ -72,28 +74,30 @@ Feature: Catalog Navigation
     Then Books feed is loaded
       And All present books are audiobooks
     When I switch to 'eBooks' catalog tab
-      And I open 'Fiction' category
-      And I open 'Drama' subcategory
+    Then Books feed is loaded
+    When I open category by chain:
+        | Fiction |
+        | Drama   |
     Then Subcategory screen is present
-    When I sort books by 'Author'
+    When I sort books by AUTHOR
     Then Subcategory screen is present
       And Books are sorted by Author ascending
-    When I sort books by 'Title'
+    When I sort books by TITLE
     Then Subcategory screen is present
       And Books are sorted by Title ascending
     When I save list of books as 'listOfBooks'
-      And I sort books by 'Recently Added'
+      And I sort books by RECENTLY_ADDED
     Then Subcategory screen is present
       And List of books on subcategory screen is not equal to list of books saved as 'listOfBooks'
     When I save list of books as 'recentlyAddedListOfBooks'
-      And I sort books by 'Random'
+      And I sort books by RANDOM
     Then List of books on subcategory screen is not equal to list of books saved as 'recentlyAddedListOfBooks'
     When I save list of books as 'randomListOfBooks'
-      And I select book by Availability - 'Available now'
+      And Change books visibility to show AVAILABLE_NOW
     Then All books can be loaned or downloaded
-    When I select book by Availability - 'All'
+    When I change books visibility to show ALL
     Then Subcategory screen is present
-    When I select book by Availability - 'Yours to keep'
+    When I change books visibility to show YOURS_TO_KEEP
     Then All books can be downloaded
 
   Scenario: View Book Details
@@ -111,6 +115,8 @@ Feature: Catalog Navigation
       And I click apply search button
     Then Search modal is closed
       And Search page is opened
+    When I switch to 'eBooks' catalog tab
+    Then Subcategory screen is present
     When I open first found book from the search result
     Then Book 'Harry Potter et les Reliques de la Mort, ebook, by J. K. Rowling' is opened
       And The following values in the information block are present:
@@ -119,7 +125,7 @@ Feature: Catalog Navigation
         | PUBLISHER   | Pottermore Publishing |
         | DISTRIBUTOR | Overdrive             |
         | CATEGORIES  | Fantasy               |
-        | UPDATED     | 2020-09-05 08:39:02   |
+        | UPDATED     | 2020-09-17 08:45:57   |
       And Description has text
     """
     Cette année, Harry a dix-sept ans et ne retourne pas à Poudlard. Avec Ron et Hermione, il se consacre à la dernière mission confiée par Dumbledore. Mais le Seigneur des Ténèbres règne en maître. Traqués, les trois fidèles amis sont contraints à la clandestinité. D'épreuves en révélations, le courage, les choix et les sacrifices de Harry seront déterminants dans la lutte contre les forces du Mal. Avec le dénouement de l'héroïque histoire de Harry Potter, J.K. Rowling signe un chef-d'oeuvre d'une grande humanité et d'une maîtrise incomparable.
@@ -145,33 +151,31 @@ Feature: Catalog Navigation
 
   @logout @cancelHold
   Scenario: Reserve Book (hold)
-    When I add 'Hartford Public Library' account
-    Then Account 'Hartford Public Library' is present on Accounts screen
-    When I enter credentials for 'Hartford Public Library' account
+    When I add 'The New York Public Library' account
+    Then Account 'The New York Public Library' is present on Accounts screen
+    When I enter credentials for 'The New York Public Library' account
     Then Text on Login button is changed to Log out on Account screen
     When I open Catalog
-      And I switch to 'Hartford Public Library' from side menu
+      And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
     When I open category by chain:
-      | Fiction |
-      | Drama   |
+      | 2020's Hottest Books |
+      And Change books visibility to show ALL
       And RESERVE book and save it as 'bookInfo'
       And Save current library for CANCEL_HOLD books after test
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
 
   @logout @cancelGet
   Scenario: Borrow book
-    When I add 'LYRASIS' account
-    Then Account 'LYRASIS' is present on Accounts screen
-    When I enter credentials for 'LYRASIS' account
+    When I add 'The New York Public Library' account
+    Then Account 'The New York Public Library' is present on Accounts screen
+    When I enter credentials for 'The New York Public Library' account
     Then Text on Login button is changed to Log out on Account screen
     When I open Catalog
-      And I switch to 'LYRASIS' from side menu
+      And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
     When I open category by chain:
-      | Nonfiction   |
-      | Art & Design |
-      | Art          |
+      | Essential Reads on Feminism |
       And Save current library for CANCEL_GET books after test
       And I open the book details for the subsequent GET and save it as 'bookInfo'
       And I check that opened book contains READ button at book details screen

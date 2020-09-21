@@ -8,7 +8,7 @@ import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import models.android.AndroidCatalogBookModel;
+import models.android.CatalogBookModel;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import screens.fontchoicesscreen.FontChoicesScreen;
@@ -34,8 +34,8 @@ public class ReaderSteps {
 
     @Then("Book {string} is present on screen")
     public void checkBookInfoIsPresentOnScreen(String bookInfoKey) {
-        AndroidCatalogBookModel androidCatalogBookModel = context.get(bookInfoKey);
-        Assert.assertEquals(androidCatalogBookModel.getTitle(), readerScreen.getBookName(), "Book name is not correct");
+        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
+        Assert.assertEquals(catalogBookModel.getTitle(), readerScreen.getBookName(), "Book name is not correct");
     }
 
     @Then("Book page number is {int}")
