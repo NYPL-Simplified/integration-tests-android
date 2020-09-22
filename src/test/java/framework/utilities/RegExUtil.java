@@ -10,17 +10,19 @@ public class RegExUtil {
     }
 
     public static double getDoubleFromFirstMatchGroup(String text, String regex) {
-        Matcher matcher = getMatcher(text, regex);
-        return matcher.find() ? Double.parseDouble(matcher.group(1)) : 0;
+        return Double.parseDouble(getStringFromFirstGroup(text, regex));
     }
 
     public static String getStringFromFirstGroup(String text, String regex) {
         Matcher matcher = getMatcher(text, regex);
-        return matcher.find() ? matcher.group(1) : "";
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            throw new IllegalStateException(String.format("No match found for text '%s' with regex '%s'", text, regex));
+        }
     }
 
     public static int getIntFromFirstGroup(String text, String regex) {
-        Matcher matcher = getMatcher(text, regex);
-        return matcher.find() ? Integer.parseInt(matcher.group(1)) : 0;
+        return Integer.parseInt(getStringFromFirstGroup(text, regex));
     }
 }
