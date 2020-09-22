@@ -26,6 +26,8 @@ public abstract class BookDetailsScreen extends Screen {
 
     public abstract void deleteBook();
 
+    public abstract boolean isRelatedBooksVisible();
+
     public abstract boolean isBookAddButtonTextEqualTo(BookActionButtonKeys key);
 
     public abstract void clickActionButton(BookActionButtonKeys buttonKeys);

@@ -5,7 +5,7 @@ import screens.eulaagreement.EulaAgreementScreen;
 import screens.welcome.WelcomeScreen;
 import stepdefinitions.BaseSteps;
 
-public abstract class AbstractApplicationSteps extends BaseSteps {
+public abstract class AbstractApplicationSteps extends BaseSteps implements IApplicationSteps {
     protected final EulaAgreementScreen eulaAgreementScreen;
     protected final WelcomeScreen welcomeScreen;
 
@@ -16,10 +16,12 @@ public abstract class AbstractApplicationSteps extends BaseSteps {
 
     public abstract void openApplication();
 
+    @Override
     public void returnToPreviousPage() {
         AqualityServices.getApplication().getDriver().navigate().back();
     }
 
+    @Override
     public void restartApp() {
         AqualityServices.getApplication().getDriver().closeApp();
         AqualityServices.getApplication().getDriver().launchApp();

@@ -7,7 +7,6 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.application.AndroidAttributes;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
 import models.android.CatalogBookModel;
@@ -52,8 +51,10 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public void selectFirstFoundBook() {
+    public CatalogBookModel selectFirstFoundBook() {
+        CatalogBookModel catalogBookModel = getBookModel(BOOKS_LOC);
         lblFirstFoundBook.click();
+        return catalogBookModel;
     }
 
     private List<ILabel> getFoundBooks() {
@@ -67,14 +68,14 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public CatalogBookModel getBookInfo(final String title) {
-        final CatalogBookModel catalogBookModel = new CatalogBookModel();
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
+        return getBookModel(blockLoc);
+    }
 
-        catalogBookModel
-                .setTitle(getBookParameter(blockLoc, BOOK_TITLE_LOC, "Book title"))
-                .setAuthor(getBookParameter(blockLoc, BOOK_AUTHOR_LOC, "Book author"))
-                .setBookType(getBookParameter(blockLoc, BOOK_TYPE_LOC, "Book type"));
-        return catalogBookModel;
+    private CatalogBookModel getBookModel(String mainLocator) {
+        return new CatalogBookModel()
+                .setTitle(getBookParameter(mainLocator, BOOK_TITLE_LOC, "Book title"))
+                .setAuthor(getBookParameter(mainLocator, BOOK_AUTHOR_LOC, "Book author"));
     }
 
     private String getBookParameter(String mainLocator, String subLocator, String name) {
@@ -121,9 +122,8 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.i18n();
         IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
-        if (!button.state().isDisplayed()) {
-            button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        }
+        button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+
         String bookTitle =
                 getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key).getText();
         CatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);

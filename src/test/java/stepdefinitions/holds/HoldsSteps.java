@@ -6,14 +6,15 @@ import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import stepdefinitions.BaseSteps;
 import stepdefinitions.holds.components.AbstractHoldsSteps;
+import stepdefinitions.holds.components.IHoldsSteps;
 
-public class HoldsSteps extends AbstractHoldsSteps {
+public class HoldsSteps extends BaseSteps implements IHoldsSteps {
     private AbstractHoldsSteps abstractHoldsSteps;
 
     @Inject
     public HoldsSteps(ScenarioContext context) {
-        super(context);
         this.abstractHoldsSteps = stepsFactory.getSteps(AbstractHoldsSteps.class, context);
     }
 

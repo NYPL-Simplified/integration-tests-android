@@ -100,9 +100,8 @@ public class IosReaderScreen extends ReaderScreen {
     public void openChapter(String chapter) {
         btnChapters.click();
         IButton button = getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\") and @text=\"" + chapter + "\"]"), chapter);
-        if (!button.state().isDisplayed()) {
-            button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        }
+        button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+
         button.click();
     }
 
