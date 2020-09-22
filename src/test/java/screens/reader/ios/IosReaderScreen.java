@@ -8,6 +8,8 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
+import constants.RegEx;
+import framework.utilities.RegExUtil;
 import framework.utilities.swipe.SwipeElementUtils;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.offset.PointOption;
@@ -20,6 +22,7 @@ import screens.reader.ReaderScreen;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
@@ -116,7 +119,49 @@ public class IosReaderScreen extends ReaderScreen {
         btnChapters.click();
     }
 
+    @Override
+    public double getFontSize() {
+        Matcher matcher = RegExUtil.getMatcher(getBookSource(), RegEx.FONT_SIZE_REGEX);
+        return matcher.find() ? Double.parseDouble(matcher.group(1)) : 0;
+    }
+
+    @Override
+    public String getFontName() {
+        Matcher matcher = RegExUtil.getMatcher(getBookSource(), RegEx.FONT_NAME_REGEX);
+        return matcher.find() ? matcher.group(1) : "";
+    }
+
+    @Override
+    public String getFontColor() {
+        Matcher matcher = RegExUtil.getMatcher(getBookSource(), RegEx.FONT_COLOR_REGEX);
+        return matcher.find() ? matcher.group(1) : "";
+    }
+
+    @Override
+    public String getBackgroundColor() {
+        Matcher matcher = RegExUtil.getMatcher(getBookSource(), RegEx.BACKGROUND_COLOR_REGEX);
+        return matcher.find() ? matcher.group(1) : "";
+    }
+
     private List<ILabel> getChapters() {
         return getElementFactory().findElements(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\")]"), ElementType.LABEL);
+    }
+
+    private String getBookSource() {
+        AqualityServices.getConditionalWait().waitFor(() -> {
+            Set<String> contextNames = AqualityServices.getApplication().getDriver().getContextHandles();
+            for (String contextName : contextNames) {
+                AqualityServices.getLogger().info("context - " + contextName); //prints out something like NATIVE_APP \n WEBVIEW_1
+            }
+            return contextNames.size() > 1;
+        });
+        Set<String> contextNames = AqualityServices.getApplication().getDriver().getContextHandles();
+        AqualityServices.getApplication().getDriver().context((String) contextNames.toArray()[1]);
+        AqualityServices.getApplication().getDriver().switchTo().frame("epubContentIframe");
+        String frameSource = AqualityServices.getApplication().getDriver().getPageSource();
+        AqualityServices.getLogger().info(frameSource);
+        AqualityServices.getApplication().getDriver().switchTo().defaultContent();
+        AqualityServices.getApplication().getDriver().context((String) contextNames.toArray()[0]);
+        return frameSource;
     }
 }

@@ -3,6 +3,7 @@ package stepdefinitions;
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import constants.RegEx;
+import constants.localization.application.reader.ReaderSettingKeys;
 import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
@@ -23,6 +24,9 @@ public class ReaderSteps {
     private final ScenarioContext context;
     private final TableOfContentsScreen tableOfContentsScreen;
     private final FontChoicesScreen fontChoicesScreen;
+    private static final String WHITE_COLOR = "#ffffff !important";
+    private static final String BLACK_COLOR = "#000000 !important";
+    private static final String SEPIA_COLOR = "#f2e4cb !important";
 
     @Inject
     public ReaderSteps(ScenarioContext context) {
@@ -137,20 +141,20 @@ public class ReaderSteps {
     @And("I increase text font size")
     public void iIncreaseTextFontSize() {
         readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(SettingScrrenButton.INCREASE_FONT_SETTINGS);
+        fontChoicesScreen.setSetting(ReaderSettingKeys.INCREASE_FONT_SETTINGS);
         AqualityServices.getApplication().getDriver().navigate().back();
     }
 
     @When("I decrease text font size")
     public void iDecreaseTextFontSize() {
         readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(SettingScrrenButton.DECREASE_FONT_SETTINGS);
+        fontChoicesScreen.setSetting(ReaderSettingKeys.DECREASE_FONT_SETTINGS);
         AqualityServices.getApplication().getDriver().navigate().back();
     }
 
     @When("I save font size as {string}")
-    public void iSaveFontSizeAsFontSize() {
-        context.add(readerScreen.getFontSize());
+    public void iSaveFontSizeAsFontSize(String fontSizeKey) {
+        context.add(fontSizeKey, readerScreen.getFontSize());
     }
 
     @Then("Font size {string} is increased")
@@ -168,42 +172,69 @@ public class ReaderSteps {
     @When("I change font style to serif")
     public void iChangeFontStyleToSerif() {
         readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(SettingScrrenButton.SERFIF);
+        fontChoicesScreen.setSetting(ReaderSettingKeys.SERIF);
         AqualityServices.getApplication().getDriver().navigate().back();
     }
 
     @When("I change font style to sans-serif arial")
     public void iChangeFontStyleToSansSerifArial() {
         readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(SettingScrrenButton.SANS_SERIF_ARIAL);
+        fontChoicesScreen.setSetting(ReaderSettingKeys.SANS_SERIF_ARIAL);
         AqualityServices.getApplication().getDriver().navigate().back();
     }
 
     @When("I change font style to alternative sans")
     public void iChangeFontStyleToAlternativeSans() {
         readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(SettingScrrenButton.ALTERNATIVE_SANS);
+        fontChoicesScreen.setSetting(ReaderSettingKeys.ALTERNATIVE_SANS);
         AqualityServices.getApplication().getDriver().navigate().back();
     }
 
     @When("I change contrast to white text on black")
     public void iChangeContrastToWhiteTextOnBlack() {
         readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(SettingScrrenButton.WHITE_TEXT_ON_BLACK);
+        fontChoicesScreen.setSetting(ReaderSettingKeys.WHITE_TEXT_ON_BLACK);
         AqualityServices.getApplication().getDriver().navigate().back();
     }
 
     @When("I change contrast to black text on white")
     public void iChangeContrastToBlackTextOnWhite() {
         readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(SettingScrrenButton.BLACK_TEXT_ON_WHITE);
+        fontChoicesScreen.setSetting(ReaderSettingKeys.BLACK_TEXT_ON_WHITE);
         AqualityServices.getApplication().getDriver().navigate().back();
     }
 
     @When("I change contrast to black text on sepia")
     public void iChangeContrastToBlackTextOnSepia() {
         readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(SettingScrrenButton.BLACK_TEXT_ON_SEPIA);
+        fontChoicesScreen.setSetting(ReaderSettingKeys.BLACK_TEXT_ON_SEPIA);
         AqualityServices.getApplication().getDriver().navigate().back();
+    }
+
+    @Then("Book text displays in {string} font")
+    public void bookTextDisplaysInAlternativeSansFont(String expectedFontName) {
+        Assert.assertEquals(readerScreen.getFontName(), expectedFontName, "Book font is not correct");
+    }
+
+    @Then("Book text displays white-text on black")
+    public void bookTextDisplaysWhiteTextOnBlack() {
+        assertFontAndBackground(WHITE_COLOR, BLACK_COLOR);
+    }
+
+    private void assertFontAndBackground(String fontColor, String backgroundColor) {
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(readerScreen.getFontColor(), fontColor, "Font color is not correct");
+        softAssert.assertEquals(readerScreen.getBackgroundColor(), backgroundColor, "Background color is not correct");
+        softAssert.assertAll();
+    }
+
+    @Then("Book text displays black-text on white")
+    public void bookTextDisplaysBlackTextOnWhite() {
+        assertFontAndBackground(BLACK_COLOR, WHITE_COLOR);
+    }
+
+    @Then("Book text displays black-text on sepia")
+    public void bookTextDisplaysBlackTextOnSepia() {
+        assertFontAndBackground(BLACK_COLOR, SEPIA_COLOR);
     }
 }

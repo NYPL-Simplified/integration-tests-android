@@ -70,6 +70,7 @@ Feature: Read EPUB
       And DOWNLOAD book of 'eBook' type and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
     Then Book 'bookInfo' is present on screen
     When I save font size as 'fontSize'
       And I increase text font size
@@ -78,15 +79,14 @@ Feature: Read EPUB
       And I decrease text font size
     Then Font size 'fontSize' is decreased
     When I change font style to serif
-    Then Book text displays in 'serif' font
+    Then Book text displays in 'serif !important' font
     When I change font style to sans-serif arial
-    Then Book text displays in 'sans-serif arial'
+    Then Book text displays in 'sans-serif !important' font
     When I change font style to alternative sans
-    Then Book text displays in 'alternative sans' font
+    Then Book text displays in 'OpenDyslexic3 !important' font
     When I change contrast to white text on black
     Then Book text displays white-text on black
     When I change contrast to black text on white
     Then Book text displays black-text on white
     When I change contrast to black text on sepia
     Then Book text displays black-text on sepia
-    #brightness check should be here, but appium for android(and ios probably) does not support brightness info
