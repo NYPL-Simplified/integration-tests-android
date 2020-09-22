@@ -3,6 +3,7 @@ package stepdefinitions;
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import constants.RegEx;
+import constants.localization.application.reader.ColorKeys;
 import constants.localization.application.reader.ReaderSettingKeys;
 import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
@@ -24,9 +25,6 @@ public class ReaderSteps {
     private final ScenarioContext context;
     private final TableOfContentsScreen tableOfContentsScreen;
     private final FontChoicesScreen fontChoicesScreen;
-    private static final String WHITE_COLOR = "#ffffff !important";
-    private static final String BLACK_COLOR = "#000000 !important";
-    private static final String SEPIA_COLOR = "#f2e4cb !important";
     private static final String SERIF_FONT_NAME = "serif !important";
     private static final String SANS_SERIF_FONT_NAME = "sans-serif !important";
     private static final String ALTERNATIVE_SANS_FONT_NAME = "OpenDyslexic3 !important";
@@ -140,16 +138,6 @@ public class ReaderSteps {
         Assert.assertTrue(fontChoicesScreen.state().waitForDisplayed(), "Font choices screen is not opened");
     }
 
-    @And("I increase text font size")
-    public void increaseTextFontSize() {
-        changeSetting(ReaderSettingKeys.INCREASE_FONT_SETTINGS);
-    }
-
-    @When("I decrease text font size")
-    public void decreaseTextFontSize() {
-        changeSetting(ReaderSettingKeys.DECREASE_FONT_SETTINGS);
-    }
-
     @When("I save font size as {string}")
     public void saveFontSize(String fontSizeKey) {
         context.add(fontSizeKey, readerScreen.getFontSize());
@@ -171,49 +159,16 @@ public class ReaderSteps {
                 "Font size is not decreased actual - " + actualFontSize + ", expected - " + expectedFontSize);
     }
 
-    @When("I change font style to serif")
-    public void changeFontStyleToSerif() {
-        changeSetting(ReaderSettingKeys.SERIF);
+    @When("I {} of text")
+    @When("I change font style to {}")
+    @When("I change contrast to {}")
+    public void changeSettingsForFont(ReaderSettingKeys readerSettingKey){
+        changeSetting(readerSettingKey);
     }
 
-    @When("I change font style to sans-serif arial")
-    public void changeFontStyleToSansSerifArial() {
-        changeSetting(ReaderSettingKeys.SANS_SERIF_ARIAL);
-    }
-
-    @When("I change font style to alternative sans")
-    public void changeFontStyleToAlternativeSans() {
-        changeSetting(ReaderSettingKeys.ALTERNATIVE_SANS);
-    }
-
-    @When("I change contrast to white text on black")
-    public void changeContrastToWhiteTextOnBlack() {
-        changeSetting(ReaderSettingKeys.WHITE_TEXT_ON_BLACK);
-    }
-
-    @When("I change contrast to black text on white")
-    public void changeContrastToBlackTextOnWhite() {
-        changeSetting(ReaderSettingKeys.BLACK_TEXT_ON_WHITE);
-    }
-
-    @When("I change contrast to black text on sepia")
-    public void changeContrastToBlackTextOnSepia() {
-        changeSetting(ReaderSettingKeys.BLACK_TEXT_ON_SEPIA);
-    }
-
-    @Then("Book text displays white-text on black")
-    public void checkBookTextDisplaysWhiteTextOnBlack() {
-        assertFontAndBackground(WHITE_COLOR, BLACK_COLOR);
-    }
-
-    @Then("Book text displays black-text on white")
-    public void checkBookTextDisplaysBlackTextOnWhite() {
-        assertFontAndBackground(BLACK_COLOR, WHITE_COLOR);
-    }
-
-    @Then("Book text displays black-text on sepia")
-    public void checkBookTextDisplaysBlackTextOnSepia() {
-        assertFontAndBackground(BLACK_COLOR, SEPIA_COLOR);
+    @Then("Book text displays {} on {}")
+    public void checkBookTextDisplaysWhiteTextOnBlack(ColorKeys text, ColorKeys background) {
+        assertFontAndBackground(text, background);
     }
 
     @Then("Book text displays in serif font")
@@ -237,10 +192,10 @@ public class ReaderSteps {
         AqualityServices.getApplication().getDriver().navigate().back();
     }
 
-    private void assertFontAndBackground(String fontColor, String backgroundColor) {
+    private void assertFontAndBackground(ColorKeys fontColor, ColorKeys backgroundColor) {
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(readerScreen.getFontColor(), fontColor, "Font color is not correct");
-        softAssert.assertEquals(readerScreen.getBackgroundColor(), backgroundColor, "Background color is not correct");
+        softAssert.assertEquals(readerScreen.getFontColor(), fontColor.i18n(), "Font color is not correct");
+        softAssert.assertEquals(readerScreen.getBackgroundColor(), backgroundColor.i18n(), "Background color is not correct");
         softAssert.assertAll();
     }
 
