@@ -27,6 +27,9 @@ public class ReaderSteps {
     private static final String WHITE_COLOR = "#ffffff !important";
     private static final String BLACK_COLOR = "#000000 !important";
     private static final String SEPIA_COLOR = "#f2e4cb !important";
+    private static final String SERIF_FONT_NAME = "serif !important";
+    private static final String SANS_SERIF_FONT_NAME = "sans-serif !important";
+    private static final String ALTERNATIVE_SANS_FONT_NAME = "OpenDyslexic3 !important";
 
     @Inject
     public ReaderSteps(ScenarioContext context) {
@@ -83,8 +86,7 @@ public class ReaderSteps {
     }
 
     public int getPageNumber(String text) {
-        Matcher matcher = getMatcher(text);
-        return matcher.find() ? Integer.parseInt(matcher.group(1)) : 0;
+        return RegExUtil.getIntFromFirstGroup(text, RegEx.PAGE_NUMBER_REGEX);
     }
 
     public String getChapterName(String text) {
@@ -199,11 +201,6 @@ public class ReaderSteps {
         changeSetting(ReaderSettingKeys.BLACK_TEXT_ON_SEPIA);
     }
 
-    @Then("Book text displays in {string} font")
-    public void checkBookTextDisplaysInAlternativeSansFont(String expectedFontName) {
-        Assert.assertEquals(readerScreen.getFontName(), expectedFontName, "Book font is not correct");
-    }
-
     @Then("Book text displays white-text on black")
     public void checkBookTextDisplaysWhiteTextOnBlack() {
         assertFontAndBackground(WHITE_COLOR, BLACK_COLOR);
@@ -219,6 +216,21 @@ public class ReaderSteps {
         assertFontAndBackground(BLACK_COLOR, SEPIA_COLOR);
     }
 
+    @Then("Book text displays in serif font")
+    public void bookTextDisplaysInSerifFont() {
+        assertFontName(SERIF_FONT_NAME);
+    }
+
+    @Then("Book text displays in sans-serif arial font")
+    public void bookTextDisplaysInSansSerifArialFont() {
+        assertFontName(SANS_SERIF_FONT_NAME);
+    }
+
+    @Then("Book text displays in alternative sans font")
+    public void bookTextDisplaysInAlternativeSansFont() {
+        assertFontName(ALTERNATIVE_SANS_FONT_NAME);
+    }
+
     private void changeSetting(ReaderSettingKeys settingName) {
         readerScreen.openFontSettings();
         fontChoicesScreen.setSetting(settingName);
@@ -230,5 +242,9 @@ public class ReaderSteps {
         softAssert.assertEquals(readerScreen.getFontColor(), fontColor, "Font color is not correct");
         softAssert.assertEquals(readerScreen.getBackgroundColor(), backgroundColor, "Background color is not correct");
         softAssert.assertAll();
+    }
+
+    private void assertFontName(String fontName) {
+        Assert.assertEquals(readerScreen.getFontName(), fontName, "Book font is not correct");
     }
 }

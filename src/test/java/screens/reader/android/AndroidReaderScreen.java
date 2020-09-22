@@ -20,7 +20,6 @@ import screens.reader.ReaderScreen;
 import screens.tableofcontents.TableOfContentsScreen;
 
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.ANDROID)
@@ -110,8 +109,7 @@ public class AndroidReaderScreen extends ReaderScreen {
 
     @Override
     public double getFontSize() {
-        Matcher matcher = RegExUtil.getMatcher(getBookSource(), RegEx.FONT_SIZE_REGEX);
-        return matcher.find() ? Double.parseDouble(matcher.group(1)) : 0;
+        return RegExUtil.getDoubleFromFirstMatchGroup(getBookSource(), RegEx.FONT_SIZE_REGEX);
     }
 
     private String getBookSource() {
@@ -150,7 +148,6 @@ public class AndroidReaderScreen extends ReaderScreen {
     }
 
     private String getReaderInfo(String regex) {
-        Matcher matcher = RegExUtil.getMatcher(getBookSource(), regex);
-        return matcher.find() ? matcher.group(1) : "";
+        return RegExUtil.getStringFromFirstGroup(getBookSource(),regex);
     }
 }
