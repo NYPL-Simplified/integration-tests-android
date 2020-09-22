@@ -10,7 +10,7 @@ import screens.bottommenu.BottomMenuForm;
 import screens.holds.HoldsScreen;
 import stepdefinitions.BaseSteps;
 
-public abstract class AbstractHoldsSteps extends BaseSteps {
+public abstract class AbstractHoldsSteps extends BaseSteps implements IHoldsSteps {
     protected final BottomMenuForm bottomMenuForm;
     protected final HoldsScreen holdsScreen;
     protected final ScenarioContext context;
@@ -21,25 +21,30 @@ public abstract class AbstractHoldsSteps extends BaseSteps {
         holdsScreen = AqualityServices.getScreenFactory().getScreen(HoldsScreen.class);
     }
 
+    @Override
     public void openHolds() {
         bottomMenuForm.open(BottomMenu.HOLDS);
     }
 
+    @Override
     public void checkHoldsFeedIsLoaded() {
         Assert.assertTrue(holdsScreen.state().waitForDisplayed(), "Holds feed is not loaded");
     }
 
+    @Override
     public void checkNoBooksArePresentInHoldsList() {
         Assert.assertTrue(holdsScreen.isNoBooksMessagePresent(), "Books are present in Holds list");
     }
 
     public abstract void checkBookBookInfoIsPresentInHoldsList(String bookInfoKey);
 
+    @Override
     public void clickOnTheBookAddButtonOnTheHoldsScreen(String bookInfoKey, BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         holdsScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
     }
 
+    @Override
     public void checkThatSavedBookContainButtonAtTheHoldScreen(
             final String bookInfoKey, final BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);

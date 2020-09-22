@@ -3,9 +3,11 @@ package stepdefinitions.application;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import stepdefinitions.BaseSteps;
 import stepdefinitions.application.components.AbstractApplicationSteps;
+import stepdefinitions.application.components.IApplicationSteps;
 
-public class ApplicationSteps extends AbstractApplicationSteps {
+public class ApplicationSteps extends BaseSteps implements IApplicationSteps {
     private AbstractApplicationSteps applicationSteps;
 
     public ApplicationSteps() {

@@ -111,24 +111,25 @@ Feature: Catalog Navigation
     Then Books feed is loaded
     When I open search modal
     Then Search modal is opened
-    When I set text to the search textBox 'Harry Potter et les Reliques'
+    When I set text to the search textBox 'Harry Potter and the Order of the Phoenix'
       And I click apply search button
     Then Search modal is closed
       And Search page is opened
     When I switch to 'eBooks' catalog tab
     Then Subcategory screen is present
-    When I open first found book from the search result
-    Then Book 'Harry Potter et les Reliques de la Mort, ebook, by J. K. Rowling' is opened
+    When I open first found book from the search result and save as 'bookInfo'
+    Then Book 'bookInfo' is opened
       And The following values in the information block are present:
         | key         | value                 |
-        | PUBLISHED   | 2014-08-07            |
+        | PUBLISHED   | 2014-08-29            |
         | PUBLISHER   | Pottermore Publishing |
         | DISTRIBUTOR | Overdrive             |
         | CATEGORIES  | Fantasy               |
-        | UPDATED     | 2020-09-17 08:45:57   |
+        | UPDATED     | 2020-09-22 11:15:16   |
       And Description has text
     """
-    Cette année, Harry a dix-sept ans et ne retourne pas à Poudlard. Avec Ron et Hermione, il se consacre à la dernière mission confiée par Dumbledore. Mais le Seigneur des Ténèbres règne en maître. Traqués, les trois fidèles amis sont contraints à la clandestinité. D'épreuves en révélations, le courage, les choix et les sacrifices de Harry seront déterminants dans la lutte contre les forces du Mal. Avec le dénouement de l'héroïque histoire de Harry Potter, J.K. Rowling signe un chef-d'oeuvre d'une grande humanité et d'une maîtrise incomparable.
+    "'You are sharing the Dark Lord's thoughts and emotions. The Headmaster thinks it inadvisable for this to continue. He wishes me to teach you how to close your mind to the Dark Lord.'"
+Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudley, Harry Potter knows that Voldemort will stop at nothing to find him. There are many who deny the Dark Lord's return, but Harry is not alone: a secret order gathers at Grimmauld Place to fight against the Dark forces. Harry must allow Professor Snape to teach him how to protect himself from Voldemort's savage assaults on his mind. But they are growing stronger by the day and Harry is running out of time...
     """
     When I open related books
     Then Current category name is 'Related Books'
@@ -136,13 +137,13 @@ Feature: Catalog Navigation
     When I open 'J. K. Rowling' subcategory
     Then Current category name is 'J. K. Rowling'
       And Count of books in search result is up to 12
-    When I go back to the previous catalog screen
+    When I return to previous screen
     Then Current category name is 'Related Books'
       And Count of books in subcategory 'Similar titles recommended by NoveList' lane is up to 12
     When I open 'Similar titles recommended by NoveList' subcategory
-    Then Current category name is 'Titles recommended by NoveList'
+    Then Current category name by localization is TITLE_RECOMMENDED_BY_NOVELIST
       And Count of books in search result is up to 12
-    When I go back to the previous catalog screen
+    When I return to previous screen
     Then Current category name is 'Related Books'
       And Count of books in subcategory 'Harry Potter' lane is up to 12
     When I open 'Harry Potter' subcategory

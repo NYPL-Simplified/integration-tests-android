@@ -80,6 +80,12 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
         btnRelatedBooks.click();
     }
 
+
+    @Override
+    public boolean isRelatedBooksVisible() {
+        return btnRelatedBooks.state().isDisplayed();
+    }
+
     @Override
     public boolean isBookAddButtonTextEqualTo(BookActionButtonKeys key) {
         final IButton bookAddBtn = getActionButton(key);

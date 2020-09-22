@@ -1,18 +1,14 @@
-package stepdefinitions;
+package stepdefinitions.catalog.components;
 
 import aquality.appium.mobile.application.AqualityServices;
-import com.google.inject.Inject;
 import constants.application.timeouts.CategoriesTimeouts;
 import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
+import constants.localization.application.catalog.CategoriesNamesKeys;
 import constants.localization.application.facetedSearch.FacetAvailabilityKeys;
 import constants.localization.application.facetedSearch.FacetSortByKeys;
 import framework.utilities.ScenarioContext;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-import models.android.AndroidBookDetailsScreenInformationBlockModel;
+import models.android.BookDetailsScreenInformationBlockModel;
 import models.android.CatalogBookModel;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
@@ -26,6 +22,7 @@ import screens.catalog.screen.books.CatalogBooksScreen;
 import screens.catalog.screen.catalog.CatalogScreen;
 import screens.facetedSearch.FacetedSearchScreen;
 import screens.subcategory.SubcategoryScreen;
+import stepdefinitions.BaseSteps;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -34,19 +31,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class CatalogSteps {
-    private final BottomMenuForm bottomMenuForm;
-    private final CatalogScreen catalogScreen;
-    private final SubcategoryScreen subcategoryScreen;
-    private final AgeGateScreen ageGateScreen;
-    private final BookDetailsScreen bookDetailsScreen;
-    private final MainCatalogToolbarForm mainCatalogToolbarForm;
-    private final CatalogBooksScreen catalogBooksScreen;
-    private final FacetedSearchScreen facetedSearchScreen;
-    private final ScenarioContext context;
+public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalogSteps {
+    protected final BottomMenuForm bottomMenuForm;
+    protected final CatalogScreen catalogScreen;
+    protected final SubcategoryScreen subcategoryScreen;
+    protected final AgeGateScreen ageGateScreen;
+    protected final BookDetailsScreen bookDetailsScreen;
+    protected final MainCatalogToolbarForm mainCatalogToolbarForm;
+    protected final CatalogBooksScreen catalogBooksScreen;
+    protected final FacetedSearchScreen facetedSearchScreen;
+    protected final ScenarioContext context;
 
-    @Inject
-    public CatalogSteps(ScenarioContext context) {
+    public AbstractCatalogSteps(ScenarioContext context) {
         this.context = context;
         mainCatalogToolbarForm = AqualityServices.getScreenFactory().getScreen(MainCatalogToolbarForm.class);
         bottomMenuForm = AqualityServices.getScreenFactory().getScreen(BottomMenuForm.class);
@@ -58,33 +54,32 @@ public class CatalogSteps {
         facetedSearchScreen = AqualityServices.getScreenFactory().getScreen(FacetedSearchScreen.class);
     }
 
-    @Then("Books feed is loaded")
+    @Override
     public void booksFeedIsLoaded() {
         Assert.assertTrue(catalogScreen.state().waitForDisplayed(Duration.ofMillis(
                 CategoriesTimeouts.TIMEOUT_WAIT_UNTIL_CATEGORY_PAGE_LOAD.getTimeoutMillis())),
                 "Books feed is not loaded");
     }
 
-    @When("I get names of books on screen and save them as {string}")
+    @Override
     public void getNamesOfBooksAndSaveThem(String booksNamesListKey) {
         context.add(booksNamesListKey, catalogScreen.getListOfBooksNames());
     }
 
-    @Then("List of books on screen is not equal to list of books saved as {string}")
+    @Override
     public void checkListOfBooksIsNotEqualToSavedListOfBooks(String booksNamesListKey) {
         List<String> expectedList = context.get(booksNamesListKey);
         Assert.assertNotEquals(catalogScreen.getListOfBooksNames(), expectedList,
                 "Lists of books are equal" + expectedList.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
 
-    @And("I switch to {string} from side menu")
+    @Override
     public void openLibraryFromSideMenu(String libraryName) {
         mainCatalogToolbarForm.chooseAnotherLibrary();
         catalogScreen.openLibrary(libraryName);
     }
 
-    @And("I open Catalog")
-    @Given("Catalog is opened")
+    @Override
     public void openCatalogWithAgeCheck() {
         bottomMenuForm.open(BottomMenu.CATALOG);
         if (ageGateScreen.state().isDisplayed()) {
@@ -92,12 +87,12 @@ public class CatalogSteps {
         }
     }
 
-    @And("I open Books")
+    @Override
     public void openBooks() {
         bottomMenuForm.open(BottomMenu.BOOKS);
     }
 
-    @And("I Download first book from shelf and save it as {string}")
+    @Override
     public void getBookFromShelfAndSaveItAsBookInfo(String bookInfoKey) {
         CatalogBookModel bookModel = new CatalogBookModel();
         bookModel.setImageTitle(catalogScreen.getBookName(1));
@@ -106,41 +101,36 @@ public class CatalogSteps {
         bookDetailsScreen.downloadBook();
     }
 
-    @And("Current library is {string} in Catalog")
+    @Override
     public void checkCurrentLibraryIsCorrect(String expectedLibraryName) {
         Assert.assertEquals(mainCatalogToolbarForm.getCatalogName(), expectedLibraryName,
                 "Current library name is not correct");
     }
 
-    @And("I open {string} category")
-    @When("I open {string} subcategory")
+    @Override
     public void openCategory(String categoryName) {
         catalogScreen.openCategory(categoryName);
     }
 
-    @Then("Current category name is {string}")
-    @And("Subcategory name is {string}")
-    public void checkCurrentCategoryName(String expectedCategoryName) {
-        Assert.assertTrue(AqualityServices.getConditionalWait()
-                        .waitFor(() -> mainCatalogToolbarForm.getCategoryName().equals(expectedCategoryName),
-                                "Wait while category become correct."),
-                String.format("Current category name is not correct. Expected '%1$s' but found '%2$s'",
-                        mainCatalogToolbarForm.getCategoryName(), expectedCategoryName));
+    public abstract void checkCurrentCategoryName(String expectedCategoryName);
+
+    @Override
+    public void checkCurrentCategoryNameByLocalization(CategoriesNamesKeys categoriesNamesKeys) {
+        checkCurrentCategoryName(categoriesNamesKeys.i18n());
     }
 
-    @Then("Subcategory screen is present")
+    @Override
     public void checkSubcategoryScreenIsPresent() {
         Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), "Subcategory screen is not present");
     }
 
-    @And("Following subcategories are present:")
+    @Override
     public void checkFollowingSubcategoriesArePresent(List<String> expectedValuesList) {
         Assert.assertTrue(expectedValuesList.stream().allMatch(catalogScreen::isSubcategoryPresent),
                 "Not all categories are present");
     }
 
-    @When("I open category by chain:")
-    @And("Open category by chain:")
+    @Override
     public void openCategoryByChain(List<String> categoriesChain) {
         IntStream.range(0, categoriesChain.size()).forEach(index -> {
             openCategory(categoriesChain.get(index));
@@ -150,8 +140,7 @@ public class CatalogSteps {
         });
     }
 
-    @When("I open the book details for the subsequent {} and save it as {string}")
-    @And("Open the book details for the subsequent {} and save it as {string}")
+    @Override
     public void openBookDetailsExecuteBookActionAndSaveItToContext(
             BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         catalogBooksScreen.openBookDetailsWithAction(actionButtonKey);
@@ -159,24 +148,24 @@ public class CatalogSteps {
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 
-    @And("{} book and save it as {string}")
+    @Override
     public void executeBookActionAndSaveItToContextAndLibraryCancel(
             BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey));
     }
 
-    @And("{} book of {string} type and save it as {string}")
+    @Override
     public void performActionOnBookOfTypeAndSaveIt(BookActionButtonKeys actionButtonKey, String bookType, String bookInfoKey) {
         context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey, bookType));
     }
 
-    @When("I click on the book {string} button {} on catalog books screen")
+    @Override
     public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         catalogBooksScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
     }
 
-    @And("Save current library for {} books after test")
+    @Override
     public void saveLibraryForCancel(ContextLibrariesKeys contextLibrariesKeys) {
         String libraryName = mainCatalogToolbarForm.getCatalogName();
         List<String> listOfLibraries = context.containsKey(contextLibrariesKeys.getKey())
@@ -187,7 +176,7 @@ public class CatalogSteps {
         context.add(contextLibrariesKeys.getKey(), listOfLibraries);
     }
 
-    @And("Save current {string} library for {} books after test")
+    @Override
     public void saveLibraryForCancel(String libraryName, ContextLibrariesKeys contextLibrariesKeys) {
         List<String> listOfLibraries = context.containsKey(contextLibrariesKeys.getKey())
                 ? context.get(contextLibrariesKeys.getKey())
@@ -197,13 +186,13 @@ public class CatalogSteps {
         context.add(contextLibrariesKeys.getKey(), listOfLibraries);
     }
 
-    @And("Count of books in first lane is up to {int}")
+    @Override
     public void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks) {
         Assert.assertTrue(countOfBooks >= catalogScreen.getListOfAllBooksNamesInFirstLane().size(),
                 "Count of books is bigger then " + countOfBooks);
     }
 
-    @And("Count of books in subcategory {string} lane is up to {int}")
+    @Override
     public void checkCountOfBooksInSubcategoryLaneIsUpTo(String lineName, int countOfBooks) {
         int foundCountOfBooks = catalogScreen
                 .getListOfAllBooksNamesInSubcategoryLane(lineName)
@@ -213,41 +202,41 @@ public class CatalogSteps {
                         foundCountOfBooks));
     }
 
-    @Then("Book {string} is opened")
+    @Override
     public void checkBookInfoIsOpened(String bookInfoKey) {
         Assert.assertEquals(bookDetailsScreen.getBookInfo(),
                 Optional.ofNullable(context.get(bookInfoKey)).orElse(bookInfoKey), "Expected book is not opened");
     }
 
-    @When("I open first book in subcategory list and save it as {string}")
+    @Override
     public void openFirstBookInSubcategoryListAndSaveIt(String bookInfoKey) {
         context.add(bookInfoKey, subcategoryScreen.getFirstBookInfo());
         subcategoryScreen.openFirstBook();
     }
 
-    @When("I switch to {string} catalog tab")
+    @Override
     public void switchToCatalogTab(String catalogTab) {
         catalogScreen.switchToCatalogTab(catalogTab);
     }
 
-    @Then("All present books are audiobooks")
+    @Override
     public void checkAllPresentBooksAreAudiobooks() {
         Assert.assertTrue(catalogScreen.getListOfBooksNames().stream().allMatch(x -> x.toLowerCase().contains("audiobook")),
                 "Not all present books are audiobooks");
     }
 
-    @And("I sort books by {}")
+    @Override
     public void sortBooksBy(FacetSortByKeys sortingCategory) {
         facetedSearchScreen.sortBy();
         facetedSearchScreen.changeSortByTo(sortingCategory);
     }
 
-    @When("I save list of books as {string}")
+    @Override
     public void saveListOfBooks(String booksInfoKey) {
         context.add(booksInfoKey, subcategoryScreen.getBooksInfo());
     }
 
-    @Then("All books can be downloaded")
+    @Override
     public void checkAllBooksCanBeDownloaded() {
         Assert.assertTrue(subcategoryScreen.getAllButtonsNames()
                         .stream()
@@ -255,7 +244,7 @@ public class CatalogSteps {
                 "Not all present books can be downloaded");
     }
 
-    @Then("All books can be loaned or downloaded")
+    @Override
     public void checkAllBooksCanBeLoanedOrDownloaded() {
         Assert.assertTrue(subcategoryScreen.getAllButtonsNames()
                         .stream()
@@ -264,14 +253,14 @@ public class CatalogSteps {
                 "Not all present books can be loaned or downloaded");
     }
 
-    @Then("List of books on subcategory screen is not equal to list of books saved as {string}")
+    @Override
     public void checkListOfBooksOnSubcategoryScreenIsNotEqualToListOfSavedBooks(String booksNamesListKey) {
         List<String> expectedList = context.get(booksNamesListKey);
         Assert.assertNotEquals(subcategoryScreen.getBooksInfo(), expectedList,
                 "Lists of books are equal" + expectedList.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
 
-    @Then("Books are sorted by Author ascending")
+    @Override
     public void checkBooksAreSortedByAuthorAscending() {
         List<String> list = subcategoryScreen.getAuthorsInfo();
         List<String> listOfSurnames = getSurnames(list);
@@ -279,14 +268,14 @@ public class CatalogSteps {
                 "Lists of authors is not sorted properly" + list.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
 
-    @Then("Books are sorted by Title ascending")
+    @Override
     public void booksAreSortedByTitleAscending() {
         List<String> list = subcategoryScreen.getTitlesInfo();
         Assert.assertEquals(list, list.stream().sorted().collect(Collectors.toList()),
                 "Lists of authors is not sorted properly" + list.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
 
-    private List<String> getSurnames(List<String> list) {
+    protected List<String> getSurnames(List<String> list) {
         List<String> listOfSurnames = new ArrayList<>();
         for (String authorName : list) {
             String[] separatedName = authorName.split("\\s");
@@ -305,16 +294,16 @@ public class CatalogSteps {
         return listOfSurnames;
     }
 
-    @And("The following values in the information block are present:")
+    @Override
     public void checkFollowingValuesInTheInformationBlockArePresent(
-            List<AndroidBookDetailsScreenInformationBlockModel> expectedValuesList) {
+            List<BookDetailsScreenInformationBlockModel> expectedValuesList) {
         Assert.assertTrue(expectedValuesList.stream().allMatch(listElement ->
                         bookDetailsScreen.isValueInTheInformationBlockPresent(listElement.getKey(),
                                 listElement.getValue())),
                 "Not all information block values are present");
     }
 
-    @And("Description has text")
+    @Override
     public void checkDescriptionHasText(final String description) {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(bookDetailsScreen.isDescriptionPresent(), "Description does not present");
@@ -323,35 +312,35 @@ public class CatalogSteps {
         softAssert.assertAll();
     }
 
-    @When("I open related books")
+    @Override
     public void openRelatedBooks() {
         bookDetailsScreen.clickRelatedBooks();
     }
 
-    @When("I go back to the previous catalog screen")
+    @Override
     public void goBackToThePreviousCatalogScreen() {
         mainCatalogToolbarForm.goBack();
     }
 
-
-    @And("Search page is opened")
+    @Override
     public void checkSearchPageIsOpened() {
         Assert.assertTrue(catalogBooksScreen.state().waitForDisplayed(), "Search page is not present");
     }
 
-    @When("I open first found book from the search result")
-    @And("Open first found book from the search result")
-    public void selectFirstFoundBook() {
-        catalogBooksScreen.selectFirstFoundBook();
+    @Override
+    public CatalogBookModel selectFirstFoundBookAndSaveAs(String bookInfoKey) {
+        CatalogBookModel catalogBookModel = catalogBooksScreen.selectFirstFoundBook();
+        context.add(bookInfoKey, catalogBookModel);
+        return catalogBookModel;
     }
 
-    @And("Count of books in search result is up to {int}")
+    @Override
     public void checkCountOfBooksInSearchResultIsUpTo(int countOfBooks) {
         Assert.assertTrue(countOfBooks >= catalogBooksScreen.getFoundBooksCount(),
                 "Count of books is bigger then " + countOfBooks);
     }
 
-    @Then("Book saved as {string} should contain {} button at catalog books screen")
+    @Override
     public void checkThatSavedBookContainButtonAtCatalogBooksScreen(
             final String bookInfoKey, final BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
@@ -361,37 +350,35 @@ public class CatalogSteps {
                         catalogBookModel.getTitle(), key.i18n()));
     }
 
-    @Then("I check that opened book contains {} button at book details screen")
+    @Override
     public void checkThatSavedBookContainButtonAtBookDetailsScreen(final BookActionButtonKeys key) {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(key),
                 String.format("Opened book add button does not contain text %1$s", key.i18n()));
     }
 
-    @And("I delete book from book details screen")
+    @Override
     public void deleteBookFromBookDetailsScreen() {
         bookDetailsScreen.deleteBook();
     }
 
-    @When("I open book {string} details by clicking on cover")
+    @Override
     public void openBookDetailsByClickingOnCover(String bookInfoKey) {
         CatalogBookModel bookInfo = context.get(bookInfoKey);
         subcategoryScreen.openBook(bookInfo);
     }
 
-    @When("I press on the book details screen at the action button {}")
-    @And("Press on the book details screen at the action button {}")
+    @Override
     public void pressOnTheBookDetailsScreenAtTheActionButton(BookActionButtonKeys actionButton) {
         bookDetailsScreen.clickActionButton(actionButton);
     }
 
-    @Then("I check that the action button text equal to the {}")
+    @Override
     public void checkThatTheActionButtonTextEqualToTheExpected(BookActionButtonKeys actionButton) {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton),
                 "I check that the action button text equal to the " + actionButton.i18n());
     }
 
-    @When("I change books visibility to show {}")
-    @And("Change books visibility to show {}")
+    @Override
     public void checkThatTheActionButtonTextEqualToTheExpected(FacetAvailabilityKeys facetAvailabilityKeys) {
         facetedSearchScreen.openAvailabilityMenu();
         facetedSearchScreen.changeAvailabilityTo(facetAvailabilityKeys);
