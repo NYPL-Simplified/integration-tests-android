@@ -139,86 +139,90 @@ public class ReaderSteps {
     }
 
     @And("I increase text font size")
-    public void iIncreaseTextFontSize() {
-        readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(ReaderSettingKeys.INCREASE_FONT_SETTINGS);
-        AqualityServices.getApplication().getDriver().navigate().back();
+    public void increaseTextFontSize() {
+        changeSetting(ReaderSettingKeys.INCREASE_FONT_SETTINGS);
     }
 
     @When("I decrease text font size")
-    public void iDecreaseTextFontSize() {
-        readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(ReaderSettingKeys.DECREASE_FONT_SETTINGS);
-        AqualityServices.getApplication().getDriver().navigate().back();
+    public void decreaseTextFontSize() {
+        changeSetting(ReaderSettingKeys.DECREASE_FONT_SETTINGS);
     }
 
     @When("I save font size as {string}")
-    public void iSaveFontSizeAsFontSize(String fontSizeKey) {
+    public void saveFontSize(String fontSizeKey) {
         context.add(fontSizeKey, readerScreen.getFontSize());
     }
 
     @Then("Font size {string} is increased")
-    public void fontSizeFontSizeIsIncreased(String fontSizeKey) {
-        double previousFontSize = context.get(fontSizeKey);
-        Assert.assertTrue(readerScreen.getFontSize() > previousFontSize, "Font size is not increased");
+    public void checkFontSizeIsIncreased(String fontSizeKey) {
+        double actualFontSize = readerScreen.getFontSize();
+        double expectedFontSize = context.get(fontSizeKey);
+        Assert.assertTrue(actualFontSize > expectedFontSize,
+                "Font size is not increased actual - " + actualFontSize + ", expected - " + expectedFontSize);
     }
 
     @Then("Font size {string} is decreased")
-    public void fontSizeFontSizeIsDecreased(String fontSizeKey) {
-        double previousFontSize = context.get(fontSizeKey);
-        Assert.assertTrue(readerScreen.getFontSize() < previousFontSize, "Font size is not decreased");
+    public void checkFontSizeIsDecreased(String fontSizeKey) {
+        double actualFontSize = readerScreen.getFontSize();
+        double expectedFontSize = context.get(fontSizeKey);
+        Assert.assertTrue(actualFontSize < expectedFontSize,
+                "Font size is not decreased actual - " + actualFontSize + ", expected - " + expectedFontSize);
     }
 
     @When("I change font style to serif")
-    public void iChangeFontStyleToSerif() {
-        readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(ReaderSettingKeys.SERIF);
-        AqualityServices.getApplication().getDriver().navigate().back();
+    public void changeFontStyleToSerif() {
+        changeSetting(ReaderSettingKeys.SERIF);
     }
 
     @When("I change font style to sans-serif arial")
-    public void iChangeFontStyleToSansSerifArial() {
-        readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(ReaderSettingKeys.SANS_SERIF_ARIAL);
-        AqualityServices.getApplication().getDriver().navigate().back();
+    public void changeFontStyleToSansSerifArial() {
+        changeSetting(ReaderSettingKeys.SANS_SERIF_ARIAL);
     }
 
     @When("I change font style to alternative sans")
-    public void iChangeFontStyleToAlternativeSans() {
-        readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(ReaderSettingKeys.ALTERNATIVE_SANS);
-        AqualityServices.getApplication().getDriver().navigate().back();
+    public void changeFontStyleToAlternativeSans() {
+        changeSetting(ReaderSettingKeys.ALTERNATIVE_SANS);
     }
 
     @When("I change contrast to white text on black")
-    public void iChangeContrastToWhiteTextOnBlack() {
-        readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(ReaderSettingKeys.WHITE_TEXT_ON_BLACK);
-        AqualityServices.getApplication().getDriver().navigate().back();
+    public void changeContrastToWhiteTextOnBlack() {
+        changeSetting(ReaderSettingKeys.WHITE_TEXT_ON_BLACK);
     }
 
     @When("I change contrast to black text on white")
-    public void iChangeContrastToBlackTextOnWhite() {
-        readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(ReaderSettingKeys.BLACK_TEXT_ON_WHITE);
-        AqualityServices.getApplication().getDriver().navigate().back();
+    public void changeContrastToBlackTextOnWhite() {
+        changeSetting(ReaderSettingKeys.BLACK_TEXT_ON_WHITE);
     }
 
     @When("I change contrast to black text on sepia")
-    public void iChangeContrastToBlackTextOnSepia() {
-        readerScreen.openFontSettings();
-        fontChoicesScreen.setSetting(ReaderSettingKeys.BLACK_TEXT_ON_SEPIA);
-        AqualityServices.getApplication().getDriver().navigate().back();
+    public void changeContrastToBlackTextOnSepia() {
+        changeSetting(ReaderSettingKeys.BLACK_TEXT_ON_SEPIA);
     }
 
     @Then("Book text displays in {string} font")
-    public void bookTextDisplaysInAlternativeSansFont(String expectedFontName) {
+    public void checkBookTextDisplaysInAlternativeSansFont(String expectedFontName) {
         Assert.assertEquals(readerScreen.getFontName(), expectedFontName, "Book font is not correct");
     }
 
     @Then("Book text displays white-text on black")
-    public void bookTextDisplaysWhiteTextOnBlack() {
+    public void checkBookTextDisplaysWhiteTextOnBlack() {
         assertFontAndBackground(WHITE_COLOR, BLACK_COLOR);
+    }
+
+    @Then("Book text displays black-text on white")
+    public void checkBookTextDisplaysBlackTextOnWhite() {
+        assertFontAndBackground(BLACK_COLOR, WHITE_COLOR);
+    }
+
+    @Then("Book text displays black-text on sepia")
+    public void checkBookTextDisplaysBlackTextOnSepia() {
+        assertFontAndBackground(BLACK_COLOR, SEPIA_COLOR);
+    }
+
+    private void changeSetting(ReaderSettingKeys settingName) {
+        readerScreen.openFontSettings();
+        fontChoicesScreen.setSetting(settingName);
+        AqualityServices.getApplication().getDriver().navigate().back();
     }
 
     private void assertFontAndBackground(String fontColor, String backgroundColor) {
@@ -226,15 +230,5 @@ public class ReaderSteps {
         softAssert.assertEquals(readerScreen.getFontColor(), fontColor, "Font color is not correct");
         softAssert.assertEquals(readerScreen.getBackgroundColor(), backgroundColor, "Background color is not correct");
         softAssert.assertAll();
-    }
-
-    @Then("Book text displays black-text on white")
-    public void bookTextDisplaysBlackTextOnWhite() {
-        assertFontAndBackground(BLACK_COLOR, WHITE_COLOR);
-    }
-
-    @Then("Book text displays black-text on sepia")
-    public void bookTextDisplaysBlackTextOnSepia() {
-        assertFontAndBackground(BLACK_COLOR, SEPIA_COLOR);
     }
 }
