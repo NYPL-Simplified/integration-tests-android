@@ -34,7 +34,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_TYPE_LOC = ""; // does not exist on ios
     private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
-    private static final String BTN_APPROVE_BOOK_ACTION = "//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]"
+    private static final String BTN_APPROVE_BOOK_ACTION = "//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[contains(@name, \"%1$s\")]]"
             + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"%1$s\"]";
 
     private final IButton btnDontAllowNotifications = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Don’t Allow\"]"),
@@ -97,9 +97,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
                         key.i18n())), String.format("Book %1$s button", key.i18n()));
         clickOnTheSpecificBookElement(bookAddBtn);
 
-        if (btnDontAllowNotifications.state().waitForDisplayed()) {
-            btnDontAllowNotifications.click();
-        }
+        handlePopups(key);
     }
 
     @Override
@@ -139,6 +137,11 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         CatalogBookModel catalogBookModel = getBookInfo(bookTitle);
         button.click();
 
+        handlePopups(buttonName);
+        return catalogBookModel;
+    }
+
+    private void handlePopups(BookActionButtonKeys buttonName) {
         if (btnDontAllowNotifications.state().waitForDisplayed()) {
             btnDontAllowNotifications.click();
         }
@@ -150,7 +153,6 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         if (btnApproveAction.state().isDisplayed()) {
             btnApproveAction.click();
         }
-        return catalogBookModel;
     }
 
     private ILabel getBookJacketWithGivenButtonLabel(BookActionButtonKeys button) {

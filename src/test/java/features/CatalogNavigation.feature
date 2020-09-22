@@ -162,7 +162,7 @@ Feature: Catalog Navigation
       | 2020's Hottest Books |
       And Change books visibility to show ALL
       And RESERVE book and save it as 'bookInfo'
-      And Save current library for CANCEL_HOLD books after test
+      And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
 
   @logout @cancelGet

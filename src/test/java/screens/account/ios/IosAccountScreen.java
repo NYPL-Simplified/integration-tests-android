@@ -9,10 +9,12 @@ import constants.localization.application.account.AccountScreenLoginStatus;
 import constants.application.timeouts.AuthorizationTimeouts;
 import framework.utilities.keyboard.KeyboardUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 import screens.account.AccountScreen;
 
 import java.time.Duration;
+import java.util.Collections;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosAccountScreen extends AccountScreen {
@@ -74,11 +76,12 @@ public class IosAccountScreen extends AccountScreen {
         final String passwordTextBeforeLogout = txbPin.getText();
         btnLogout.click();
         btnApproveSignOut.click();
-        AqualityServices.getConditionalWait().waitFor(() ->
-                        btnLogin.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n())
+        AqualityServices.getConditionalWait()
+                .waitFor(() -> btnLogin.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n())
                                 && !txbCard.getText().equals(loginTextBeforeLogout)
                                 && !txbPin.getText().equals(passwordTextBeforeLogout),
-                Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getTimeoutMillis()));
+                        Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getTimeoutMillis()),
+                        Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getPollingMillis()),
+                        Collections.singletonList(NoSuchElementException.class));
     }
-
 }
