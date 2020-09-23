@@ -7,9 +7,8 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.application.AndroidAttributes;
-import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.catalog.screen.books.CatalogBooksScreen;
@@ -34,17 +33,8 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_TYPE_LOC = ""; // does not exist on ios
     private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
-    private static final String BTN_APPROVE_BOOK_ACTION = "//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[contains(@name, \"%1$s\")]]"
-            + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"%1$s\"]";
-
-    private final IButton btnDontAllowNotifications = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Don’t Allow\"]"),
-            "Dont allow notifications");
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
-    private final IButton btnOkCannotAddBook = getElementFactory().getButton(
-            By.xpath("//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[@name=\"Borrowing failed\"]]"
-                    + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"OK\"]"),
-            "Button ok");
 
 
     public IosCatalogBooksScreen() {
@@ -96,8 +86,6 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
                         key.i18n())), String.format("Book %1$s button", key.i18n()));
         clickOnTheSpecificBookElement(bookAddBtn);
-
-        handlePopups(key);
     }
 
     @Override
@@ -137,22 +125,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         CatalogBookModel catalogBookModel = getBookInfo(bookTitle);
         button.click();
 
-        handlePopups(buttonName);
         return catalogBookModel;
-    }
-
-    private void handlePopups(BookActionButtonKeys buttonName) {
-        if (btnDontAllowNotifications.state().waitForDisplayed()) {
-            btnDontAllowNotifications.click();
-        }
-        if (btnOkCannotAddBook.state().isDisplayed()) {
-            btnOkCannotAddBook.click();
-        }
-
-        IButton btnApproveAction = getElementFactory().getButton(By.xpath(String.format(BTN_APPROVE_BOOK_ACTION, buttonName.i18n())), buttonName.i18n());
-        if (btnApproveAction.state().isDisplayed()) {
-            btnApproveAction.click();
-        }
     }
 
     private ILabel getBookJacketWithGivenButtonLabel(BookActionButtonKeys button) {

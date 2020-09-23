@@ -24,9 +24,6 @@ public class IosHoldsScreen extends HoldsScreen {
     private final IButton btnRemove =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"Remove\"]"), "Remove");
 
-    private static final String BTN_APPROVE_BOOK_ACTION = "//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[contains(@name, \"%1$s\")]]"
-            + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"%1$s\"]";
-
     private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
     private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
@@ -37,14 +34,6 @@ public class IosHoldsScreen extends HoldsScreen {
 
     private static final String BOOKS_WITH_ACTION_LOC = String.format(
             "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_ACTION_BUTTON_LOC);
-
-
-    private final IButton btnOkCannotAddBook = getElementFactory().getButton(
-            By.xpath("//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[@name=\"Borrowing failed\"]]"
-                    + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"OK\"]"),
-            "Button ok");
-    private final IButton btnDontAllowNotifications = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Don’t Allow\"]"),
-            "Dont allow notifications");
 
     public IosHoldsScreen() {
         super(By.xpath(MAIN_ELEMENT_EXISTING_BOOKS_IN_HOLDS + "|" + LBL_NO_BOOKS_LOC));
@@ -66,7 +55,6 @@ public class IosHoldsScreen extends HoldsScreen {
     @Override
     public void cancelReservations() {
         btnRemove.click();
-        handlePopups(BookActionButtonKeys.RESERVE);
     }
 
     @Override
@@ -76,23 +64,6 @@ public class IosHoldsScreen extends HoldsScreen {
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
                         key.i18n())), String.format("Book %1$s button", key.i18n()));
         clickOnTheSpecificBookElement(bookAddBtn);
-
-        handlePopups(key);
-    }
-
-
-    private void handlePopups(BookActionButtonKeys buttonName) {
-        if (btnDontAllowNotifications.state().waitForDisplayed()) {
-            btnDontAllowNotifications.click();
-        }
-        if (btnOkCannotAddBook.state().isDisplayed()) {
-            btnOkCannotAddBook.click();
-        }
-
-        IButton btnApproveAction = getElementFactory().getButton(By.xpath(String.format(BTN_APPROVE_BOOK_ACTION, buttonName.i18n())), buttonName.i18n());
-        if (btnApproveAction.state().isDisplayed()) {
-            btnApproveAction.click();
-        }
     }
 
     @Override

@@ -25,6 +25,7 @@ import screens.catalog.form.MainCatalogToolbarForm;
 import screens.catalog.screen.books.CatalogBooksScreen;
 import screens.catalog.screen.catalog.CatalogScreen;
 import screens.facetedSearch.FacetedSearchScreen;
+import screens.notifications.NotificationModal;
 import screens.subcategory.SubcategoryScreen;
 
 import java.time.Duration;
@@ -43,6 +44,7 @@ public class CatalogSteps {
     private final MainCatalogToolbarForm mainCatalogToolbarForm;
     private final CatalogBooksScreen catalogBooksScreen;
     private final FacetedSearchScreen facetedSearchScreen;
+    private final NotificationModal notificationModal;
     private final ScenarioContext context;
 
     @Inject
@@ -56,6 +58,7 @@ public class CatalogSteps {
         subcategoryScreen = AqualityServices.getScreenFactory().getScreen(SubcategoryScreen.class);
         catalogBooksScreen = AqualityServices.getScreenFactory().getScreen(CatalogBooksScreen.class);
         facetedSearchScreen = AqualityServices.getScreenFactory().getScreen(FacetedSearchScreen.class);
+        notificationModal = AqualityServices.getScreenFactory().getScreen(NotificationModal.class);
     }
 
     @Then("Books feed is loaded")
@@ -156,6 +159,7 @@ public class CatalogSteps {
             BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         catalogBooksScreen.openBookDetailsWithAction(actionButtonKey);
         bookDetailsScreen.clickActionButton(actionButtonKey);
+        notificationModal.handleBookActionsAndNotificationPopups(actionButtonKey);
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 
@@ -163,6 +167,7 @@ public class CatalogSteps {
     public void executeBookActionAndSaveItToContextAndLibraryCancel(
             BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey));
+        notificationModal.handleBookActionsAndNotificationPopups(actionButtonKey);
     }
 
     @And("{} book of {string} type and save it as {string}")
@@ -174,6 +179,7 @@ public class CatalogSteps {
     public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         catalogBooksScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
+        notificationModal.handleBookActionsAndNotificationPopups(key);
     }
 
     @And("Save current library for {} books after test")
@@ -370,6 +376,7 @@ public class CatalogSteps {
     @And("I delete book from book details screen")
     public void deleteBookFromBookDetailsScreen() {
         bookDetailsScreen.deleteBook();
+        notificationModal.handleBookActionsAndNotificationPopups(BookActionButtonKeys.DELETE);
     }
 
     @When("I open book {string} details by clicking on cover")
@@ -382,6 +389,7 @@ public class CatalogSteps {
     @And("Press on the book details screen at the action button {}")
     public void pressOnTheBookDetailsScreenAtTheActionButton(BookActionButtonKeys actionButton) {
         bookDetailsScreen.clickActionButton(actionButton);
+        notificationModal.handleBookActionsAndNotificationPopups(actionButton);
     }
 
     @Then("I check that the action button text equal to the {}")
