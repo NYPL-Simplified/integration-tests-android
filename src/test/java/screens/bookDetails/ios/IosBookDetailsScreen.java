@@ -49,7 +49,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private final IButton btnRead = getActionButton(BookActionButtonKeys.READ);
     private final IButton btnDelete = getActionButton(BookActionButtonKeys.DELETE);
     private final IButton btnRelatedBooks = getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"Information\"]/following-sibling::XCUIElementTypeTable"),
-
+            "Related books button");
     private final IButton moreBtn = getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"More…\"]"),
             "Show more description button");
 
