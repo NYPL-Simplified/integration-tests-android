@@ -72,7 +72,6 @@ public class ReaderSteps {
     @When("I save page info as {string}")
     public void savePageInfoAsPageInfo(String pageNumberInfo) {
         context.add(pageNumberInfo, readerScreen.getPageNumberInfo());
-        readerScreen.getFontSize();
     }
 
     @Then("Book page number is bigger then previous {string}")
