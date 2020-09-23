@@ -5,13 +5,13 @@ import com.google.inject.Inject;
 import constants.RegEx;
 import constants.localization.application.reader.ColorKeys;
 import constants.localization.application.reader.ReaderSettingKeys;
-import framework.utilities.RandomUtil;
 import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import models.android.CatalogBookModel;
+import org.apache.commons.lang3.RandomUtils;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import screens.fontchoicesscreen.FontChoicesScreen;
@@ -20,6 +20,7 @@ import screens.tableofcontents.TableOfContentsScreen;
 
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.stream.IntStream;
 
 public class ReaderSteps {
     private final ReaderScreen readerScreen;
@@ -212,9 +213,7 @@ public class ReaderSteps {
 
     @When("I scroll page forward from {int} to {int} times")
     public void scrollPageForward(int minValue, int maxValue) {
-        int randomScrollsCount = RandomUtil.getRandomInt(minValue, maxValue);
-        for (int i = 0; i < randomScrollsCount; i++) {
-            readerScreen.clickRightCorner();
-        }
+        int randomScrollsCount = RandomUtils.nextInt(minValue, maxValue);
+        IntStream.range(0, randomScrollsCount).forEachOrdered(i -> readerScreen.clickRightCorner());
     }
 }
