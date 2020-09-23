@@ -8,15 +8,15 @@ import java.util.Map;
 
 @Data
 @Accessors(chain = true)
-public class AndroidBookDetailsScreenInformationBlockModel {
-    public AndroidBookDetailsScreenInformationBlockModel() {}
+public class BookDetailsScreenInformationBlockModel {
+    public BookDetailsScreenInformationBlockModel() {}
 
     private BookDetailsScreenInformationBlockKeys key;
     private String value;
 
-    public static AndroidBookDetailsScreenInformationBlockModel createAndroidBookDetailsScreenInformationBlockModel(
+    public static BookDetailsScreenInformationBlockModel createBookDetailsScreenInformationBlockModel(
             Map<String, String> entry) {
-        return new AndroidBookDetailsScreenInformationBlockModel()
+        return new BookDetailsScreenInformationBlockModel()
                 .setKey(BookDetailsScreenInformationBlockKeys.valueOf(entry.get("key")))
                 .setValue(entry.get("value"));
     }

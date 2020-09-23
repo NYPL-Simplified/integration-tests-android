@@ -29,4 +29,12 @@ public abstract class ReaderScreen extends Screen {
     public abstract void openFontSettings();
 
     public abstract void openTableOfContents();
+
+    public abstract double getFontSize();
+
+    public abstract String getFontName();
+
+    public abstract String getFontColor();
+
+    public abstract String getBackgroundColor();
 }

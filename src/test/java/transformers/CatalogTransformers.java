@@ -2,7 +2,7 @@ package transformers;
 
 import com.google.inject.Inject;
 import io.cucumber.java.DataTableType;
-import models.android.AndroidBookDetailsScreenInformationBlockModel;
+import models.android.BookDetailsScreenInformationBlockModel;
 
 import java.util.Map;
 
@@ -14,8 +14,8 @@ public class CatalogTransformers {
     }
 
     @DataTableType
-    public AndroidBookDetailsScreenInformationBlockModel getAndroidBookDetailsScreenInformationBlockModel(
+    public BookDetailsScreenInformationBlockModel getAndroidBookDetailsScreenInformationBlockModel(
             Map<String, String> entry) {
-        return AndroidBookDetailsScreenInformationBlockModel.createAndroidBookDetailsScreenInformationBlockModel(entry);
+        return BookDetailsScreenInformationBlockModel.createBookDetailsScreenInformationBlockModel(entry);
     }
 }

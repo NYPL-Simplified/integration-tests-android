@@ -3,6 +3,8 @@ package stepdefinitions;
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import constants.RegEx;
+import constants.localization.application.reader.ColorKeys;
+import constants.localization.application.reader.ReaderSettingKeys;
 import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
@@ -23,6 +25,9 @@ public class ReaderSteps {
     private final ScenarioContext context;
     private final TableOfContentsScreen tableOfContentsScreen;
     private final FontChoicesScreen fontChoicesScreen;
+    private static final String SERIF_FONT_NAME = "serif !important";
+    private static final String SANS_SERIF_FONT_NAME = "sans-serif !important";
+    private static final String ALTERNATIVE_SANS_FONT_NAME = "OpenDyslexic3 !important";
 
     @Inject
     public ReaderSteps(ScenarioContext context) {
@@ -79,8 +84,7 @@ public class ReaderSteps {
     }
 
     public int getPageNumber(String text) {
-        Matcher matcher = getMatcher(text);
-        return matcher.find() ? Integer.parseInt(matcher.group(1)) : 0;
+        return RegExUtil.getIntFromFirstGroup(text, RegEx.PAGE_NUMBER_REGEX);
     }
 
     public String getChapterName(String text) {
@@ -132,5 +136,70 @@ public class ReaderSteps {
     @Then("Font choices screen is present")
     public void checkFontChoicesScreenIsPresent() {
         Assert.assertTrue(fontChoicesScreen.state().waitForDisplayed(), "Font choices screen is not opened");
+    }
+
+    @When("I save font size as {string}")
+    public void saveFontSize(String fontSizeKey) {
+        context.add(fontSizeKey, readerScreen.getFontSize());
+    }
+
+    @Then("Font size {string} is increased")
+    public void checkFontSizeIsIncreased(String fontSizeKey) {
+        double actualFontSize = readerScreen.getFontSize();
+        double expectedFontSize = context.get(fontSizeKey);
+        Assert.assertTrue(actualFontSize > expectedFontSize,
+                "Font size is not increased actual - " + actualFontSize + ", expected - " + expectedFontSize);
+    }
+
+    @Then("Font size {string} is decreased")
+    public void checkFontSizeIsDecreased(String fontSizeKey) {
+        double actualFontSize = readerScreen.getFontSize();
+        double expectedFontSize = context.get(fontSizeKey);
+        Assert.assertTrue(actualFontSize < expectedFontSize,
+                "Font size is not decreased actual - " + actualFontSize + ", expected - " + expectedFontSize);
+    }
+
+    @When("I {} of text")
+    @When("I change font style to {}")
+    @When("I change contrast to {}")
+    public void changeSettingsForFont(ReaderSettingKeys readerSettingKey){
+        changeSetting(readerSettingKey);
+    }
+
+    @Then("Book text displays {} on {}")
+    public void checkBookTextDisplaysWhiteTextOnBlack(ColorKeys text, ColorKeys background) {
+        assertFontAndBackground(text, background);
+    }
+
+    @Then("Book text displays in serif font")
+    public void bookTextDisplaysInSerifFont() {
+        assertFontName(SERIF_FONT_NAME);
+    }
+
+    @Then("Book text displays in sans-serif arial font")
+    public void bookTextDisplaysInSansSerifArialFont() {
+        assertFontName(SANS_SERIF_FONT_NAME);
+    }
+
+    @Then("Book text displays in alternative sans font")
+    public void bookTextDisplaysInAlternativeSansFont() {
+        assertFontName(ALTERNATIVE_SANS_FONT_NAME);
+    }
+
+    private void changeSetting(ReaderSettingKeys settingName) {
+        readerScreen.openFontSettings();
+        fontChoicesScreen.setSetting(settingName);
+        AqualityServices.getApplication().getDriver().navigate().back();
+    }
+
+    private void assertFontAndBackground(ColorKeys fontColor, ColorKeys backgroundColor) {
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(readerScreen.getFontColor(), fontColor.i18n(), "Font color is not correct");
+        softAssert.assertEquals(readerScreen.getBackgroundColor(), backgroundColor.i18n(), "Background color is not correct");
+        softAssert.assertAll();
+    }
+
+    private void assertFontName(String fontName) {
+        Assert.assertEquals(readerScreen.getFontName(), fontName, "Book font is not correct");
     }
 }
