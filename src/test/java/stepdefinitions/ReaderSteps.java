@@ -11,6 +11,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import models.android.CatalogBookModel;
+import org.apache.commons.lang3.RandomUtils;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import screens.fontchoicesscreen.FontChoicesScreen;
@@ -19,6 +20,7 @@ import screens.tableofcontents.TableOfContentsScreen;
 
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.stream.IntStream;
 
 public class ReaderSteps {
     private final ReaderScreen readerScreen;
@@ -162,7 +164,7 @@ public class ReaderSteps {
     @When("I {} of text")
     @When("I change font style to {}")
     @When("I change contrast to {}")
-    public void changeSettingsForFont(ReaderSettingKeys readerSettingKey){
+    public void changeSettingsForFont(ReaderSettingKeys readerSettingKey) {
         changeSetting(readerSettingKey);
     }
 
@@ -201,5 +203,17 @@ public class ReaderSteps {
 
     private void assertFontName(String fontName) {
         Assert.assertEquals(readerScreen.getFontName(), fontName, "Book font is not correct");
+    }
+
+    @And("Page info {string} is correct")
+    public void checkPageInfoPageInfoIsCorrect(String pageNumberInfo) {
+        String pageInfo = context.get(pageNumberInfo);
+        Assert.assertEquals(readerScreen.getPageNumberInfo(), pageInfo, "Page info is not correct");
+    }
+
+    @When("I scroll page forward from {int} to {int} times")
+    public void scrollPageForward(int minValue, int maxValue) {
+        int randomScrollsCount = RandomUtils.nextInt(minValue, maxValue);
+        IntStream.range(0, randomScrollsCount).forEachOrdered(i -> readerScreen.clickRightCorner());
     }
 }
