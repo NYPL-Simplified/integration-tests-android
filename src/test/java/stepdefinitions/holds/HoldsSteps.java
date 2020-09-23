@@ -43,6 +43,16 @@ public class HoldsSteps extends AbstractHoldsSteps {
         abstractHoldsSteps.clickOnTheBookAddButtonOnTheHoldsScreen(bookInfoKey, key);
     }
 
+    @When("I click on the book {string} button {} on the holds screen and don't click on the popup button")
+    public void clickOnTheBookAddButtonOnTheHoldsScreenWithoutPopupHandling(String bookInfoKey, BookActionButtonKeys key) {
+        abstractHoldsSteps.clickOnTheBookAddButtonOnTheHoldsScreenWithoutPopupHandling(bookInfoKey, key);
+    }
+
+    @Then("I click at the popup approve {} the button {}")
+    public void clickBookActionPopupButtonWithHeader(BookActionButtonKeys header, BookActionButtonKeys buttonName) {
+        abstractHoldsSteps.clickBookActionPopupButtonWithHeader(header, buttonName);
+    }
+
     @Then("Book saved as {string} should contain {} button at the hold screen")
     public void checkThatSavedBookContainButtonAtTheHoldScreen(
             final String bookInfoKey, final BookActionButtonKeys key) {

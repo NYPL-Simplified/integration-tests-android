@@ -44,6 +44,16 @@ public abstract class AbstractHoldsSteps extends BaseSteps {
         notificationModal.handleBookActionsAndNotificationPopups(key);
     }
 
+    public void clickOnTheBookAddButtonOnTheHoldsScreenWithoutPopupHandling(String bookInfoKey, BookActionButtonKeys key) {
+        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
+        holdsScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
+    }
+
+
+    public void clickBookActionPopupButtonWithHeader(BookActionButtonKeys header, BookActionButtonKeys buttonName) {
+        notificationModal.clickBookActionPopupIfDisplayed(header, buttonName);
+    }
+
     public void checkThatSavedBookContainButtonAtTheHoldScreen(
             final String bookInfoKey, final BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);

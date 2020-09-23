@@ -24,7 +24,7 @@ public class AndroidNotificationModal extends NotificationModal {
     }
 
     @Override
-    public void approveBookActionIfDisplayed(BookActionButtonKeys buttonName) {
+    public void clickBookActionPopupIfDisplayed(BookActionButtonKeys headerName, BookActionButtonKeys buttonName) {
         // default behavior is ignoring method. Android have not notification popups, appears only in the ios
     }
 

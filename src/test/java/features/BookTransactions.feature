@@ -168,3 +168,26 @@ Feature: Book Transactions
     When I click on the book 'bookInfo' button CANCEL on the holds screen
     Then Book saved as 'bookInfo' should contain RESERVE button at the hold screen
 
+  @logout @cancelHold
+  Scenario: Cancel remove
+    When I add 'The New York Public Library' account
+    Then Account 'The New York Public Library' is present on Accounts screen
+    When I enter credentials for 'The New York Public Library' account
+    Then Text on Login button is changed to Log out on Account screen
+    When I open Catalog
+    And I switch to 'The New York Public Library' from side menu
+    Then Books feed is loaded
+    When I open category by chain:
+      | 2020's Hottest Books |
+    And Change books visibility to show ALL
+    Then Current category name is '2020\'s Hottest Books'
+    When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
+    And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
+    Then I check that opened book contains CANCEL button at book details screen
+    When I open Holds
+    Then Book 'bookInfo' is present in Holds List
+    When I click on the book 'bookInfo' button CANCEL on the holds screen and don't click on the popup button
+    Then I click at the popup approve CANCEL the button CANCEL_POPUP
+      And Book saved as 'bookInfo' should contain RESERVE button at the hold screen
+
+

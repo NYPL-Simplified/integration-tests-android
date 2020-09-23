@@ -10,8 +10,8 @@ import screens.notifications.NotificationModal;
 @ScreenType(platform = PlatformName.IOS)
 public class IosNotificationModal extends NotificationModal {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeButton";
-    private static final String BTN_APPROVE_BOOK_ACTION = "//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[contains(@name, \"%1$s\")]]"
-            + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"%1$s\"]";
+    private static final String BTN_POPUP_BOOK_ACTION = "//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[contains(@name, \"%1$s\")]]"
+            + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"%2$s\"]";
 
     private final IButton btnDontAllowNotifications = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Don’t Allow\"]"),
             "Dont allow notifications");
@@ -40,8 +40,9 @@ public class IosNotificationModal extends NotificationModal {
     }
 
     @Override
-    public void approveBookActionIfDisplayed(BookActionButtonKeys buttonName) {
-        IButton btnApproveAction = getElementFactory().getButton(By.xpath(String.format(BTN_APPROVE_BOOK_ACTION, buttonName.i18n())), buttonName.i18n());
+    public void clickBookActionPopupIfDisplayed(BookActionButtonKeys headerName, BookActionButtonKeys buttonName) {
+        IButton btnApproveAction = getElementFactory().getButton(
+                By.xpath(String.format(BTN_POPUP_BOOK_ACTION, headerName.i18n(), buttonName.i18n())), buttonName.i18n());
         if (btnApproveAction.state().isDisplayed()) {
             btnApproveAction.click();
         }
@@ -51,6 +52,6 @@ public class IosNotificationModal extends NotificationModal {
     public void handleBookActionsAndNotificationPopups(BookActionButtonKeys buttonName) {
         closeSyncNotificationIfDisplayed();
         closeCannotAddBookModalIfDisplayed();
-        approveBookActionIfDisplayed(buttonName);
+        clickBookActionPopupIfDisplayed(buttonName, buttonName);
     }
 }
