@@ -8,17 +8,20 @@ import org.testng.Assert;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
 import screens.holds.HoldsScreen;
+import screens.notifications.NotificationModal;
 import stepdefinitions.BaseSteps;
 
 public abstract class AbstractHoldsSteps extends BaseSteps implements IHoldsSteps {
     protected final BottomMenuForm bottomMenuForm;
     protected final HoldsScreen holdsScreen;
+    protected final NotificationModal notificationModal;
     protected final ScenarioContext context;
 
     public AbstractHoldsSteps(ScenarioContext context) {
         this.context = context;
         bottomMenuForm = AqualityServices.getScreenFactory().getScreen(BottomMenuForm.class);
         holdsScreen = AqualityServices.getScreenFactory().getScreen(HoldsScreen.class);
+        notificationModal = AqualityServices.getScreenFactory().getScreen(NotificationModal.class);
     }
 
     @Override
@@ -42,6 +45,17 @@ public abstract class AbstractHoldsSteps extends BaseSteps implements IHoldsStep
     public void clickOnTheBookAddButtonOnTheHoldsScreen(String bookInfoKey, BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         holdsScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
+        notificationModal.handleBookActionsAndNotificationPopups(key);
+    }
+
+    public void clickOnTheBookAddButtonOnTheHoldsScreenWithoutPopupHandling(String bookInfoKey, BookActionButtonKeys key) {
+        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
+        holdsScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
+    }
+
+
+    public void clickBookActionPopupButtonWithHeader(BookActionButtonKeys header, BookActionButtonKeys buttonName) {
+        notificationModal.clickBookActionPopupIfDisplayed(header, buttonName);
     }
 
     @Override

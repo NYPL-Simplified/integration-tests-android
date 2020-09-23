@@ -23,9 +23,6 @@ public class IosHoldsScreen extends HoldsScreen {
             "No Books Present");
     private final IButton btnRemove =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"Remove\"]"), "Remove");
-    private final IButton btnApproveRemove =
-            getElementFactory().getButton(By.xpath("//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[@name=\"Remove Reservation\"]]"
-                    + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"Remove\"]\n"), "Approve removal modal");
 
     private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
@@ -58,7 +55,6 @@ public class IosHoldsScreen extends HoldsScreen {
     @Override
     public void cancelReservations() {
         btnRemove.click();
-        btnApproveRemove.click();
     }
 
     @Override
