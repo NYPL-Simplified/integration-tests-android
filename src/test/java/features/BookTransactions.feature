@@ -55,7 +55,7 @@ Feature: Book Transactions
       | Fiction   |
       | Adventure |
       And GET book and save it as 'bookInfo'
-      And Save current library for CANCEL_GET books after test
+      And Save current 'LYRASIS' library for CANCEL_GET books after test
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open Books
     Then Book 'bookInfo' is present in Books List
@@ -82,18 +82,19 @@ Feature: Book Transactions
 
   @logout @cancelGet
   Scenario: Check out from Book Detail View
-    When I add 'The New York Public Library' account
-    Then Account 'The New York Public Library' is present on Accounts screen
-    When I enter credentials for 'The New York Public Library' account
+    When I add 'LYRASIS' account
+    Then Account 'LYRASIS' is present on Accounts screen
+    When I enter credentials for 'LYRASIS' account
     Then Text on Login button is changed to Log out on Account screen
     When I open Catalog
-      And I switch to 'The New York Public Library' from side menu
+      And I switch to 'LYRASIS' from side menu
     Then Books feed is loaded
     When I open category by chain:
-      | Essential Reads on Feminism |
-    Then Current category name is 'Essential Reads on Feminism'
+      | Nonfiction         |
+      | Biography & Memoir |
+    Then Current category name is 'Biography & Memoir'
     When I open the book details for the subsequent GET and save it as 'bookInfo'
-      And Save current library for CANCEL_GET books after test
+      And Save current 'LYRASIS' library for CANCEL_GET books after test
     Then I check that opened book contains READ button at book details screen
 
   Scenario: Download from Book detail view
@@ -121,7 +122,7 @@ Feature: Book Transactions
       | Art          |
     Then Current category name is 'Art'
     When I open the book details for the subsequent GET and save it as 'bookInfo'
-      And Save current library for CANCEL_GET books after test
+      And Save current 'LYRASIS' library for CANCEL_GET books after test
     Then I check that opened book contains READ button at book details screen
     When I open Books
     Then Book 'bookInfo' is present in Books List

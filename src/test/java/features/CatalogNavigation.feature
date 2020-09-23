@@ -176,7 +176,7 @@ Feature: Catalog Navigation
     Then Books feed is loaded
     When I open category by chain:
       | Essential Reads on Feminism |
-      And Save current library for CANCEL_GET books after test
+      And Save current 'The New York Public Library' library for CANCEL_GET books after test
       And I open the book details for the subsequent GET and save it as 'bookInfo'
       And I check that opened book contains READ button at book details screen
       And Press on the book details screen at the action button RETURN
