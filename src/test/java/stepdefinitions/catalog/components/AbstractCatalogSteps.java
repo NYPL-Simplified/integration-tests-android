@@ -21,6 +21,7 @@ import screens.catalog.form.MainCatalogToolbarForm;
 import screens.catalog.screen.books.CatalogBooksScreen;
 import screens.catalog.screen.catalog.CatalogScreen;
 import screens.facetedSearch.FacetedSearchScreen;
+import screens.notifications.NotificationModal;
 import screens.subcategory.SubcategoryScreen;
 import stepdefinitions.BaseSteps;
 
@@ -52,6 +53,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         subcategoryScreen = AqualityServices.getScreenFactory().getScreen(SubcategoryScreen.class);
         catalogBooksScreen = AqualityServices.getScreenFactory().getScreen(CatalogBooksScreen.class);
         facetedSearchScreen = AqualityServices.getScreenFactory().getScreen(FacetedSearchScreen.class);
+        notificationModal = AqualityServices.getScreenFactory().getScreen(NotificationModal.class);
     }
 
     @Override
@@ -145,6 +147,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
             BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         catalogBooksScreen.openBookDetailsWithAction(actionButtonKey);
         bookDetailsScreen.clickActionButton(actionButtonKey);
+        notificationModal.handleBookActionsAndNotificationPopups(actionButtonKey);
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 
@@ -152,6 +155,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void executeBookActionAndSaveItToContextAndLibraryCancel(
             BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey));
+        notificationModal.handleBookActionsAndNotificationPopups(actionButtonKey);
     }
 
     @Override
@@ -163,6 +167,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         catalogBooksScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
+        notificationModal.handleBookActionsAndNotificationPopups(key);
     }
 
     @Override
@@ -359,6 +364,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     @Override
     public void deleteBookFromBookDetailsScreen() {
         bookDetailsScreen.deleteBook();
+        notificationModal.handleBookActionsAndNotificationPopups(BookActionButtonKeys.DELETE);
     }
 
     @Override
@@ -370,6 +376,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     @Override
     public void pressOnTheBookDetailsScreenAtTheActionButton(BookActionButtonKeys actionButton) {
         bookDetailsScreen.clickActionButton(actionButton);
+        notificationModal.handleBookActionsAndNotificationPopups(actionButton);
     }
 
     @Override

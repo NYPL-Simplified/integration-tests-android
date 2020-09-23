@@ -30,8 +30,6 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private static final String BOOK_MAIN_INFO = "//XCUIElementTypeOther//XCUIElementTypeImage/following-sibling::XCUIElementTypeStaticText[@name != \"Description\" and not(.//preceding-sibling::XCUIElementTypeStaticText[@name=\"Description\"])]";
     private static final String INFORMATION_TAB_LABELS_NAME_PART = "Information tab %1$s value";
 
-    private static final String NAME_ATTRIBUTE_NAME = "name";
-
     private static final String INFORMATION_TAB_VALUE_LOC_PART = "(//XCUIElementTypeStaticText[contains(@name, \"%1$s\")]"
             + "/following-sibling::XCUIElementTypeStaticText[@name])[1]";
     private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
@@ -52,12 +50,6 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private final IButton btnDelete = getActionButton(BookActionButtonKeys.DELETE);
     private final IButton btnRelatedBooks = getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"Information\"]/following-sibling::XCUIElementTypeTable"),
             "Related books button");
-    private final IButton btnDontAllowNotifications = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Don’t Allow\"]"),
-            "Dont allow notifications");
-    private final IButton btnOkCannotAddBook = getElementFactory().getButton(
-            By.xpath("//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[@name=\"Borrowing failed\"]]"
-                    + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"OK\"]"),
-            "Button ok");
     private final IButton moreBtn = getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"More…\"]"),
             "Show more description button");
 
@@ -140,17 +132,6 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     @Override
     public void clickActionButton(BookActionButtonKeys buttonKeys) {
         getActionButton(buttonKeys).click();
-        if (btnDontAllowNotifications.state().waitForDisplayed()) {
-            btnDontAllowNotifications.click();
-        }
-        if (btnOkCannotAddBook.state().isDisplayed()) {
-            btnOkCannotAddBook.click();
-        }
-
-        IButton btnApproveAction = getElementFactory().getButton(By.xpath(String.format(BTN_APPROVE_BOOK_ACTION, buttonKeys.i18n())), buttonKeys.i18n());
-        if (btnApproveAction.state().isDisplayed()) {
-            btnApproveAction.click();
-        }
     }
 
     private IButton getActionButton(BookActionButtonKeys buttonKey) {
