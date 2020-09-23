@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import constants.RegEx;
 import constants.localization.application.reader.ColorKeys;
 import constants.localization.application.reader.ReaderSettingKeys;
+import framework.utilities.RandomUtil;
 import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.And;
@@ -71,6 +72,7 @@ public class ReaderSteps {
     @When("I save page info as {string}")
     public void savePageInfoAsPageInfo(String pageNumberInfo) {
         context.add(pageNumberInfo, readerScreen.getPageNumberInfo());
+        readerScreen.getFontSize();
     }
 
     @Then("Book page number is bigger then previous {string}")
@@ -162,7 +164,7 @@ public class ReaderSteps {
     @When("I {} of text")
     @When("I change font style to {}")
     @When("I change contrast to {}")
-    public void changeSettingsForFont(ReaderSettingKeys readerSettingKey){
+    public void changeSettingsForFont(ReaderSettingKeys readerSettingKey) {
         changeSetting(readerSettingKey);
     }
 
@@ -201,5 +203,19 @@ public class ReaderSteps {
 
     private void assertFontName(String fontName) {
         Assert.assertEquals(readerScreen.getFontName(), fontName, "Book font is not correct");
+    }
+
+    @And("Page info {string} is correct")
+    public void checkPageInfoPageInfoIsCorrect(String pageNumberInfo) {
+        String pageInfo = context.get(pageNumberInfo);
+        Assert.assertEquals(readerScreen.getPageNumberInfo(), pageInfo, "Page info is not correct");
+    }
+
+    @When("I scroll page forward from {int} to {int} times")
+    public void scrollPageForward(int minValue, int maxValue) {
+        int randomScrollsCount = RandomUtil.getRandomInt(minValue, maxValue);
+        for (int i = 0; i < randomScrollsCount; i++) {
+            readerScreen.clickRightCorner();
+        }
     }
 }

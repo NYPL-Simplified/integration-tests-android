@@ -90,3 +90,31 @@ Feature: Read EPUB
     Then Book text displays BLACK on WHITE
     When I change contrast to BLACK_TEXT_ON_SEPIA
     Then Book text displays BLACK on SEPIA
+
+  Scenario: Return to Page (Bookmarking)
+    When I open Catalog
+    Then Books feed is loaded
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+      And DOWNLOAD book of 'eBook' type and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
+    Then Book 'bookInfo' is present on screen
+    When I scroll page forward from 10 to 20 times
+      And I save page info as 'pageInfo'
+      And I save text from page as 'pageText'
+      And I return to previous screen
+      And Press on the book details screen at the action button READ
+    Then Book 'bookInfo' is present on screen
+      And Page info 'pageInfo' is correct
+      And Text on page is equal to text 'pageText'
+    When I restart app
+      And I open Books
+    Then Book 'bookInfo' is present in Books List
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
+    Then Book 'bookInfo' is present on screen
+      And Page info 'pageInfo' is correct
+      And Text on page is equal to text 'pageText'

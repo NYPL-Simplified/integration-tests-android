@@ -147,6 +147,6 @@ public class AndroidReaderScreen extends ReaderScreen {
     }
 
     private String getReaderInfo(String regex) {
-        return RegExUtil.getStringFromFirstGroup(getBookSource(),regex);
+        return RegExUtil.getStringFromFirstGroup(getBookSource(), regex);
     }
 }
