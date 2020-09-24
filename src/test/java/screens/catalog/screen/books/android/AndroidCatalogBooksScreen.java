@@ -8,8 +8,8 @@ import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.AndroidAttributes;
-import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.catalog.screen.books.CatalogBooksScreen;
@@ -42,7 +42,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
     private String RELATIVE_BOOK_TITLE_LOCATOR_PATTERN =
-            "//android.view.ViewGroup[%s]//*[contains(@resource-id,\"bookCellIdle\")]";
+            "%s/../preceding-sibling::android.widget.TextView[contains(@resource-id,\"bookCellIdleTitle\")]";
 
     public AndroidCatalogBooksScreen() {
         super(By.xpath(MAIN_ELEMENT));
@@ -69,7 +69,6 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
         return getBookModel(blockLoc);
     }
-
 
     private CatalogBookModel getBookModel(String mainLocator) {
         return new CatalogBookModel()
@@ -121,11 +120,12 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     @Override
     public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.i18n();
-        IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
+        String bookAddButtonLocator = getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType);
+        IButton button = getElementFactory().getButton(By.xpath(bookAddButtonLocator), key);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
 
         String bookTitle =
-                getElementFactory().getButton(By.xpath(String.format(RELATIVE_BOOK_TITLE_LOCATOR_PATTERN, getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType))), key).getText();
+                getElementFactory().getButton(By.xpath(String.format(RELATIVE_BOOK_TITLE_LOCATOR_PATTERN, bookAddButtonLocator)), key).getText();
         CatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
         button.click();
         return androidCatalogBookModel;

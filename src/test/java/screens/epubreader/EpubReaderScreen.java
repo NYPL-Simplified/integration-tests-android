@@ -1,12 +1,12 @@
-package screens.reader;
+package screens.epubreader;
 
 import aquality.appium.mobile.screens.Screen;
 import org.openqa.selenium.By;
 
 import java.util.Set;
 
-public abstract class ReaderScreen extends Screen {
-    protected ReaderScreen(By locator) {
+public abstract class EpubReaderScreen extends Screen {
+    protected EpubReaderScreen(By locator) {
         super(locator, "Reader");
     }
 

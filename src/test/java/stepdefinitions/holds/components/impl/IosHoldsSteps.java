@@ -14,7 +14,6 @@ public class IosHoldsSteps extends AbstractHoldsSteps {
         super(context);
     }
 
-
     @Override
     public void checkBookBookInfoIsPresentInHoldsList(String bookInfoKey) {
         CatalogBookModel bookInfo = context.get(bookInfoKey);

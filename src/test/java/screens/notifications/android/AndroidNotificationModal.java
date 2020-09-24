@@ -9,7 +9,7 @@ import screens.notifications.NotificationModal;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidNotificationModal extends NotificationModal {
-    protected AndroidNotificationModal() {
+    public AndroidNotificationModal() {
         super(By.xpath(StringUtils.EMPTY));
     }
 
