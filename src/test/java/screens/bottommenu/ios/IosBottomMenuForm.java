@@ -21,4 +21,10 @@ public class IosBottomMenuForm extends BottomMenuForm {
         getElementFactory().getButton(By.xpath(String.format(BOTTOM_MENU_ELEMENT_PATTERN_LOC, bottomMenuItem.getItemName())),
                 bottomMenuItem.getItemName()).click();
     }
+
+    @Override
+    public boolean isBottomMenuBtnVisible(BottomMenu bottomMenuItem) {
+        return getElementFactory().getButton(By.xpath(String.format(BOTTOM_MENU_ELEMENT_PATTERN_LOC, bottomMenuItem.getItemName())),
+                bottomMenuItem.getItemName()).state().isDisplayed();
+    }
 }

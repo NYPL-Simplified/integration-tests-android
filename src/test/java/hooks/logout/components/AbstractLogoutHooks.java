@@ -16,6 +16,7 @@ import screens.holds.HoldsScreen;
 import screens.notifications.NotificationModal;
 import screens.settings.SettingsScreen;
 import stepdefinitions.BaseSteps;
+import stepdefinitions.application.components.AbstractApplicationSteps;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
     protected final BookDetailsScreen bookDetailsScreen;
     protected final MainCatalogToolbarForm mainCatalogToolbarForm;
     protected final NotificationModal notificationModal;
+    protected final AbstractApplicationSteps applicationSteps;
 
     protected ScenarioContext context;
 
@@ -47,6 +49,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
         booksScreen = AqualityServices.getScreenFactory().getScreen(BooksScreen.class);
         bookDetailsScreen = AqualityServices.getScreenFactory().getScreen(BookDetailsScreen.class);
         notificationModal = AqualityServices.getScreenFactory().getScreen(NotificationModal.class);
+        applicationSteps = stepsFactory.getSteps(AbstractApplicationSteps.class);
 
         this.context = context;
     }

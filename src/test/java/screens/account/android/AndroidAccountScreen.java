@@ -10,10 +10,12 @@ import constants.application.timeouts.AuthorizationTimeouts;
 import constants.application.timeouts.BooksTimeouts;
 import framework.utilities.keyboard.KeyboardUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 import screens.account.AccountScreen;
 
 import java.time.Duration;
+import java.util.Collections;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAccountScreen extends AccountScreen {
@@ -78,6 +80,8 @@ public class AndroidAccountScreen extends AccountScreen {
                         btnLogin.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n())
                                 && !txbCard.getText().equals(loginTextBeforeLogout)
                                 && !txbPin.getText().equals(passwordTextBeforeLogout),
-                Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getTimeoutMillis()));
+                Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getTimeoutMillis()),
+                Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getPollingMillis()),
+                Collections.singletonList(NoSuchElementException.class));
     }
 }

@@ -42,7 +42,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     protected final CatalogBooksScreen catalogBooksScreen;
     protected final FacetedSearchScreen facetedSearchScreen;
     protected final ScenarioContext context;
-    private final NotificationModal notificationModal;
+    protected final NotificationModal notificationModal;
 
     public AbstractCatalogSteps(ScenarioContext context) {
         this.context = context;

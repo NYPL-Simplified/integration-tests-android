@@ -16,4 +16,9 @@ public class AndroidBottomMenuForm extends BottomMenuForm {
     public void open(BottomMenu bottomMenuItem) {
         getElementFactory().getButton(By.id(bottomMenuItem.getItemName()), bottomMenuItem.getItemName()).click();
     }
+
+    @Override
+    public boolean isBottomMenuBtnVisible(BottomMenu bottomMenuItem) {
+        return getElementFactory().getButton(By.id(bottomMenuItem.getItemName()), bottomMenuItem.getItemName()).state().isDisplayed();
+    }
 }
