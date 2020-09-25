@@ -5,10 +5,12 @@ import factories.steps.StepsType;
 import framework.utilities.ScenarioContext;
 import hooks.logout.components.AbstractLogoutHooks;
 import io.cucumber.java.After;
+import io.cucumber.java.mn.Харин;
 import screens.bottommenu.BottomMenu;
 
 @StepsType(platform = PlatformName.ANDROID)
 public class AndroidLogoutHooks extends AbstractLogoutHooks {
+
 
     public AndroidLogoutHooks(ScenarioContext context) {
         super(context);
@@ -16,6 +18,9 @@ public class AndroidLogoutHooks extends AbstractLogoutHooks {
 
     @Override
     public void closeApplication() {
+        if (!bottomMenuForm.isBottomMenuBtnVisible(BottomMenu.SETTINGS)) {
+            applicationSteps.returnToPreviousPage();
+        }
         if (!accountScreen.state().isDisplayed()) {
             bottomMenuForm.open(BottomMenu.SETTINGS);
             settingsScreen.openAccounts();

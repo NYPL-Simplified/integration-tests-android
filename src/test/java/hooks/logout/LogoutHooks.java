@@ -6,6 +6,7 @@ import hooks.logout.components.AbstractLogoutHooks;
 import hooks.logout.components.ILogoutHooks;
 import io.cucumber.java.After;
 import stepdefinitions.BaseSteps;
+import stepdefinitions.application.components.AbstractApplicationSteps;
 
 public class LogoutHooks extends BaseSteps implements ILogoutHooks {
 

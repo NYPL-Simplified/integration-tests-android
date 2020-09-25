@@ -21,7 +21,7 @@ public class IosNotificationModal extends NotificationModal {
                     + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"OK\"]"),
             "Button ok");
 
-    protected IosNotificationModal() {
+    public IosNotificationModal() {
         super(By.xpath(MAIN_ELEMENT));
     }
 

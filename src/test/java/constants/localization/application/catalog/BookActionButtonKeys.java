@@ -17,6 +17,7 @@ public enum BookActionButtonKeys implements LocalizedValue  {
     RESERVE("reserve"),
     DELETE("delete"),
     RETURN("return"),
+    LISTEN("listen"),
     CANCEL_POPUP("cancelPopup");
 
     private static final AbstractILocalizationProvider localizationProvider =
