@@ -16,7 +16,7 @@ public class IosLogoutHooks extends AbstractLogoutHooks {
 
     @Override
     public void closeApplication() {
-        if (bottomMenuForm.isBottomMenuBtnVisible(BottomMenu.SETTINGS)) {
+        if (!bottomMenuForm.isBottomMenuBtnVisible(BottomMenu.SETTINGS)) {
             applicationSteps.returnToPreviousPage();
         }
         if (!accountScreen.state().isDisplayed()) {

@@ -29,6 +29,7 @@ public class AudioPlayerSteps {
         context.add(key, chapterNumber);
     }
 
+    @And("Open the menu-based position in the audiobook")
     @When("I open the menu-based position in the audiobook")
     public void openTheMenuBasedPositionInTheAudiobook() {
         audioPlayerScreen.openMenu();
