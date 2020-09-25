@@ -42,7 +42,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     protected final CatalogBooksScreen catalogBooksScreen;
     protected final FacetedSearchScreen facetedSearchScreen;
     protected final ScenarioContext context;
-    private final NotificationModal notificationModal;
+    protected final NotificationModal notificationModal;
 
     public AbstractCatalogSteps(ScenarioContext context) {
         this.context = context;
@@ -288,7 +288,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
             if (separatedName.length > 1) {
                 if (authorName.contains(",")) {
                     listOfSurnames.add(separatedName[0]);
-                } else if (authorName.contains("."))  {
+                } else if (authorName.contains(".")) {
                     listOfSurnames.add(separatedName[separatedName.length - 1]);
                 } else {
                     listOfSurnames.add(separatedName[1]);

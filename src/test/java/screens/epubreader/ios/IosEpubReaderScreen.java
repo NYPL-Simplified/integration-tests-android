@@ -1,11 +1,13 @@
-package screens.reader.android;
+package screens.epubreader.ios;
 
 import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
+import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import aquality.selenium.core.elements.interfaces.IElement;
 import aquality.selenium.core.logging.Logger;
 import constants.RegEx;
 import framework.utilities.RegExUtil;
@@ -16,27 +18,33 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import screens.reader.ReaderScreen;
-import screens.tableofcontents.TableOfContentsScreen;
+import org.openqa.selenium.Rectangle;
+import screens.epubreader.EpubReaderScreen;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@ScreenType(platform = PlatformName.ANDROID)
-public class AndroidReaderScreen extends ReaderScreen {
-    public static final String EPUB_CONTENT_IFRAME = "epubContentIframe";
+@ScreenType(platform = PlatformName.IOS)
+public class IosEpubReaderScreen extends EpubReaderScreen {
     private final ILabel lblBookName =
-            getElementFactory().getLabel(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_title_text\")]"), "Book Cover");
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeWebView/parent::XCUIElementTypeOther"
+                    + "/following-sibling::XCUIElementTypeOther[1]/XCUIElementTypeStaticText "), "Book Name");
     private final ILabel lblPageNumber =
-            getElementFactory().getLabel(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_position_text\")]"), "Page Number");
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeWebView/parent::XCUIElementTypeOther"
+                    + "/following-sibling::XCUIElementTypeOther[2]/XCUIElementTypeStaticText "), "Page Number Info");
     private final ILabel lblPage =
-            getElementFactory().getLabel(By.xpath("//android.webkit.WebView"), "Page View");
-    private final IButton btnFontSettings = getElementFactory().getButton(By.id("reader_settings"), "Chapters");
+            getElementFactory().getLabel(By.xpath(""), "Page View");
     private final IButton btnChapters =
-            getElementFactory().getButton(By.xpath("//android.widget.ImageView[@content-desc=\"Show table of contents\"]"), "Chapters");
+            getElementFactory().getButton(By.xpath(""), "Chapters");
+    private final ILabel lblTable =
+            getElementFactory().getLabel(By.id(""), "Table");
+    private final IButton btnFontSettings = getElementFactory().getButton(By.id(""), "Chapters");
+    public static final String EPUB_CONTENT_IFRAME = "epubContentIframe";
 
-    public AndroidReaderScreen() {
-        super(By.id("//android.view.View[@resource-id=\"reflowable-book-frame\"]"));
+    public IosEpubReaderScreen() {
+        super(By.xpath(""));
     }
 
     @Override
@@ -48,7 +56,8 @@ public class AndroidReaderScreen extends ReaderScreen {
 
     @Override
     public void swipeFromLeftToRight() {
-        SwipeElementUtils.swipeFromLeftToRight(lblPage);
+        Rectangle rectangle = lblPage.getElement().getRect();
+        lblPage.getTouchActions().swipe(new Point(rectangle.x + rectangle.width - 1, lblPage.getElement().getCenter().y));
     }
 
     @Override
@@ -79,11 +88,16 @@ public class AndroidReaderScreen extends ReaderScreen {
     @Override
     public Set<String> getListOfChapters() {
         btnChapters.click();
-        TableOfContentsScreen tableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(TableOfContentsScreen.class);
-        tableOfContentsScreen.state().waitForExist();
-        Set<String> bookNames = tableOfContentsScreen.getListOfBookChapters();
+        lblTable.state().waitForExist();
+        List<String> listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
+        Set<String> bookNames = new HashSet<>();
+        do {
+            bookNames.addAll(listOfChapters);
+            SwipeElementUtils.swipeThroughEntireElementUp(lblTable);
+            listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
+        } while (!bookNames.containsAll(listOfChapters));
         AqualityServices.getApplication().getDriver().navigate().back();
-        AqualityServices.getLogger().info("Found chapters - " + bookNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        AqualityServices.getLogger().info("Found chapters - " + listOfChapters.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return bookNames;
     }
 
@@ -111,6 +125,29 @@ public class AndroidReaderScreen extends ReaderScreen {
         return RegExUtil.getDoubleFromFirstMatchGroup(getBookSource(), RegEx.FONT_SIZE_REGEX);
     }
 
+    @Override
+    public String getFontName() {
+        return getReaderInfo(RegEx.FONT_NAME_REGEX);
+    }
+
+    @Override
+    public String getFontColor() {
+        return getReaderInfo(RegEx.FONT_COLOR_REGEX);
+    }
+
+    @Override
+    public String getBackgroundColor() {
+        return getReaderInfo(RegEx.BACKGROUND_COLOR_REGEX);
+    }
+
+    private String getReaderInfo(String regex) {
+        return RegExUtil.getStringFromFirstGroup(getBookSource(), regex);
+    }
+
+    private List<ILabel> getChapters() {
+        return getElementFactory().findElements(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\")]"), ElementType.LABEL);
+    }
+
     private String getBookSource() {
         AppiumDriver driver = AqualityServices.getApplication().getDriver();
         Logger logger = AqualityServices.getLogger();
@@ -129,24 +166,5 @@ public class AndroidReaderScreen extends ReaderScreen {
         driver.switchTo().defaultContent();
         driver.context((String) contextNames.toArray()[0]);
         return frameSource;
-    }
-
-    @Override
-    public String getFontName() {
-        return getReaderInfo(RegEx.FONT_NAME_REGEX);
-    }
-
-    @Override
-    public String getFontColor() {
-        return getReaderInfo(RegEx.FONT_COLOR_REGEX);
-    }
-
-    @Override
-    public String getBackgroundColor() {
-        return getReaderInfo(RegEx.BACKGROUND_COLOR_REGEX);
-    }
-
-    private String getReaderInfo(String regex) {
-        return RegExUtil.getStringFromFirstGroup(getBookSource(), regex);
     }
 }

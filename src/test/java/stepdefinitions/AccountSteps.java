@@ -4,6 +4,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
+import screens.account.AccountScreen;
 import screens.accounts.AccountsScreen;
 import screens.addaccount.AddAccountScreen;
 import screens.alert.AlertScreen;
@@ -17,6 +18,7 @@ public class AccountSteps {
     private final SettingsScreen settingsScreen;
     private final AddAccountScreen addAccountScreen;
     private final AlertScreen alertScreen;
+    private final AccountScreen accountScreen;
 
     public AccountSteps() {
         accountsScreen = AqualityServices.getScreenFactory().getScreen(AccountsScreen.class);
@@ -24,6 +26,7 @@ public class AccountSteps {
         settingsScreen = AqualityServices.getScreenFactory().getScreen(SettingsScreen.class);
         addAccountScreen = AqualityServices.getScreenFactory().getScreen(AddAccountScreen.class);
         alertScreen = AqualityServices.getScreenFactory().getScreen(AlertScreen.class);
+        accountScreen = AqualityServices.getScreenFactory().getScreen(AccountScreen.class);
     }
 
     @When("I add {string} account")
@@ -38,6 +41,9 @@ public class AccountSteps {
 
     @Then("Account {string} is present on Accounts screen")
     public void checkAccountIsPresent(String libraryName) {
+        if (accountScreen.state().isDisplayed()) {
+            AqualityServices.getApplication().getDriver().navigate().back();
+        }
         Assert.assertTrue(accountsScreen.isLibraryPresent(libraryName), libraryName + " is not present on Accounts screen");
     }
 

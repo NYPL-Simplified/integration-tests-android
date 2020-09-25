@@ -20,7 +20,7 @@ import stepdefinitions.catalog.components.ICatalogSteps;
 import java.util.List;
 
 public class CatalogSteps extends BaseSteps implements ICatalogSteps {
-    private final AbstractCatalogSteps catalogSteps;
+    private AbstractCatalogSteps catalogSteps;
 
     @Inject
     public CatalogSteps(ScenarioContext context) {
