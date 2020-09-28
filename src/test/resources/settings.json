@@ -1,15 +1,15 @@
 {
-  "platformName": "android",
+  "platformName" : "ios",
   "isRemote": true,
-  "remoteConnectionUrl": "https://helensuboch1:BsAoxiCL15sXvTQidWq2@hub-cloud.browserstack.com/wd/hub",
+  "remoteConnectionUrl": "",
   "screensLocation": "screens",
+
   "driverSettings": {
     "android": {
       "deviceKey": "Samsung_Galaxy",
       "capabilities": {
         "platformName": "Android",
-        "app": "bs://aafff93db3cce6d9fb0b794c5a86f4e56fabfc43",
-        "noReset": "true",
+        "app": "",
         "automationName": "UiAutomator2",
         "adbExecTimeout": 10000
       }
@@ -32,8 +32,8 @@
     }
   },
   "timeouts": {
-    "timeoutImplicit": 0,
-    "timeoutCondition": 20,
+    "timeoutImplicit" : 0,
+    "timeoutCondition" : 15,
     "timeoutPollingInterval": 300,
     "timeoutCommand": 120
   },
