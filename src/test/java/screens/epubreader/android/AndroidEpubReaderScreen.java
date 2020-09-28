@@ -17,7 +17,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import screens.epubreader.EpubReaderScreen;
-import screens.tableofcontents.TableOfContentsScreen;
+import screens.epubtableofcontents.EpubTableOfContentsScreen;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -79,9 +79,9 @@ public class AndroidEpubReaderScreen extends EpubReaderScreen {
     @Override
     public Set<String> getListOfChapters() {
         btnChapters.click();
-        TableOfContentsScreen tableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(TableOfContentsScreen.class);
-        tableOfContentsScreen.state().waitForExist();
-        Set<String> bookNames = tableOfContentsScreen.getListOfBookChapters();
+        EpubTableOfContentsScreen epubTableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(EpubTableOfContentsScreen.class);
+        epubTableOfContentsScreen.state().waitForExist();
+        Set<String> bookNames = epubTableOfContentsScreen.getListOfBookChapters();
         AqualityServices.getApplication().getDriver().navigate().back();
         AqualityServices.getLogger().info("Found chapters - " + bookNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return bookNames;

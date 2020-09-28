@@ -15,9 +15,9 @@ import org.apache.commons.lang3.RandomUtils;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import screens.epubreader.EpubReaderScreen;
+import screens.epubtableofcontents.EpubTableOfContentsScreen;
 import screens.fontchoicesscreen.FontChoicesScreen;
 import screens.pdfreader.PdfReaderScreen;
-import screens.tableofcontents.TableOfContentsScreen;
 
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -27,7 +27,7 @@ public class ReaderSteps {
     private final EpubReaderScreen epubReaderScreen;
     private final PdfReaderScreen pdfReaderScreen;
     private final ScenarioContext context;
-    private final TableOfContentsScreen tableOfContentsScreen;
+    private final EpubTableOfContentsScreen epubTableOfContentsScreen;
     private final FontChoicesScreen fontChoicesScreen;
     private static final String SERIF_FONT_NAME = "serif !important";
     private static final String SANS_SERIF_FONT_NAME = "sans-serif !important";
@@ -37,7 +37,7 @@ public class ReaderSteps {
     public ReaderSteps(ScenarioContext context) {
         epubReaderScreen = AqualityServices.getScreenFactory().getScreen(EpubReaderScreen.class);
         pdfReaderScreen = AqualityServices.getScreenFactory().getScreen(PdfReaderScreen.class);
-        tableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(TableOfContentsScreen.class);
+        epubTableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(EpubTableOfContentsScreen.class);
         fontChoicesScreen = AqualityServices.getScreenFactory().getScreen(FontChoicesScreen.class);
         this.context = context;
     }
@@ -135,7 +135,7 @@ public class ReaderSteps {
 
     @Then("Table of Contents is opened")
     public void checkTableOfContentsIsOpened() {
-        Assert.assertTrue(tableOfContentsScreen.state().waitForDisplayed(), "Table of Contents is not opened");
+        Assert.assertTrue(epubTableOfContentsScreen.state().waitForDisplayed(), "Table of Contents is not opened");
     }
 
     @Then("Font choices screen is present")
@@ -239,5 +239,17 @@ public class ReaderSteps {
     @When("I go to next page in pdf book")
     public void goToNextPage() {
         pdfReaderScreen.goToNextPage();
+    }
+
+    @And("Each chapter of pdf book can be opened from Table of Contents")
+    public void checkEachChapterOfPdfBookCanBeOpenedFromTableOfContents() {
+        SoftAssert softAssert = new SoftAssert();
+        Set<String> chapters = pdfReaderScreen.getListOfChapters();
+        for (String chapter : chapters) {
+            int pageNumber = pdfReaderScreen.getChapterPageNumber(chapter);
+            pdfReaderScreen.openChapter(chapter);
+            softAssert.assertNotEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Chapter name is not correct");
+        }
+        softAssert.assertAll();
     }
 }
