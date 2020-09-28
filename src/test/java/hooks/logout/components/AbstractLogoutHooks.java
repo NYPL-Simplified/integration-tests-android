@@ -24,6 +24,7 @@ import java.util.stream.IntStream;
 
 public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHooks {
 
+    public static final int COUNT_OF_RETRIES = 5;
     protected final AccountScreen accountScreen;
     protected final AccountsScreen accountsScreen;
     protected final BottomMenuForm bottomMenuForm;
@@ -73,7 +74,8 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
     @Override
     public void cancelGet() {
         List<String> librariesForCancelGet = context.get(ContextLibrariesKeys.CANCEL_GET.getKey());
-
+        IntStream.range(0, COUNT_OF_RETRIES)
+                .filter(i -> !bottomMenuForm.state().isExist()).forEachOrdered(i -> AqualityServices.getApplication().getDriver().navigate().back());
         Optional.ofNullable(librariesForCancelGet).ifPresent(libraries ->
                 libraries.forEach(library -> {
                     bottomMenuForm.open(BottomMenu.CATALOG);

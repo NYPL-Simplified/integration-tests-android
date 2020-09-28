@@ -230,4 +230,14 @@ public class ReaderSteps {
     public void checkPdfBookPageNumberIs(int pageNumber) {
         Assert.assertEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Book page number is not correct");
     }
+
+    @When("I go to previous page in pdf book")
+    public void goToPreviousPage() {
+        pdfReaderScreen.goToPreviousPage();
+    }
+
+    @When("I go to next page in pdf book")
+    public void goToNextPage() {
+        pdfReaderScreen.goToNextPage();
+    }
 }
