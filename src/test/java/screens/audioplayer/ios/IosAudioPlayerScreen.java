@@ -20,6 +20,7 @@ import java.util.List;
 public class IosAudioPlayerScreen extends AudioPlayerScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeImage[@name=\"cover_art\"]";
     private static final String CHAPTERS_TIMERS = ".//XCUIElementTypeStaticText[@name]";
+    private static final String CHAPTERS_LOC = "//XCUIElementTypeTable//XCUIElementTypeCell";
 
     private final IButton menuBtn = getElementFactory().getButton(
             By.xpath("//XCUIElementTypeButton[@name=\"Table of Contents\"]"), "Menu");
@@ -27,17 +28,18 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     private final ILabel currentChapter = getElementFactory().getLabel(
             By.xpath("(//XCUIElementTypeStaticText[@name=\"progress_rightLabel\"])[1]"), "Current chapter");
 
-    private final List<ILabel> chapters = getElementFactory().findElements(
-            By.xpath("//XCUIElementTypeTable//XCUIElementTypeCell"), ElementType.LABEL);
-
 
     public IosAudioPlayerScreen() {
         super(By.xpath(MAIN_ELEMENT));
     }
 
+    public List<ILabel> getChapters() {
+        return getElementFactory().findElements(By.xpath(CHAPTERS_LOC), ElementType.LABEL);
+    }
+
     @Override
     public void checkThatChaptersVisible() {
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> chapters.size() > 0),
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > 0),
                 "Checking that count of chapters greater than zero");
     }
 
@@ -45,7 +47,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     public void waitAndCheckAllLoadersDisappeared() {
         checkThatChaptersVisible();
         SoftAssert softAssert = new SoftAssert();
-        chapters.forEach(chapter ->
+        getChapters().forEach(chapter ->
                 softAssert.assertTrue(
                         AqualityServices.getConditionalWait().waitFor(() ->
                                         chapter.findChildElement(By.xpath(CHAPTERS_TIMERS), ElementType.LABEL).state().isDisplayed(),
@@ -62,7 +64,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void selectChapterNumber(int chapterNumber) {
-        ILabel chapter = chapters.get(chapterNumber);
+        ILabel chapter = getChapters().get(chapterNumber);
         chapter.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         chapter.click();
     }
@@ -74,7 +76,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public int getCountOfChapters() {
-        return chapters.size();
+        return getChapters().size();
     }
 
 }

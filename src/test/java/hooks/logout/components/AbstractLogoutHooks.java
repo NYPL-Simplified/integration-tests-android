@@ -96,7 +96,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
 
     protected void navigateBackIfBottomMenuIsNotVisibleUntilItIs() {
         IntStream.range(0, COUNT_OF_RETRIES)
-                .filter(i -> !bottomMenuForm.state().isExist())
+                .filter(i -> !bottomMenuForm.state().isDisplayed())
                 .forEach(i -> applicationSteps.returnToPreviousPage());
     }
 }
