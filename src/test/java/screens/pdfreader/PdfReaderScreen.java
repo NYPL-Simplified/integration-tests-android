@@ -11,4 +11,8 @@ public abstract class PdfReaderScreen extends Screen {
     public abstract String getBookName();
 
     public abstract int getPageNumber();
+
+    public abstract void goToNextPage();
+
+    public abstract void goToPreviousPage();
 }
