@@ -27,7 +27,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeStaticText[@name=//XCUIElementTypeNavigationBar/@name]";
 
 
-    private static final String BOOK_MAIN_INFO = "//XCUIElementTypeOther//XCUIElementTypeImage/following-sibling::XCUIElementTypeStaticText[@name != \"Description\" and not(.//preceding-sibling::XCUIElementTypeStaticText[@name=\"Description\"])]";
+    private static final String BOOK_MAIN_INFO = "//XCUIElementTypeStaticText[@name=\"Description\"]//preceding-sibling::XCUIElementTypeStaticText[@name]";
     private static final String INFORMATION_TAB_LABELS_NAME_PART = "Information tab %1$s value";
 
     private static final String INFORMATION_TAB_VALUE_LOC_PART = "(//XCUIElementTypeStaticText[contains(@name, \"%1$s\")]"
@@ -65,8 +65,9 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public CatalogBookModel getBookInfo() {
-        AqualityServices.getConditionalWait().waitFor(() ->
-                lblBooksInfo.size() > 0);
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
+                lblBooksInfo.size() > 0, Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_PAGE_LOADED.getTimeoutMillis())),
+                "Book info was not loaded");
         return new CatalogBookModel()
                 .setTitle(lblBookTitleInfo.getText())
                 .setAuthor(getElementFactory().getLabel(By.xpath(String.format(LBL_BOOK_AUTHORS_INFO, lblBooksInfo.size())), "Author").getText());

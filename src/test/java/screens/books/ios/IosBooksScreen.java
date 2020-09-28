@@ -35,7 +35,7 @@ public class IosBooksScreen extends BooksScreen {
     private final ILabel lblNoBooks = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeStaticText[@name=\"Visit the Catalog to add books to My Books.\"]"),
             "No Books Present");
-    private final List<IElement> booksList = getElementFactory().findElements(
+    private final List<ILabel> booksList = getElementFactory().findElements(
             By.xpath("//XCUIElementTypeCollectionView//XCUIElementTypeCell"),
             ElementType.LABEL);
 
