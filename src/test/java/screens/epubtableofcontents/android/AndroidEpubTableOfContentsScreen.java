@@ -1,4 +1,4 @@
-package screens.tableofcontents.android;
+package screens.epubtableofcontents.android;
 
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
@@ -7,7 +7,7 @@ import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
 import framework.utilities.swipe.SwipeElementUtils;
 import org.openqa.selenium.By;
-import screens.tableofcontents.TableOfContentsScreen;
+import screens.epubtableofcontents.EpubTableOfContentsScreen;
 
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.ANDROID)
-public class AndroidTableOfContentsScreen extends TableOfContentsScreen {
+public class AndroidEpubTableOfContentsScreen extends EpubTableOfContentsScreen {
     private final ILabel lblTable =
             getElementFactory().getLabel(By.id("reader_toc_list"), "Table");
 
@@ -23,7 +23,7 @@ public class AndroidTableOfContentsScreen extends TableOfContentsScreen {
         return getElementFactory().findElements(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\")]"), ElementType.LABEL);
     }
 
-    public AndroidTableOfContentsScreen() {
+    public AndroidEpubTableOfContentsScreen() {
         super(By.id("reader_toc_list"));
     }
 
