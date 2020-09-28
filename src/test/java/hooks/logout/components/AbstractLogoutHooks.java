@@ -60,6 +60,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
     @Override
     public void cancelHold() {
         List<String> librariesForCancel = context.get(ContextLibrariesKeys.CANCEL_HOLD.getKey());
+        navigateBackIfBottomMenuIsNotVisibleUntilItIs();
         Optional.ofNullable(librariesForCancel).ifPresent(libraries ->
                 libraries.forEach(library -> {
                     bottomMenuForm.open(BottomMenu.CATALOG);
@@ -74,8 +75,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
     @Override
     public void cancelGet() {
         List<String> librariesForCancelGet = context.get(ContextLibrariesKeys.CANCEL_GET.getKey());
-        IntStream.range(0, COUNT_OF_RETRIES)
-                .filter(i -> !bottomMenuForm.state().isExist()).forEachOrdered(i -> AqualityServices.getApplication().getDriver().navigate().back());
+        navigateBackIfBottomMenuIsNotVisibleUntilItIs();
         Optional.ofNullable(librariesForCancelGet).ifPresent(libraries ->
                 libraries.forEach(library -> {
                     bottomMenuForm.open(BottomMenu.CATALOG);
@@ -92,5 +92,11 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
                                 bottomMenuForm.open(BottomMenu.BOOKS);
                             });
                 }));
+    }
+
+    protected void navigateBackIfBottomMenuIsNotVisibleUntilItIs() {
+        IntStream.range(0, COUNT_OF_RETRIES)
+                .filter(i -> !bottomMenuForm.state().isExist())
+                .forEach(i -> applicationSteps.returnToPreviousPage());
     }
 }

@@ -18,9 +18,7 @@ public class AndroidLogoutHooks extends AbstractLogoutHooks {
 
     @Override
     public void closeApplication() {
-        if (!bottomMenuForm.isBottomMenuBtnVisible(BottomMenu.SETTINGS)) {
-            applicationSteps.returnToPreviousPage();
-        }
+        navigateBackIfBottomMenuIsNotVisibleUntilItIs();
         if (!accountScreen.state().isDisplayed()) {
             bottomMenuForm.open(BottomMenu.SETTINGS);
             settingsScreen.openAccounts();
