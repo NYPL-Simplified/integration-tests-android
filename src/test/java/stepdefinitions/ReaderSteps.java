@@ -245,8 +245,7 @@ public class ReaderSteps {
     public void checkEachChapterOfPdfBookCanBeOpenedFromTableOfContents() {
         SoftAssert softAssert = new SoftAssert();
         Set<String> chapters = pdfReaderScreen.getListOfChapters();
-        for (String chapter :
-                chapters) {
+        for (String chapter : chapters) {
             int pageNumber = pdfReaderScreen.getChapterPageNumber(chapter);
             pdfReaderScreen.openChapter(chapter);
             softAssert.assertNotEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Chapter name is not correct");

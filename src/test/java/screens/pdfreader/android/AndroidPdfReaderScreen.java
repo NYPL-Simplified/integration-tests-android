@@ -5,6 +5,7 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import aquality.selenium.core.logging.Logger;
 import framework.utilities.swipe.SwipeElementUtils;
 import org.openqa.selenium.By;
 import screens.pdfreader.PdfReaderScreen;
@@ -20,6 +21,7 @@ public class AndroidPdfReaderScreen extends PdfReaderScreen {
             getElementFactory().getLabel(By.xpath("//*[contains(@resource-id,\"pdfView\")]//android.widget.TextView"), "Book Page number");
     private final ILabel lblPage = getElementFactory().getLabel(By.xpath("//android.widget.FrameLayout"), "Book Page");
     private final IButton btnChapters = getElementFactory().getButton(By.id("reader_toc"), "Table of contents");
+    private Logger logger = AqualityServices.getLogger();
 
     public AndroidPdfReaderScreen() {
         super(By.id("pdf_reader_hud_container"));
@@ -49,9 +51,9 @@ public class AndroidPdfReaderScreen extends PdfReaderScreen {
     public Set<String> getListOfChapters() {
         PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContents();
         Set<String> bookNames = pdfTableOfContentsScreen.getListOfBookChapters();
-        AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
+        logger.info(AqualityServices.getApplication().getDriver().getPageSource());
         AqualityServices.getApplication().getDriver().navigate().back();
-        AqualityServices.getLogger().info("Found chapters - " + bookNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        logger.info("Found chapters - " + bookNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return bookNames;
     }
 
