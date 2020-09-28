@@ -230,4 +230,14 @@ public class ReaderSteps {
     public void checkPdfBookPageNumberIs(int pageNumber) {
         Assert.assertEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Book page number is not correct");
     }
+
+    @When("I swipe from left to right pdf book corner")
+    public void swipeFromLeftToRightOnPdfBookCorner() {
+        pdfReaderScreen.swipeFromLeftToRight();
+    }
+
+    @When("I swipe from right to left pdf book corner")
+    public void swipeFromRightToLeftOnPdfBookCorner() {
+        pdfReaderScreen.swipeFromRightToLeft();
+    }
 }
