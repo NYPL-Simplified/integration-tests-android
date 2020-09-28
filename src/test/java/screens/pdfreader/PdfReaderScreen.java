@@ -12,7 +12,7 @@ public abstract class PdfReaderScreen extends Screen {
 
     public abstract int getPageNumber();
 
-    public abstract void swipeFromRightToLeft();
+    public abstract void goToNextPage();
 
-    public abstract void swipeFromLeftToRight();
+    public abstract void goToPreviousPage();
 }

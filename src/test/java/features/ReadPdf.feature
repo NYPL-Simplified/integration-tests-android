@@ -22,7 +22,6 @@ Feature: Read PDF
     And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen
       And Pdf book page number is 1
-    When I return to previous screen
 
   @logout @cancelGet
   Scenario: Navigate by page
@@ -47,8 +46,7 @@ Feature: Read PDF
     And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen
       And Pdf book page number is 1
-    When I swipe from right to left pdf book corner
+    When I go to next page in pdf book
     Then Pdf book page number is 2
-    When I swipe from left to right pdf book corner
+    When I go to previous page in pdf book
     Then Pdf book page number is 1
-    When I return to previous screen
