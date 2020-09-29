@@ -9,10 +9,9 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
 import constants.application.BookDetailsScreenConstants;
+import constants.application.timeouts.BooksTimeouts;
 import constants.localization.application.bookdetals.BookDetailsScreenInformationBlockKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
-import constants.application.timeouts.BooksTimeouts;
-import framework.utilities.swipe.SwipeElementUtils;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -27,7 +26,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeStaticText[@name=//XCUIElementTypeNavigationBar/@name]";
 
 
-    private static final String BOOK_MAIN_INFO = "//XCUIElementTypeOther//XCUIElementTypeImage/following-sibling::XCUIElementTypeStaticText[@name != \"Description\" and not(.//preceding-sibling::XCUIElementTypeStaticText[@name=\"Description\"])]";
+    private static final String BOOK_MAIN_INFO = "//XCUIElementTypeStaticText[@name=\"Description\"]//preceding-sibling::XCUIElementTypeStaticText[@name]";
     private static final String INFORMATION_TAB_LABELS_NAME_PART = "Information tab %1$s value";
 
     private static final String INFORMATION_TAB_VALUE_LOC_PART = "(//XCUIElementTypeStaticText[contains(@name, \"%1$s\")]"
@@ -37,14 +36,12 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private static final String BTN_APPROVE_BOOK_ACTION = "//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]"
             + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"%1$s\"]";
     private static final String LBL_BOOK_AUTHORS_INFO = String.format("(%1$s)[%%d]", BOOK_MAIN_INFO);
+    private static final String DESCRIPTIONS_LOC = "//XCUIElementTypeStaticText[@name=\"Description\"]/following-sibling::XCUIElementTypeTextView/XCUIElementTypeStaticText";
 
 
-    private final List<ILabel> lblBooksInfo = getElementFactory().findElements(By.xpath(BOOK_MAIN_INFO), ElementType.LABEL);
     private final ILabel lblBookInfo = getElementFactory().getLabel(By.xpath("//XCUIElementTypeImage[1]"), "Cover Image");
     private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.xpath("(//XCUIElementTypeOther//XCUIElementTypeStaticText[@name])[1]"), "Book title");
     private final ILabel lblBookFormatInfo = getElementFactory().getLabel(By.xpath(""), "Book format"); // does not exist on the ios
-    private final List<ILabel> lblBookDescriptions = getElementFactory().findElements(
-            By.xpath("//XCUIElementTypeStaticText[@name=\"Description\"]/following-sibling::XCUIElementTypeTextView/XCUIElementTypeStaticText"), ElementType.LABEL);
     private final IButton btnDownload = getActionButton(BookActionButtonKeys.DOWNLOAD);
     private final IButton btnRead = getActionButton(BookActionButtonKeys.READ);
     private final IButton btnDelete = getActionButton(BookActionButtonKeys.DELETE);
@@ -57,6 +54,14 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
         super(By.xpath(MAIN_ELEMENT));
     }
 
+    public List<ILabel> getDescriptions() {
+        return getElementFactory().findElements(By.xpath(DESCRIPTIONS_LOC), ElementType.LABEL);
+    }
+
+    public List<ILabel> getBookMainInfo() {
+        return getElementFactory().findElements(By.xpath(BOOK_MAIN_INFO), ElementType.LABEL);
+    }
+
     @Override
     public void downloadBook() {
         btnDownload.click();
@@ -65,11 +70,14 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public CatalogBookModel getBookInfo() {
-        AqualityServices.getConditionalWait().waitFor(() ->
-                lblBooksInfo.size() > 0);
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
+                        getBookMainInfo().size() > 0,
+                Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_PAGE_LOADED.getTimeoutMillis())),
+                "Book info was not loaded");
         return new CatalogBookModel()
                 .setTitle(lblBookTitleInfo.getText())
-                .setAuthor(getElementFactory().getLabel(By.xpath(String.format(LBL_BOOK_AUTHORS_INFO, lblBooksInfo.size())), "Author").getText());
+                .setAuthor(getElementFactory().getLabel(By.xpath(String.format(LBL_BOOK_AUTHORS_INFO,
+                        getBookMainInfo().size())), "Author").getText());
     }
 
     @Override
@@ -84,7 +92,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public boolean isDescriptionPresent() {
-        return AqualityServices.getConditionalWait().waitFor(() -> lblBookDescriptions.size() > 0);
+        return AqualityServices.getConditionalWait().waitFor(() -> getDescriptions().size() > 0);
     }
 
     @Override
@@ -99,7 +107,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     }
 
     private String getDescription() {
-        return lblBookDescriptions
+        return getDescriptions()
                 .stream()
                 .map(IElement::getText)
                 .collect(Collectors.joining(BookDetailsScreenConstants.DESCRIPTION_DELIMITER));

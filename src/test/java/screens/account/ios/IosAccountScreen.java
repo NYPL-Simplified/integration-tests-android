@@ -38,6 +38,7 @@ public class IosAccountScreen extends AccountScreen {
 
     @Override
     public void enterCredentials(String ebookCardValue, String ebookPinValue) {
+        txbCard.click();
         txbCard.clearAndType(ebookCardValue);
         txbPin.clearAndType(ebookPinValue);
         btnLogin.click();

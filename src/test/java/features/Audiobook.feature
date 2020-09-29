@@ -15,7 +15,7 @@ Feature: Audiobook
       | 125 Books We Love For Teens |
     Then Current category name is '125 Books We Love For Teens'
     When I open the book details for the subsequent GET and save it as 'bookInfo'
-    And Save current 'LYRASIS' library for CANCEL_GET books after test
+    And Save current 'The New York Public Library' library for CANCEL_GET books after test
     Then I check that opened book contains LISTEN button at book details screen
 
   @logout @cancelGet

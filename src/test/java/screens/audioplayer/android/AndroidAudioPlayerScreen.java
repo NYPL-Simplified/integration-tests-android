@@ -20,22 +20,25 @@ import java.util.List;
 public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     private static final String MAIN_ELEMENT = "player_cover";
     private static final String CHAPTERS_LOADER = ".//*[contains(@resource-id, \"player_toc_item_downloading_progress\")]";
+    private static final String CHAPTERS_LOC = "//android.widget.RelativeLayout[.//*[contains(@resource-id, \"player_toc_item_view_title\")]]";
 
     private final IButton menuBtn = getElementFactory().getButton(By.id("player_menu_toc"), "Menu");
 
     private final ILabel currentChapter = getElementFactory().getLabel(By.id("player_spine_element"), "Current chapter");
 
-    private final List<ILabel> chapters = getElementFactory().findElements(
-            By.xpath("//android.widget.RelativeLayout[.//*[contains(@resource-id, \"player_toc_item_view_title\")]]"), ElementType.LABEL);
 
 
     public AndroidAudioPlayerScreen() {
         super(By.id(MAIN_ELEMENT));
     }
 
+    public List<ILabel> getChapters() {
+        return getElementFactory().findElements(By.xpath(CHAPTERS_LOC), ElementType.LABEL);
+    }
+
     @Override
     public void checkThatChaptersVisible() {
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> chapters.size() > 0),
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > 0),
                 "Checking that count of chapters greater than zero");
     }
 
@@ -43,7 +46,7 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     public void waitAndCheckAllLoadersDisappeared() {
         checkThatChaptersVisible();
         SoftAssert softAssert = new SoftAssert();
-        chapters.forEach(chapter ->
+        getChapters().forEach(chapter ->
                 softAssert.assertTrue(
                         AqualityServices.getConditionalWait().waitFor(() ->
                                         !chapter.findChildElement(By.xpath(CHAPTERS_LOADER), ElementType.LABEL).state().isDisplayed(),
@@ -60,7 +63,7 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void selectChapterNumber(int chapterNumber) {
-        ILabel chapter = chapters.get(chapterNumber);
+        ILabel chapter = getChapters().get(chapterNumber);
         chapter.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         chapter.click();
     }
@@ -72,7 +75,7 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public int getCountOfChapters() {
-        return chapters.size();
+        return getChapters().size();
     }
 
 
