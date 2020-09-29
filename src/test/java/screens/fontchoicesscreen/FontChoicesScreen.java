@@ -10,4 +10,6 @@ public abstract class FontChoicesScreen extends Screen {
     }
 
     public abstract void setSetting(ReaderSettingKeys increaseFontSettings);
+
+    public abstract void closeFontChoices();
 }

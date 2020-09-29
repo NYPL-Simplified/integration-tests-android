@@ -3,13 +3,13 @@ package screens.epubreader.ios;
 import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
-import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import aquality.selenium.core.elements.interfaces.IElement;
+import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.core.logging.Logger;
 import constants.RegEx;
+import framework.utilities.CoordinatesClickUtils;
 import framework.utilities.RegExUtil;
 import framework.utilities.swipe.SwipeElementUtils;
 import io.appium.java_client.AppiumDriver;
@@ -18,37 +18,42 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.Rectangle;
+import org.testng.Assert;
 import screens.epubreader.EpubReaderScreen;
+import screens.epubtableofcontents.EpubTableOfContentsScreen;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosEpubReaderScreen extends EpubReaderScreen {
-    private final ILabel lblBookName =
-            getElementFactory().getLabel(By.xpath("//XCUIElementTypeWebView/parent::XCUIElementTypeOther"
-                    + "/following-sibling::XCUIElementTypeOther[1]/XCUIElementTypeStaticText "), "Book Name");
-    private final ILabel lblPageNumber =
-            getElementFactory().getLabel(By.xpath("//XCUIElementTypeWebView/parent::XCUIElementTypeOther"
-                    + "/following-sibling::XCUIElementTypeOther[2]/XCUIElementTypeStaticText "), "Page Number Info");
-    private final ILabel lblPage =
-            getElementFactory().getLabel(By.xpath(""), "Page View");
-    private final IButton btnChapters =
-            getElementFactory().getButton(By.xpath(""), "Chapters");
-    private final ILabel lblTable =
-            getElementFactory().getLabel(By.id(""), "Table");
-    private final IButton btnFontSettings = getElementFactory().getButton(By.id(""), "Chapters");
     public static final String EPUB_CONTENT_IFRAME = "epubContentIframe";
+    private static final String CHAPTER_ITEM_LOC = "//XCUIElementTypeTable//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]";
+
+    private final ILabel lblBookName =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeNavigationBar/XCUIElementTypeButton[1]"),
+                    "Book Cover", ElementState.EXISTS_IN_ANY_STATE);
+    private final ILabel lblPageNumber =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeProgressIndicator/following-sibling::XCUIElementTypeStaticText"), "Page Number");
+    private final ILabel lblPage =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeNavigationBar/following-sibling::XCUIElementTypeOther"), "Page View");
+    private final IButton btnFontSettings = getElementFactory().getButton(
+            By.xpath("//XCUIElementTypeButton[@name=\"Toggle reader settings\"]"), "Chapters");
+    private final IButton btnChapters =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Table of contents\"]"), "Chapters");
 
     public IosEpubReaderScreen() {
-        super(By.xpath(""));
+        super(By.xpath("//XCUIElementTypeWebView"));
+    }
+
+    private void checkThatBookOpenedAndOpenMenus() {
+        Assert.assertTrue(super.state().waitForDisplayed(), "Book page does not displayed");
+        CoordinatesClickUtils.clickAtTheCenterOfTheScreen();
     }
 
     @Override
     public String getBookName() {
+        checkThatBookOpenedAndOpenMenus();
         String text = lblBookName.getText();
         AqualityServices.getLogger().info("Book name - " + text);
         return text;
@@ -56,8 +61,7 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
 
     @Override
     public void swipeFromLeftToRight() {
-        Rectangle rectangle = lblPage.getElement().getRect();
-        lblPage.getTouchActions().swipe(new Point(rectangle.x + rectangle.width - 1, lblPage.getElement().getCenter().y));
+        SwipeElementUtils.swipeFromLeftToRight(lblPage);
     }
 
     @Override
@@ -88,26 +92,22 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
     @Override
     public Set<String> getListOfChapters() {
         btnChapters.click();
-        lblTable.state().waitForExist();
-        List<String> listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
-        Set<String> bookNames = new HashSet<>();
-        do {
-            bookNames.addAll(listOfChapters);
-            SwipeElementUtils.swipeThroughEntireElementUp(lblTable);
-            listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
-        } while (!bookNames.containsAll(listOfChapters));
+        EpubTableOfContentsScreen epubTableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(EpubTableOfContentsScreen.class);
+        epubTableOfContentsScreen.state().waitForExist();
+        Set<String> bookNames = epubTableOfContentsScreen.getListOfBookChapters();
         AqualityServices.getApplication().getDriver().navigate().back();
-        AqualityServices.getLogger().info("Found chapters - " + listOfChapters.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        AqualityServices.getLogger().info("Found chapters - " + bookNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return bookNames;
     }
 
     @Override
     public void openChapter(String chapter) {
         btnChapters.click();
-        IButton button = getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\") and @text=\"" + chapter + "\"]"), chapter);
+        IButton button = getElementFactory().getButton(By.xpath(String.format(CHAPTER_ITEM_LOC, chapter)), chapter);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-
         button.click();
+
+        checkThatBookOpenedAndOpenMenus();
     }
 
     @Override
@@ -123,29 +123,6 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
     @Override
     public double getFontSize() {
         return RegExUtil.getDoubleFromFirstMatchGroup(getBookSource(), RegEx.FONT_SIZE_REGEX);
-    }
-
-    @Override
-    public String getFontName() {
-        return getReaderInfo(RegEx.FONT_NAME_REGEX);
-    }
-
-    @Override
-    public String getFontColor() {
-        return getReaderInfo(RegEx.FONT_COLOR_REGEX);
-    }
-
-    @Override
-    public String getBackgroundColor() {
-        return getReaderInfo(RegEx.BACKGROUND_COLOR_REGEX);
-    }
-
-    private String getReaderInfo(String regex) {
-        return RegExUtil.getStringFromFirstGroup(getBookSource(), regex);
-    }
-
-    private List<ILabel> getChapters() {
-        return getElementFactory().findElements(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\")]"), ElementType.LABEL);
     }
 
     private String getBookSource() {
@@ -166,5 +143,24 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
         driver.switchTo().defaultContent();
         driver.context((String) contextNames.toArray()[0]);
         return frameSource;
+    }
+
+    @Override
+    public String getFontName() {
+        return getReaderInfo(RegEx.FONT_NAME_REGEX);
+    }
+
+    @Override
+    public String getFontColor() {
+        return getReaderInfo(RegEx.FONT_COLOR_REGEX);
+    }
+
+    @Override
+    public String getBackgroundColor() {
+        return getReaderInfo(RegEx.BACKGROUND_COLOR_REGEX);
+    }
+
+    private String getReaderInfo(String regex) {
+        return RegExUtil.getStringFromFirstGroup(getBookSource(), regex);
     }
 }
