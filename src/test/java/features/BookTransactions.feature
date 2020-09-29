@@ -3,7 +3,7 @@ Feature: Book Transactions
   Background:
     Given Application is opened
 
-  @logout @cancelHold
+  @logout @cancelHold @tier2
   Scenario: Hold
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
@@ -20,6 +20,7 @@ Feature: Book Transactions
       And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
     Then I check that opened book contains CANCEL button at book details screen
 
+  @tier2
   Scenario: Download from Bookshelf list
     When I open Catalog
     Then Books feed is loaded
@@ -29,6 +30,7 @@ Feature: Book Transactions
     And DOWNLOAD book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
 
+  @tier2
   Scenario: Read from Bookshelf list
     When I open Catalog
     Then Books feed is loaded
@@ -42,7 +44,7 @@ Feature: Book Transactions
       And I Read book 'bookInfo'
     Then Book 'bookInfo' is present on screen
 
-  @logout @cancelGet
+  @logout @cancelGet @tier2
   Scenario: Return from Bookshelf list
     When I add 'LYRASIS' account
     Then Account 'LYRASIS' is present on Accounts screen
@@ -65,6 +67,7 @@ Feature: Book Transactions
     When I open Books
     Then Book 'bookInfo' is not present in Books List
 
+  @tier2
   Scenario: Delete from Bookshelf list
     When I open Catalog
     Then Books feed is loaded
@@ -80,7 +83,7 @@ Feature: Book Transactions
       And I open Books
     Then Book 'bookInfo' is not present in Books List
 
-  @logout @cancelGet
+  @logout @cancelGet @tier2
   Scenario: Check out from Book Detail View
     When I add 'LYRASIS' account
     Then Account 'LYRASIS' is present on Accounts screen
@@ -97,6 +100,7 @@ Feature: Book Transactions
       And Save current 'LYRASIS' library for CANCEL_GET books after test
     Then I check that opened book contains READ button at book details screen
 
+  @tier2
   Scenario: Download from Book detail view
     When I open Catalog
     Then Books feed is loaded
@@ -107,7 +111,7 @@ Feature: Book Transactions
     When I open the book details for the subsequent DOWNLOAD and save it as 'bookInfo'
     Then I check that opened book contains READ button at book details screen
 
-  @logout @cancelGet
+  @logout @cancelGet @tier2
   Scenario: Return from Book Detail View
     When I add 'LYRASIS' account
     Then Account 'LYRASIS' is present on Accounts screen
@@ -132,7 +136,7 @@ Feature: Book Transactions
     When I open Books
     Then Book 'bookInfo' is not present in Books List
 
-  @logout @cancelHold
+  @logout @cancelHold @tier2
   Scenario: Remove a Reserved Book
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
@@ -168,7 +172,7 @@ Feature: Book Transactions
     When I click on the book 'bookInfo' button CANCEL on the holds screen
     Then Book saved as 'bookInfo' should contain RESERVE button at the hold screen
 
-  @logout @cancelHold
+  @logout @cancelHold @tier3
   Scenario: Cancel remove
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
@@ -189,5 +193,3 @@ Feature: Book Transactions
     When I click on the book 'bookInfo' button CANCEL on the holds screen and don't click on the popup button
     Then I click at the popup approve CANCEL the button CANCEL_POPUP
       And Book saved as 'bookInfo' should contain RESERVE button at the hold screen
-
-

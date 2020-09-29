@@ -1,6 +1,6 @@
 Feature: Refresh Feed
 
-  @smoke
+  @smoke @tier2
   Scenario: Update Bookshelf List
     Given Application is opened
     When I open Catalog

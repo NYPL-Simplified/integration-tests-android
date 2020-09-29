@@ -5,6 +5,7 @@ Feature: Manage Libraries
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
 
+  @tier1
   Scenario: Switch Library Catalogs
     Given Catalog is opened
     Then Books feed is loaded
@@ -13,10 +14,12 @@ Feature: Manage Libraries
     Then Books feed is loaded
       And List of books on screen is not equal to list of books saved as 'nameOfBooks'
 
+  @tier1
   Scenario: Remove library
     When I remove 'The New York Public Library' account
     Then Account 'The New York Public Library' is not present on Accounts screen
 
+  @tier2
   Scenario: Switch library bookshelf
     Given Catalog is opened
     When I switch to 'The SimplyE Collection' from side menu
@@ -29,7 +32,7 @@ Feature: Manage Libraries
       And I open Books
     Then No books are present in Books list
 
-  @logout @cancelHold
+  @logout @cancelHold @tier2
   Scenario: Switch Library Reservations
     When I add 'Hartford Public Library' account
     Then Account 'Hartford Public Library' is present on Accounts screen

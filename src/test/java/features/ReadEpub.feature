@@ -3,6 +3,7 @@ Feature: Read EPUB
   Background:
     Given Application is opened
 
+  @tier1
   Scenario: Navigate by Page
     When I open Catalog
     Then Books feed is loaded
@@ -28,6 +29,7 @@ Feature: Read EPUB
       And I swipe from left to right book corner
     Then Book page number is 1
 
+  @tier1
   Scenario: Navigate by Table of Contents Menu
     When I open Catalog
     Then Books feed is loaded
@@ -41,6 +43,7 @@ Feature: Read EPUB
     Then Book 'bookInfo' is present on screen
       And Each chapter can be opened from Table of Contents
 
+  @tier1
   Scenario: Navigate View options
     When I open Catalog
     Then Books feed is loaded
@@ -61,6 +64,7 @@ Feature: Read EPUB
       And I open Table of Contents
     Then Table of Contents is opened
 
+  @tier1
   Scenario: Change, View Font and Contrast Settings
     When I open Catalog
     Then Books feed is loaded
@@ -91,6 +95,7 @@ Feature: Read EPUB
     When I change contrast to BLACK_TEXT_ON_SEPIA
     Then Book text displays BLACK on SEPIA
 
+  @tier1
   Scenario: Return to Page (Bookmarking)
     When I open Catalog
     Then Books feed is loaded

@@ -33,6 +33,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalogSteps {
+    public static final String GET_BUTTON_NAME = "Get";
+    public static final String DOWNLOAD_BUTTON_NAME = "Download";
     protected final BottomMenuForm bottomMenuForm;
     protected final CatalogScreen catalogScreen;
     protected final SubcategoryScreen subcategoryScreen;
@@ -255,8 +257,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void checkAllBooksCanBeLoanedOrDownloaded() {
         Assert.assertTrue(subcategoryScreen.getAllButtonsNames()
                         .stream()
-                        .allMatch(x -> x.equals(BookActionButtonKeys.GET.i18n())
-                                || x.equals(BookActionButtonKeys.DOWNLOAD.i18n())),
+                        .allMatch(x -> x.equals(GET_BUTTON_NAME) || x.equals(DOWNLOAD_BUTTON_NAME)),
                 "Not all present books can be loaned or downloaded");
     }
 
@@ -343,8 +344,9 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void checkCountOfBooksInSearchResultIsUpTo(int countOfBooks) {
-        Assert.assertTrue(countOfBooks >= catalogBooksScreen.getFoundBooksCount(),
-                "Count of books is bigger then " + countOfBooks);
+        int foundBooksCount = catalogBooksScreen.getFoundBooksCount();
+        Assert.assertTrue(countOfBooks >= foundBooksCount,
+                String.format("Found count of books (%d) is bigger then expected - %d", foundBooksCount, countOfBooks));
     }
 
     @Override
