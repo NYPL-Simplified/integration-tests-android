@@ -4,6 +4,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import constants.RegEx;
 import constants.localization.application.reader.ColorKeys;
+import constants.localization.application.reader.FontNameKeys;
 import constants.localization.application.reader.ReaderSettingKeys;
 import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
@@ -29,9 +30,6 @@ public class ReaderSteps {
     private final ScenarioContext context;
     private final EpubTableOfContentsScreen epubTableOfContentsScreen;
     private final FontChoicesScreen fontChoicesScreen;
-    private static final String SERIF_FONT_NAME = "serif !important";
-    private static final String SANS_SERIF_FONT_NAME = "sans-serif !important";
-    private static final String ALTERNATIVE_SANS_FONT_NAME = "OpenDyslexic3 !important";
 
     @Inject
     public ReaderSteps(ScenarioContext context) {
@@ -143,6 +141,11 @@ public class ReaderSteps {
         Assert.assertTrue(fontChoicesScreen.state().waitForDisplayed(), "Font choices screen is not opened");
     }
 
+    @When("I close font choices")
+    public void closeFontChoices() {
+        fontChoicesScreen.closeFontChoices();
+    }
+
     @When("I save font size as {string}")
     public void saveFontSize(String fontSizeKey) {
         context.add(fontSizeKey, epubReaderScreen.getFontSize());
@@ -178,23 +181,23 @@ public class ReaderSteps {
 
     @Then("Book text displays in serif font")
     public void bookTextDisplaysInSerifFont() {
-        assertFontName(SERIF_FONT_NAME);
+        assertFontName(FontNameKeys.SERIF_FONT_NAME.i18n());
     }
 
     @Then("Book text displays in sans-serif arial font")
     public void bookTextDisplaysInSansSerifArialFont() {
-        assertFontName(SANS_SERIF_FONT_NAME);
+        assertFontName(FontNameKeys.SANS_SERIF_FONT_NAME.i18n());
     }
 
     @Then("Book text displays in alternative sans font")
     public void bookTextDisplaysInAlternativeSansFont() {
-        assertFontName(ALTERNATIVE_SANS_FONT_NAME);
+        assertFontName(FontNameKeys.ALTERNATIVE_SANS_FONT_NAME.i18n());
     }
 
     private void changeSetting(ReaderSettingKeys settingName) {
         epubReaderScreen.openFontSettings();
         fontChoicesScreen.setSetting(settingName);
-        AqualityServices.getApplication().getDriver().navigate().back();
+        fontChoicesScreen.closeFontChoices();
     }
 
     private void assertFontAndBackground(ColorKeys fontColor, ColorKeys backgroundColor) {
@@ -211,7 +214,12 @@ public class ReaderSteps {
     @And("Page info {string} is correct")
     public void checkPageInfoPageInfoIsCorrect(String pageNumberInfo) {
         String pageInfo = context.get(pageNumberInfo);
-        Assert.assertEquals(epubReaderScreen.getPageNumberInfo(), pageInfo, "Page info is not correct");
+
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
+                epubReaderScreen.getPageNumberInfo().equals(pageInfo)),
+                String.format("Page info is not correct. Expected %1$s but actual %2$s",
+                        epubReaderScreen.getPageNumberInfo(),
+                        pageInfo));
     }
 
     @When("I scroll page forward from {int} to {int} times")
