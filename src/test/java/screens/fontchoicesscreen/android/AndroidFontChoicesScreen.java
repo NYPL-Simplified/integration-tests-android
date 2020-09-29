@@ -29,7 +29,6 @@ public class AndroidFontChoicesScreen extends FontChoicesScreen {
 
     @Override
     public void closeFontChoices() {
-        ILabel fontChoicesScreen = getElementFactory().getLabel(By.id(MAIN_ELEMENT_ID), "Font choices screen");
-        CoordinatesClickUtils.clickOutOfTheElement(fontChoicesScreen);
+        AqualityServices.getApplication().getDriver().navigate().back();
     }
 }

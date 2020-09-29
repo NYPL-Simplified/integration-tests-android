@@ -214,7 +214,12 @@ public class ReaderSteps {
     @And("Page info {string} is correct")
     public void checkPageInfoPageInfoIsCorrect(String pageNumberInfo) {
         String pageInfo = context.get(pageNumberInfo);
-        Assert.assertEquals(epubReaderScreen.getPageNumberInfo(), pageInfo, "Page info is not correct");
+
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
+                epubReaderScreen.getPageNumberInfo().equals(pageInfo)),
+                String.format("Page info is not correct. Expected %1$s but actual %2$s",
+                        epubReaderScreen.getPageNumberInfo(),
+                        pageInfo));
     }
 
     @When("I scroll page forward from {int} to {int} times")

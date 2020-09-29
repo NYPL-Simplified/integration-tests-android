@@ -45,18 +45,18 @@ Feature: Read EPUB
     Then Table of Contents is opened
 
   Scenario: Change, View Font and Contrast Settings
-#    When I save font size as 'fontSize'
-#      And I INCREASE_FONT of text
-#    Then Font size 'fontSize' is increased
-#    When I save font size as 'fontSize'
-#      And I DECREASE_FONT of text
-#    Then Font size 'fontSize' is decreased
-#    When I change font style to SERIF
-#    Then Book text displays in serif font
-#    When I change font style to SANS_SERIF_ARIAL
-#    Then Book text displays in sans-serif arial font
-#    When I change font style to ALTERNATIVE_SANS
-#    Then Book text displays in alternative sans font
+    When I save font size as 'fontSize'
+      And I INCREASE_FONT of text
+    Then Font size 'fontSize' is increased
+    When I save font size as 'fontSize'
+      And I DECREASE_FONT of text
+    Then Font size 'fontSize' is decreased
+    When I change font style to SERIF
+    Then Book text displays in serif font
+    When I change font style to SANS_SERIF_ARIAL
+    Then Book text displays in sans-serif arial font
+    When I change font style to ALTERNATIVE_SANS
+    Then Book text displays in alternative sans font
     When I change contrast to WHITE_TEXT_ON_BLACK
     Then Book text displays WHITE on BLACK
     When I change contrast to BLACK_TEXT_ON_WHITE
