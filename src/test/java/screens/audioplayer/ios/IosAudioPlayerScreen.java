@@ -48,10 +48,8 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
         checkThatChaptersVisible();
         SoftAssert softAssert = new SoftAssert();
         getChapters().forEach(chapter ->
-                softAssert.assertTrue(
-                        AqualityServices.getConditionalWait().waitFor(() ->
-                                        chapter.findChildElement(By.xpath(CHAPTERS_TIMERS), ElementType.LABEL).state().isDisplayed(),
-                                Duration.ofMillis(AudioBookTimeouts.TIMEOUT_AUDIO_BOOK_LOADER_DISAPPEAR.getTimeoutMillis())),
+                softAssert.assertTrue(chapter.findChildElement(By.xpath(CHAPTERS_TIMERS), ElementType.LABEL).state()
+                                .waitForDisplayed(Duration.ofMillis(AudioBookTimeouts.TIMEOUT_AUDIO_BOOK_LOADER_DISAPPEAR.getTimeoutMillis())),
                         "Loader did not disappear from the chapter block")
         );
         softAssert.assertAll("Checking that all loaders are disappeared");
