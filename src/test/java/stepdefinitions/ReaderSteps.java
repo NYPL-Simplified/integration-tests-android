@@ -252,4 +252,20 @@ public class ReaderSteps {
         }
         softAssert.assertAll();
     }
+
+    @And("Pdf page number {string} is correct")
+    public void checkPdfPageNumberIsCorrect(String pageNumberKey) {
+        int pageNumber = context.get(pageNumberKey);
+        Assert.assertEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Page number is not correct");
+    }
+
+    @And("I save pdf page number as {string}")
+    public void savePdfPageNumberAs(String pageNumberKey) {
+        context.add(pageNumberKey, pdfReaderScreen.getPageNumber());
+    }
+
+    @When("I scroll pdf page forward from {int} to {int} times")
+    public void scrollPdfPageForward(int minValue, int maxValue) {
+        IntStream.range(0, RandomUtils.nextInt(minValue, maxValue)).forEachOrdered(i -> pdfReaderScreen.goToNextPage());
+    }
 }
