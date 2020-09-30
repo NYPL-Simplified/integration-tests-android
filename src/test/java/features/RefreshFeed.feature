@@ -1,6 +1,5 @@
 Feature: Refresh Feed
 
-  @smoke
   Scenario: Update Bookshelf List
     Given Application is opened
     When I open Catalog
