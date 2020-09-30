@@ -6,8 +6,8 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import org.openqa.selenium.By;
 import screens.holds.HoldsScreen;
 
@@ -73,6 +73,10 @@ public class AndroidHoldsScreen extends HoldsScreen {
                 Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
+    @Override
+    public boolean isBookForCancelPresent() {
+        return btnCancel.state().isDisplayed();
+    }
 
     private void clickOnTheSpecificBookElement(IElement bookWithSpecificAddBtn) {
         bookWithSpecificAddBtn.getTouchActions().scrollToElement(SwipeDirection.DOWN);

@@ -34,8 +34,6 @@ Feature: Manage Libraries
 
   @logout @cancelHold @tier2
   Scenario: Switch Library Reservations
-    When I add 'Hartford Public Library' account
-    Then Account 'Hartford Public Library' is present on Accounts screen
     When I enter credentials for 'The New York Public Library' account
     Then Text on Login button is changed to Log out on Account screen
     When I open Catalog
@@ -50,9 +48,8 @@ Feature: Manage Libraries
     Then Holds feed is loaded
       And Book 'bookInfo' is present in Holds List
     When I open Catalog
-      And I return to previous screen
-      And I return to previous screen
-      And I switch to 'Hartford Public Library' from side menu
+      And I open Catalog
+      And I switch to 'The SimplyE Collection' from side menu
       And Open Holds
     Then Holds feed is loaded
       And No books are present in Holds list

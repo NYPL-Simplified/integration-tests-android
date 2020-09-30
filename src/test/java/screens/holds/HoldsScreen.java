@@ -18,4 +18,6 @@ public abstract class HoldsScreen extends Screen {
     public abstract void clickTheBookByTitleBtnWithKey(String title, BookActionButtonKeys key);
 
     public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key);
+
+    public abstract boolean isBookForCancelPresent();
 }

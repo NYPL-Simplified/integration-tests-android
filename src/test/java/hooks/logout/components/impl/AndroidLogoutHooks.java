@@ -4,8 +4,6 @@ import aquality.appium.mobile.application.PlatformName;
 import factories.steps.StepsType;
 import framework.utilities.ScenarioContext;
 import hooks.logout.components.AbstractLogoutHooks;
-import io.cucumber.java.After;
-import io.cucumber.java.mn.Харин;
 import screens.bottommenu.BottomMenu;
 
 @StepsType(platform = PlatformName.ANDROID)
@@ -24,7 +22,9 @@ public class AndroidLogoutHooks extends AbstractLogoutHooks {
             settingsScreen.openAccounts();
             accountsScreen.openFirstLibrary();
         }
-        accountScreen.logOut();
+        if (accountScreen.isLogoutRequired()) {
+            accountScreen.logOut();
+        }
         if (!accountScreen.isLogoutSuccessful()) {
             accountScreen.logOut();
         }
