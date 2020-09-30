@@ -4,6 +4,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import constants.application.timeouts.CategoriesTimeouts;
 import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
+import constants.localization.application.catalog.BookActionButtonNames;
 import constants.localization.application.catalog.CategoriesNamesKeys;
 import constants.localization.application.facetedSearch.FacetAvailabilityKeys;
 import constants.localization.application.facetedSearch.FacetSortByKeys;
@@ -33,8 +34,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalogSteps {
-    public static final String GET_BUTTON_NAME = "Get";
-    public static final String DOWNLOAD_BUTTON_NAME = "Download";
     protected final BottomMenuForm bottomMenuForm;
     protected final CatalogScreen catalogScreen;
     protected final SubcategoryScreen subcategoryScreen;
@@ -257,7 +256,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void checkAllBooksCanBeLoanedOrDownloaded() {
         Assert.assertTrue(subcategoryScreen.getAllButtonsNames()
                         .stream()
-                        .allMatch(x -> x.equals(GET_BUTTON_NAME) || x.equals(DOWNLOAD_BUTTON_NAME)),
+                        .allMatch(x -> x.equals(BookActionButtonNames.GET_BUTTON_NAME) || x.equals(BookActionButtonNames.DOWNLOAD_BUTTON_NAME)),
                 "Not all present books can be loaned or downloaded");
     }
 
@@ -346,7 +345,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void checkCountOfBooksInSearchResultIsUpTo(int countOfBooks) {
         int foundBooksCount = catalogBooksScreen.getFoundBooksCount();
         Assert.assertTrue(countOfBooks >= foundBooksCount,
-                String.format("Found count of books (%d) is bigger then expected - %d", foundBooksCount, countOfBooks));
+                String.format("Found count of books (%d) is bigger than expected - %d", foundBooksCount, countOfBooks));
     }
 
     @Override
