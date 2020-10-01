@@ -3,6 +3,7 @@ Feature: Catalog Navigation
   Background:
     Given Application is opened
 
+  @tier1
   Scenario: Return to last library catalog
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
@@ -14,6 +15,7 @@ Feature: Catalog Navigation
     Then Books feed is loaded
       And Current library is 'The New York Public Library' in Catalog
 
+  @tier1
   Scenario: Navigate Lists
     When I open Catalog
     Then Books feed is loaded
@@ -41,6 +43,7 @@ Feature: Catalog Navigation
     Then Subcategory screen is present
       And Subcategory name is 'Drama'
 
+  @tier1
   Scenario: Browse Lanes/Categories
     When I open Catalog
     Then Books feed is loaded
@@ -63,6 +66,7 @@ Feature: Catalog Navigation
     When I open first book in subcategory list and save it as 'bookInfo'
     Then Book 'bookInfo' is opened
 
+  @tier1
   Scenario: Sort Lists
     When I add 'Alameda County Library' account
     Then Account 'Alameda County Library' is present on Accounts screen
@@ -100,6 +104,7 @@ Feature: Catalog Navigation
     When I change books visibility to show YOURS_TO_KEEP
     Then All books can be downloaded
 
+  @tier1
   Scenario: View Book Details
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
@@ -150,7 +155,7 @@ Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudl
     Then Current category name is 'Harry Potter'
       And Count of books in search result is up to 12
 
-  @logout @cancelHold
+  @logout @cancelHold @tier2
   Scenario: Reserve Book (hold)
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
@@ -166,7 +171,7 @@ Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudl
       And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
 
-  @logout @cancelGet
+  @logout @cancelGet @tier2
   Scenario: Borrow book
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen

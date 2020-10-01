@@ -38,6 +38,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
             "//*[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button[@content-desc=\"%1$s\"]";
     public static final String BOOK_OF_TYPE_BUTTON_PATTERN =
             "//android.widget.TextView[contains(@resource-id,\"bookCellIdleMeta\") and @text=\"%1$s\"]/following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%2$s\"]";
+    public static final String BOOK_COVER_LOCATOR = ".//*[contains(@resource-id,\"bookCellIdleCover\")]";
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
@@ -56,7 +57,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     private List<ILabel> getFoundBooks() {
-        return getElementFactory().findElements(By.xpath(BOOKS_LOC), ElementType.LABEL);
+        return getElementFactory().findElements(By.xpath(BOOK_COVER_LOCATOR), ElementType.LABEL);
     }
 
     @Override
