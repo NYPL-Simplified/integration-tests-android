@@ -172,7 +172,7 @@ Feature: Book Transactions
     When I click on the book 'bookInfo' button CANCEL on the holds screen
     Then Book saved as 'bookInfo' should contain RESERVE button at the hold screen
 
-  @logout @cancelHold @tier3
+  @logout @cancelHold @tier3 @exclude_android
   Scenario: Cancel remove
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen

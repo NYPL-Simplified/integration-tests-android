@@ -1,11 +1,11 @@
-# This workflow will build a test Java + TestNG + Appium project with Maven
+# This workflow will build a test Java + TestNG + Appium + BrowserStack project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
 name: Test Run
 
 on:
   workflow_dispatch:
-    branches: [ navigate_by_toc ]
+    branches: [ master ]
     inputs:
       test_tag:
         description: 'Tags to run'
@@ -14,7 +14,11 @@ on:
       bs_app_link:
         description: 'app_url of uploaded to BS link'
         required: true
-        default: 'bs://aafff93db3cce6d9fb0b794c5a86f4e56fabfc43'
+        default: 'bs://8f566db51922fcbccc31e4fe980936dab47dd281'
+      build_name:
+        description: 'build name of given application'
+        required: true
+        default: 'SimplyE-Test'
       platform_name:
         description: 'Platform name'
         required: true
@@ -32,7 +36,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Run tests
-      run: mvn clean test -Daquality.buildName="Android_smoke" -Daquality.token=${{secrets.TRACKING_API_TOKEN}} -Daquality.suiteName="${{github.event.inputs.test_tag}}" -Debookcard=${{secrets.BookCard }} -Debookpin=${{secrets.BookPin}} -DremoteConnectionUrl=${{secrets.remoteConnectionUrl}} -DplatformName=${{github.event.inputs.platform_name}} -DdriverSettings.android.capabilities.app=${{github.event.inputs.bs_app_link}} -Dcucumber.options="--tags '${{github.event.inputs.test_tag}}'"
+      run: mvn clean test -Daquality.buildName="${{github.event.inputs.build_name}}" -Daquality.token=${{secrets.TRACKING_API_TOKEN}} -Daquality.suiteName="${{github.event.inputs.test_tag}}" -Debookcard=${{secrets.BookCard }} -Debookpin=${{secrets.BookPin}} -DremoteConnectionUrl=${{secrets.remoteConnectionUrl}} -DplatformName=${{github.event.inputs.platform_name}} -DdriverSettings.android.capabilities.app=${{github.event.inputs.bs_app_link}} -Dcucumber.options="--tags '${{github.event.inputs.test_tag}} and not @exclude_${{github.event.inputs.platform_name}}'"
     - name: Generate Allure Report
       uses: afiore/action-allure-report@v0.1.0
     - name: Upload report
