@@ -54,7 +54,7 @@ Feature: Read PDF
     Then Pdf book 'bookInfo' is present on screen
       And Pdf page number 'pageNumber' is correct
 
-  @logout @cancelGet
+  @logout @cancelGet @exclude_ios
   Scenario: Close book
       And I return to previous screen
     Then I check that opened book contains READ button at book details screen
