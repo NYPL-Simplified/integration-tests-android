@@ -64,10 +64,13 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
         Optional.ofNullable(librariesForCancel).ifPresent(libraries ->
                 libraries.forEach(library -> {
                     bottomMenuForm.open(BottomMenu.CATALOG);
+                    bottomMenuForm.open(BottomMenu.CATALOG);
                     mainCatalogToolbarForm.chooseAnotherLibrary();
                     catalogScreen.openLibrary(library);
                     bottomMenuForm.open(BottomMenu.HOLDS);
-                    holdsScreen.cancelReservations();
+                    if (holdsScreen.isBookForCancelPresent()) {
+                        holdsScreen.cancelReservations();
+                    }
                     notificationModal.handleBookActionsAndNotificationPopups(BookActionButtonKeys.RESERVE);
                 }));
     }

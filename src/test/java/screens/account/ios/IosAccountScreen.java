@@ -5,8 +5,8 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.localization.application.account.AccountScreenLoginStatus;
 import constants.application.timeouts.AuthorizationTimeouts;
+import constants.localization.application.account.AccountScreenLoginStatus;
 import framework.utilities.keyboard.KeyboardUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -84,5 +84,10 @@ public class IosAccountScreen extends AccountScreen {
                         Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getTimeoutMillis()),
                         Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getPollingMillis()),
                         Collections.singletonList(NoSuchElementException.class));
+    }
+
+    @Override
+    public boolean isLogoutRequired() {
+        return btnLogout.state().isDisplayed();
     }
 }

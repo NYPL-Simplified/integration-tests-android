@@ -16,6 +16,7 @@ Feature: Read EPUB
       And Press on the book details screen at the action button READ
     Then Book 'bookInfo' is present on screen
 
+  @tier1
   Scenario: Navigate by Page
       And Book page number is 1
     When I save page info as 'pageInfo'
@@ -31,9 +32,11 @@ Feature: Read EPUB
       And I swipe from left to right book corner
     Then Book page number is 1
 
+  @tier1
   Scenario: Navigate by Table of Contents Menu
       And Each chapter can be opened from Table of Contents
 
+  @tier1
   Scenario: Navigate View options
     When I return to previous screen
       And Press on the book details screen at the action button READ
@@ -44,6 +47,7 @@ Feature: Read EPUB
       And I open Table of Contents
     Then Table of Contents is opened
 
+  @tier1
   Scenario: Change, View Font and Contrast Settings
     When I save font size as 'fontSize'
       And I INCREASE_FONT of text
@@ -64,6 +68,7 @@ Feature: Read EPUB
     When I change contrast to BLACK_TEXT_ON_SEPIA
     Then Book text displays BLACK on SEPIA
 
+  @tier1
   Scenario: Return to Page (Bookmarking)
     When I scroll page forward from 10 to 20 times
       And I save page info as 'pageInfo'

@@ -4,6 +4,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import constants.application.timeouts.CategoriesTimeouts;
 import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
+import constants.localization.application.catalog.BookActionButtonNames;
 import constants.localization.application.catalog.CategoriesNamesKeys;
 import constants.localization.application.facetedSearch.FacetAvailabilityKeys;
 import constants.localization.application.facetedSearch.FacetSortByKeys;
@@ -255,8 +256,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void checkAllBooksCanBeLoanedOrDownloaded() {
         Assert.assertTrue(subcategoryScreen.getAllButtonsNames()
                         .stream()
-                        .allMatch(x -> x.equals(BookActionButtonKeys.GET.i18n())
-                                || x.equals(BookActionButtonKeys.DOWNLOAD.i18n())),
+                        .allMatch(x -> x.equals(BookActionButtonNames.GET_BUTTON_NAME) || x.equals(BookActionButtonNames.DOWNLOAD_BUTTON_NAME)),
                 "Not all present books can be loaned or downloaded");
     }
 
@@ -343,8 +343,9 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void checkCountOfBooksInSearchResultIsUpTo(int countOfBooks) {
-        Assert.assertTrue(countOfBooks >= catalogBooksScreen.getFoundBooksCount(),
-                "Count of books is bigger then " + countOfBooks);
+        int foundBooksCount = catalogBooksScreen.getFoundBooksCount();
+        Assert.assertTrue(countOfBooks >= foundBooksCount,
+                String.format("Found count of books (%d) is bigger than expected - %d", foundBooksCount, countOfBooks));
     }
 
     @Override

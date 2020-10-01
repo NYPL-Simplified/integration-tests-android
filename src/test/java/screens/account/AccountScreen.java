@@ -17,4 +17,6 @@ public abstract class AccountScreen extends Screen {
     public abstract boolean isLogoutSuccessful();
 
     public abstract void logOut();
+
+    public abstract boolean isLogoutRequired();
 }

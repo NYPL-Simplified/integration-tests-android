@@ -18,7 +18,7 @@ Feature: Audiobook
     And Save current 'The New York Public Library' library for CANCEL_GET books after test
     Then I check that opened book contains LISTEN button at book details screen
 
-  @logout @cancelGet
+  @logout @cancelGet @tier2
   Scenario: Navigate by Table of Contents Menu
     When Press on the book details screen at the action button LISTEN
       And Remember current book chapter in 'defaultChapter'
@@ -28,7 +28,7 @@ Feature: Audiobook
     When I select the chapter not equal to remembered 'defaultChapter' and remember selected chapter as 'newChapter'
     Then I check that current chapter equal to remembered 'newChapter'
 
-  @logout @cancelGet
+  @logout @cancelGet @tier2
   Scenario: Return to Chapter (Bookmarking/Syncing)
     When Press on the book details screen at the action button LISTEN
       And Remember current book chapter in 'defaultChapter'

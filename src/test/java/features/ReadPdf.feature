@@ -1,5 +1,5 @@
 Feature: Read PDF
-  @logout @cancelGet
+  @logout @cancelGet @tier1
   Scenario: Open document
     Given Application is opened
     When I add 'LYRASIS' account
@@ -23,7 +23,7 @@ Feature: Read PDF
     Then Pdf book 'bookInfo' is present on screen
       And Pdf book page number is 1
 
-  @logout @cancelGet
+  @logout @cancelGet @tier1
   Scenario: Navigate by page
     Given Application is opened
     When I add 'LYRASIS' account
@@ -51,7 +51,7 @@ Feature: Read PDF
     When I go to previous page in pdf book
     Then Pdf book page number is 1
 
-  @logout @cancelGet
+  @logout @cancelGet @tier1
   Scenario: Navigate by Table of Contents Menu
     Given Application is opened
     When I add 'LYRASIS' account
@@ -75,7 +75,7 @@ Feature: Read PDF
     Then Pdf book 'bookInfo' is present on screen
       And Each chapter of pdf book can be opened from Table of Contents
 
-  @logout @cancelGet
+  @logout @cancelGet @tier1
   Scenario: Open book to last page read
     Given Application is opened
     When I add 'LYRASIS' account
