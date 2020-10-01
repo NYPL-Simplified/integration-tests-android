@@ -22,11 +22,11 @@ Feature: Read PDF
       And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen
 
-  @logout @cancelGet
+  @logout @cancelGet @tier1
   Scenario: Open document
       And Pdf book page number is 1
 
-  @logout @cancelGet
+  @logout @cancelGet @tier1
   Scenario: Navigate by page
       And Pdf book page number is 1
     When I go to next page in pdf book
@@ -34,11 +34,11 @@ Feature: Read PDF
     When I go to previous page in pdf book
     Then Pdf book page number is 1
 
-  @logout @cancelGet
+  @logout @cancelGet @tier1
   Scenario: Navigate by Table of Contents Menu
       And Each chapter of pdf book can be opened from Table of Contents
 
-  @logout @cancelGet
+  @logout @cancelGet @tier1
   Scenario: Open book to last page read
     When I scroll pdf page forward from 10 to 20 times
       And I save pdf page number as 'pageNumber'
@@ -54,7 +54,7 @@ Feature: Read PDF
     Then Pdf book 'bookInfo' is present on screen
       And Pdf page number 'pageNumber' is correct
 
-  @logout @cancelGet @exclude_ios
+  @logout @cancelGet @tier1 @exclude_ios
   Scenario: Close book
       And I return to previous screen
     Then I check that opened book contains READ button at book details screen
