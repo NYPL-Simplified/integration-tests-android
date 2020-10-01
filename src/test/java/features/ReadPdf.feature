@@ -14,7 +14,7 @@ Feature: Read PDF
     When I set text to the search textBox 'PDF'
       And I click apply search button
     Then Search modal is closed
-    And Search page is opened
+      And Search page is opened
     When DOWNLOAD book of 'PDF' type and save it as 'bookInfo'
       And Save current 'LYRASIS' library for CANCEL_GET books after test
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
