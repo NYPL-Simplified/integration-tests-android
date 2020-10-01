@@ -13,9 +13,10 @@ public class LoggerHooks {
     public void startScenarioLogger(Scenario scenario) {
         Logger.getInstance().createAppender(scenario.getName());
         AqualityServices.getLogger().info(format("Scenario '%s' start", scenario.getName()));
+        AqualityServices.getLogger().info("Session id - " + AqualityServices.getApplication().getDriver().getSessionId().toString());
     }
 
-    @After(order = 0)
+    @After(order = 1)
     public void addLogToScenario(Scenario scenario) {
         byte[] data = Logger.getInstance().getLoggerInfoBytes();
         AqualityServices.getLogger().info(format("Scenario '%s' end", scenario.getName()));
