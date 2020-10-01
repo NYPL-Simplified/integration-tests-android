@@ -9,7 +9,6 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
-import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.catalog.screen.books.CatalogBooksScreen;
@@ -107,7 +106,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
+    public CatalogBookModel scrollToTheBookByTypeAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.i18n();
         IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
@@ -116,6 +115,17 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
                 getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key).getText();
         CatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
         button.click();
+        return androidCatalogBookModel;
+    }
+
+    @Override
+    public CatalogBookModel scrollToTheBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
+        String key = actionButtonKey.i18n();
+        IButton actionButton = getElementFactory().getButton(By.xpath(String.format(BOOK_BLOCK_BY_TITLE_LOC, bookName) +
+                String.format(BOOK_ADD_BUTTON_LOC, actionButtonKey)), key);
+        actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        CatalogBookModel androidCatalogBookModel = getBookInfo(bookName);
+        actionButton.click();
         return androidCatalogBookModel;
     }
 

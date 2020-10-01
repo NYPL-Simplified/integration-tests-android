@@ -15,13 +15,21 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosPdfReaderScreen extends PdfReaderScreen {
-    private final ILabel lblBookName = getElementFactory().getLabel(By.id(""), "Book Name");
-    private final ILabel lblPageNumber = getElementFactory().getLabel(By.xpath(""), "Book Page number");
-    private final ILabel lblPage = getElementFactory().getLabel(By.xpath(""), "Book Page");
-    private final IButton btnChapters = getElementFactory().getButton(By.id(""), "Table of contents");
+    private final ILabel lblBookName = getElementFactory().getLabel(
+            By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]/preceding-sibling::XCUIElementTypeOther)[3]"),
+            "Book Name");
+    private final ILabel lblPageNumber = getElementFactory().getLabel(
+            By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]/preceding-sibling::XCUIElementTypeOther)[4]"),
+            "Book Page number");
+    private final ILabel lblPage = getElementFactory().getLabel(
+            By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"),
+            "Book Page");
+    private final IButton btnChapters = getElementFactory().getButton(
+            By.xpath("//XCUIElementTypeButton[@name=\"List\"]"),
+            "Table of contents");
 
     public IosPdfReaderScreen() {
-        super(By.xpath(""));
+        super(By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"));
     }
 
     @Override
@@ -46,7 +54,7 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
 
     @Override
     public Set<String> getListOfChapters() {
-        PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContents();
+        PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContentsInListView();
         Set<String> bookNames = pdfTableOfContentsScreen.getListOfBookChapters();
         AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
         AqualityServices.getApplication().getDriver().navigate().back();
@@ -56,23 +64,24 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
 
     @Override
     public void openChapter(String chapter) {
-        PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContents();
+        PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContentsInListView();
         pdfTableOfContentsScreen.openChapter(chapter);
     }
 
     @Override
     public int getChapterPageNumber(String chapter) {
-        PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContents();
+        PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContentsInListView();
         int chapterPageNumber = pdfTableOfContentsScreen.getChapterPageNumber(chapter);
         AqualityServices.getApplication().getDriver().navigate().back();
         return chapterPageNumber;
     }
 
-    private PdfTableOfContentsScreen openTableOfContents() {
+    private PdfTableOfContentsScreen openTableOfContentsInListView() {
         btnChapters.click();
         PdfTableOfContentsScreen pdfTableOfContentsScreen =
                 AqualityServices.getScreenFactory().getScreen(PdfTableOfContentsScreen.class);
         pdfTableOfContentsScreen.state().waitForExist();
+        pdfTableOfContentsScreen.switchToTheChaptersListView();
         return pdfTableOfContentsScreen;
     }
 }

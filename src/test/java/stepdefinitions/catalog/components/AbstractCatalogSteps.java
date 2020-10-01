@@ -163,7 +163,12 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void performActionOnBookOfTypeAndSaveIt(BookActionButtonKeys actionButtonKey, String bookType, String bookInfoKey) {
-        context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookAndClickAddButton(actionButtonKey, bookType));
+        context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookByTypeAndClickAddButton(actionButtonKey, bookType));
+    }
+
+    @Override
+    public void performActionOnBookByNameAndSaveIt(BookActionButtonKeys actionButtonKey, String bookName, String bookInfoKey) {
+        context.add(bookInfoKey, catalogBooksScreen.scrollToTheBookByNameAndClickAddButton(actionButtonKey, bookName));
     }
 
     @Override
