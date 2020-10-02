@@ -1,7 +1,7 @@
 package constants.application.timeouts;
 
 public enum CategoriesTimeouts {
-    TIMEOUT_WAIT_UNTIL_CATEGORY_PAGE_LOAD(1800000);
+    TIMEOUT_WAIT_UNTIL_CATEGORY_PAGE_LOAD(180000);
 
     private long timeoutMillis;
 
