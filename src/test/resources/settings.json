@@ -10,6 +10,7 @@
       "capabilities": {
         "platformName": "Android",
         "app": "",
+        "noReset": "true",
         "automationName": "UiAutomator2",
         "adbExecTimeout": 10000
       }
