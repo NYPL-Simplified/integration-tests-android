@@ -5,6 +5,7 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import aquality.selenium.core.elements.ElementState;
 import framework.utilities.swipe.SwipeElementUtils;
 import org.openqa.selenium.By;
 import screens.pdfreader.PdfReaderScreen;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class IosPdfReaderScreen extends PdfReaderScreen {
     private final ILabel lblBookName = getElementFactory().getLabel(
             By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]/preceding-sibling::XCUIElementTypeOther)[3]"),
-            "Book Name");
+            "Book Name", ElementState.EXISTS_IN_ANY_STATE);
     private final ILabel lblPageNumber = getElementFactory().getLabel(
             By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]/preceding-sibling::XCUIElementTypeOther)[4]"),
             "Book Page number");
