@@ -7,7 +7,7 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.application.AndroidAttributes;
+import constants.application.attributes.AndroidAttributes;
 import constants.application.timeouts.BooksTimeouts;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.CatalogBookModel;

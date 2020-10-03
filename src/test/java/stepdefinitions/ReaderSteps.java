@@ -234,8 +234,8 @@ public class ReaderSteps {
     public void checkPdfBookBookInfoIsPresentOnScreen(String bookInfoKey) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                pdfReaderScreen.getBookName().equals(catalogBookModel.getTitle())),
-                String.format("Book name is not correct. Expected name was %1$s. Actual name was %2$s",
+                pdfReaderScreen.getBookName().contains(catalogBookModel.getTitle())),
+                String.format("Book name is not correct. Expected that name ['%1$s'] would contains in ['%2$s']",
                         catalogBookModel.getTitle(), pdfReaderScreen.getBookName()));
     }
 

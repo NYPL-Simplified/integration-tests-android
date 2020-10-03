@@ -6,6 +6,9 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
+import constants.RegEx;
+import constants.application.attributes.IosAttributes;
+import framework.utilities.RegExUtil;
 import framework.utilities.swipe.SwipeElementUtils;
 import org.openqa.selenium.By;
 import screens.pdfreader.PdfReaderScreen;
@@ -17,10 +20,12 @@ import java.util.stream.Collectors;
 @ScreenType(platform = PlatformName.IOS)
 public class IosPdfReaderScreen extends PdfReaderScreen {
     private final ILabel lblBookName = getElementFactory().getLabel(
-            By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]/preceding-sibling::XCUIElementTypeOther)[3]"),
-            "Book Name", ElementState.EXISTS_IN_ANY_STATE);
+            By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]"
+                    + "/preceding-sibling::XCUIElementTypeOther/XCUIElementTypeStaticText[@name])[1]"),
+            "Book Name");
     private final ILabel lblPageNumber = getElementFactory().getLabel(
-            By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]/preceding-sibling::XCUIElementTypeOther)[4]"),
+            By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]"
+                    + "/preceding-sibling::XCUIElementTypeOther/XCUIElementTypeStaticText[@name])[2]"),
             "Book Page number");
     private final ILabel lblPage = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"),
@@ -40,7 +45,7 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
 
     @Override
     public int getPageNumber() {
-        return Integer.parseInt(lblPageNumber.getText());
+        return Integer.parseInt(RegExUtil.getStringFromFirstGroup(lblPageNumber.getText(), RegEx.PDF_CURRENT_PAGE_REGEX));
     }
 
     @Override
