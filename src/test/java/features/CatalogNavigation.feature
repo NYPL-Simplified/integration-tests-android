@@ -126,7 +126,7 @@ Feature: Catalog Navigation
     Then Book 'bookInfo' is opened
       And The following values in the information block are present:
         | key         | value                 |
-        | PUBLISHED   | 2014-08-29            |
+        | PUBLISHED   | 2015-12-08            |
         | PUBLISHER   | Pottermore Publishing |
         | DISTRIBUTOR | Overdrive             |
         | CATEGORIES  | Fantasy               |
