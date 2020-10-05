@@ -1,7 +1,5 @@
 package constants.localization.application.catalog;
 
-import aquality.appium.mobile.application.AqualityServices;
-import aquality.appium.mobile.application.PlatformName;
 import constants.localization.providers.AbstractILocalizationProvider;
 import constants.localization.providers.LocalizationProviderFactory;
 import constants.localization.providers.LocalizedValue;
@@ -9,7 +7,7 @@ import lombok.NonNull;
 
 import java.util.Locale;
 
-public enum BookActionButtonKeys implements LocalizedValue  {
+public enum BookActionButtonKeys implements LocalizedValue {
     GET("get"),
     DOWNLOAD("download"),
     CANCEL("cancel"),
