@@ -248,7 +248,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void checkAllBooksCanBeDownloaded() {
         Assert.assertTrue(subcategoryScreen.getAllButtonsNames()
                         .stream()
-                        .allMatch(x -> x.equals(BookActionButtonKeys.DOWNLOAD.i18n())),
+                        .allMatch(x -> x.equals(BookActionButtonNames.DOWNLOAD_BUTTON_NAME)),
                 "Not all present books can be downloaded");
     }
 
