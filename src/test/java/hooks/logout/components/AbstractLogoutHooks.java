@@ -4,6 +4,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import framework.utilities.ScenarioContext;
+import io.appium.java_client.appmanagement.ApplicationState;
 import screens.account.AccountScreen;
 import screens.accounts.AccountsScreen;
 import screens.bookDetails.BookDetailsScreen;
@@ -77,10 +78,12 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
 
     @Override
     public void cancelGet() {
+        startAppIfCrashed();
         List<String> librariesForCancelGet = context.get(ContextLibrariesKeys.CANCEL_GET.getKey());
         navigateBackIfBottomMenuIsNotVisibleUntilItIs();
         Optional.ofNullable(librariesForCancelGet).ifPresent(libraries ->
                 libraries.forEach(library -> {
+                    bottomMenuForm.open(BottomMenu.CATALOG);
                     bottomMenuForm.open(BottomMenu.CATALOG);
                     mainCatalogToolbarForm.chooseAnotherLibrary();
                     catalogScreen.openLibrary(library);
@@ -95,6 +98,13 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
                                 bottomMenuForm.open(BottomMenu.BOOKS);
                             });
                 }));
+    }
+
+    private void startAppIfCrashed() {
+        if (AqualityServices.getApplication().getDriver().queryAppState("org.nypl.simplified.simplye") == ApplicationState.NOT_RUNNING) {
+            AqualityServices.getLogger().info("App crashed - restarting");
+            AqualityServices.getApplication().getDriver().launchApp();
+        }
     }
 
     protected void navigateBackIfBottomMenuIsNotVisibleUntilItIs() {
