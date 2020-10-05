@@ -20,7 +20,7 @@ Feature: Read PDF IOS
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
-    Then Pdf book 'bookInfo' is present on screen
+#    Then Pdf book 'bookInfo' is present on screen
 
   @logout @cancelGet @tier1
   Scenario: Open document

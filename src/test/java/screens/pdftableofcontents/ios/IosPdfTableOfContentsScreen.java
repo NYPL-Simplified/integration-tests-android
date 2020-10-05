@@ -1,6 +1,7 @@
 package screens.pdftableofcontents.ios;
 
 import aquality.appium.mobile.actions.SwipeDirection;
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -44,7 +45,8 @@ public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
             bookNames.addAll(listOfChapters);
             SwipeElementUtils.swipeThroughEntireElementUp(lblTable);
             listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
-        } while (!bookNames.containsAll(listOfChapters));
+        } while (!bookNames.containsAll(listOfChapters)
+                && AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > 0));
         return bookNames;
     }
 

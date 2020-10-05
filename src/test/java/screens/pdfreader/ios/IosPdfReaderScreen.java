@@ -8,7 +8,9 @@ import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
 import constants.RegEx;
 import constants.application.attributes.IosAttributes;
+import framework.utilities.CoordinatesClickUtils;
 import framework.utilities.RegExUtil;
+import framework.utilities.swipe.EntireSwipeDirection;
 import framework.utilities.swipe.SwipeElementUtils;
 import org.openqa.selenium.By;
 import screens.pdfreader.PdfReaderScreen;
@@ -45,17 +47,23 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
 
     @Override
     public int getPageNumber() {
+        if (!lblPageNumber.state().waitForDisplayed()) {
+            CoordinatesClickUtils.clickOutOfTheElement(lblPage); // needed to expand navigation and labels
+        }
         return Integer.parseInt(RegExUtil.getStringFromFirstGroup(lblPageNumber.getText(), RegEx.PDF_CURRENT_PAGE_REGEX));
     }
 
     @Override
     public void goToNextPage() {
-        SwipeElementUtils.swipeFromRightToLeft(lblPage);
+        SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireSwipeDirection.RIGHT);
+        CoordinatesClickUtils.clickOutOfTheElement(lblPage); // needed to expand navigation and labels
+
     }
 
     @Override
     public void goToPreviousPage() {
-        SwipeElementUtils.swipeFromLeftToRight(lblPage);
+        SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireSwipeDirection.LEFT);
+        CoordinatesClickUtils.clickOutOfTheElement(lblPage); // needed to expand navigation and labels
     }
 
     @Override
