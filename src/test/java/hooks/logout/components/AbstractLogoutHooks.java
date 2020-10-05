@@ -26,6 +26,7 @@ import java.util.stream.IntStream;
 public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHooks {
 
     public static final int COUNT_OF_RETRIES = 5;
+    public static final String APP_BUNDLE_ID = "org.nypl.simplified.simplye";
     protected final AccountScreen accountScreen;
     protected final AccountsScreen accountsScreen;
     protected final BottomMenuForm bottomMenuForm;
@@ -101,7 +102,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
     }
 
     private void startAppIfCrashed() {
-        if (AqualityServices.getApplication().getDriver().queryAppState("org.nypl.simplified.simplye") == ApplicationState.NOT_RUNNING) {
+        if (AqualityServices.getApplication().getDriver().queryAppState(APP_BUNDLE_ID) == ApplicationState.NOT_RUNNING) {
             AqualityServices.getLogger().info("App crashed - restarting");
             AqualityServices.getApplication().getDriver().launchApp();
         }
