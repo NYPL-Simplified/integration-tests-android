@@ -44,9 +44,10 @@ public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
         do {
             bookNames.addAll(listOfChapters);
             SwipeElementUtils.swipeThroughEntireElementUp(lblTable);
-            listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
-        } while (!bookNames.containsAll(listOfChapters)
-                && AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > 0));
+            if (AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > 0)) {
+                listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
+            }
+        } while (!bookNames.containsAll(listOfChapters));
         return bookNames;
     }
 

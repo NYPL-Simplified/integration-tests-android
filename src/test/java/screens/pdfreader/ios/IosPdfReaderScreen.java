@@ -8,14 +8,17 @@ import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
 import constants.RegEx;
 import constants.application.attributes.IosAttributes;
+import constants.application.timeouts.PdfTimeouts;
 import framework.utilities.CoordinatesClickUtils;
 import framework.utilities.RegExUtil;
 import framework.utilities.swipe.EntireSwipeDirection;
 import framework.utilities.swipe.SwipeElementUtils;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import screens.pdfreader.PdfReaderScreen;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
 
+import java.time.Duration;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -69,6 +72,9 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
     @Override
     public Set<String> getListOfChapters() {
         PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContentsInListView();
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> pdfTableOfContentsScreen.getListOfBookChapters().size() > 0,
+                Duration.ofMillis(PdfTimeouts.PDF_LIST_OF_CHAPTERS_APPEAR_TIMEOUT.getTimeoutMillis())),
+                "Checking that chapters exist on list view");
         Set<String> bookNames = pdfTableOfContentsScreen.getListOfBookChapters();
         AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
         AqualityServices.getApplication().getDriver().navigate().back();

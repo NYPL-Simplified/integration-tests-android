@@ -12,7 +12,7 @@ public enum EntireSwipeDirection {
             Dimension dimensions = element.getElement().getSize();
             return new Direction()
                     .setFrom(new Point(upperLeft.x + dimensions.width / 2, upperLeft.y))
-                    .setTo(new Point(upperLeft.x + dimensions.width / 2, upperLeft.y + dimensions.height - 1));
+                    .setTo(new Point(upperLeft.x + dimensions.width / 2, upperLeft.y + dimensions.height));
         }
     },
     DOWN {
@@ -21,7 +21,7 @@ public enum EntireSwipeDirection {
             Point upperLeft = element.getElement().getLocation();
             Dimension dimensions = element.getElement().getSize();
             return new Direction()
-                    .setFrom(new Point(upperLeft.x + dimensions.width / 2, upperLeft.y + dimensions.height - 1))
+                    .setFrom(new Point(upperLeft.x + dimensions.width / 2, upperLeft.y + dimensions.height))
                     .setTo(new Point(upperLeft.x + dimensions.width / 2, upperLeft.y));
         }
     },
@@ -32,7 +32,7 @@ public enum EntireSwipeDirection {
             Dimension dimensions = element.getElement().getSize();
             return new Direction()
                     .setFrom(new Point(upperLeft.x, upperLeft.y + dimensions.height / 2))
-                    .setTo(new Point(upperLeft.x + dimensions.width - 1, upperLeft.y + dimensions.height / 2));
+                    .setTo(new Point(upperLeft.x + dimensions.width, upperLeft.y + dimensions.height / 2));
         }
     },
     RIGHT {
@@ -41,7 +41,7 @@ public enum EntireSwipeDirection {
             Point upperLeft = element.getElement().getLocation();
             Dimension dimensions = element.getElement().getSize();
             return new Direction()
-                    .setFrom(new Point(upperLeft.x + dimensions.width - 1, upperLeft.y + dimensions.height / 2))
+                    .setFrom(new Point(upperLeft.x + dimensions.width, upperLeft.y + dimensions.height / 2))
                     .setTo(new Point(upperLeft.x, upperLeft.y + dimensions.height / 2));
         }
     };
