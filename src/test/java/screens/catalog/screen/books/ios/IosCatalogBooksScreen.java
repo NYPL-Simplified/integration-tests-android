@@ -9,9 +9,9 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
-import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import screens.catalog.screen.books.CatalogBooksScreen;
 
 import java.time.Duration;
@@ -24,8 +24,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private static final String ADD_BOOK_BUTTON_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
     private static final String BOOKS_LOC = ".//XCUIElementTypeCell";
-    private static final String BOOK_BLOCK_BY_TITLE_LOC = "//XCUIElementTypeCell"
-            + "[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
+    private static final String BOOK_BLOCK_BY_TITLE_LOC = "//XCUIElementTypeCell[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
     private static final String BOOK_BLOCK_BY_BUTTON_LOC = "//XCUIElementTypeCell[.//XCUIElementTypeButton[@name=\"%1$s\"]]";
 
     private static final String BOOK_IMAGE_LOC = "//XCUIElementTypeImage";
@@ -107,7 +106,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
+    public CatalogBookModel scrollToTheBookByTypeAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.i18n();
         IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
@@ -119,6 +118,18 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         return androidCatalogBookModel;
     }
 
+    @Override
+    public CatalogBookModel scrollToTheBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
+        String key = actionButtonKey.i18n();
+        IButton actionButton = getElementFactory().getButton(By.xpath(String.format(BOOK_BLOCK_BY_TITLE_LOC, bookName) +
+                String.format(BOOK_ADD_BUTTON_LOC, key)), key);
+        actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        Assert.assertTrue(actionButton.state().isDisplayed(), "Book was not found after scrolling");
+        CatalogBookModel androidCatalogBookModel = getBookInfo(bookName);
+        actionButton.click();
+        return androidCatalogBookModel;
+    }
+    //XCUIElementTypeCell[.//XCUIElementTypeStaticText[@name="Bosnian, Croatian, Serbian, a Textbook"]]//XCUIElementTypeStaticText[@name="GET"]
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);

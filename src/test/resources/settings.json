@@ -47,7 +47,7 @@
     "language": "en"
   },
   "elementCache": {
-    "isEnabled": true
+    "isEnabled": false
   },
   "touchActions": {
     "swipe": {

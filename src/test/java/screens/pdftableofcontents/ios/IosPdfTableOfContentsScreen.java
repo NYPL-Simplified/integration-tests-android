@@ -1,6 +1,7 @@
-package screens.pdftableofcontents.android;
+package screens.pdftableofcontents.ios;
 
 import aquality.appium.mobile.actions.SwipeDirection;
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -16,23 +17,25 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@ScreenType(platform = PlatformName.ANDROID)
-public class AndroidPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
-    public static final String CHAPTER_NAME_BUTTON_XPATH_PATTERN = "//android.widget.TextView[contains(@resource-id,\"reader_toc_element_title\") and @text=\"%s\"]";
-    public static final String PAGE_NUMBER_LOCATOR_PATTERN = "//android.widget.TextView[contains(@resource-id,\"reader_toc_element_title\") and @text=\"%s\"]//following-sibling::android.widget.TextView";
-    private final ILabel lblTable = getElementFactory().getLabel(By.id("recyclerView"), "Table");
+@ScreenType(platform = PlatformName.IOS)
+public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
+    public static final String CHAPTER_NAME_BUTTON_XPATH_PATTERN = "//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]";
+    public static final String PAGE_NUMBER_LOCATOR_PATTERN = "//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]/following-sibling::XCUIElementTypeStaticText";
+    private final ILabel lblTable = getElementFactory().getLabel(By.xpath("//XCUIElementTypeTable"), "Table");
+
+    private final IButton btnListView = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"List\"]"), "Chapters list view");
 
     private List<ILabel> getChapters() {
-        return getElementFactory().findElements(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_title\")]"), ElementType.LABEL);
+        return getElementFactory().findElements(By.xpath("//XCUIElementTypeCell//XCUIElementTypeStaticText[@name][1]"), ElementType.LABEL);
     }
 
-    public AndroidPdfTableOfContentsScreen() {
-        super(By.id("pdf_reader_fragment_holder"));
+    public IosPdfTableOfContentsScreen() {
+        super(By.xpath("//XCUIElementTypeTable"));
     }
 
     @Override
     public void switchToTheChaptersListView() {
-        // not implemented on Android
+        btnListView.click();
     }
 
     public Set<String> getListOfBookChapters() {
@@ -41,7 +44,9 @@ public class AndroidPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
         do {
             bookNames.addAll(listOfChapters);
             SwipeElementUtils.swipeThroughEntireElementUp(lblTable);
-            listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
+            if (AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > 0)) {
+                listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
+            }
         } while (!bookNames.containsAll(listOfChapters));
         return bookNames;
     }

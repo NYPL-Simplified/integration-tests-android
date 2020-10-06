@@ -1,4 +1,4 @@
-package constants.application;
+package constants.application.attributes;
 
 public final class AndroidAttributes {
     private AndroidAttributes() {

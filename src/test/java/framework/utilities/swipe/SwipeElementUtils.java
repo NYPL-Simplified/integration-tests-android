@@ -46,4 +46,16 @@ public final class SwipeElementUtils {
     public static void swipeFromRightToLeft(IElement element) {
         element.getTouchActions().swipe(new Point(0, element.getElement().getCenter().y));
     }
+
+    /**
+     * The method can be applied to every element with swiping support.
+     * Swipe/scroll will be performed from one edge of the element to another.
+     * @param element element to be scrolled/swiped
+     * @param entireSwipeDirection direction of the scroll/swipe
+     */
+    public static void swipeThroughEntireElement(IElement element, EntireSwipeDirection entireSwipeDirection) {
+        Direction direction = entireSwipeDirection.getSwipeDirection(element);
+        ITouchActions touchActions = AqualityServices.getTouchActions();
+        touchActions.swipe(direction.getFrom(), direction.getTo());
+    }
 }

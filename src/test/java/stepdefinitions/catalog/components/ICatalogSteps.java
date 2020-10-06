@@ -47,6 +47,8 @@ public interface ICatalogSteps {
 
     void performActionOnBookOfTypeAndSaveIt(BookActionButtonKeys actionButtonKey, String bookType, String bookInfoKey);
 
+    void performActionOnBookByNameAndSaveIt(BookActionButtonKeys actionButtonKey, String bookName, String bookInfoKey);
+
     void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key);
 
     void saveLibraryForCancel(ContextLibrariesKeys contextLibrariesKeys);

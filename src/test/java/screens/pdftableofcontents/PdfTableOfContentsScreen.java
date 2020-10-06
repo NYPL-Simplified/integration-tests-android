@@ -10,6 +10,8 @@ public abstract class PdfTableOfContentsScreen extends Screen {
         super(locator, "Table of Contents");
     }
 
+    public abstract void switchToTheChaptersListView();
+
     public abstract Set<String> getListOfBookChapters();
 
     public abstract void openChapter(String chapter);

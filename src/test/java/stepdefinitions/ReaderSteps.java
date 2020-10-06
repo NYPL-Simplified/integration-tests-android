@@ -1,6 +1,7 @@
 package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
+import aquality.appium.mobile.elements.ElementType;
 import com.google.inject.Inject;
 import constants.RegEx;
 import constants.localization.application.reader.ColorKeys;
@@ -13,6 +14,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import models.android.CatalogBookModel;
 import org.apache.commons.lang3.RandomUtils;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import screens.epubreader.EpubReaderScreen;
@@ -234,7 +236,10 @@ public class ReaderSteps {
     @Then("Pdf book {string} is present on screen")
     public void checkPdfBookBookInfoIsPresentOnScreen(String bookInfoKey) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
-        Assert.assertEquals(pdfReaderScreen.getBookName(), catalogBookModel.getTitle(), "Book name is not correct");
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
+                pdfReaderScreen.getBookName().contains(catalogBookModel.getTitle())),
+                String.format("Book name is not correct. Expected that name ['%1$s'] would contains in ['%2$s']",
+                        catalogBookModel.getTitle(), pdfReaderScreen.getBookName()));
     }
 
     @Then("Pdf book page number is {int}")
