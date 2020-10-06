@@ -37,7 +37,7 @@ public class CredentialsSteps {
     @And("I enter credentials for {string} account")
     public void enterCredentialsForLibraryAccount(String libraryName) {
         accountsScreen.openAccount(libraryName);
-        accountScreen.enterCredentials(Configuration.getEbookCardValue(), Configuration.getEbookPinValue());
+        accountScreen.enterCredentials(Configuration.getCredentials(libraryName));
     }
 
     @And("I enter credentials for {string} account via keyboard")

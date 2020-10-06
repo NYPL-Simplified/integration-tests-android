@@ -8,6 +8,7 @@ import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.timeouts.AuthorizationTimeouts;
 import constants.application.timeouts.BooksTimeouts;
 import constants.localization.application.account.AccountScreenLoginStatus;
+import framework.configuration.Credentials;
 import framework.utilities.keyboard.KeyboardUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -36,9 +37,9 @@ public class AndroidAccountScreen extends AccountScreen {
     }
 
     @Override
-    public void enterCredentials(String ebookCardValue, String ebookPinValue) {
-        txbCard.clearAndType(ebookCardValue);
-        txbPin.clearAndType(ebookPinValue);
+    public void enterCredentials(Credentials credentials) {
+        txbCard.clearAndType(credentials.getBarcode());
+        txbPin.clearAndTypeSecret(credentials.getPin());
         btnLogin.click();
     }
 
