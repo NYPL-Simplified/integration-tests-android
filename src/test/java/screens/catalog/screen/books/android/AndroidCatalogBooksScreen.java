@@ -1,6 +1,7 @@
 package screens.catalog.screen.books.android;
 
 import aquality.appium.mobile.actions.SwipeDirection;
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -76,14 +77,16 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     private CatalogBookModel getBookModel(String mainLocator) {
+        AqualityServices.getConditionalWait().waitFor(() -> getBookDescriptionFromImage(mainLocator) != null);
         return new CatalogBookModel()
-                .setImageTitle(Objects.requireNonNull(
-                        getElementFactory().getLabel(By.xpath(mainLocator + BOOK_IMAGE_LOC),
-                                "Book image content description").getAttribute(AndroidAttributes.CONTENT_DESC)
-                ))
+                .setImageTitle(Objects.requireNonNull(getBookDescriptionFromImage(mainLocator)))
                 .setTitle(getBookParameter(mainLocator, BOOK_TITLE_LOC, "Book title"))
                 .setAuthor(getBookParameter(mainLocator, BOOK_AUTHOR_LOC, "Book author"))
                 .setBookType(getBookParameter(mainLocator, BOOK_TYPE_LOC, "Book type"));
+    }
+
+    private String getBookDescriptionFromImage(String mainLocator) {
+        return getElementFactory().getLabel(By.xpath(mainLocator + BOOK_IMAGE_LOC), "Book image content description").getAttribute(AndroidAttributes.CONTENT_DESC);
     }
 
     private String getBookParameter(String mainLocator, String subLocator, String name) {

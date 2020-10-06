@@ -36,11 +36,13 @@ jobs:
       with:
         java-version: 1.8
     - name: Run tests
-      run: mvn clean test -Daquality.buildName="${{github.event.inputs.build_name}}" -Daquality.token=${{secrets.TRACKING_API_TOKEN}} -Daquality.suiteName="${{github.event.inputs.test_tag}}" -Debookcard=${{secrets.BookCard }} -Debookpin=${{secrets.BookPin}} -DremoteConnectionUrl=${{secrets.remoteConnectionUrl}} -DplatformName=${{github.event.inputs.platform_name}} -DdriverSettings.${{github.event.inputs.platform_name}}.capabilities.app=${{github.event.inputs.bs_app_link}} -Dcucumber.options="--tags '${{github.event.inputs.test_tag}} and not @exclude_${{github.event.inputs.platform_name}}'"
+      run: mvn clean test -Daquality.buildName="${{github.event.inputs.build_name}}" -Daquality.token=${{secrets.TRACKING_API_TOKEN}} -Daquality.suiteName="${{github.event.inputs.test_tag}}" -Daquality.environment="${{github.event.inputs.platform_name}}" -Debookcard=${{secrets.BookCard }} -Debookpin=${{secrets.BookPin}} -DremoteConnectionUrl=${{secrets.remoteConnectionUrl}} -DplatformName=${{github.event.inputs.platform_name}} -DdriverSettings.${{github.event.inputs.platform_name}}.capabilities.app=${{github.event.inputs.bs_app_link}} -Dcucumber.options="--tags '${{github.event.inputs.test_tag}} and not @exclude_${{github.event.inputs.platform_name}}'"
     - name: Generate Allure Report
       uses: afiore/action-allure-report@v0.1.0
+      if: success() || failure()
     - name: Upload report
       uses: actions/upload-artifact@v2.1.4
       with:
         name: allure-report
         path: allure-report/
+      if: success() || failure()

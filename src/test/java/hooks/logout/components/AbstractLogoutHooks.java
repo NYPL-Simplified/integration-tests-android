@@ -4,6 +4,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import framework.utilities.ScenarioContext;
+import io.appium.java_client.appmanagement.ApplicationState;
 import screens.account.AccountScreen;
 import screens.accounts.AccountsScreen;
 import screens.bookDetails.BookDetailsScreen;
@@ -25,6 +26,7 @@ import java.util.stream.IntStream;
 public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHooks {
 
     public static final int COUNT_OF_RETRIES = 5;
+    public static final String APP_BUNDLE_ID = "org.nypl.simplified.simplye";
     protected final AccountScreen accountScreen;
     protected final AccountsScreen accountsScreen;
     protected final BottomMenuForm bottomMenuForm;
@@ -77,10 +79,12 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
 
     @Override
     public void cancelGet() {
+        startAppIfCrashed();
         List<String> librariesForCancelGet = context.get(ContextLibrariesKeys.CANCEL_GET.getKey());
         navigateBackIfBottomMenuIsNotVisibleUntilItIs();
         Optional.ofNullable(librariesForCancelGet).ifPresent(libraries ->
                 libraries.forEach(library -> {
+                    bottomMenuForm.open(BottomMenu.CATALOG);
                     bottomMenuForm.open(BottomMenu.CATALOG);
                     mainCatalogToolbarForm.chooseAnotherLibrary();
                     catalogScreen.openLibrary(library);
@@ -95,6 +99,13 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
                                 bottomMenuForm.open(BottomMenu.BOOKS);
                             });
                 }));
+    }
+
+    private void startAppIfCrashed() {
+        if (AqualityServices.getApplication().getDriver().queryAppState(APP_BUNDLE_ID) == ApplicationState.NOT_RUNNING) {
+            AqualityServices.getLogger().info("App crashed - restarting");
+            AqualityServices.getApplication().getDriver().launchApp();
+        }
     }
 
     protected void navigateBackIfBottomMenuIsNotVisibleUntilItIs() {

@@ -218,16 +218,19 @@ public class ReaderSteps {
         String pageInfo = context.get(pageNumberInfo);
 
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                epubReaderScreen.getPageNumberInfo().equals(pageInfo)),
-                String.format("Page info is not correct. Expected %1$s but actual %2$s",
-                        epubReaderScreen.getPageNumberInfo(),
-                        pageInfo));
+                        epubReaderScreen.getPageNumberInfo().equals(pageInfo)),
+                String.format("Page info is not correct. Expected %1$s but actual %2$s", pageInfo, epubReaderScreen.getPageNumberInfo()));
     }
 
     @When("I scroll page forward from {int} to {int} times")
     public void scrollPageForward(int minValue, int maxValue) {
         int randomScrollsCount = RandomUtils.nextInt(minValue, maxValue);
-        IntStream.range(0, randomScrollsCount).forEachOrdered(i -> epubReaderScreen.clickRightCorner());
+        AqualityServices.getLogger().info("Scrolling " + randomScrollsCount + " times");
+        IntStream.range(0, randomScrollsCount).forEachOrdered(i -> {
+            String pageNumber = epubReaderScreen.getPageNumberInfo();
+            epubReaderScreen.clickRightCorner();
+            AqualityServices.getConditionalWait().waitFor(() -> !epubReaderScreen.getPageNumberInfo().equals(pageNumber));
+        });
     }
 
     @Then("Pdf book {string} is present on screen")

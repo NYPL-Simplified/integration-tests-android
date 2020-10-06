@@ -3,7 +3,6 @@
   "host": "http://se-community-a1qa.lyrtech.org:8080/api",
   "token": "",
   "projectId": 1,
-  "environment": "Android",
   "debug": false,
   "attachmentsDirectory": "target/attachments"
 }

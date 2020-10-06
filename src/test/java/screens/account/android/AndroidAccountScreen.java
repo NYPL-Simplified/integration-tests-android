@@ -24,6 +24,7 @@ public class AndroidAccountScreen extends AccountScreen {
     private final IButton btnLogin = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AccountScreenLoginStatus.LOG_IN.i18n())),
             "Log in");
+    private final IButton btnLoginAction = getElementFactory().getButton(By.id("accountLoginButton"), "Log ... action");
     private final IButton btnLogout = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AccountScreenLoginStatus.LOG_OUT.i18n())),
             "Log out");
@@ -62,13 +63,13 @@ public class AndroidAccountScreen extends AccountScreen {
     public boolean isLoginSuccessful() {
         btnLogout.state().waitForExist(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
         return AqualityServices.getConditionalWait().waitFor(() ->
-                btnLogout.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n()));
+                btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n()));
     }
 
     @Override
     public boolean isLogoutSuccessful() {
         return AqualityServices.getConditionalWait().waitFor(() ->
-                btnLogin.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n()));
+                btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n()));
     }
 
     @Override
