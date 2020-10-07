@@ -3,6 +3,8 @@ package framework.utilities.swipe;
 import aquality.appium.mobile.actions.ITouchActions;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.elements.interfaces.IElement;
+import framework.utilities.swipe.directions.EntireElementSwipeDirection;
+import framework.utilities.swipe.directions.EntireScreenDragDirection;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
@@ -51,11 +53,25 @@ public final class SwipeElementUtils {
      * The method can be applied to every element with swiping support.
      * Swipe/scroll will be performed from one edge of the element to another.
      * @param element element to be scrolled/swiped
-     * @param entireSwipeDirection direction of the scroll/swipe
+     * @param entireElementSwipeDirection direction of the scroll/swipe
      */
-    public static void swipeThroughEntireElement(IElement element, EntireSwipeDirection entireSwipeDirection) {
-        Direction direction = entireSwipeDirection.getSwipeDirection(element);
+    public static void swipeThroughEntireElement(IElement element, EntireElementSwipeDirection entireElementSwipeDirection) {
+        Direction direction = entireElementSwipeDirection.getSwipeDirection(element);
         ITouchActions touchActions = AqualityServices.getTouchActions();
         touchActions.swipe(direction.getFrom(), direction.getTo());
     }
+
+    /**
+     * The method can be applied to every element with swiping/dragging support.
+     * Swipe/drag will be performed from one edge of the screen to another.
+     * @param element element to be dragged/swiped
+     * @param entireScreenDragDirection direction of the drag/swipe
+     */
+    public static void dragElementThroughEntireScreen(IElement element, EntireScreenDragDirection entireScreenDragDirection) {
+        Direction direction = entireScreenDragDirection.getDragDirection(element);
+        ITouchActions touchActions = AqualityServices.getTouchActions();
+        touchActions.swipe(direction.getFrom(), direction.getTo());
+    }
+
+
 }

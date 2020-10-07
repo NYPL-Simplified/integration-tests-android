@@ -4,9 +4,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import framework.utilities.Logger;
 import org.openqa.selenium.By;
-import org.testng.Assert;
 import screens.settings.SettingsScreen;
 
 @ScreenType(platform = PlatformName.IOS)

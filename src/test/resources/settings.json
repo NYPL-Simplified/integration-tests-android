@@ -1,7 +1,7 @@
 {
-  "platformName" : "ios",
+  "platformName" : "android",
   "isRemote": true,
-  "remoteConnectionUrl": "",
+  "remoteConnectionUrl": "https://artemlebakov1:nasxqh9Lsz4VFf7yDUAo@hub-cloud.browserstack.com/wd/hub",
   "screensLocation": "screens",
 
   "driverSettings": {
@@ -9,7 +9,7 @@
       "deviceKey": "Samsung_Galaxy",
       "capabilities": {
         "platformName": "Android",
-        "app": "",
+        "app": "bs://aafff93db3cce6d9fb0b794c5a86f4e56fabfc43",
         "noReset": "true",
         "automationName": "UiAutomator2",
         "adbExecTimeout": 10000
@@ -19,7 +19,7 @@
       "deviceKey": "iOS_Simulator",
       "capabilities": {
         "platformName": "iOS",
-        "app": "",
+        "app": "bs://5b12a829c2ac80aae916e7ee5be41011b9efae4c",
         "noReset": "true",
         "automationName": "XCUITest",
         "bundleId": ""

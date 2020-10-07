@@ -5,14 +5,13 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import aquality.selenium.core.elements.ElementState;
 import constants.RegEx;
-import constants.application.attributes.IosAttributes;
 import constants.application.timeouts.PdfTimeouts;
 import framework.utilities.CoordinatesClickUtils;
 import framework.utilities.RegExUtil;
-import framework.utilities.swipe.EntireSwipeDirection;
 import framework.utilities.swipe.SwipeElementUtils;
+import framework.utilities.swipe.directions.EntireElementSwipeDirection;
+import framework.utilities.swipe.directions.EntireScreenDragDirection;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import screens.pdfreader.PdfReaderScreen;
@@ -58,14 +57,14 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
 
     @Override
     public void goToNextPage() {
-        SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireSwipeDirection.RIGHT);
+        SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireElementSwipeDirection.RIGHT);
         CoordinatesClickUtils.clickOutOfTheElement(lblPage); // needed to expand navigation and labels
 
     }
 
     @Override
     public void goToPreviousPage() {
-        SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireSwipeDirection.LEFT);
+        SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireElementSwipeDirection.LEFT);
         CoordinatesClickUtils.clickOutOfTheElement(lblPage); // needed to expand navigation and labels
     }
 
@@ -94,6 +93,11 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
         int chapterPageNumber = pdfTableOfContentsScreen.getChapterPageNumber(chapter);
         AqualityServices.getApplication().getDriver().navigate().back();
         return chapterPageNumber;
+    }
+
+    @Override
+    public void slidePageSlider(EntireScreenDragDirection entireScreenDragDirection) {
+        // not implemented on iOS
     }
 
     private PdfTableOfContentsScreen openTableOfContentsInListView() {

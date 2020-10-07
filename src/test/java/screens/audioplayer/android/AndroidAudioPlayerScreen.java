@@ -27,7 +27,6 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     private final ILabel currentChapter = getElementFactory().getLabel(By.id("player_spine_element"), "Current chapter");
 
 
-
     public AndroidAudioPlayerScreen() {
         super(By.id(MAIN_ELEMENT));
     }

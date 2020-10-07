@@ -1,6 +1,7 @@
 package screens.pdfreader;
 
 import aquality.appium.mobile.screens.Screen;
+import framework.utilities.swipe.directions.EntireScreenDragDirection;
 import org.openqa.selenium.By;
 
 import java.util.Set;
@@ -23,4 +24,6 @@ public abstract class PdfReaderScreen extends Screen {
     public abstract void openChapter(String chapter);
 
     public abstract int getChapterPageNumber(String chapter);
+
+    public abstract void slidePageSlider(EntireScreenDragDirection entireScreenDragDirection);
 }

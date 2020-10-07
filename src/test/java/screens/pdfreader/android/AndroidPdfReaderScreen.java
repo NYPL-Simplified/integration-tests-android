@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.logging.Logger;
 import framework.utilities.swipe.SwipeElementUtils;
+import framework.utilities.swipe.directions.EntireScreenDragDirection;
 import org.openqa.selenium.By;
 import screens.pdfreader.PdfReaderScreen;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
@@ -17,10 +18,11 @@ import java.util.stream.Collectors;
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidPdfReaderScreen extends PdfReaderScreen {
     private final ILabel lblBookName = getElementFactory().getLabel(By.id("title_textView"), "Book Name");
-    private final ILabel lblPageNumber =
+    private final ILabel lblPageNumberSlider =
             getElementFactory().getLabel(By.xpath("//*[contains(@resource-id,\"pdfView\")]//android.widget.TextView"), "Book Page number");
     private final ILabel lblPage = getElementFactory().getLabel(By.xpath("//android.widget.FrameLayout"), "Book Page");
     private final IButton btnChapters = getElementFactory().getButton(By.id("reader_toc"), "Table of contents");
+
     private Logger logger = AqualityServices.getLogger();
 
     public AndroidPdfReaderScreen() {
@@ -34,7 +36,7 @@ public class AndroidPdfReaderScreen extends PdfReaderScreen {
 
     @Override
     public int getPageNumber() {
-        return Integer.parseInt(lblPageNumber.getText());
+        return Integer.parseInt(lblPageNumberSlider.getText());
     }
 
     @Override
@@ -69,6 +71,11 @@ public class AndroidPdfReaderScreen extends PdfReaderScreen {
         int chapterPageNumber = pdfTableOfContentsScreen.getChapterPageNumber(chapter);
         AqualityServices.getApplication().getDriver().navigate().back();
         return chapterPageNumber;
+    }
+
+    @Override
+    public void slidePageSlider(EntireScreenDragDirection entireScreenDragDirection) {
+        SwipeElementUtils.dragElementThroughEntireScreen(lblPageNumberSlider, entireScreenDragDirection);
     }
 
     private PdfTableOfContentsScreen openTableOfContents() {
