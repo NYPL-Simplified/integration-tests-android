@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.timeouts.AuthorizationTimeouts;
 import constants.localization.application.account.AccountScreenLoginStatus;
+import framework.configuration.Credentials;
 import framework.utilities.keyboard.KeyboardUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -37,10 +38,10 @@ public class IosAccountScreen extends AccountScreen {
     }
 
     @Override
-    public void enterCredentials(String ebookCardValue, String ebookPinValue) {
+    public void enterCredentials(Credentials credentials) {
         txbCard.click();
-        txbCard.clearAndType(ebookCardValue);
-        txbPin.clearAndType(ebookPinValue);
+        txbCard.clearAndType(credentials.getBarcode());
+        txbPin.clearAndTypeSecret(credentials.getPin());
         btnLogin.click();
     }
 
