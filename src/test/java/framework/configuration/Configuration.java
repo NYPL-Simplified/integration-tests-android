@@ -21,6 +21,9 @@ public class Configuration {
     public static Credentials getCredentials(String libraryName) {
         Map<String, Object> listOfCredentials = Environment.getEnvironment().getMap("/credentials/" + libraryName);
         String randomCredentialsKey = new ArrayList<>(listOfCredentials.keySet()).get(RandomUtils.nextInt(0, listOfCredentials.size()));
-        return new Credentials(randomCredentialsKey, (String) listOfCredentials.get(randomCredentialsKey));
+        Credentials credentials = new Credentials();
+        credentials.setBarcode(randomCredentialsKey);
+        credentials.setPin((String) listOfCredentials.get(randomCredentialsKey));
+        return credentials;
     }
 }
