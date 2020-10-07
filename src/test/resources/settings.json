@@ -1,9 +1,8 @@
 {
-  "platformName" : "ios",
+  "platformName": "ios",
   "isRemote": true,
   "remoteConnectionUrl": "",
   "screensLocation": "screens",
-
   "driverSettings": {
     "android": {
       "deviceKey": "Samsung_Galaxy",
