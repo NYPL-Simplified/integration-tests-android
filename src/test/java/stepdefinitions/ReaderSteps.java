@@ -8,6 +8,7 @@ import constants.localization.application.reader.FontNameKeys;
 import constants.localization.application.reader.ReaderSettingKeys;
 import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
+import framework.utilities.swipe.directions.EntireElementSwipeDirection;
 import framework.utilities.swipe.directions.EntireScreenDragDirection;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -20,6 +21,7 @@ import screens.epubreader.EpubReaderScreen;
 import screens.epubtableofcontents.EpubTableOfContentsScreen;
 import screens.fontchoicesscreen.FontChoicesScreen;
 import screens.pdfreader.PdfReaderScreen;
+import screens.pdftableofcontents.PdfTableOfContentsScreen;
 
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -30,6 +32,7 @@ public class ReaderSteps {
     private final PdfReaderScreen pdfReaderScreen;
     private final ScenarioContext context;
     private final EpubTableOfContentsScreen epubTableOfContentsScreen;
+    private final PdfTableOfContentsScreen pdfTableOfContentsScreen;
     private final FontChoicesScreen fontChoicesScreen;
 
     @Inject
@@ -37,6 +40,7 @@ public class ReaderSteps {
         epubReaderScreen = AqualityServices.getScreenFactory().getScreen(EpubReaderScreen.class);
         pdfReaderScreen = AqualityServices.getScreenFactory().getScreen(PdfReaderScreen.class);
         epubTableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(EpubTableOfContentsScreen.class);
+        pdfTableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(PdfTableOfContentsScreen.class);
         fontChoicesScreen = AqualityServices.getScreenFactory().getScreen(FontChoicesScreen.class);
         this.context = context;
     }
@@ -245,6 +249,10 @@ public class ReaderSteps {
     public void checkPdfBookPageNumberIs(int pageNumber) {
         Assert.assertEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Book page number is not correct");
     }
+    @Then("Pdf book page number is not {int}")
+    public void checkPdfBookPageNumberIsNot(int pageNumber) {
+        Assert.assertNotEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Book page number is not correct");
+    }
 
     @When("I go to previous page in pdf book")
     public void goToPreviousPage() {
@@ -293,5 +301,41 @@ public class ReaderSteps {
     public void checkThatSavedPageNumberDoesNotEqualToCurrent(String pageNumberKey) {
         int pageNumber = context.get(pageNumberKey);
         Assert.assertNotEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Page number is not correct");
+    }
+
+    @When("I open gallery menu")
+    public void openChaptersGallery() {
+        pdfReaderScreen.openChaptersGallery();
+    }
+
+    @Then("Gallery is opened")
+    public void isGalleryPagesLoad() {
+        pdfTableOfContentsScreen.isGalleryPagesLoad();
+    }
+
+    @And("I save count of books on gallery to {string}")
+    public void saveTheBookPagesListToTheBookPagesList(String countOfTheBookPagesKey) {
+        context.add(countOfTheBookPagesKey, pdfTableOfContentsScreen.getCountOfTheBookPages());
+    }
+
+    @When("I scroll the gallery page {}")
+    public void scrollTheGalleryPageDown(EntireElementSwipeDirection entireElementSwipeDirection) {
+        pdfTableOfContentsScreen.scrollGallery(entireElementSwipeDirection);
+    }
+
+    @Then("Page has scrolled and count of books have changed {string}")
+    public void pageHasScrolledAndAppearedNewElementsCompareToBookPagesList(String countOfTheBookPagesKey) {
+        int countOfTheBookPages = context.get(countOfTheBookPagesKey);
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
+                countOfTheBookPages != pdfTableOfContentsScreen.getCountOfTheBookPages()),
+                String.format("Count of the book pages equal to have gotten before scrolling. "
+                        + "Actual count of pages %1$d should not be equal to the count before scrolling %2$d.",
+                        pdfTableOfContentsScreen.getCountOfTheBookPages(), countOfTheBookPages));
+    }
+
+    @When("I open any page on the gallery screen")
+    public void openAnyPageOnTheGalleryScreen() {
+        int countOfPages = pdfTableOfContentsScreen.getCountOfTheBookPages();
+        pdfTableOfContentsScreen.openGalleryPage(RandomUtils.nextInt(0, countOfPages));
     }
 }

@@ -8,6 +8,7 @@ import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.logging.Logger;
 import framework.utilities.swipe.SwipeElementUtils;
 import framework.utilities.swipe.directions.EntireScreenDragDirection;
+import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.By;
 import screens.pdfreader.PdfReaderScreen;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
@@ -76,6 +77,11 @@ public class AndroidPdfReaderScreen extends PdfReaderScreen {
     @Override
     public void slidePageSlider(EntireScreenDragDirection entireScreenDragDirection) {
         SwipeElementUtils.dragElementThroughEntireScreen(lblPageNumberSlider, entireScreenDragDirection);
+    }
+
+    @Override
+    public PdfTableOfContentsScreen openChaptersGallery() {
+        throw new NotImplementedException();
     }
 
     private PdfTableOfContentsScreen openTableOfContents() {

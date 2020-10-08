@@ -8,6 +8,8 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
 import framework.utilities.swipe.SwipeElementUtils;
+import framework.utilities.swipe.directions.EntireElementSwipeDirection;
+import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.By;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
 
@@ -58,5 +60,25 @@ public class AndroidPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
         IButton button = getElementFactory().getButton(By.xpath(String.format(PAGE_NUMBER_LOCATOR_PATTERN, chapter)), chapter);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         return Integer.parseInt(button.getText());
+    }
+
+    @Override
+    public boolean isGalleryPagesLoad() {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int getCountOfTheBookPages() {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void scrollGallery(EntireElementSwipeDirection entireElementSwipeDirection) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void openGalleryPage(int pageNumber) {
+        throw new NotImplementedException();
     }
 }

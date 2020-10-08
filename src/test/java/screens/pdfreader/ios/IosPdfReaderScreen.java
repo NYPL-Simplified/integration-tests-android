@@ -100,11 +100,17 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
         // not implemented on iOS
     }
 
-    private PdfTableOfContentsScreen openTableOfContentsInListView() {
+    @Override
+    public PdfTableOfContentsScreen openChaptersGallery() {
         btnChapters.click();
         PdfTableOfContentsScreen pdfTableOfContentsScreen =
                 AqualityServices.getScreenFactory().getScreen(PdfTableOfContentsScreen.class);
         pdfTableOfContentsScreen.state().waitForExist();
+        return pdfTableOfContentsScreen;
+    }
+
+    private PdfTableOfContentsScreen openTableOfContentsInListView() {
+        PdfTableOfContentsScreen pdfTableOfContentsScreen = openChaptersGallery();
         pdfTableOfContentsScreen.switchToTheChaptersListView();
         return pdfTableOfContentsScreen;
     }

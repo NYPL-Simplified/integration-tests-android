@@ -54,3 +54,15 @@ Feature: Read PDF IOS
     Then Pdf book 'bookInfo' is present on screen
       And Pdf page number 'pageNumber' is correct
 
+  @logout @cancelGet @tier1 @exclude_android
+  Scenario: Navigate by Gallery
+    When I open gallery menu
+    Then Gallery is opened
+      And I save count of books on gallery to 'countOfTheBookPages'
+    When I scroll the gallery page DOWN
+    Then Page has scrolled and count of books have changed 'countOfTheBookPages'
+    When I open any page on the gallery screen
+    Then Pdf book 'bookInfo' is present on screen
+      And Pdf book page number is not 1
+
+
