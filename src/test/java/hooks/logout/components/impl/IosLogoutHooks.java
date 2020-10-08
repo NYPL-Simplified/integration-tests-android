@@ -21,7 +21,9 @@ public class IosLogoutHooks extends AbstractLogoutHooks {
             settingsScreen.openAccounts();
             accountsScreen.openFirstLibrary();
         }
-        accountScreen.logOut();
+        if (accountScreen.isLogoutRequired()) {
+            accountScreen.logOut();
+        }
         if (!accountScreen.isLogoutSuccessful()) {
             accountScreen.logOut();
         }
