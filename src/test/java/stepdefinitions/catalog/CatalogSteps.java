@@ -127,6 +127,11 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
         catalogSteps.performActionOnBookByNameAndSaveIt(actionButtonKey, bookName, bookInfoKey);
     }
 
+    @When("I open book with name {string} and save it as {string}")
+    public void openBookWithNameAndSaveIt(String bookName, String bookInfoKey) {
+        catalogSteps.openBookWithGivenName(bookName, bookInfoKey);
+    }
+
     @When("I click on the book {string} button {} on catalog books screen")
     public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
         catalogSteps.clickOnTheBookAddButtonOnCatalogBooksScreen(bookInfoKey, key);

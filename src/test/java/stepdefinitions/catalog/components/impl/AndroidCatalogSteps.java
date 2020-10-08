@@ -21,7 +21,4 @@ public class AndroidCatalogSteps extends AbstractCatalogSteps {
                 String.format("Current category name is not correct. Expected '%1$s' but found '%2$s'",
                         mainCatalogToolbarForm.getCategoryName(), expectedCategoryName));
     }
-
-
-
 }

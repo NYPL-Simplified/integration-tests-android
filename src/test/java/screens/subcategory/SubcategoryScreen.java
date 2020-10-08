@@ -24,4 +24,6 @@ public abstract class SubcategoryScreen extends Screen {
     public abstract List<String> getTitlesInfo();
 
     public abstract void openBook(CatalogBookModel bookInfo);
+
+    public abstract CatalogBookModel openBookByName(String bookName);
 }

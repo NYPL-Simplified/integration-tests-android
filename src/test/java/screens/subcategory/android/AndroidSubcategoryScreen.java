@@ -6,6 +6,7 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
+import constants.application.attributes.AndroidAttributes;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.subcategory.SubcategoryScreen;
@@ -26,6 +27,10 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
             "//android.widget.TextView[contains(@resource-id, \"bookCellIdleTitle\")]";
     private static final String TYPE_INFO_XPATH =
             "//android.widget.TextView[contains(@resource-id, \"bookCellIdleMeta\")]";
+    public static final String BOOK_WITH_GIVEN_NAME_LOCATOR_PATTERN = "//android.widget.TextView[contains(@resource-id, \"bookCellIdleTitle\") and @text=\"%s\"]";
+    public static final String COVER_LABEL_LOCATOR_PART = "//preceding-sibling::android.widget.ImageView[contains(@resource-id, \"bookCellIdleCover\")]";
+    public static final String AUTHOR_LABEL_LOCATOR_PART = "//following-sibling::android.widget.TextView[contains(@resource-id, \"bookCellIdleAuthor\")]";
+    public static final String BOOK_TYPE_LABEL_LOCATOR_PART = "//following-sibling::android.widget.TextView[contains(@resource-id, \"bookCellIdleMeta\")]";
 
     private final String SORTING_BUTTON_XPATH_PATTERN =
             "//android.widget.LinearLayout[contains(@resource-id, \"feedHeaderFacets\")]/android.widget.Button";
@@ -73,6 +78,19 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     }
 
     @Override
+    public CatalogBookModel openBookByName(String bookName) {
+        String locator = String.format(BOOK_WITH_GIVEN_NAME_LOCATOR_PATTERN, bookName);
+
+        CatalogBookModel bookInfo = new CatalogBookModel()
+                .setImageTitle(getElementFactory().getButton(By.xpath(locator + COVER_LABEL_LOCATOR_PART), bookName).getAttribute(AndroidAttributes.CONTENT_DESC))
+                .setTitle(bookName)
+                .setAuthor(getElementFactory().getButton(By.xpath(locator + AUTHOR_LABEL_LOCATOR_PART), bookName).getText())
+                .setBookType(getElementFactory().getButton(By.xpath(locator + BOOK_TYPE_LABEL_LOCATOR_PART), bookName).getText());
+        getElementFactory().getButton(By.xpath(locator), bookName).click();
+        return bookInfo;
+    }
+
+    @Override
     public List<String> getAuthorsInfo() {
         List<String> listOfNames = getValuesFromListOfLabels(AUTHOR_INFO_XPATH);
         AqualityServices.getLogger().info("Found list of authors - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
@@ -89,7 +107,7 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     @Override
     public CatalogBookModel getFirstBookInfo() {
         return new CatalogBookModel()
-                .setImageTitle(lblFirstBookImageCover.getAttribute("content-desc"))
+                .setImageTitle(lblFirstBookImageCover.getAttribute(AndroidAttributes.CONTENT_DESC))
                 .setTitle(lblFirstBookTitle.getText())
                 .setAuthor(lblFirstBookAuthor.getText())
                 .setBookType(lblFirstBookType.getText());
