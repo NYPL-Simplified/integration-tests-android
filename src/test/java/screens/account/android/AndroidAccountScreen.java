@@ -44,9 +44,9 @@ public class AndroidAccountScreen extends AccountScreen {
     }
 
     @Override
-    public void enterCredentialsViaKeyboard(String ebookCardValue, String ebookPinValue) {
-        enterDataViaKeyboard(txbCard, ebookCardValue);
-        enterDataViaKeyboard(txbPin, ebookPinValue);
+    public void enterCredentialsViaKeyboard(Credentials credentials) {
+        enterDataViaKeyboard(txbCard, credentials.getBarcode());
+        enterDataViaKeyboard(txbPin, credentials.getPin());
         KeyboardUtils.hideKeyboard();
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> !KeyboardUtils.isKeyboardVisible()),
                 "Checking that keyboard is not shown");

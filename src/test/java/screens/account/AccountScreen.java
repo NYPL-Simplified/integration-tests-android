@@ -11,8 +11,6 @@ public abstract class AccountScreen extends Screen {
 
     public abstract void enterCredentials(Credentials credentials);
 
-    public abstract void enterCredentialsViaKeyboard(String ebookCardValue, String ebookPinValue);
-
     public abstract boolean isLoginSuccessful();
 
     public abstract boolean isLogoutSuccessful();
@@ -20,4 +18,6 @@ public abstract class AccountScreen extends Screen {
     public abstract void logOut();
 
     public abstract boolean isLogoutRequired();
+
+    public abstract void enterCredentialsViaKeyboard(Credentials credentials);
 }
