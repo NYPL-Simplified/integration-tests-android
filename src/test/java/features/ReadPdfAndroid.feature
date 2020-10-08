@@ -59,7 +59,7 @@ Feature: Read PDF
       And I return to previous screen
     Then I check that opened book contains READ button at book details screen
 
-  @logout @cancelGet @exclude_ios
+  @logout @cancelGet @tier1 @exclude_ios
   Scenario: Navigate by Page slider
     When I save pdf page number as 'pageNumber'
       And Slide page slider RIGHT

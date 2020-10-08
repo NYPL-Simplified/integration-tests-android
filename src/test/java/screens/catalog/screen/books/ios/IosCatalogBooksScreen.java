@@ -130,7 +130,6 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         return androidCatalogBookModel;
     }
 
-    //XCUIElementTypeCell[.//XCUIElementTypeStaticText[@name="Bosnian, Croatian, Serbian, a Textbook"]]//XCUIElementTypeStaticText[@name="GET"]
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);

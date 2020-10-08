@@ -72,6 +72,4 @@ public final class SwipeElementUtils {
         ITouchActions touchActions = AqualityServices.getTouchActions();
         touchActions.swipe(direction.getFrom(), direction.getTo());
     }
-
-
 }
