@@ -21,6 +21,8 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
             + "[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
     private static final String AUTHOR_INFO_XPATH = "//XCUIElementTypeStaticText[@name][2]";
     private static final String BOOK_NAME_XPATH = "//XCUIElementTypeStaticText[@name and not(.//ancestor::XCUIElementTypeButton)][1]";
+    public static final String BOOK_NAME_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%s\"]";
+    public static final String AUTHOR_LABEL_LOCATOR_PATTERN = "//following-sibling::XCUIElementTypeStaticText";
 
     private final ILabel lblFirstBookName =
             getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR + BOOK_NAME_XPATH), "First book name");
@@ -59,6 +61,20 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
     public void openBook(CatalogBookModel bookInfo) {
         String title = bookInfo.getTitle();
         getElementFactory().getButton(By.xpath(String.format(BOOK_COVER_LOCATOR_PATTERN, title)), title).click();
+    }
+
+    @Override
+    public CatalogBookModel openBookByName(String bookName) {
+        String locator = String.format(BOOK_NAME_LOCATOR_PATTERN, bookName);
+        ILabel lblBookName = getElementFactory().getLabel(By.xpath(locator), bookName);
+        ILabel lblAuthor = getElementFactory().getLabel(By.xpath(locator + AUTHOR_LABEL_LOCATOR_PATTERN), bookName);
+        lblBookName.state().waitForDisplayed();
+        lblAuthor.state().waitForDisplayed();
+        CatalogBookModel bookInfo = new CatalogBookModel()
+                .setTitle(bookName)
+                .setAuthor(lblAuthor.getText());
+        lblBookName.click();
+        return bookInfo;
     }
 
     @Override

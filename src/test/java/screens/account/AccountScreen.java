@@ -1,6 +1,7 @@
 package screens.account;
 
 import aquality.appium.mobile.screens.Screen;
+import framework.configuration.Credentials;
 import org.openqa.selenium.By;
 
 public abstract class AccountScreen extends Screen {
@@ -8,7 +9,7 @@ public abstract class AccountScreen extends Screen {
         super(locator, "Account");
     }
 
-    public abstract void enterCredentials(String ebookCardValue, String ebookPinValue);
+    public abstract void enterCredentials(Credentials credentials);
 
     public abstract void enterCredentialsViaKeyboard(String ebookCardValue, String ebookPinValue);
 

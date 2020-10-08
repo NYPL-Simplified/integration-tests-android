@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import constants.application.attributes.AndroidAttributes;
 import framework.utilities.swipe.SwipeElementUtils;
 import org.openqa.selenium.By;
 import screens.catalog.screen.catalog.CatalogScreen;
@@ -22,7 +23,6 @@ public class AndroidCatalogScreen extends CatalogScreen {
     private static final String LANE_BY_NAME_LOCATOR_PART =
             CATEGORY_LOCATOR + "/following-sibling::*[contains(@resource-id,\"feedLaneCoversScroll\")]";
     private static final String BOOK_COVER_IN_THE_LANE_LOCATOR = "/android.widget.LinearLayout";
-    private static final String CONTENT_VALUE_ATTRIBUTE = "content-desc";
     private static final String LIBRARY_BUTTON_LOCATOR_PATTERN =
             "//android.widget.TextView[contains(@resource-id,\"accountTitle\") and @text=\"%s\"]";
     private static final String BOOKS_LOCATOR = "//androidx.recyclerview.widget.RecyclerView[1]"
@@ -60,7 +60,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     @Override
     public String getBookName(int index) {
-        return getBookWithGivenIndex(index).getAttribute(CONTENT_VALUE_ATTRIBUTE);
+        return getBookWithGivenIndex(index).getAttribute(AndroidAttributes.CONTENT_DESC);
     }
 
     private IButton getBookWithGivenIndex(int index) {
@@ -125,7 +125,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
     private List<String> getValuesFromListOfLabels(String xpath) {
         return getElementFactory().findElements(By.xpath(xpath), ElementType.LABEL)
                 .stream()
-                .map(x -> x.getAttribute(CONTENT_VALUE_ATTRIBUTE))
+                .map(x -> x.getAttribute(AndroidAttributes.CONTENT_DESC))
                 .collect(Collectors.toList());
     }
 }

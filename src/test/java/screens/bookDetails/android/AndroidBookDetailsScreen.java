@@ -5,6 +5,8 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import constants.application.attributes.AndroidAttributes;
+import constants.application.timeouts.BooksTimeouts;
 import constants.application.timeouts.BooksTimeouts;
 import constants.localization.application.bookdetals.BookDetailsScreenInformationBlockKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
@@ -18,7 +20,6 @@ import java.time.Duration;
 public class AndroidBookDetailsScreen extends BookDetailsScreen {
     private static final String INFORMATION_TAB_LABELS_NAME_PART = "Information tab %1$s value";
 
-    private static final String CONTENT_ATTRIBUTE_NAME = "content-desc";
     private static final String INFORMATION_TAB_VALUE_LOC_PART =
             "//*[contains(@resource-id,\"key\") and @text=\"%1$s\"]/following-sibling::*[contains(@resource-id,\":id/value\")]";
     private static final String BOOK_ACTION_BUTTON_LOC = "//android.widget.Button[@content-desc=\"%1$s\"]";
@@ -49,7 +50,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     @Override
     public CatalogBookModel getBookInfo() {
         return new CatalogBookModel()
-                .setImageTitle(lblBookInfo.getAttribute(CONTENT_ATTRIBUTE_NAME))
+                .setImageTitle(lblBookInfo.getAttribute(AndroidAttributes.CONTENT_DESC))
                 .setTitle(lblBookTitleInfo.getText())
                 .setBookType(lblBookFormatInfo.getText())
                 .setAuthor(lblBookAuthorsInfo.getText());

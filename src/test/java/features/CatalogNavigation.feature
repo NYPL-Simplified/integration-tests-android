@@ -122,7 +122,7 @@ Feature: Catalog Navigation
       And Search page is opened
     When I switch to 'eBooks' catalog tab
     Then Subcategory screen is present
-    When I open first found book from the search result and save as 'bookInfo'
+    When I open book with name 'Harry Potter and the Order of the Phoenix' and save it as 'bookInfo'
     Then Book 'bookInfo' is opened
       And The following values in the information block are present:
         | key         | value                 |

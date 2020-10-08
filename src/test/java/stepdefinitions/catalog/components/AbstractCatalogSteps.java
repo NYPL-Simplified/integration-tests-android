@@ -398,4 +398,8 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         facetedSearchScreen.openAvailabilityMenu();
         facetedSearchScreen.changeAvailabilityTo(facetAvailabilityKeys);
     }
+
+    public void openBookWithGivenName(String bookName, String bookInfoKey) {
+        context.add(bookInfoKey, subcategoryScreen.openBookByName(bookName));
+    }
 }

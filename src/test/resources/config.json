@@ -1,4 +1,7 @@
 {
-  "ebookcard": "",
-  "ebookpin": ""
+  "credentials": {
+    "exampleLibrary": {
+      "barcode": "password"
+    }
+  }
 }
