@@ -79,6 +79,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void openLibraryFromSideMenu(String libraryName) {
+        bottomMenuForm.open(BottomMenu.CATALOG);
         mainCatalogToolbarForm.chooseAnotherLibrary();
         catalogScreen.openLibrary(libraryName);
     }

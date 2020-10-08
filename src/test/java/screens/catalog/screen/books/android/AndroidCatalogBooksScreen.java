@@ -28,8 +28,8 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     private static final String ADD_BOOK_BUTTON_PATTERN = "//android.widget.Button[@content-desc=\"%1$s\"]";
 
     private static final String BOOKS_LOC = ".//*[contains(@resource-id,\"bookCellIdle\")]";
-    private static final String BOOK_BLOCK_BY_TITLE_LOC = "//*[contains(@resource-id,\"bookCellIdle\") "
-            + "and .//*[contains(@resource-id,\"bookCellIdleTitle\") and contains(@text, '%1$s')]]";
+    private static final String BOOK_BLOCK_BY_TITLE_LOC =
+            "//*[contains(@resource-id,\"bookCellIdle\") and .//*[contains(@resource-id,\"bookCellIdleTitle\") and contains(@text, \"%1$s\")]]";
 
     private static final String BOOK_IMAGE_LOC = "//*[contains(@resource-id,\"bookCellIdleCover\")]";
     private static final String BOOK_TITLE_LOC = "//*[contains(@resource-id,\"bookCellIdleTitle\")]";
