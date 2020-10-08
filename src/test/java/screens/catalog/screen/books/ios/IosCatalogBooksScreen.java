@@ -7,8 +7,8 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.application.timeouts.BooksTimeouts;
+import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -129,7 +129,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         actionButton.click();
         return androidCatalogBookModel;
     }
-    //XCUIElementTypeCell[.//XCUIElementTypeStaticText[@name="Bosnian, Croatian, Serbian, a Textbook"]]//XCUIElementTypeStaticText[@name="GET"]
+
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);

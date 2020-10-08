@@ -1,7 +1,6 @@
 package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
-import aquality.appium.mobile.elements.ElementType;
 import com.google.inject.Inject;
 import constants.RegEx;
 import constants.localization.application.reader.ColorKeys;
@@ -9,12 +8,12 @@ import constants.localization.application.reader.FontNameKeys;
 import constants.localization.application.reader.ReaderSettingKeys;
 import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
+import framework.utilities.swipe.directions.EntireScreenDragDirection;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import models.android.CatalogBookModel;
 import org.apache.commons.lang3.RandomUtils;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import screens.epubreader.EpubReaderScreen;
@@ -237,7 +236,7 @@ public class ReaderSteps {
     public void checkPdfBookBookInfoIsPresentOnScreen(String bookInfoKey) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                pdfReaderScreen.getBookName().contains(catalogBookModel.getTitle())),
+                        pdfReaderScreen.getBookName().contains(catalogBookModel.getTitle())),
                 String.format("Book name is not correct. Expected that name ['%1$s'] would contains in ['%2$s']",
                         catalogBookModel.getTitle(), pdfReaderScreen.getBookName()));
     }
@@ -283,5 +282,16 @@ public class ReaderSteps {
     @When("I scroll pdf page forward from {int} to {int} times")
     public void scrollPdfPageForward(int minValue, int maxValue) {
         IntStream.range(0, RandomUtils.nextInt(minValue, maxValue)).forEachOrdered(i -> pdfReaderScreen.goToNextPage());
+    }
+
+    @And("Slide page slider {}")
+    public void slidePageSlider(EntireScreenDragDirection entireScreenDragDirection) {
+        pdfReaderScreen.slidePageSlider(entireScreenDragDirection);
+    }
+
+    @Then("Pdf saved page number {string} should not be equal to current")
+    public void checkThatSavedPageNumberDoesNotEqualToCurrent(String pageNumberKey) {
+        int pageNumber = context.get(pageNumberKey);
+        Assert.assertNotEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Page number is not correct");
     }
 }

@@ -1,10 +1,11 @@
-package framework.utilities.swipe;
+package framework.utilities.swipe.directions;
 
 import aquality.appium.mobile.elements.interfaces.IElement;
+import framework.utilities.swipe.Direction;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
-public enum EntireSwipeDirection {
+public enum EntireElementSwipeDirection {
     UP {
         @Override
         public Direction getSwipeDirection(IElement element) {

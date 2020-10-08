@@ -4,10 +4,7 @@ import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import framework.utilities.keyboard.KeyboardUtils;
-import io.appium.java_client.android.nativekey.AndroidKey;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import screens.search.modal.SearchModal;
 
 @ScreenType(platform = PlatformName.IOS)

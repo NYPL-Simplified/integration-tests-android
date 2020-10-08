@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.attributes.AndroidAttributes;
 import constants.application.timeouts.BooksTimeouts;
+import constants.application.timeouts.BooksTimeouts;
 import constants.localization.application.bookdetals.BookDetailsScreenInformationBlockKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.CatalogBookModel;
