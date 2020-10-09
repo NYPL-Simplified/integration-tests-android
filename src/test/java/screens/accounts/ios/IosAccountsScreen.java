@@ -42,6 +42,7 @@ public class IosAccountsScreen extends AccountsScreen {
 
     @Override
     public void openFirstLibrary() {
+        btnFirstLibrary.state().waitForDisplayed();
         btnFirstLibrary.click();
     }
 

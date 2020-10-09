@@ -9,6 +9,9 @@ import screens.addaccount.AddAccountScreen;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAddAccountScreen extends AddAccountScreen {
+
+    public static final String LIBRARY_BUTTON_LOCATOR_PATTERN = "//android.widget.TextView[contains(@text, \"%s\")]";
+
     public AndroidAddAccountScreen() {
         super(By.id("accountRegistryTitle"));
     }
@@ -21,6 +24,6 @@ public class AndroidAddAccountScreen extends AddAccountScreen {
     }
 
     private IButton getLibraryButton(String libraryName) {
-        return getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, '" + libraryName + "')]"), libraryName);
+        return getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, libraryName)), libraryName);
     }
 }

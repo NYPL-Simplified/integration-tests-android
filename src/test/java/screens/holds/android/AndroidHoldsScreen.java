@@ -23,7 +23,7 @@ public class AndroidHoldsScreen extends HoldsScreen {
     private static final String BOOK_ACTION_BUTTON_LOC = "//*[contains(@resource-id,\"bookCellIdleButtons\")]"
             + "/android.widget.Button[@content-desc=\"%1$s\"]";
     private static final String BOOK_BLOCK_BY_TITLE_LOC =
-            "//*[contains(@resource-id,\"bookCellIdle\") and .//*[contains(@resource-id,\"bookCellIdleTitle\") and contains(@text, '%1$s')]]";
+            "//*[contains(@resource-id,\"bookCellIdle\") and .//*[contains(@resource-id,\"bookCellIdleTitle\") and contains(@text, \"%1$s\")]]";
 
     private static final String BOOK_ADD_BUTTON_LOC =
             "//*[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button[@content-desc=\"%1$s\"]";

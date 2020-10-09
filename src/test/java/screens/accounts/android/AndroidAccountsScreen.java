@@ -12,6 +12,8 @@ import screens.accounts.AccountsScreen;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAccountsScreen extends AccountsScreen {
+    public static final String LIBRARY_BUTTON_LOCATOR_PATTERN =
+            "//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[contains(@text, \"%s\")]";
     private final IButton addBtn = getElementFactory().getButton(By.id("accountsMenuActionAccountAdd"), "Add account");
     private IButton btnFirstLibrary =
             getElementFactory().getButton(By.xpath("//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[1]"), "First library");
@@ -26,7 +28,7 @@ public class AndroidAccountsScreen extends AccountsScreen {
     }
 
     private IButton getLibraryButton(String libraryName) {
-        return getElementFactory().getButton(By.xpath("//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[contains(@text, '" + libraryName + "')]"), libraryName);
+        return getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, libraryName)), libraryName);
     }
 
     @Override
