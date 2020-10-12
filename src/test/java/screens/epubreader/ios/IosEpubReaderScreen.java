@@ -31,8 +31,7 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
     private static final String CHAPTER_ITEM_LOC = "//XCUIElementTypeTable//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
     private final ILabel lblBookName =
-            getElementFactory().getLabel(By.xpath("//XCUIElementTypeNavigationBar/XCUIElementTypeButton[1]"),
-                    "Book Cover", ElementState.EXISTS_IN_ANY_STATE);
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeNavigationBar"), "Book Cover", ElementState.EXISTS_IN_ANY_STATE);
     private final ILabel lblPageNumber =
             getElementFactory().getLabel(By.xpath("//XCUIElementTypeProgressIndicator/following-sibling::XCUIElementTypeStaticText"), "Page Number");
     private final ILabel lblPage =
@@ -54,7 +53,7 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
     @Override
     public String getBookName() {
         checkThatBookOpenedAndOpenMenus();
-        String text = lblBookName.getText();
+        String text = lblBookName.getAttribute("name");
         AqualityServices.getLogger().info("Book name - " + text);
         return text;
     }
