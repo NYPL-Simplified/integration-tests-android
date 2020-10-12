@@ -9,6 +9,7 @@ import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.core.logging.Logger;
 import constants.RegEx;
+import constants.application.attributes.IosAttributes;
 import framework.utilities.CoordinatesClickUtils;
 import framework.utilities.RegExUtil;
 import framework.utilities.swipe.SwipeElementUtils;
@@ -53,7 +54,7 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
     @Override
     public String getBookName() {
         checkThatBookOpenedAndOpenMenus();
-        String text = lblBookName.getAttribute("name");
+        String text = lblBookName.getAttribute(IosAttributes.NAME);
         AqualityServices.getLogger().info("Book name - " + text);
         return text;
     }

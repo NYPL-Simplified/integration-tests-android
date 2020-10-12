@@ -9,6 +9,7 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.core.elements.ElementsCount;
+import constants.application.attributes.IosAttributes;
 import constants.application.timeouts.CategoriesTimeouts;
 import framework.utilities.swipe.SwipeElementUtils;
 import org.openqa.selenium.By;
@@ -26,7 +27,6 @@ public class IosCatalogScreen extends CatalogScreen {
     private static final String LANE_BY_NAME_LOCATOR_PART = "(//XCUIElementTypeOther[.//XCUIElementTypeButton[@name=\"%1$s\"]]"
             + "/following-sibling::XCUIElementTypeCell)[1]";
     private static final String BOOK_COVER_IN_THE_LANE_LOCATOR = "/XCUIElementTypeButton";
-    private static final String NAME_ATTRIBUTE = "name";
     private static final String FEED_LANE_TITLES_LOC = "//XCUIElementTypeOther[./following-sibling::XCUIElementTypeCell[1]]"
             + "//XCUIElementTypeButton[1]";
     private static final String LIBRARY_BUTTON_LOCATOR_PATTERN =
@@ -65,7 +65,7 @@ public class IosCatalogScreen extends CatalogScreen {
 
     @Override
     public String getBookName(int index) {
-        return getBookWithGivenIndex(index).getAttribute(NAME_ATTRIBUTE);
+        return getBookWithGivenIndex(index).getAttribute(IosAttributes.NAME);
     }
 
     private IButton getBookWithGivenIndex(int index) {
@@ -132,7 +132,7 @@ public class IosCatalogScreen extends CatalogScreen {
                 .findElements(By.xpath(xpath), ElementType.LABEL,
                         ElementsCount.MORE_THEN_ZERO, ElementState.EXISTS_IN_ANY_STATE)
                 .stream()
-                .map(x -> x.getAttribute(NAME_ATTRIBUTE))
+                .map(x -> x.getAttribute(IosAttributes.NAME))
                 .collect(Collectors.toList());
     }
 }
