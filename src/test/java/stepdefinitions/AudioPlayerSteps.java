@@ -49,7 +49,8 @@ public class AudioPlayerSteps {
     public void selectChapterIsNotEqualToSavedInTheContextByKeyAndSaveSelectedChapter(String keySavedChapter, String keySelectedChapter) {
         int savedChapterNumber = context.get(keySavedChapter);
         int totalChapterCount = audioPlayerScreen.getCountOfChapters();
-        int chapterToSelect = SmartRandomUtils.getRandomWithExclusion(0, totalChapterCount, savedChapterNumber - 1);
+        int chapterToSelect =
+                SmartRandomUtils.getRandomWithExclusion(0, totalChapterCount, savedChapterNumber - 1, totalChapterCount);
 
         audioPlayerScreen.selectChapterNumber(chapterToSelect);
         context.add(keySelectedChapter, chapterToSelect + 1);
@@ -60,9 +61,6 @@ public class AudioPlayerSteps {
         Integer currentChapter = Integer.parseInt(RegExUtil.getStringFromFirstGroup(audioPlayerScreen.getCurrentChapterInfo(),
                 RegEx.AUDIO_BOOK_CURRENT_CHAPTER_REGEX));
 
-        Assert.assertEquals(currentChapter, context.get(keyCurrentChapter),
-                "Current chapter does not equal to expected");
+        Assert.assertEquals(currentChapter, context.get(keyCurrentChapter), "Current chapter is not correct");
     }
-
-
 }

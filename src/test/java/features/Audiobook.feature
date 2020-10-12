@@ -38,4 +38,9 @@ Feature: Audiobook
     When I select the chapter not equal to remembered 'defaultChapter' and remember selected chapter as 'newChapter'
     Then I check that current chapter equal to remembered 'newChapter'
     When I restart app
+    When I open Catalog
+      And I switch to 'The New York Public Library' from side menu
+      And I open Books
+      And I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button LISTEN
     Then I check that current chapter equal to remembered 'newChapter'

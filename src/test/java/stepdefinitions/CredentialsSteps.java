@@ -28,7 +28,6 @@ public class CredentialsSteps {
         Assert.assertTrue(accountScreen.isLogoutSuccessful(), "Text on Login button is not changed to Log out on Account screen");
     }
 
-
     @When("I click the log out button on the account screen")
     public void clickLogOut() {
         accountScreen.logOut();
