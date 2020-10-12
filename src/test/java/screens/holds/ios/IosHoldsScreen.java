@@ -55,6 +55,7 @@ public class IosHoldsScreen extends HoldsScreen {
     @Override
     public void cancelReservations() {
         btnRemove.click();
+        btnApproveRemove.click();
     }
 
     @Override
