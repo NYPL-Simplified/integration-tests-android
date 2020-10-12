@@ -60,4 +60,12 @@ public class AccountSteps {
         bottomMenuForm.open(BottomMenu.SETTINGS);
         settingsScreen.openAccounts();
     }
+
+    @When("I open account {string}")
+    public void openAccount(String libraryName) {
+        bottomMenuForm.open(BottomMenu.SETTINGS);
+        bottomMenuForm.open(BottomMenu.SETTINGS);
+        settingsScreen.openAccounts();
+        accountsScreen.openAccount(libraryName);
+    }
 }

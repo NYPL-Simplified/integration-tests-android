@@ -9,11 +9,9 @@ import stepdefinitions.holds.components.AbstractHoldsSteps;
 
 @StepsType(platform = PlatformName.ANDROID)
 public class AndroidHoldsSteps extends AbstractHoldsSteps {
-
     public AndroidHoldsSteps(ScenarioContext context) {
         super(context);
     }
-
 
     @Override
     public void checkBookBookInfoIsPresentInHoldsList(String bookInfoKey) {

@@ -38,7 +38,7 @@ Feature: Manage Libraries
   @logout @cancelHold @tier2
   Scenario: Switch Library Reservations
     When I enter credentials for 'The New York Public Library' account
-    Then Text on Login button is changed to Log out on Account screen
+    Then Login is performed successfully
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
