@@ -14,8 +14,8 @@ public class IosAccountsScreen extends AccountsScreen {
 
     private final IButton addBtn = getElementFactory().getButton(
             By.xpath("//XCUIElementTypeButton[@name=\"Add Library\"]"), "Add library");
-    private final IButton btnFirstLibrary = getElementFactory().getButton(
-            By.xpath("//XCUIElementTypeCell[1]"), "First library");
+    private final IButton btnFirstLibrary =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeCell[2]"), "First library");
 
     public IosAccountsScreen() {
         super(By.xpath(MAIN_ELEMENT));
@@ -51,6 +51,4 @@ public class IosAccountsScreen extends AccountsScreen {
         IButton libraryToSwipeLeft = getLibraryButton(libraryName);
         SwipeElementUtils.swipeElementLeft(libraryToSwipeLeft);
     }
-
-
 }
