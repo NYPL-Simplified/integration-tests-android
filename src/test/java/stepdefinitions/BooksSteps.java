@@ -27,7 +27,7 @@ public class BooksSteps {
 
     @Then("Book {string} is present in Books List")
     public void checkBookInfoIsPresentInBooksList(String bookInfoKey) {
-        CatalogBookModel bookInfo = new CatalogBookModel().setTitle(bookInfoKey);
+        CatalogBookModel bookInfo = context.get(bookInfoKey);
         Assert.assertTrue(booksScreen.isBookPresent(bookInfo), "Book '" + bookInfo + "' is not present in Books List");
     }
 

@@ -37,6 +37,9 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
     private final IButton btnChapters = getElementFactory().getButton(
             By.xpath("//XCUIElementTypeButton[@name=\"List\"]"),
             "Table of contents");
+    private final IButton btnSearch = getElementFactory().getButton(
+            By.xpath("//XCUIElementTypeButton[@name=\"Search\"]"),
+            "Search btn");
 
     public IosPdfReaderScreen() {
         super(By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"));
@@ -113,5 +116,10 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
         PdfTableOfContentsScreen pdfTableOfContentsScreen = openChaptersGallery();
         pdfTableOfContentsScreen.switchToTheChaptersListView();
         return pdfTableOfContentsScreen;
+    }
+
+    @Override
+    public void openSearchPdf() {
+        btnSearch.click();
     }
 }

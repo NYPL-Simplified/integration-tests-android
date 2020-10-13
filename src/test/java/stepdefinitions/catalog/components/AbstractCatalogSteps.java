@@ -378,7 +378,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void openBookDetailsByClickingOnCover(String bookInfoKey) {
-        CatalogBookModel bookInfo = new CatalogBookModel().setTitle(bookInfoKey);
+        CatalogBookModel bookInfo = context.get(bookInfoKey);
         subcategoryScreen.openBook(bookInfo);
     }
 

@@ -9,23 +9,17 @@ Feature: Read PDF IOS
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
-#    When I open search modal
-#    Then Search modal is opened
-#    When I set text to the search textBox 'Bosnian, Croatian, Serbian, a Grammar'
-#      And I click apply search button
-#    Then Search modal is closed
-#      And Search page is opened
-#    When I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
-#      And Save current 'The New York Public Library' library for CANCEL_GET books after test
-#    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
-#    When I open book 'bookInfo' details by clicking on cover
-#      And Press on the book details screen at the action button READ
-    When I open Books
-    Then Book 'The Tree of Life, Book Two' is present in Books List
-    When I open book 'The Tree of Life, Book Two' details by clicking on cover
-    And Press on the book details screen at the action button DOWNLOAD
-    And Press on the book details screen at the action button READ
-
+    When I open search modal
+    Then Search modal is opened
+    When I set text to the search textBox 'Bosnian, Croatian, Serbian, a Grammar'
+      And I click apply search button
+    Then Search modal is closed
+      And Search page is opened
+    When I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
+      And Save current 'The New York Public Library' library for CANCEL_GET books after test
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen
 
   @logout @cancelGet @tier1 @exclude_android
@@ -70,5 +64,22 @@ Feature: Read PDF IOS
     When I open any page on the gallery screen
     Then Pdf book 'bookInfo' is present on screen
       And Pdf book page number is not 1
+
+  @logout @cancelGet @tier1 @exclude_android
+  Scenario: Search document
+    When I click the search in the pdf button
+    Then The search in the pdf page opened
+    When I am typing 'Ronelle Alexander' to the search field and apply search
+    Then Searched lines should contain 'Ronelle Alexander' in themselves
+
+  @logout @cancelGet @tier1 @exclude_android
+  Scenario: Navigate to Search Term
+    When I click the search in the pdf button
+    Then The search in the pdf page opened
+    When I am typing 'Ronelle Alexander' to the search field and apply search
+    Then Searched lines should contain 'Ronelle Alexander' in themselves
+    When I save page number as 'pageNumber' of the first item
+    And I open the first found item
+    Then Pdf page number 'pageNumber' is correct
 
 
