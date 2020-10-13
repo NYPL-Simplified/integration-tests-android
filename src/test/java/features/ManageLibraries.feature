@@ -23,7 +23,10 @@ Feature: Manage Libraries
   Scenario: Switch library bookshelf
     Given Catalog is opened
     When I switch to 'The SimplyE Collection' from side menu
-      And I Download first book from shelf and save it as 'bookInfo'
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+      And DOWNLOAD book and save it as 'bookInfo'
       And I open Books
     Then Book 'bookInfo' is present in Books List
     When I open Catalog
@@ -35,7 +38,7 @@ Feature: Manage Libraries
   @logout @cancelHold @tier2
   Scenario: Switch Library Reservations
     When I enter credentials for 'The New York Public Library' account
-    Then Text on Login button is changed to Log out on Account screen
+    Then Login is performed successfully
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded

@@ -46,9 +46,9 @@ public class IosAccountScreen extends AccountScreen {
     }
 
     @Override
-    public void enterCredentialsViaKeyboard(String ebookCardValue, String ebookPinValue) {
-        enterDataViaKeyboard(txbCard, ebookCardValue);
-        enterDataViaKeyboard(txbPin, ebookPinValue);
+    public void enterCredentialsViaKeyboard(Credentials credentials) {
+        enterDataViaKeyboard(txbCard, credentials.getBarcode());
+        enterDataViaKeyboard(txbPin, credentials.getPin());
         KeyboardUtils.hideKeyboard();
         btnLogin.click();
     }
@@ -68,8 +68,7 @@ public class IosAccountScreen extends AccountScreen {
 
     @Override
     public boolean isLogoutSuccessful() {
-        return AqualityServices.getConditionalWait().waitFor(() ->
-                btnLogin.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n()));
+        return AqualityServices.getConditionalWait().waitFor(() -> btnLogin.state().isDisplayed());
     }
 
     @Override

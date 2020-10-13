@@ -23,7 +23,7 @@ public class AndroidHoldsScreen extends HoldsScreen {
     private static final String BOOK_ACTION_BUTTON_LOC = "//*[contains(@resource-id,\"bookCellIdleButtons\")]"
             + "/android.widget.Button[@content-desc=\"%1$s\"]";
     private static final String BOOK_BLOCK_BY_TITLE_LOC =
-            "//*[contains(@resource-id,\"bookCellIdle\") and .//*[contains(@resource-id,\"bookCellIdleTitle\") and contains(@text, '%1$s')]]";
+            "//*[contains(@resource-id,\"bookCellIdle\") and .//*[contains(@resource-id,\"bookCellIdleTitle\") and contains(@text, \"%1$s\")]]";
 
     private static final String BOOK_ADD_BUTTON_LOC =
             "//*[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button[@content-desc=\"%1$s\"]";
@@ -42,10 +42,10 @@ public class AndroidHoldsScreen extends HoldsScreen {
 
     @Override
     public boolean isBookPresent(String bookInfo) {
-        return getElementFactory()
-                .getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo)), "No Books Present")
-                .state()
-                .waitForDisplayed();
+        ILabel book =
+                getElementFactory().getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo)), "No Books Present");
+        book.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        return book.state().waitForDisplayed();
     }
 
     @Override

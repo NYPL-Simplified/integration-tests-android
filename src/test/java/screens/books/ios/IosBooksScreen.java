@@ -2,6 +2,7 @@ package screens.books.ios;
 
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
+import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.localization.application.catalog.BookActionButtonKeys;
@@ -84,9 +85,9 @@ public class IosBooksScreen extends BooksScreen {
     @Override
     public void readBook(CatalogBookModel bookInfo) {
         String readButtonName = BookActionButtonKeys.READ.i18n();
-        getElementFactory().getButton(By.xpath(String.format(BOOKS_BY_TITLE_LOC, bookInfo.getTitle())),
-                "The book " + bookInfo.getTitle())
-                .findChildElement(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, readButtonName)), ElementType.BUTTON)
-                .click();
+        IButton btnBookName =
+                getElementFactory().getButton(By.xpath(String.format(BOOKS_BY_TITLE_LOC, bookInfo.getTitle())), "The book " + bookInfo.getTitle());
+        btnBookName.state().waitForDisplayed();
+        btnBookName.findChildElement(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, readButtonName)), ElementType.BUTTON).click();
     }
 }

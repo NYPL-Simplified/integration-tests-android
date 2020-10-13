@@ -5,7 +5,10 @@ Feature: Refresh Feed
     Given Application is opened
     When I open Catalog
       And I switch to 'The SimplyE Collection' from side menu
-      And I Download first book from shelf and save it as 'bookInfo'
+    When I open category by chain:
+      | Fiction |
+      | Drama   |
+      And DOWNLOAD book and save it as 'bookInfo'
       And I open Books
     Then Book 'bookInfo' is present in Books List
       And Count of books is equal to 1

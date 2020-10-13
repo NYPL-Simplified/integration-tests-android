@@ -8,10 +8,11 @@ import screens.settings.SettingsScreen;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidSettingsScreen extends SettingsScreen {
-    private final IButton accountsBtn = getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, 'Accounts')]"), "Accounts");
+    private final IButton accountsBtn =
+            getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, \"Accounts\")]"), "Accounts");
 
     public AndroidSettingsScreen() {
-        super(By.xpath("//android.widget.TextView[contains(@text, 'App info')]"));
+        super(By.xpath("//android.widget.TextView[contains(@text, \"App info\")]"));
     }
 
     @Override
