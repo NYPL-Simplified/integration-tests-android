@@ -359,8 +359,8 @@ public class ReaderSteps {
         pdfSearchScreen.findTextInTheDocument(textToBeFound);
     }
 
-    @Then("Searched lines should contain {string} in themselves")
-    public void checkThatPdfSearchLinesContainText(String textToBeContained) {
+    @Then("Found lines should contain {string} in themselves")
+    public void checkThatPdfFoundLinesContainText(String textToBeContained) {
         List<String> foundLines = pdfSearchScreen.getListOfFoundItems();
         SoftAssert softAssert = new SoftAssert();
         foundLines.forEach(line -> softAssert.assertTrue(line.contains(textToBeContained),

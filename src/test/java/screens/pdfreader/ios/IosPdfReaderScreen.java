@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.RegEx;
 import constants.application.timeouts.PdfTimeouts;
+import constants.localization.application.reader.PdfButtons;
 import framework.utilities.CoordinatesClickUtils;
 import framework.utilities.RegExUtil;
 import framework.utilities.swipe.SwipeElementUtils;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosPdfReaderScreen extends PdfReaderScreen {
+    private static final String BUTTON_LOC_PATTERN = "//XCUIElementTypeButton[@name=\"%1$s\"]";
+
     private final ILabel lblBookName = getElementFactory().getLabel(
             By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]"
                     + "/preceding-sibling::XCUIElementTypeOther/XCUIElementTypeStaticText[@name])[1]"),
@@ -35,10 +38,10 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
             By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"),
             "Book Page");
     private final IButton btnChapters = getElementFactory().getButton(
-            By.xpath("//XCUIElementTypeButton[@name=\"List\"]"),
+            By.xpath(String.format(BUTTON_LOC_PATTERN, PdfButtons.CHAPTERS)),
             "Table of contents");
     private final IButton btnSearch = getElementFactory().getButton(
-            By.xpath("//XCUIElementTypeButton[@name=\"Search\"]"),
+            By.xpath(String.format(BUTTON_LOC_PATTERN, PdfButtons.SEARCH)),
             "Search btn");
 
     public IosPdfReaderScreen() {
