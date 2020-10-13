@@ -2,6 +2,7 @@ package hooks.logout.components.impl;
 
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
+import constants.context.ContextLibrariesKeys;
 import factories.steps.StepsType;
 import framework.utilities.ScenarioContext;
 import hooks.logout.components.AbstractLogoutHooks;
@@ -23,7 +24,7 @@ public class IosLogoutHooks extends AbstractLogoutHooks {
         if (!accountScreen.state().isDisplayed()) {
             bottomMenuForm.open(BottomMenu.SETTINGS);
             settingsScreen.openAccounts();
-            accountsScreen.openFirstLibrary();
+            accountsScreen.openAccount(context.get(ContextLibrariesKeys.LOG_OUT.getKey()));
         }
         if (accountScreen.isLogoutRequired()) {
             notificationModal.closeSyncNotificationIfDisplayed();
