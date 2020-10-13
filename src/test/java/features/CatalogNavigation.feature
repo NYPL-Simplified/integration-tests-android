@@ -3,7 +3,7 @@ Feature: Catalog Navigation
   Background:
     Given Application is opened
 
-  @tier1
+  @tier1 @smoke2
   Scenario: Return to last library catalog
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
