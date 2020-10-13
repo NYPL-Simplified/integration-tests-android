@@ -21,8 +21,10 @@ import screens.epubreader.EpubReaderScreen;
 import screens.epubtableofcontents.EpubTableOfContentsScreen;
 import screens.fontchoicesscreen.FontChoicesScreen;
 import screens.pdfreader.PdfReaderScreen;
+import screens.pdfsearch.PdfSearchScreen;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
 
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.IntStream;
@@ -33,6 +35,7 @@ public class ReaderSteps {
     private final ScenarioContext context;
     private final EpubTableOfContentsScreen epubTableOfContentsScreen;
     private final PdfTableOfContentsScreen pdfTableOfContentsScreen;
+    private final PdfSearchScreen pdfSearchScreen;
     private final FontChoicesScreen fontChoicesScreen;
 
     @Inject
@@ -42,6 +45,7 @@ public class ReaderSteps {
         epubTableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(EpubTableOfContentsScreen.class);
         pdfTableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(PdfTableOfContentsScreen.class);
         fontChoicesScreen = AqualityServices.getScreenFactory().getScreen(FontChoicesScreen.class);
+        pdfSearchScreen = AqualityServices.getScreenFactory().getScreen(PdfSearchScreen.class);
         this.context = context;
     }
 
@@ -249,6 +253,7 @@ public class ReaderSteps {
     public void checkPdfBookPageNumberIs(int pageNumber) {
         Assert.assertEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Book page number is not correct");
     }
+
     @Then("Pdf book page number is not {int}")
     public void checkPdfBookPageNumberIsNot(int pageNumber) {
         Assert.assertNotEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Book page number is not correct");
@@ -327,9 +332,9 @@ public class ReaderSteps {
     public void pageHasScrolledAndAppearedNewElementsCompareToBookPagesList(String countOfTheBookPagesKey) {
         int countOfTheBookPages = context.get(countOfTheBookPagesKey);
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                countOfTheBookPages != pdfTableOfContentsScreen.getCountOfTheBookPages()),
+                        countOfTheBookPages != pdfTableOfContentsScreen.getCountOfTheBookPages()),
                 String.format("Count of the book pages equal to have gotten before scrolling. "
-                        + "Actual count of pages %1$d should not be equal to the count before scrolling %2$d.",
+                                + "Actual count of pages %1$d should not be equal to the count before scrolling %2$d.",
                         pdfTableOfContentsScreen.getCountOfTheBookPages(), countOfTheBookPages));
     }
 
@@ -337,5 +342,41 @@ public class ReaderSteps {
     public void openAnyPageOnTheGalleryScreen() {
         int countOfPages = pdfTableOfContentsScreen.getCountOfTheBookPages();
         pdfTableOfContentsScreen.openGalleryPage(RandomUtils.nextInt(0, countOfPages));
+    }
+
+    @When("I click the search in the pdf button")
+    public void openSearchPdf() {
+        pdfReaderScreen.openSearchPdf();
+    }
+
+    @Then("The search in the pdf page opened")
+    public void checkThatPdfSearchScreenVisible() {
+        Assert.assertTrue(pdfSearchScreen.state().isDisplayed(), "Pdf search screen was not opened");
+    }
+
+    @When("I am typing {string} to the search field and apply search")
+    public void checkThatPdfSearchScreenVisible(String textToBeFound) {
+        pdfSearchScreen.findTextInTheDocument(textToBeFound);
+    }
+
+    @Then("Found lines should contain {string} in themselves")
+    public void checkThatPdfFoundLinesContainText(String textToBeContained) {
+        List<String> foundLines = pdfSearchScreen.getListOfFoundItems();
+        SoftAssert softAssert = new SoftAssert();
+        foundLines.forEach(line -> softAssert.assertTrue(line.contains(textToBeContained),
+                String.format("Line '%1$s' does not contain text '%2$s'", line, textToBeContained)));
+        softAssert.assertAll("Checking that all lines contain text");
+    }
+
+    @When("I open the first found item")
+    public void openFirstFoundItem() {
+        List<String> foundLines = pdfSearchScreen.getListOfFoundItems();
+        pdfSearchScreen.openSearchedItemByName(foundLines.get(0));
+    }
+
+    @When("I save page number as {string} of the first item")
+    public void savePageNumberOfTheFirstItem(String pageKey) {
+        List<String> foundLines = pdfSearchScreen.getListOfFoundItems();
+        context.add(pageKey, pdfSearchScreen.getSearchedItemPageNumber(foundLines.get(0)));
     }
 }

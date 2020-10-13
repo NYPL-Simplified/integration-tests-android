@@ -65,4 +65,21 @@ Feature: Read PDF IOS
     Then Pdf book 'bookInfo' is present on screen
       And Pdf book page number is not 1
 
+  @logout @cancelGet @tier1 @exclude_android
+  Scenario: Search document
+    When I click the search in the pdf button
+    Then The search in the pdf page opened
+    When I am typing 'Ronelle Alexander' to the search field and apply search
+    Then Found lines should contain 'Ronelle Alexander' in themselves
+
+  @logout @cancelGet @tier1 @exclude_android
+  Scenario: Navigate to Search Term
+    When I click the search in the pdf button
+    Then The search in the pdf page opened
+    When I am typing 'Ronelle Alexander' to the search field and apply search
+    Then Found lines should contain 'Ronelle Alexander' in themselves
+    When I save page number as 'pageNumber' of the first item
+    And I open the first found item
+    Then Pdf page number 'pageNumber' is correct
+
 

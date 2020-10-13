@@ -84,6 +84,11 @@ public class AndroidPdfReaderScreen extends PdfReaderScreen {
         throw new NotImplementedException();
     }
 
+    @Override
+    public void openSearchPdf() {
+        throw new NotImplementedException();
+    }
+
     private PdfTableOfContentsScreen openTableOfContents() {
         btnChapters.click();
         PdfTableOfContentsScreen pdfTableOfContentsScreen =

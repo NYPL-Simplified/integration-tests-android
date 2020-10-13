@@ -29,4 +29,6 @@ public abstract class PdfReaderScreen extends Screen {
     public abstract void slidePageSlider(EntireScreenDragDirection entireScreenDragDirection);
 
     public abstract PdfTableOfContentsScreen openChaptersGallery();
+
+    public abstract void openSearchPdf();
 }
