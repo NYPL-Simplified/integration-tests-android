@@ -68,8 +68,7 @@ public class IosAccountScreen extends AccountScreen {
 
     @Override
     public boolean isLogoutSuccessful() {
-        return AqualityServices.getConditionalWait().waitFor(() ->
-                btnLogin.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n()));
+        return AqualityServices.getConditionalWait().waitFor(() -> btnLogin.state().isDisplayed());
     }
 
     @Override

@@ -5,7 +5,7 @@ Feature: Read PDF
     When I add 'LYRASIS' account
     Then Account 'LYRASIS' is present on Accounts screen
     When I enter credentials for 'LYRASIS' account
-    Then Text on Login button is changed to Log out on Account screen
+    Then Login is performed successfully
     When I open Catalog
       And I switch to 'LYRASIS' from side menu
     Then Books feed is loaded

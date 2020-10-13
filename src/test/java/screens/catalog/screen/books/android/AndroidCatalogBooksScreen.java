@@ -11,6 +11,7 @@ import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.attributes.AndroidAttributes;
 import constants.application.timeouts.BooksTimeouts;
 import constants.localization.application.catalog.BookActionButtonKeys;
+import framework.utilities.swipe.SwipeElementUtils;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.catalog.screen.books.CatalogBooksScreen;
@@ -95,7 +96,6 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
                         .getText());
     }
 
-
     @Override
     public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
         return performActionOnBook(bookAddButtonKey);
@@ -151,6 +151,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
+        SwipeElementUtils.swipeElementDown(lblFirstFoundBook);
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         String bookTitle =

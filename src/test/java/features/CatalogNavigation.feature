@@ -160,7 +160,7 @@ Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudl
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
     When I enter credentials for 'The New York Public Library' account
-    Then Text on Login button is changed to Log out on Account screen
+    Then Login is performed successfully
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
@@ -176,7 +176,7 @@ Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudl
     When I add 'The New York Public Library' account
     Then Account 'The New York Public Library' is present on Accounts screen
     When I enter credentials for 'The New York Public Library' account
-    Then Text on Login button is changed to Log out on Account screen
+    Then Login is performed successfully
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
