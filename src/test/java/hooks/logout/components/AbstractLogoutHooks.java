@@ -102,7 +102,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
     }
 
     private void startAppIfCrashed() {
-        if (AqualityServices.getApplication().getDriver().queryAppState(APP_BUNDLE_ID) == ApplicationState.NOT_RUNNING) {
+        if (AqualityServices.getApplication().getDriver().queryAppState(context.get(ContextLibrariesKeys.APP_BUNDLE_ID.getKey())) == ApplicationState.NOT_RUNNING) {
             AqualityServices.getLogger().info("App crashed - restarting");
             AqualityServices.getApplication().getDriver().launchApp();
         }
