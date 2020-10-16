@@ -53,7 +53,6 @@ public abstract class AbstractHoldsSteps extends BaseSteps implements IHoldsStep
         holdsScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
     }
 
-
     public void clickBookActionPopupButtonWithHeader(BookActionButtonKeys header, BookActionButtonKeys buttonName) {
         notificationModal.clickBookActionPopupIfDisplayed(header, buttonName);
     }
