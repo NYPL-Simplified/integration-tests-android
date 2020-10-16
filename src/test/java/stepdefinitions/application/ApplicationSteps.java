@@ -1,6 +1,7 @@
 package stepdefinitions.application;
 
 import aquality.appium.mobile.application.AqualityServices;
+import aquality.appium.mobile.application.PlatformName;
 import com.google.inject.Inject;
 import constants.context.ContextLibrariesKeys;
 import framework.utilities.ScenarioContext;
@@ -12,6 +13,8 @@ import stepdefinitions.application.components.AbstractApplicationSteps;
 import stepdefinitions.application.components.IApplicationSteps;
 
 public class ApplicationSteps extends BaseSteps implements IApplicationSteps {
+    public static final String IOS_APP_BUNDLE_ID = "org.nypl.labs.SimplyE";
+    public static final String GET_CURRENT_PACKAGE_COMMAND = "getCurrentPackage";
     private AbstractApplicationSteps applicationSteps;
     private ScenarioContext context;
 
@@ -25,7 +28,14 @@ public class ApplicationSteps extends BaseSteps implements IApplicationSteps {
     @Given("Application is opened")
     public void openApplication() {
         applicationSteps.openApplication();
-        context.add(ContextLibrariesKeys.APP_BUNDLE_ID.getKey(), (String) AqualityServices.getApplication().getDriver().execute("getCurrentPackage").getValue());
+        context.add(ContextLibrariesKeys.APP_BUNDLE_ID.getKey(), getBundleId());
+    }
+
+    private String getBundleId() {
+        if (AqualityServices.getApplication().getPlatformName() == PlatformName.ANDROID) {
+            return (String) AqualityServices.getApplication().getDriver().execute(GET_CURRENT_PACKAGE_COMMAND).getValue();
+        }
+        return IOS_APP_BUNDLE_ID;
     }
 
     @And("I return to previous screen")

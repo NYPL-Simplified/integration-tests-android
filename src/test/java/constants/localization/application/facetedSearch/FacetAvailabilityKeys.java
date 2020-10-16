@@ -1,7 +1,5 @@
 package constants.localization.application.facetedSearch;
 
-import aquality.appium.mobile.application.AqualityServices;
-import aquality.appium.mobile.application.PlatformName;
 import constants.localization.providers.AbstractILocalizationProvider;
 import constants.localization.providers.LocalizationProviderFactory;
 import constants.localization.providers.LocalizedValue;
