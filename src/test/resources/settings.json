@@ -11,6 +11,7 @@
         "app": "",
         "noReset": "true",
         "automationName": "UiAutomator2",
+        "browserstack.appium_version": "1.17.0",
         "adbExecTimeout": 10000
       }
     },
@@ -20,6 +21,7 @@
         "platformName": "iOS",
         "app": "",
         "noReset": "true",
+        "browserstack.appium_version": "1.16.0",
         "automationName": "XCUITest",
         "bundleId": ""
       }
