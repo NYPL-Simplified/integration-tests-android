@@ -313,7 +313,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         Assert.assertTrue(expectedValuesList.stream().allMatch(listElement ->
                         bookDetailsScreen.isValueInTheInformationBlockPresent(listElement.getKey(),
                                 listElement.getValue())),
-                "Not all information block values are present");
+                "Not all information block values are correct (or present)");
     }
 
     @Override
@@ -401,6 +401,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     }
 
     public void openBookWithGivenName(String bookName, String bookInfoKey) {
+        subcategoryScreen.state().waitForDisplayed();
         context.add(bookInfoKey, subcategoryScreen.openBookByName(bookName));
     }
 }

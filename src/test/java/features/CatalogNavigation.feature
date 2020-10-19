@@ -130,7 +130,6 @@ Feature: Catalog Navigation
         | PUBLISHER   | Pottermore Publishing |
         | DISTRIBUTOR | Overdrive             |
         | CATEGORIES  | Fantasy               |
-        | UPDATED     | 2020-09-22 11:15:16   |
       And Description has text
     """
     "'You are sharing the Dark Lord's thoughts and emotions. The Headmaster thinks it inadvisable for this to continue. He wishes me to teach you how to close your mind to the Dark Lord.'"

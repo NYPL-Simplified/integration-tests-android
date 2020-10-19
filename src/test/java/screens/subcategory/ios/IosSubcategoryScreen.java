@@ -6,6 +6,7 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
+import io.appium.java_client.MobileBy;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.subcategory.SubcategoryScreen;
@@ -66,13 +67,13 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public CatalogBookModel openBookByName(String bookName) {
-        String locator = String.format(BOOK_NAME_LOCATOR_PATTERN, bookName);
-        ILabel lblBookName = getElementFactory().getLabel(By.xpath(locator), bookName);
-        ILabel lblAuthor = getElementFactory().getLabel(By.xpath(locator + AUTHOR_LABEL_LOCATOR_PATTERN), bookName);
+        ILabel lblBookName = getElementFactory().getLabel(MobileBy.AccessibilityId(bookName), bookName);
         lblBookName.state().waitForDisplayed();
+        ILabel lblAuthor =
+                getElementFactory().getLabel(By.xpath(String.format(BOOK_NAME_LOCATOR_PATTERN, bookName) + AUTHOR_LABEL_LOCATOR_PATTERN), bookName);
         lblAuthor.state().waitForDisplayed();
         CatalogBookModel bookInfo = new CatalogBookModel()
-                .setTitle(bookName)
+                .setTitle(lblBookName.getText())
                 .setAuthor(lblAuthor.getText());
         lblBookName.click();
         return bookInfo;
