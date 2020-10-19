@@ -21,7 +21,7 @@
         "platformName": "iOS",
         "app": "",
         "noReset": "true",
-        "browserstack.appium_version": "1.16.0",
+        "browserstack.appium_version": "1.17.0",
         "automationName": "XCUITest",
         "bundleId": ""
       }
