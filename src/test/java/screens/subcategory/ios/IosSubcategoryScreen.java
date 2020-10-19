@@ -17,10 +17,11 @@ import java.util.stream.Collectors;
 public class IosSubcategoryScreen extends SubcategoryScreen {
     private static final String BOOKS_LOCATOR = "//XCUIElementTypeCell";
     private static final String BOOK_BUTTON_XPATH = BOOKS_LOCATOR + "//XCUIElementTypeButton";
-    private static final String BOOK_COVER_LOCATOR_PATTERN = "//XCUIElementTypeCell"
-            + "[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
+    private static final String BOOK_COVER_LOCATOR_PATTERN =
+            "//XCUIElementTypeCell[.//XCUIElementTypeStaticText[contains(@name,\"%1$s\")]]";
     private static final String AUTHOR_INFO_XPATH = "//XCUIElementTypeStaticText[@name][2]";
-    private static final String BOOK_NAME_XPATH = "//XCUIElementTypeStaticText[@name and not(.//ancestor::XCUIElementTypeButton)][1]";
+    private static final String BOOK_NAME_XPATH =
+            "//XCUIElementTypeStaticText[@name and not(.//ancestor::XCUIElementTypeButton)][1]";
     public static final String BOOK_NAME_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%s\"]";
     public static final String AUTHOR_LABEL_LOCATOR_PATTERN = "//following-sibling::XCUIElementTypeStaticText";
 
