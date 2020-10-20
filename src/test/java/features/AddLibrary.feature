@@ -5,5 +5,5 @@ Feature: AddLibrary
 
   @tier1
   Scenario: Add Library
-    When I add 'LYRASIS' account
-    Then Account 'LYRASIS' is present on Accounts screen
+    When I add 'Alameda County Library' account
+    Then Account 'Alameda County Library' is present on Accounts screen

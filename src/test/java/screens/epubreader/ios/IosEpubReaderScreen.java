@@ -86,6 +86,7 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
 
     @Override
     public String getPageNumberInfo() {
+        state().waitForDisplayed();
         return lblPageNumber.getText();
     }
 

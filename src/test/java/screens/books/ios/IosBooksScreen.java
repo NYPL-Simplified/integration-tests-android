@@ -30,7 +30,7 @@ public class IosBooksScreen extends BooksScreen {
             "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_INFO_LOCATOR_PATTERN);
     public static final String BOOK_INFO_BUTTON_PATTERN = "";
 
-    private final ILabel mainBooksElementColleciton = getElementFactory().getLabel(
+    private final ILabel mainBooksElementCollection = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeCollectionView"), "Elements collection container");
     private final ILabel lblNoBooks = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeStaticText[@name=\"Visit the Catalog to add books to My Books.\"]"),
@@ -79,7 +79,7 @@ public class IosBooksScreen extends BooksScreen {
 
     @Override
     public void refreshList() {
-        SwipeElementUtils.swipeElementDown(mainBooksElementColleciton);
+        SwipeElementUtils.swipeElementDown(mainBooksElementCollection);
     }
 
     @Override

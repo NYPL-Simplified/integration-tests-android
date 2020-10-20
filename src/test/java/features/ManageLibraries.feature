@@ -2,25 +2,29 @@ Feature: Manage Libraries
 
   Background:
     Given Application is opened
-    When I add 'The New York Public Library' account
-    Then Account 'The New York Public Library' is present on Accounts screen
 
   @tier1
   Scenario: Switch Library Catalogs
+    When I add 'Alameda County Library' account
+    Then Account 'Alameda County Library' is present on Accounts screen
     Given Catalog is opened
     Then Books feed is loaded
     When I get names of books on screen and save them as 'nameOfBooks'
-      And I switch to 'The New York Public Library' from side menu
+      And I switch to 'Alameda County Library' from side menu
     Then Books feed is loaded
       And List of books on screen is not equal to list of books saved as 'nameOfBooks'
 
   @tier1
   Scenario: Remove library
-    When I remove 'The New York Public Library' account
-    Then Account 'The New York Public Library' is not present on Accounts screen
+    When I add 'Alameda County Library' account
+    Then Account 'Alameda County Library' is present on Accounts screen
+    When I remove 'Alameda County Library' account
+    Then Account 'Alameda County Library' is not present on Accounts screen
 
   @tier2
   Scenario: Switch library bookshelf
+    When I add 'Alameda County Library' account
+    Then Account 'Alameda County Library' is present on Accounts screen
     Given Catalog is opened
     When I switch to 'The SimplyE Collection' from side menu
     When I open category by chain:
@@ -31,12 +35,14 @@ Feature: Manage Libraries
     Then Book 'bookInfo' is present in Books List
     When I open Catalog
       And I return to previous screen
-      And I switch to 'The New York Public Library' from side menu
+      And I switch to 'Alameda County Library' from side menu
       And I open Books
     Then No books are present in Books list
 
   @logout @cancelHold @tier2
   Scenario: Switch Library Reservations
+    When I add 'The New York Public Library' account
+    Then Account 'The New York Public Library' is present on Accounts screen
     When I enter credentials for 'The New York Public Library' account
     Then Login is performed successfully
     When I open Catalog
