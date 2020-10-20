@@ -5,15 +5,15 @@ Feature: Catalog Navigation
 
   @tier1
   Scenario: Return to last library catalog
-    When I add 'The New York Public Library' account
-    Then Account 'The New York Public Library' is present on Accounts screen
+    When I add 'Alameda County Library' account
+    Then Account 'Alameda County Library' is present on Accounts screen
     When I open Catalog
     Then Books feed is loaded
-    When I switch to 'The New York Public Library' from side menu
+    When I switch to 'Alameda County Library' from side menu
     Then Books feed is loaded
     When I restart app
     Then Books feed is loaded
-      And Current library is 'The New York Public Library' in Catalog
+      And Current library is 'Alameda County Library' in Catalog
 
   @tier1
   Scenario: Navigate Lists
