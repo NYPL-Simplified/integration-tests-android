@@ -53,6 +53,11 @@ public class IosAccountScreen extends AccountScreen {
         btnLogin.click();
     }
 
+    @Override
+    public String getLoginFailedMessage() {
+        return "";
+    }
+
     private void enterDataViaKeyboard(ITextBox textBox, String value) {
         textBox.click();
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(KeyboardUtils::isKeyboardVisible),
