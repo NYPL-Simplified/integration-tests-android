@@ -150,8 +150,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
             BookActionButtonKeys actionButtonKey, String bookInfoKey) {
         catalogBooksScreen.openBookDetailsWithAction(actionButtonKey);
         CatalogBookModel catalogBookModel = bookDetailsScreen.getBookInfo();
-        bookDetailsScreen.clickActionButton(actionButtonKey);
-        notificationModal.handleBookActionsAndNotificationPopups(actionButtonKey);
+        pressOnTheBookDetailsScreenAtTheActionButton(actionButtonKey);
         context.add(bookInfoKey, catalogBookModel);
     }
 
@@ -386,12 +385,6 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void pressOnTheBookDetailsScreenAtTheActionButton(BookActionButtonKeys actionButton) {
         bookDetailsScreen.clickActionButton(actionButton);
         notificationModal.handleBookActionsAndNotificationPopups(actionButton);
-    }
-
-    @Override
-    public void checkThatTheActionButtonTextEqualToTheExpected(BookActionButtonKeys actionButton) {
-        Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(actionButton),
-                "I check that the action button text equal to the " + actionButton.i18n());
     }
 
     @Override

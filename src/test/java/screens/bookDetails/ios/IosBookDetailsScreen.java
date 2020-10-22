@@ -39,12 +39,9 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private static final String DESCRIPTIONS_LOC = "//XCUIElementTypeStaticText[@name=\"Description\"]/following-sibling::XCUIElementTypeTextView/XCUIElementTypeStaticText";
 
 
-    private final ILabel lblBookInfo = getElementFactory().getLabel(By.xpath("//XCUIElementTypeImage[1]"), "Cover Image");
     private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.xpath("(//XCUIElementTypeOther//XCUIElementTypeStaticText[@name])[1]"), "Book title");
-    private final ILabel lblBookFormatInfo = getElementFactory().getLabel(By.xpath(""), "Book format"); // does not exist on the ios
     private final IButton btnDownload = getActionButton(BookActionButtonKeys.DOWNLOAD);
     private final IButton btnRead = getActionButton(BookActionButtonKeys.READ);
-    private final IButton btnDelete = getActionButton(BookActionButtonKeys.DELETE);
     private final IButton btnRelatedBooks = getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"Information\"]/following-sibling::XCUIElementTypeTable"),
             "Related books button");
     private final IButton moreBtn = getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"More…\"]"),
@@ -126,8 +123,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public boolean isBookAddButtonTextEqualTo(BookActionButtonKeys key) {
-        final IButton bookAddBtn = getActionButton(key);
-        return bookAddBtn
+        return getActionButton(key)
                 .state()
                 .waitForDisplayed(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }

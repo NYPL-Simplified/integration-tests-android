@@ -24,7 +24,6 @@ import screens.pdfreader.PdfReaderScreen;
 import screens.pdfsearch.PdfSearchScreen;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
 
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.IntStream;
@@ -224,8 +223,7 @@ public class ReaderSteps {
     public void checkPageInfoPageInfoIsCorrect(String pageNumberInfo) {
         String pageInfo = context.get(pageNumberInfo);
 
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                        epubReaderScreen.getPageNumberInfo().equals(pageInfo)),
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> isPageNumberEqual(pageInfo)),
                 String.format("Page info is not correct. Expected %1$s but actual %2$s", pageInfo, epubReaderScreen.getPageNumberInfo()));
     }
 
@@ -236,7 +234,7 @@ public class ReaderSteps {
         IntStream.range(0, randomScrollsCount).forEachOrdered(i -> {
             String pageNumber = epubReaderScreen.getPageNumberInfo();
             epubReaderScreen.clickRightCorner();
-            AqualityServices.getConditionalWait().waitFor(() -> !epubReaderScreen.getPageNumberInfo().equals(pageNumber));
+            AqualityServices.getConditionalWait().waitFor(() -> !isPageNumberEqual(pageNumber));
         });
     }
 
@@ -251,12 +249,12 @@ public class ReaderSteps {
 
     @Then("Pdf book page number is {int}")
     public void checkPdfBookPageNumberIs(int pageNumber) {
-        Assert.assertEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Book page number is not correct");
+        checkPageNumberIsEqualTo(pageNumber);
     }
 
     @Then("Pdf book page number is not {int}")
     public void checkPdfBookPageNumberIsNot(int pageNumber) {
-        Assert.assertNotEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Book page number is not correct");
+        checkPageNumberIsNotEqualTo(pageNumber);
     }
 
     @When("I go to previous page in pdf book")
@@ -276,15 +274,14 @@ public class ReaderSteps {
         for (String chapter : chapters) {
             int pageNumber = pdfReaderScreen.getChapterPageNumber(chapter);
             pdfReaderScreen.openChapter(chapter);
-            softAssert.assertNotEquals(pageNumber, pdfReaderScreen.getPageNumber(), "Chapter name is not correct");
+            softAssert.assertNotEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Chapter name is not correct");
         }
         softAssert.assertAll();
     }
 
     @And("Pdf page number {string} is correct")
     public void checkPdfPageNumberIsCorrect(String pageNumberKey) {
-        int pageNumber = context.get(pageNumberKey);
-        Assert.assertEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Page number is not correct");
+        checkPageNumberIsEqualTo(context.get(pageNumberKey));
     }
 
     @And("I save pdf page number as {string}")
@@ -304,8 +301,7 @@ public class ReaderSteps {
 
     @Then("Pdf saved page number {string} should not be equal to current")
     public void checkThatSavedPageNumberDoesNotEqualToCurrent(String pageNumberKey) {
-        int pageNumber = context.get(pageNumberKey);
-        Assert.assertNotEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Page number is not correct");
+        checkPageNumberIsNotEqualTo(context.get(pageNumberKey));
     }
 
     @When("I open gallery menu")
@@ -361,22 +357,31 @@ public class ReaderSteps {
 
     @Then("Found lines should contain {string} in themselves")
     public void checkThatPdfFoundLinesContainText(String textToBeContained) {
-        List<String> foundLines = pdfSearchScreen.getListOfFoundItems();
         SoftAssert softAssert = new SoftAssert();
-        foundLines.forEach(line -> softAssert.assertTrue(line.contains(textToBeContained),
-                String.format("Line '%1$s' does not contain text '%2$s'", line, textToBeContained)));
+        pdfSearchScreen.getListOfFoundItems()
+                .forEach(line -> softAssert.assertTrue(line.contains(textToBeContained), String.format("Line '%1$s' does not contain text '%2$s'", line, textToBeContained)));
         softAssert.assertAll("Checking that all lines contain text");
     }
 
     @When("I open the first found item")
     public void openFirstFoundItem() {
-        List<String> foundLines = pdfSearchScreen.getListOfFoundItems();
-        pdfSearchScreen.openSearchedItemByName(foundLines.get(0));
+        pdfSearchScreen.openSearchedItemByName(pdfSearchScreen.getListOfFoundItems().get(0));
     }
 
     @When("I save page number as {string} of the first item")
     public void savePageNumberOfTheFirstItem(String pageKey) {
-        List<String> foundLines = pdfSearchScreen.getListOfFoundItems();
-        context.add(pageKey, pdfSearchScreen.getSearchedItemPageNumber(foundLines.get(0)));
+        context.add(pageKey, pdfSearchScreen.getSearchedItemPageNumber(pdfSearchScreen.getListOfFoundItems().get(0)));
+    }
+
+    private boolean isPageNumberEqual(String pageNumber) {
+        return epubReaderScreen.getPageNumberInfo().equals(pageNumber);
+    }
+
+    private void checkPageNumberIsEqualTo(int pageNumber) {
+        Assert.assertEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Page number is not correct");
+    }
+
+    private void checkPageNumberIsNotEqualTo(int pageNumber) {
+        Assert.assertNotEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Page number is not correct");
     }
 }

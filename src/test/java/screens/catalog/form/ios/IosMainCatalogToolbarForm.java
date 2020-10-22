@@ -54,9 +54,4 @@ public class IosMainCatalogToolbarForm extends MainCatalogToolbarForm {
     public void openSearchModal() {
         btnSearch.click();
     }
-
-    @Override
-    public void openMoreOptions() {
-        // does not exist on the ios need to be skipped
-    }
 }

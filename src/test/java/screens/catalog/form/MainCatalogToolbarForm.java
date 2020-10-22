@@ -17,7 +17,4 @@ public abstract class MainCatalogToolbarForm extends Screen {
     public abstract String getCategoryName();
 
     public abstract void openSearchModal();
-
-    public abstract void openMoreOptions();
-
 }

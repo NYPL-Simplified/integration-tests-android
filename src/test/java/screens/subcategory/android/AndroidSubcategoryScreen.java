@@ -32,8 +32,6 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     public static final String AUTHOR_LABEL_LOCATOR_PART = "//following-sibling::android.widget.TextView[contains(@resource-id, \"bookCellIdleAuthor\")]";
     public static final String BOOK_TYPE_LABEL_LOCATOR_PART = "//following-sibling::android.widget.TextView[contains(@resource-id, \"bookCellIdleMeta\")]";
 
-    private final String SORTING_BUTTON_XPATH_PATTERN =
-            "//android.widget.LinearLayout[contains(@resource-id, \"feedHeaderFacets\")]/android.widget.Button";
     private final ILabel lblFirstBookImageCover =
             getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR), "First book image info");
     private final ILabel lblFirstBookTitle =

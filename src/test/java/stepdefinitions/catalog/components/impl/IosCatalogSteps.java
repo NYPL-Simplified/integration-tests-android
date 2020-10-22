@@ -25,5 +25,4 @@ public class IosCatalogSteps extends AbstractCatalogSteps {
                             mainCatalogToolbarForm.getCategoryName(), expectedCategoryName));
         }
     }
-
 }

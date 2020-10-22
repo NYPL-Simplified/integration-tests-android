@@ -16,11 +16,6 @@ import java.util.List;
 @ScreenType(platform = PlatformName.IOS)
 public class IosBooksScreen extends BooksScreen {
     private static final String MAIN_ELEMENT_LOC = "//XCUIElementTypeButton[@name=\"All\"]";
-
-    private static final String BOOKS_LOC = "//XCUIElementTypeCollectionView//XCUIElementTypeCell";
-
-    private static final String BOOK_IMAGE_LOC = ""; // does not contain text on the ios
-    private static final String BOOK_TYPE_LOC = ""; // does not exist on the ios
     private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
     private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
@@ -28,7 +23,6 @@ public class IosBooksScreen extends BooksScreen {
             "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_ACTION_BUTTON_LOC);
     private static final String BOOKS_BY_TITLE_LOC = String.format(
             "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_INFO_LOCATOR_PATTERN);
-    public static final String BOOK_INFO_BUTTON_PATTERN = "";
 
     private final ILabel mainBooksElementCollection = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeCollectionView"), "Elements collection container");

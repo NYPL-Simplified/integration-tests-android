@@ -27,10 +27,8 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_BLOCK_BY_TITLE_LOC = "//XCUIElementTypeCell[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
     private static final String BOOK_BLOCK_BY_BUTTON_LOC = "//XCUIElementTypeCell[.//XCUIElementTypeButton[@name=\"%1$s\"]]";
 
-    private static final String BOOK_IMAGE_LOC = "//XCUIElementTypeImage";
     private static final String BOOK_TITLE_LOC = "//XCUIElementTypeStaticText[@name][1]";
     private static final String BOOK_AUTHOR_LOC = "//XCUIElementTypeStaticText[@name][2]";
-    private static final String BOOK_TYPE_LOC = ""; // does not exist on ios
     private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
@@ -75,7 +73,6 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
                         .getText());
     }
 
-
     @Override
     public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
         return performActionOnBook(bookAddButtonKey);
@@ -113,9 +110,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
         String bookTitle =
                 getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key).getText();
-        CatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
-        button.click();
-        return androidCatalogBookModel;
+        return openBook(button, bookTitle);
     }
 
     @Override
@@ -125,9 +120,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
                 String.format(BOOK_ADD_BUTTON_LOC, key)), key);
         actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         Assert.assertTrue(actionButton.state().isDisplayed(), "Book was not found after scrolling");
-        CatalogBookModel androidCatalogBookModel = getBookInfo(bookName);
-        actionButton.click();
-        return androidCatalogBookModel;
+        return openBook(actionButton, bookName);
     }
 
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
@@ -135,10 +128,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         String bookTitle =
                 getBookJacketWithGivenButtonLabel(buttonName).findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL).getText();
-        CatalogBookModel catalogBookModel = getBookInfo(bookTitle);
-        button.click();
-
-        return catalogBookModel;
+        return openBook(button, bookTitle);
     }
 
     private ILabel getBookJacketWithGivenButtonLabel(BookActionButtonKeys button) {
@@ -160,5 +150,11 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private IButton getAddBookButton(BookActionButtonKeys button) {
         String key = button.i18n();
         return getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN, key)), key);
+    }
+
+    private CatalogBookModel openBook(IButton button, String bookTitle) {
+        CatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
+        button.click();
+        return androidCatalogBookModel;
     }
 }
