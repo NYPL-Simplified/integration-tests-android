@@ -20,4 +20,6 @@ public abstract class AccountScreen extends Screen {
     public abstract boolean isLogoutRequired();
 
     public abstract void enterCredentialsViaKeyboard(Credentials credentials);
+
+    public abstract String getLoginFailedMessage();
 }

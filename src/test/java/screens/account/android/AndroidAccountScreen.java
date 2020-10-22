@@ -3,6 +3,7 @@ package screens.account.android;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
+import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.timeouts.AuthorizationTimeouts;
@@ -29,8 +30,11 @@ public class AndroidAccountScreen extends AccountScreen {
     private final IButton btnLogout = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AccountScreenLoginStatus.LOG_OUT.i18n())),
             "Log out");
+    private final IButton btnLogInError = getElementFactory().getButton(By.id("accountLoginButtonErrorDetails"), "Log out");
     private final ITextBox txbCard = getElementFactory().getTextBox(By.id("authBasicUserField"), "Card");
     private final ITextBox txbPin = getElementFactory().getTextBox(By.id("authBasicPassField"), "Pin");
+    private final ILabel lblLoginFailed =
+            getElementFactory().getLabel(By.id("accountLoginProgressText"), "Login Failed Message");
 
     public AndroidAccountScreen() {
         super(By.id("auth"));
@@ -53,6 +57,11 @@ public class AndroidAccountScreen extends AccountScreen {
         btnLogin.click();
     }
 
+    @Override
+    public String getLoginFailedMessage() {
+        return lblLoginFailed.state().isDisplayed() ? lblLoginFailed.getText() : "";
+    }
+
     private void enterDataViaKeyboard(ITextBox textBox, String value) {
         textBox.click();
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(KeyboardUtils::isKeyboardVisible),
@@ -62,9 +71,18 @@ public class AndroidAccountScreen extends AccountScreen {
 
     @Override
     public boolean isLoginSuccessful() {
-        btnLogout.state().waitForExist(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
-        return AqualityServices.getConditionalWait().waitFor(() ->
-                btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n()));
+        waitForLogout();
+        if (btnLogInError.state().isDisplayed()) {
+            return false;
+        } else {
+            btnLogout.state().waitForExist(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+            return btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n());
+        }
+    }
+
+    private void waitForLogout() {
+        AqualityServices.getConditionalWait().waitFor(() ->
+                btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n()) || btnLogInError.state().isDisplayed());
     }
 
     @Override
