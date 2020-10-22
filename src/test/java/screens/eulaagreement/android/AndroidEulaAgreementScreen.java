@@ -17,6 +17,7 @@ public class AndroidEulaAgreementScreen extends EulaAgreementScreen {
 
     @Override
     public void clickAgree() {
+        btnAgree.state().waitForDisplayed();
         btnAgree.click();
     }
 

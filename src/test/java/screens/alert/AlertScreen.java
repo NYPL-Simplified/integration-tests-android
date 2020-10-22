@@ -9,4 +9,6 @@ public abstract class AlertScreen extends Screen {
     }
 
     public abstract void accept();
+
+    public abstract void closeModalIfPresent();
 }

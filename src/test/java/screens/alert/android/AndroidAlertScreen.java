@@ -18,4 +18,9 @@ public class AndroidAlertScreen extends AlertScreen {
     public void accept() {
         btnAccept.click();
     }
+
+    @Override
+    public void closeModalIfPresent() {
+
+    }
 }
