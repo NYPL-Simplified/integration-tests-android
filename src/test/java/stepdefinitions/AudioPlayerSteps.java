@@ -24,9 +24,7 @@ public class AudioPlayerSteps {
 
     @And("Remember current book chapter in {string}")
     public void saveCurrentBookChapterInContextByKey(String key) {
-        Integer chapterNumber = Integer.parseInt(RegExUtil.getStringFromFirstGroup(audioPlayerScreen.getCurrentChapterInfo(),
-                RegEx.AUDIO_BOOK_CURRENT_CHAPTER_REGEX));
-        context.add(key, chapterNumber);
+        context.add(key, getChapterNumber());
     }
 
     @And("Open the menu-based position in the audiobook")
@@ -58,9 +56,11 @@ public class AudioPlayerSteps {
 
     @Then("I check that current chapter equal to remembered {string}")
     public void selectChapterIsNotEqualToSavedInTheContextByKeyAndSaveSelectedChapter(String keyCurrentChapter) {
-        Integer currentChapter = Integer.parseInt(RegExUtil.getStringFromFirstGroup(audioPlayerScreen.getCurrentChapterInfo(),
-                RegEx.AUDIO_BOOK_CURRENT_CHAPTER_REGEX));
-
+        Integer currentChapter = getChapterNumber();
         Assert.assertEquals(currentChapter, context.get(keyCurrentChapter), "Current chapter is not correct");
+    }
+
+    private int getChapterNumber() {
+        return Integer.parseInt(RegExUtil.getStringFromFirstGroup(audioPlayerScreen.getCurrentChapterInfo(), RegEx.AUDIO_BOOK_CURRENT_CHAPTER_REGEX));
     }
 }

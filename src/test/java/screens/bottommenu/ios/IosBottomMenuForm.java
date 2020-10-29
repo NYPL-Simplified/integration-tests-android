@@ -1,6 +1,7 @@
 package screens.bottommenu.ios;
 
 import aquality.appium.mobile.application.PlatformName;
+import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import org.openqa.selenium.By;
 import screens.bottommenu.BottomMenu;
@@ -18,13 +19,16 @@ public class IosBottomMenuForm extends BottomMenuForm {
 
     @Override
     public void open(BottomMenu bottomMenuItem) {
-        getElementFactory().getButton(By.xpath(String.format(BOTTOM_MENU_ELEMENT_PATTERN_LOC, bottomMenuItem.getItemName())),
-                bottomMenuItem.getItemName()).click();
+        getButton(bottomMenuItem).click();
     }
 
     @Override
     public boolean isBottomMenuBtnVisible(BottomMenu bottomMenuItem) {
-        return getElementFactory().getButton(By.xpath(String.format(BOTTOM_MENU_ELEMENT_PATTERN_LOC, bottomMenuItem.getItemName())),
-                bottomMenuItem.getItemName()).state().isDisplayed();
+        return getButton(bottomMenuItem).state().isDisplayed();
+    }
+
+    private IButton getButton(BottomMenu bottomMenuItem) {
+        String itemName = bottomMenuItem.getItemName();
+        return getElementFactory().getButton(By.xpath(String.format(BOTTOM_MENU_ELEMENT_PATTERN_LOC, itemName)), itemName);
     }
 }

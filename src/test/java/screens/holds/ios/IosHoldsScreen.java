@@ -28,14 +28,10 @@ public class IosHoldsScreen extends HoldsScreen {
 
     private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
-    private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
     private static final String BOOK_BLOCK_BY_TITLE_LOC = String.format(
             "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_INFO_LOCATOR_PATTERN);
 
     private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
-
-    private static final String BOOKS_WITH_ACTION_LOC = String.format(
-            "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_ACTION_BUTTON_LOC);
 
     public IosHoldsScreen() {
         super(By.xpath(MAIN_ELEMENT_EXISTING_BOOKS_IN_HOLDS + "|" + LBL_NO_BOOKS_LOC));

@@ -32,12 +32,15 @@ public class IosLogoutHooks extends AbstractLogoutHooks {
             accountsScreen.openAccount(context.get(ContextLibrariesKeys.LOG_OUT.getKey()));
         }
         if (accountScreen.isLogoutRequired()) {
-            notificationModal.closeSyncNotificationIfDisplayed();
-            accountScreen.logOut();
+            logOut();
         }
         if (!accountScreen.isLogoutSuccessful()) {
-            notificationModal.closeSyncNotificationIfDisplayed();
-            accountScreen.logOut();
+            logOut();
         }
+    }
+
+    private void logOut() {
+        notificationModal.closeSyncNotificationIfDisplayed();
+        accountScreen.logOut();
     }
 }

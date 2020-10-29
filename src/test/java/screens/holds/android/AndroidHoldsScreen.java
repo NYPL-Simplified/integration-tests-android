@@ -20,16 +20,11 @@ public class AndroidHoldsScreen extends HoldsScreen {
             getElementFactory().getButton(By.xpath("//android.widget.Button[@text=\"Cancel Reservation\"]"), "Cancel");
     private final String BOOK_INFO_LOCATOR_PATTERN = "//android.widget.ImageView[@content-desc=\"%s\"]";
 
-    private static final String BOOK_ACTION_BUTTON_LOC = "//*[contains(@resource-id,\"bookCellIdleButtons\")]"
-            + "/android.widget.Button[@content-desc=\"%1$s\"]";
     private static final String BOOK_BLOCK_BY_TITLE_LOC =
             "//*[contains(@resource-id,\"bookCellIdle\") and .//*[contains(@resource-id,\"bookCellIdleTitle\") and contains(@text, \"%1$s\")]]";
 
     private static final String BOOK_ADD_BUTTON_LOC =
             "//*[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button[@content-desc=\"%1$s\"]";
-
-    private static final String BOOKS_WITH_ACTION_LOC =
-            String.format("//*[contains(@resource-id,\"bookCellIdle\") and .%1$s]", BOOK_ACTION_BUTTON_LOC);
 
     public AndroidHoldsScreen() {
         super(By.xpath("//android.widget.TextView[@content-desc=\"Search in Holds…\"]"));

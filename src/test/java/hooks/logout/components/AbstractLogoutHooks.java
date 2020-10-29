@@ -7,6 +7,7 @@ import framework.utilities.ScenarioContext;
 import io.appium.java_client.appmanagement.ApplicationState;
 import screens.account.AccountScreen;
 import screens.accounts.AccountsScreen;
+import screens.alert.AlertScreen;
 import screens.bookDetails.BookDetailsScreen;
 import screens.books.BooksScreen;
 import screens.bottommenu.BottomMenu;
@@ -37,6 +38,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
     protected final MainCatalogToolbarForm mainCatalogToolbarForm;
     protected final NotificationModal notificationModal;
     protected final AbstractApplicationSteps applicationSteps;
+    private final AlertScreen alertScreen;
 
     protected ScenarioContext context;
 
@@ -52,6 +54,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
         bookDetailsScreen = AqualityServices.getScreenFactory().getScreen(BookDetailsScreen.class);
         notificationModal = AqualityServices.getScreenFactory().getScreen(NotificationModal.class);
         applicationSteps = stepsFactory.getSteps(AbstractApplicationSteps.class);
+        alertScreen = AqualityServices.getScreenFactory().getScreen(AlertScreen.class);
 
         this.context = context;
     }
@@ -60,15 +63,12 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
 
     @Override
     public void cancelHold() {
+        alertScreen.closeModalIfPresent();
         List<String> librariesForCancel = context.get(ContextLibrariesKeys.CANCEL_HOLD.getKey());
         navigateBackIfBottomMenuIsNotVisibleUntilItIs();
         Optional.ofNullable(librariesForCancel).ifPresent(libraries ->
                 libraries.forEach(library -> {
-                    bottomMenuForm.open(BottomMenu.CATALOG);
-                    bottomMenuForm.open(BottomMenu.CATALOG);
-                    mainCatalogToolbarForm.chooseAnotherLibrary();
-                    catalogScreen.openLibrary(library);
-                    bottomMenuForm.open(BottomMenu.HOLDS);
+                    openPageForRequiredLibrary(library, BottomMenu.HOLDS);
                     if (holdsScreen.isBookForCancelPresent()) {
                         holdsScreen.cancelReservations();
                     }
@@ -79,15 +79,12 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
     @Override
     public void cancelGet() {
         startAppIfCrashed();
+        alertScreen.closeModalIfPresent();
         List<String> librariesForCancelGet = context.get(ContextLibrariesKeys.CANCEL_GET.getKey());
         navigateBackIfBottomMenuIsNotVisibleUntilItIs();
         Optional.ofNullable(librariesForCancelGet).ifPresent(libraries ->
                 libraries.forEach(library -> {
-                    bottomMenuForm.open(BottomMenu.CATALOG);
-                    bottomMenuForm.open(BottomMenu.CATALOG);
-                    mainCatalogToolbarForm.chooseAnotherLibrary();
-                    catalogScreen.openLibrary(library);
-                    bottomMenuForm.open(BottomMenu.BOOKS);
+                    openPageForRequiredLibrary(library, BottomMenu.BOOKS);
 
                     IntStream.range(0, booksScreen.getCountOfBooksWithAction(BookActionButtonKeys.READ))
                             .forEach(index -> {
@@ -111,5 +108,13 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
         IntStream.range(0, COUNT_OF_RETRIES)
                 .filter(i -> !bottomMenuForm.state().waitForDisplayed())
                 .forEach(i -> applicationSteps.returnToPreviousPage());
+    }
+
+    private void openPageForRequiredLibrary(String library, BottomMenu holds) {
+        bottomMenuForm.open(BottomMenu.CATALOG);
+        bottomMenuForm.open(BottomMenu.CATALOG);
+        mainCatalogToolbarForm.chooseAnotherLibrary();
+        catalogScreen.openLibrary(library);
+        bottomMenuForm.open(holds);
     }
 }

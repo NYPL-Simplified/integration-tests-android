@@ -10,7 +10,6 @@ import screens.addaccount.AddAccountScreen;
 @ScreenType(platform = PlatformName.IOS)
 public class IosAddAccountScreen extends AddAccountScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeSheet[@name=\"Add Your Library\"]";
-
     private static final String LIBRARY_BUTTON_PATTERN_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
 
     public IosAddAccountScreen() {

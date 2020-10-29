@@ -106,7 +106,5 @@ public interface ICatalogSteps {
 
     void pressOnTheBookDetailsScreenAtTheActionButton(BookActionButtonKeys actionButton);
 
-    void checkThatTheActionButtonTextEqualToTheExpected(BookActionButtonKeys actionButton);
-
     void checkThatTheActionButtonTextEqualToTheExpected(FacetAvailabilityKeys facetAvailabilityKeys);
 }

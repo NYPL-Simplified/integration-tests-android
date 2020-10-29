@@ -31,8 +31,7 @@ public class AccountSteps {
 
     @When("I add {string} account")
     public void addAccount(String libraryName) {
-        bottomMenuForm.open(BottomMenu.SETTINGS);
-        settingsScreen.openAccounts();
+        openAccounts();
         accountsScreen.addAccount();
         Assert.assertTrue(addAccountScreen.state().waitForDisplayed(),
                 "Checking that add accounts screen visible");
@@ -57,15 +56,18 @@ public class AccountSteps {
         accountsScreen.deleteLibrary(libraryName);
         alertScreen.state().waitForExist();
         alertScreen.accept();
-        bottomMenuForm.open(BottomMenu.SETTINGS);
-        settingsScreen.openAccounts();
+        openAccounts();
     }
 
     @When("I open account {string}")
     public void openAccount(String libraryName) {
         bottomMenuForm.open(BottomMenu.SETTINGS);
+        openAccounts();
+        accountsScreen.openAccount(libraryName);
+    }
+
+    private void openAccounts() {
         bottomMenuForm.open(BottomMenu.SETTINGS);
         settingsScreen.openAccounts();
-        accountsScreen.openAccount(libraryName);
     }
 }

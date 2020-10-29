@@ -43,8 +43,7 @@ public abstract class AbstractHoldsSteps extends BaseSteps implements IHoldsStep
 
     @Override
     public void clickOnTheBookAddButtonOnTheHoldsScreen(String bookInfoKey, BookActionButtonKeys key) {
-        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
-        holdsScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
+        clickOnTheBookAddButtonOnTheHoldsScreenWithoutPopupHandling(bookInfoKey, key);
         notificationModal.handleBookActionsAndNotificationPopups(key);
     }
 

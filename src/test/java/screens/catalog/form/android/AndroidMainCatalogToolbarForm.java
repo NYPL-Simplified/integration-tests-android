@@ -28,10 +28,6 @@ public class AndroidMainCatalogToolbarForm extends MainCatalogToolbarForm {
 
     private final IButton btnSearch =
             getElementFactory().getButton(By.xpath(MAIN_ELEMENT_LOC + "//*[contains(@resource-id,\"catalogMenuActionSearch\")]"), "Search");
-    private final IButton btnMoreOptions =
-            getElementFactory().getButton(
-                    By.xpath(MAIN_ELEMENT_LOC + "//android.widget.ImageView[@content-desc=\"More options\"]"),
-                    "Menu");
 
     public AndroidMainCatalogToolbarForm() {
         super(By.xpath(MAIN_ELEMENT_LOC));
@@ -60,10 +56,5 @@ public class AndroidMainCatalogToolbarForm extends MainCatalogToolbarForm {
     @Override
     public void openSearchModal() {
         btnSearch.click();
-    }
-
-    @Override
-    public void openMoreOptions() {
-        btnMoreOptions.click();
     }
 }

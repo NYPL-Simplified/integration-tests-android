@@ -23,9 +23,7 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     private static final String CHAPTERS_LOC = "//android.widget.RelativeLayout[.//*[contains(@resource-id, \"player_toc_item_view_title\")]]";
 
     private final IButton menuBtn = getElementFactory().getButton(By.id("player_menu_toc"), "Menu");
-
     private final ILabel currentChapter = getElementFactory().getLabel(By.id("player_spine_element"), "Current chapter");
-
 
     public AndroidAudioPlayerScreen() {
         super(By.id(MAIN_ELEMENT));
@@ -76,6 +74,4 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     public int getCountOfChapters() {
         return getChapters().size();
     }
-
-
 }

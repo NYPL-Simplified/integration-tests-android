@@ -7,7 +7,6 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import aquality.selenium.core.elements.interfaces.IElement;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import screens.pdfsearch.PdfSearchScreen;
@@ -28,11 +27,9 @@ public class IosPdfSearchScreen extends PdfSearchScreen {
     private final IButton applySearchBtn = getElementFactory().getButton(
             By.xpath("//XCUIElementTypeButton[@name=\"Search\"]"), "Apply search");
 
-
     public IosPdfSearchScreen() {
         super(By.xpath(MAIN_ELEMENT));
     }
-
 
     @Override
     public void findTextInTheDocument(String textToBeFound) {
@@ -49,9 +46,9 @@ public class IosPdfSearchScreen extends PdfSearchScreen {
     public List<String> getListOfFoundItems() {
         return isFoundItemsExist()
                 ? getSearchedElements().stream().map(element -> element
-                        .findChildElement(By.xpath(SEARCHED_ELEMENT_NAME_LOC), ElementType.LABEL)
-                        .getText())
-                        .collect(Collectors.toList())
+                .findChildElement(By.xpath(SEARCHED_ELEMENT_NAME_LOC), ElementType.LABEL)
+                .getText())
+                .collect(Collectors.toList())
                 : Collections.emptyList();
     }
 
@@ -84,5 +81,4 @@ public class IosPdfSearchScreen extends PdfSearchScreen {
     private List<ILabel> getSearchedElements() {
         return getElementFactory().findElements(By.xpath(SEARCHED_ELEMENTS_LOC), ElementType.LABEL);
     }
-
 }

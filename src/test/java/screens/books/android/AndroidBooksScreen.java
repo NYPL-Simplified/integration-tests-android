@@ -17,27 +17,19 @@ import java.util.List;
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidBooksScreen extends BooksScreen {
     private static final String MAIN_ELEMENT_LOC = "//android.widget.TextView[@content-desc=\"Search in Books…\"]";
-
-    private static final String BOOKS_LOC = "//*[contains(@resource-id,\"bookCellIdle\")]";
-
-    private static final String BOOK_IMAGE_LOC = "//*[contains(@resource-id,\"bookCellIdleCover\")]";
-    private static final String BOOK_TITLE_LOC = "//*[contains(@resource-id,\"bookCellIdleTitle\")]";
-    private static final String BOOK_AUTHOR_LOC = "//*[contains(@resource-id,\"bookCellIdleAuthor\")]";
-    private static final String BOOK_TYPE_LOC = "//*[contains(@resource-id,\"bookCellIdleMeta\")]";
     private static final String BOOK_ACTION_BUTTON_LOC =
             "//*[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button[@content-desc=\"%1$s\"]";
-
     private static final String BOOKS_WITH_ACTION_LOC =
             String.format("//*[contains(@resource-id,\"bookCellIdle\") and .%1$s]", BOOK_ACTION_BUTTON_LOC);
     public static final String BOOK_INFO_BUTTON_PATTERN =
             "%s//following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%s\"]";
+    private final String BOOK_INFO_LOCATOR_PATTERN = "//android.widget.ImageView[@content-desc=\"%s\"]";
 
     private final ILabel lblNoBooks = getElementFactory().getLabel(By.id("feedEmptyText"), "No Books Present");
     private final IButton btnMenu =
             getElementFactory().getButton(By.xpath("//android.widget.ImageView[@content-desc=\"More options\"]"),
                     "Menu");
     private final IButton btnRefresh = getElementFactory().getButton(By.id("title"), "Refresh");
-    private final String BOOK_INFO_LOCATOR_PATTERN = "//android.widget.ImageView[@content-desc=\"%s\"]";
     private final List<IElement> booksList =
             getElementFactory().findElements(By.xpath("//android.widget.ImageView[contains(@resource-id,\"bookCellIdleCover\")]"), ElementType.LABEL);
 

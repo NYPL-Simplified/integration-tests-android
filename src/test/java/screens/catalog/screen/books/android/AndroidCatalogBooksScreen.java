@@ -134,9 +134,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
         String bookTitle =
                 getElementFactory().getButton(By.xpath(String.format(RELATIVE_BOOK_TITLE_LOCATOR_PATTERN, bookAddButtonLocator)), key).getText();
-        CatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
-        button.click();
-        return androidCatalogBookModel;
+        return openBook(button, bookTitle);
     }
 
     @Override
@@ -144,10 +142,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         String bookAddButtonLocator = getBookAddButtonLocatorWithGivenName(actionButtonKey, bookName);
         IButton button = getElementFactory().getButton(By.xpath(bookAddButtonLocator), actionButtonKey.i18n());
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-
-        CatalogBookModel androidCatalogBookModel = getBookInfo(bookName);
-        button.click();
-        return androidCatalogBookModel;
+        return openBook(button, bookName);
     }
 
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
@@ -156,9 +151,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         String bookTitle =
                 getBookJacketWithGivenButtonLabel(buttonName).findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL).getText();
-        CatalogBookModel catalogBookModel = getBookInfo(bookTitle);
-        button.click();
-        return catalogBookModel;
+        return openBook(button, bookTitle);
     }
 
     private ILabel getBookJacketWithGivenButtonLabel(BookActionButtonKeys button) {
@@ -184,5 +177,11 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     private String getBookAddButtonLocatorWithGivenName(BookActionButtonKeys actionButtonKey, String bookName) {
         String key = actionButtonKey.i18n();
         return String.format(BOOK_BY_NAME_BUTTON_PATTERN, bookName, key);
+    }
+
+    private CatalogBookModel openBook(IButton button, String bookTitle) {
+        CatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
+        button.click();
+        return androidCatalogBookModel;
     }
 }

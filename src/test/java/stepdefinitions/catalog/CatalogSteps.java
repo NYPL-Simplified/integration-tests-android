@@ -280,7 +280,7 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
 
     @Then("I check that the action button text equal to the {}")
     public void checkThatTheActionButtonTextEqualToTheExpected(BookActionButtonKeys actionButton) {
-        catalogSteps.checkThatTheActionButtonTextEqualToTheExpected(actionButton);
+        catalogSteps.checkThatSavedBookContainButtonAtBookDetailsScreen(actionButton);
     }
 
     @When("I change books visibility to show {}")
