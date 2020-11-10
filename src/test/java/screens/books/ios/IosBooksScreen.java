@@ -11,8 +11,6 @@ import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.books.BooksScreen;
 
-import java.util.List;
-
 @ScreenType(platform = PlatformName.IOS)
 public class IosBooksScreen extends BooksScreen {
     private static final String MAIN_ELEMENT_LOC = "//XCUIElementTypeButton[@name=\"All\"]";
@@ -23,15 +21,13 @@ public class IosBooksScreen extends BooksScreen {
             "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_ACTION_BUTTON_LOC);
     private static final String BOOKS_BY_TITLE_LOC = String.format(
             "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_INFO_LOCATOR_PATTERN);
+    public static final String BOOKS_LABELS_XPATH = "//XCUIElementTypeCollectionView//XCUIElementTypeCell";
 
     private final ILabel mainBooksElementCollection = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeCollectionView"), "Elements collection container");
     private final ILabel lblNoBooks = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeStaticText[@name=\"Visit the Catalog to add books to My Books.\"]"),
             "No Books Present");
-    private final List<ILabel> booksList = getElementFactory().findElements(
-            By.xpath("//XCUIElementTypeCollectionView//XCUIElementTypeCell"),
-            ElementType.LABEL);
 
     public IosBooksScreen() {
         super(By.xpath(MAIN_ELEMENT_LOC));
@@ -54,7 +50,7 @@ public class IosBooksScreen extends BooksScreen {
 
     @Override
     public int getCountOfBooks() {
-        return booksList.size();
+        return getElementFactory().findElements(By.xpath(BOOKS_LABELS_XPATH), ElementType.LABEL).size();
     }
 
     @Override
