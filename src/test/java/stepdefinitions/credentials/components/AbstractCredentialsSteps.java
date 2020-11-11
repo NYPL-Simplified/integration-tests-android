@@ -32,7 +32,7 @@ public abstract class AbstractCredentialsSteps extends BaseSteps implements ICre
     }
 
     public void enterCredentialsForLibraryAccount(String libraryName) {
-        accountsScreen.openAccount(libraryName);
+        accountsScreen.openAccount("LYRASIS");
         accountScreen.enterCredentials(Configuration.getCredentials(libraryName));
         context.add(ContextLibrariesKeys.LOG_OUT.getKey(), libraryName);
     }
