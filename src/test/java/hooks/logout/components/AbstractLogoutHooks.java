@@ -85,8 +85,17 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
         Optional.ofNullable(librariesForCancelGet).ifPresent(libraries ->
                 libraries.forEach(library -> {
                     openPageForRequiredLibrary(library, BottomMenu.BOOKS);
-
-                    IntStream.range(0, booksScreen.getCountOfBooksWithAction(BookActionButtonKeys.READ))
+                    AqualityServices.getConditionalWait().waitFor(() -> booksScreen.isNoBooksMessagePresent() || booksScreen.getCountOfBooks() > 0);
+                    if (booksScreen.isNoBooksMessagePresent()) {
+                        AqualityServices.getLogger().info("No books are present");
+                    } else if (booksScreen.getCountOfBooks() > 0) {
+                        AqualityServices.getLogger().info("Books found. Count - " + booksScreen.getCountOfBooks());
+                    } else {
+                        AqualityServices.getLogger().info("Books are not found and message about it is not present");
+                    }
+                    int countOfBooksWithAction = booksScreen.getCountOfBooksWithAction(BookActionButtonKeys.READ);
+                    AqualityServices.getLogger().info("Count of books with Read action - " + countOfBooksWithAction);
+                    IntStream.range(0, countOfBooksWithAction)
                             .forEach(index -> {
                                 booksScreen.openBookPage(index, BookActionButtonKeys.READ);
                                 bookDetailsScreen.clickActionButton(BookActionButtonKeys.RETURN);
@@ -110,11 +119,12 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
                 .forEach(i -> applicationSteps.returnToPreviousPage());
     }
 
-    private void openPageForRequiredLibrary(String library, BottomMenu holds) {
+    private void openPageForRequiredLibrary(String library, BottomMenu bottomMenu) {
         bottomMenuForm.open(BottomMenu.CATALOG);
         bottomMenuForm.open(BottomMenu.CATALOG);
         mainCatalogToolbarForm.chooseAnotherLibrary();
         catalogScreen.openLibrary(library);
-        bottomMenuForm.open(holds);
+        bottomMenuForm.open(bottomMenu);
+        bottomMenuForm.open(bottomMenu);
     }
 }

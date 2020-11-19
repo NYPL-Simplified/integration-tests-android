@@ -3,5 +3,8 @@
     "exampleLibrary": {
       "barcode": "password"
     }
+  },
+  "feed": {
+    "exampleFeed": "exampleUrl"
   }
 }

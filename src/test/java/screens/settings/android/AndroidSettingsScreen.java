@@ -1,5 +1,6 @@
 package screens.settings.android;
 
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
@@ -10,6 +11,10 @@ import screens.settings.SettingsScreen;
 public class AndroidSettingsScreen extends SettingsScreen {
     private final IButton accountsBtn =
             getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, \"Accounts\")]"), "Accounts");
+    private final IButton buildBtn =
+            getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, \"Build\")]"), "Build");
+    private final IButton btnDebugOptions =
+            getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, \"Debug options\")]"), "Debug options");
 
     public AndroidSettingsScreen() {
         super(By.xpath("//android.widget.TextView[contains(@text, \"App info\")]"));
@@ -18,5 +23,18 @@ public class AndroidSettingsScreen extends SettingsScreen {
     @Override
     public void openAccounts() {
         accountsBtn.click();
+    }
+
+    @Override
+    public boolean openDebugButton() {
+        return AqualityServices.getConditionalWait().waitFor(() -> {
+            buildBtn.click();
+            return btnDebugOptions.state().isDisplayed();
+        });
+    }
+
+    @Override
+    public void openDebugMode() {
+        btnDebugOptions.click();
     }
 }

@@ -27,9 +27,9 @@ Feature: Manage Libraries
     Then Account 'Alameda County Library' is present on Accounts screen
     Given Catalog is opened
     When I switch to 'The SimplyE Collection' from side menu
-    When I open category by chain:
-      | Fiction |
-      | Drama   |
+      And I open category by chain:
+        | Fiction |
+        | Drama   |
       And DOWNLOAD book and save it as 'bookInfo'
       And I open Books
     Then Book 'bookInfo' is present in Books List

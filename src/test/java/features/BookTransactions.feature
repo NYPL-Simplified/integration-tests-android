@@ -83,22 +83,32 @@ Feature: Book Transactions
       And I open Books
     Then Book 'bookInfo' is not present in Books List
 
-  @logout @cancelGet @tier2
-  Scenario: Check out from Book Detail View
-    When I add 'LYRASIS' account
-    Then Account 'LYRASIS' is present on Accounts screen
-    When I enter credentials for 'LYRASIS' account
-    Then Login is performed successfully
-    When I open Catalog
-      And I switch to 'LYRASIS' from side menu
+  @logout @cancelGet @tier2 @logout
+  Scenario Outline: Check out from Book Detail View
+    When I add custom '<feedName>' odps feed
     Then Books feed is loaded
-    When I open category by chain:
-      | Nonfiction         |
-      | Biography & Memoir |
-    Then Current category name is 'Biography & Memoir'
-    When I open the book details for the subsequent GET and save it as 'bookInfo'
-      And Save current 'LYRASIS' library for CANCEL_GET books after test
+    When I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
+      And Press on the book details screen at the action button GET
+      And Get book on the book details screen
+    Then I check that the action button text equal to the READ
+    When I open Books
+    Then Book 'bookInfo' is present in Books List
+    When I open book 'bookInfo' details by clicking on cover
+    And Save current '<feedName>' library for CANCEL_GET books after test
     Then I check that opened book contains READ button at book details screen
+    When I open <bookType> type book reader
+    Then Reader screen for <bookType> type book 'bookInfo' is present
+
+    Scenarios:
+      | feedName                            | laneName                                      | bookType  |
+      | New York Public Library - QA Server | Plympton                                      | EBOOK     |
+      | New York Public Library - QA Server | Plympton                                      | AUDIOBOOK |
+      | New York Public Library - QA Server | Bibliotheca                                   | EBOOK     |
+      | New York Public Library - QA Server | Bibliotheca                                   | AUDIOBOOK |
+      | New York Public Library - QA Server | Library Simplified Open Access Content Server | EBOOK     |
+      | New York Public Library - QA Server | Library Simplified Open Access Content Server | AUDIOBOOK |
+      | New York Public Library - QA Server | Overdrive                                     | EBOOK     |
+      | New York Public Library - QA Server | Overdrive                                     | AUDIOBOOK |
 
   @tier2
   Scenario: Download from Book detail view

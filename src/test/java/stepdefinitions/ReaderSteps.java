@@ -3,6 +3,7 @@ package stepdefinitions;
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import constants.RegEx;
+import constants.application.ReaderType;
 import constants.localization.application.reader.ColorKeys;
 import constants.localization.application.reader.FontNameKeys;
 import constants.localization.application.reader.ReaderSettingKeys;
@@ -17,6 +18,7 @@ import models.android.CatalogBookModel;
 import org.apache.commons.lang3.RandomUtils;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
+import screens.audioplayer.AudioPlayerScreen;
 import screens.epubreader.EpubReaderScreen;
 import screens.epubtableofcontents.EpubTableOfContentsScreen;
 import screens.fontchoicesscreen.FontChoicesScreen;
@@ -36,6 +38,7 @@ public class ReaderSteps {
     private final PdfTableOfContentsScreen pdfTableOfContentsScreen;
     private final PdfSearchScreen pdfSearchScreen;
     private final FontChoicesScreen fontChoicesScreen;
+    private final AudioPlayerScreen audioPlayerScreen;
 
     @Inject
     public ReaderSteps(ScenarioContext context) {
@@ -45,6 +48,7 @@ public class ReaderSteps {
         pdfTableOfContentsScreen = AqualityServices.getScreenFactory().getScreen(PdfTableOfContentsScreen.class);
         fontChoicesScreen = AqualityServices.getScreenFactory().getScreen(FontChoicesScreen.class);
         pdfSearchScreen = AqualityServices.getScreenFactory().getScreen(PdfSearchScreen.class);
+        audioPlayerScreen = AqualityServices.getScreenFactory().getScreen(AudioPlayerScreen.class);
         this.context = context;
     }
 
@@ -200,19 +204,6 @@ public class ReaderSteps {
     @Then("Book text displays in alternative sans font")
     public void bookTextDisplaysInAlternativeSansFont() {
         assertFontName(FontNameKeys.ALTERNATIVE_SANS_FONT_NAME.i18n());
-    }
-
-    private void changeSetting(ReaderSettingKeys settingName) {
-        epubReaderScreen.openFontSettings();
-        fontChoicesScreen.setSetting(settingName);
-        fontChoicesScreen.closeFontChoices();
-    }
-
-    private void assertFontAndBackground(ColorKeys fontColor, ColorKeys backgroundColor) {
-        SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(epubReaderScreen.getFontColor(), fontColor.i18n(), "Font color is not correct");
-        softAssert.assertEquals(epubReaderScreen.getBackgroundColor(), backgroundColor.i18n(), "Background color is not correct");
-        softAssert.assertAll();
     }
 
     private void assertFontName(String fontName) {
@@ -373,6 +364,26 @@ public class ReaderSteps {
         context.add(pageKey, pdfSearchScreen.getSearchedItemPageNumber(pdfSearchScreen.getListOfFoundItems().get(0)));
     }
 
+    @Then("Reader screen for {} type book {string} is present")
+    public void readerScreenForEbookTypeIsPresent(ReaderType readerType, String bookInfoKey) {
+        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
+        switch (readerType) {
+            case EBOOK:
+                if (epubReaderScreen.isBookNamePresent()) {
+                    Assert.assertEquals(catalogBookModel.getTitle(), epubReaderScreen.getBookName(), "Book name is not correct");
+                } else {
+                    Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
+                                    pdfReaderScreen.getBookName().contains(catalogBookModel.getTitle())),
+                            String.format("Book name is not correct. Expected that name ['%1$s'] would contains in ['%2$s']",
+                                    catalogBookModel.getTitle(), pdfReaderScreen.getBookName()));
+                }
+                break;
+            case AUDIOBOOK:
+                Assert.assertTrue(audioPlayerScreen.state().isDisplayed(), "Audiobook screen is not present");
+                break;
+        }
+    }
+
     private boolean isPageNumberEqual(String pageNumber) {
         return epubReaderScreen.getPageNumberInfo().equals(pageNumber);
     }
@@ -383,5 +394,18 @@ public class ReaderSteps {
 
     private void checkPageNumberIsNotEqualTo(int pageNumber) {
         Assert.assertNotEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Page number is not correct");
+    }
+
+    private void changeSetting(ReaderSettingKeys settingName) {
+        epubReaderScreen.openFontSettings();
+        fontChoicesScreen.setSetting(settingName);
+        fontChoicesScreen.closeFontChoices();
+    }
+
+    private void assertFontAndBackground(ColorKeys fontColor, ColorKeys backgroundColor) {
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(epubReaderScreen.getFontColor(), fontColor.i18n(), "Font color is not correct");
+        softAssert.assertEquals(epubReaderScreen.getBackgroundColor(), backgroundColor.i18n(), "Background color is not correct");
+        softAssert.assertAll();
     }
 }

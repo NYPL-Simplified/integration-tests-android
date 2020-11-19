@@ -1,6 +1,7 @@
 package screens.catalog.screen.catalog;
 
 import aquality.appium.mobile.screens.Screen;
+import constants.application.ReaderType;
 import org.openqa.selenium.By;
 
 import java.util.List;
@@ -30,4 +31,8 @@ public abstract class CatalogScreen extends Screen {
     public abstract void switchToCatalogTab(String catalogTab);
 
     public abstract Set<String> getListOfAllBooksNamesInSubcategoryLane(String lineName);
+
+    public abstract void openFirstBookFromLane(ReaderType readerType, String laneName);
+
+    public abstract boolean isAnyBookPresentInLane(ReaderType readerType, String laneName);
 }

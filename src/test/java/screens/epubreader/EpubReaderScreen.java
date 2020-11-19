@@ -12,6 +12,8 @@ public abstract class EpubReaderScreen extends Screen {
 
     public abstract String getBookName();
 
+    public abstract boolean isBookNamePresent();
+
     public abstract void swipeFromLeftToRight();
 
     public abstract void swipeFromRightToLeft();

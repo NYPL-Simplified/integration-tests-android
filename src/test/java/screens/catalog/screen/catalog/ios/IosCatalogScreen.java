@@ -9,6 +9,7 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.core.elements.ElementsCount;
+import constants.application.ReaderType;
 import constants.application.attributes.IosAttributes;
 import constants.application.timeouts.CategoriesTimeouts;
 import framework.utilities.swipe.SwipeElementUtils;
@@ -120,6 +121,15 @@ public class IosCatalogScreen extends CatalogScreen {
             currentBooksNames = getListOfVisibleBooksNamesInSubcategoryLane(lineName);
         } while (!bookNames.containsAll(currentBooksNames));
         return bookNames;
+    }
+
+    @Override
+    public void openFirstBookFromLane(ReaderType readerType, String laneName) {
+    }
+
+    @Override
+    public boolean isAnyBookPresentInLane(ReaderType readerType, String laneName) {
+        return false;
     }
 
     private List<String> getListOfVisibleBooksNamesInSubcategoryLane(String lineName) {
