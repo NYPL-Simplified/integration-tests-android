@@ -12,6 +12,7 @@
         "noReset": "true",
         "automationName": "UiAutomator2",
         "browserstack.appium_version": "1.17.0",
+        "deviceOrientation": "portrait",
         "adbExecTimeout": 10000
       }
     },
@@ -23,6 +24,7 @@
         "noReset": "true",
         "browserstack.appium_version": "1.17.0",
         "automationName": "XCUITest",
+        "deviceOrientation": "portrait",
         "bundleId": ""
       }
     }
