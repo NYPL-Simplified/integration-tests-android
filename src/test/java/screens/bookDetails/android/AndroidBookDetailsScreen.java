@@ -103,6 +103,11 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
         getActionButton(buttonKeys).click();
     }
 
+    @Override
+    public boolean isActionButtonPresent(BookActionButtonKeys actionButton) {
+        return getActionButton(actionButton).state().waitForDisplayed();
+    }
+
     private IButton getActionButton(BookActionButtonKeys buttonKey) {
         String key = buttonKey.i18n();
         return getElementFactory().getButton(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, key)), key);
