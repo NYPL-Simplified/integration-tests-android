@@ -418,6 +418,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         Assert.assertTrue(catalogScreen.isAnyBookPresentInLane(readerType, laneName),
                 String.format("No books are present in lane - %s %s", readerType, laneName));
         catalogScreen.openFirstBookFromLane(readerType, laneName);
+        bookDetailsScreen.state().waitForDisplayed();
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 

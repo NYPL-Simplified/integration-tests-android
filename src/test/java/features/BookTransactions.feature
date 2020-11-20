@@ -100,7 +100,7 @@ Feature: Book Transactions
     And Save current 'LYRASIS' library for CANCEL_GET books after test
 
   @logout @cancelGet @tier2 @logout @exclude_ios
-  Scenario Outline: Check out from Book Detail View
+  Scenario Outline: Check out from Book Detail View (feed)
     When I add custom '<feedName>' odps feed
     Then Books feed is loaded
     When I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
