@@ -21,6 +21,9 @@ import screens.catalog.screen.catalog.CatalogScreen;
 import screens.debugoptionsscreen.DebugOptionsScreen;
 import screens.settings.SettingsScreen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AccountSteps {
     private final AccountsScreen accountsScreen;
     private final BottomMenuForm bottomMenuForm;
@@ -111,5 +114,13 @@ public class AccountSteps {
         context.add(ContextLibrariesKeys.LOG_OUT.getKey(), feedName);
         settingsScreen.state().waitForDisplayed();
         bottomMenuForm.open(BottomMenu.CATALOG);
+
+        String libraryName = mainCatalogToolbarForm.getCatalogName();
+        List<String> listOfLibraries = context.containsKey(ContextLibrariesKeys.CANCEL_GET.getKey())
+                ? context.get(ContextLibrariesKeys.CANCEL_GET.getKey())
+                : new ArrayList<>();
+
+        listOfLibraries.add(libraryName);
+        context.add(ContextLibrariesKeys.CANCEL_GET.getKey(), listOfLibraries);
     }
 }

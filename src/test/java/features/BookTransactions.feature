@@ -83,24 +83,39 @@ Feature: Book Transactions
       And I open Books
     Then Book 'bookInfo' is not present in Books List
 
-  @logout @cancelGet @tier2 @logout
+  @logout @cancelGet @tier2 @exclude_android
+  Scenario: Check out from Book Detail View
+    When I add 'LYRASIS' account
+    Then Account 'LYRASIS' is present on Accounts screen
+    When I enter credentials for 'LYRASIS' account
+    Then Login is performed successfully
+    When I open Catalog
+    And I switch to 'LYRASIS' from side menu
+    Then Books feed is loaded
+    When I open category by chain:
+      | Nonfiction         |
+      | Biography & Memoir |
+    Then Current category name is 'Biography & Memoir'
+    When I open the book details for the subsequent GET and save it as 'bookInfo'
+    And Save current 'LYRASIS' library for CANCEL_GET books after test
+
+  @logout @cancelGet @tier2 @logout @exclude_ios
   Scenario Outline: Check out from Book Detail View
     When I add custom '<feedName>' odps feed
     Then Books feed is loaded
     When I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
-      And Press on the book details screen at the action button GET
       And Get book on the book details screen
-    Then I check that the action button text equal to the READ
+    Then Book was borrowed successfully
     When I open Books
     Then Book 'bookInfo' is present in Books List
     When I open book 'bookInfo' details by clicking on cover
-    And Save current '<feedName>' library for CANCEL_GET books after test
-    Then I check that opened book contains READ button at book details screen
-    When I open <bookType> type book reader
+    Then Opened book contains read button at book details screen
+    When I read <bookType> book
     Then Reader screen for <bookType> type book 'bookInfo' is present
 
     Scenarios:
       | feedName                            | laneName                                      | bookType  |
+      | New York Public Library - QA Server | Axis 360                                      | AUDIOBOOK |
       | New York Public Library - QA Server | Plympton                                      | EBOOK     |
       | New York Public Library - QA Server | Plympton                                      | AUDIOBOOK |
       | New York Public Library - QA Server | Bibliotheca                                   | EBOOK     |
@@ -123,6 +138,7 @@ Feature: Book Transactions
 
   @logout @cancelGet @tier2
   Scenario: Return from Book Detail View
+    #todo с каких страниц надо делать все экшены с book details/bookshelf
     When I add 'LYRASIS' account
     Then Account 'LYRASIS' is present on Accounts screen
     When I enter credentials for 'LYRASIS' account

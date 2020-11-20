@@ -379,7 +379,7 @@ public class ReaderSteps {
                 }
                 break;
             case AUDIOBOOK:
-                Assert.assertTrue(audioPlayerScreen.state().isDisplayed(), "Audiobook screen is not present");
+                Assert.assertTrue(audioPlayerScreen.state().waitForDisplayed(), "Audiobook screen is not present");
                 break;
         }
     }

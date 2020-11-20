@@ -295,7 +295,7 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
         catalogSteps.checkThatTheActionButtonTextEqualToTheExpected(facetAvailabilityKeys);
     }
 
-    @When("I open {} type book reader")
+    @When("I read {} book")
     public void openGivenTypeBookReader(ReaderType readerType) {
         catalogSteps.openTypeBookReader(readerType);
     }
@@ -303,5 +303,11 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     @And("I open {} book from {string} lane and save book info as {string}")
     public void openBookTypeBookFromLLaneAndSaveBookInfoAs(ReaderType readerType, String laneName, String bookInfoKey) {
         catalogSteps.openBookFromLane(readerType, laneName, bookInfoKey);
+    }
+
+    @Then("Book was borrowed successfully")
+    @Then("Opened book contains read button at book details screen")
+    public void checkBookWasBorrowedSuccessfully() {
+        catalogSteps.checkBookWasBorrowedSuccessfully();
     }
 }

@@ -415,7 +415,8 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     }
 
     public void openBookFromLane(ReaderType readerType, String laneName, String bookInfoKey) {
-        Assert.assertTrue(catalogScreen.isAnyBookPresentInLane(readerType, laneName), "No books are present in lane");
+        Assert.assertTrue(catalogScreen.isAnyBookPresentInLane(readerType, laneName),
+                String.format("No books are present in lane - %s %s", readerType, laneName));
         catalogScreen.openFirstBookFromLane(readerType, laneName);
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
@@ -429,5 +430,10 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
             clickButton(BookActionButtonKeys.DOWNLOAD);
         }
         notificationModal.handleBookActionsAndNotificationPopups(button);
+    }
+
+    public void checkBookWasBorrowedSuccessfully() {
+        Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.READ) || bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.LISTEN),
+                String.format("Opened book page does not contain text %1$s or %2$s", BookActionButtonKeys.READ.i18n(), BookActionButtonKeys.LISTEN.i18n()));
     }
 }

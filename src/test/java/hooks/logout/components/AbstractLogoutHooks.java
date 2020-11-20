@@ -93,17 +93,22 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
                     } else {
                         AqualityServices.getLogger().info("Books are not found and message about it is not present");
                     }
-                    int countOfBooksWithAction = booksScreen.getCountOfBooksWithAction(BookActionButtonKeys.READ);
-                    AqualityServices.getLogger().info("Count of books with Read action - " + countOfBooksWithAction);
-                    IntStream.range(0, countOfBooksWithAction)
-                            .forEach(index -> {
-                                booksScreen.openBookPage(index, BookActionButtonKeys.READ);
-                                bookDetailsScreen.clickActionButton(BookActionButtonKeys.RETURN);
-                                notificationModal.handleBookActionsAndNotificationPopups(BookActionButtonKeys.RETURN);
-                                bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.GET);
-                                bottomMenuForm.open(BottomMenu.BOOKS);
-                            });
+                    returnBooks(BookActionButtonKeys.READ);
+                    returnBooks(BookActionButtonKeys.LISTEN);
                 }));
+    }
+
+    private void returnBooks(BookActionButtonKeys actionButton) {
+        int countOfBooksWithAction = booksScreen.getCountOfBooksWithAction(actionButton);
+        AqualityServices.getLogger().info("Count of books with Read action - " + countOfBooksWithAction);
+        IntStream.range(0, countOfBooksWithAction)
+                .forEach(index -> {
+                    booksScreen.openBookPage(index, actionButton);
+                    bookDetailsScreen.clickActionButton(BookActionButtonKeys.RETURN);
+                    notificationModal.handleBookActionsAndNotificationPopups(BookActionButtonKeys.RETURN);
+                    bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.GET);
+                    bottomMenuForm.open(BottomMenu.BOOKS);
+                });
     }
 
     private void startAppIfCrashed() {
