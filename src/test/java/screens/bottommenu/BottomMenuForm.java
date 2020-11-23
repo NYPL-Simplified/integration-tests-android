@@ -9,6 +9,4 @@ public abstract class BottomMenuForm extends Screen {
     }
 
     public abstract void open(BottomMenu bottomMenuItem);
-
-    public abstract boolean isBottomMenuBtnVisible(BottomMenu bottomMenuItem);
 }
