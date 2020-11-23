@@ -18,7 +18,7 @@ public abstract class CatalogBooksScreen extends Screen {
 
     public abstract CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey);
 
-    public abstract void clickTheBookByTitleBtnWithKey(String title, BookActionButtonKeys key);
+    public abstract void clickBookByTitleButtonWithKey(String title, BookActionButtonKeys key);
 
     public abstract void openBookDetailsWithAction(BookActionButtonKeys action);
 

@@ -22,10 +22,6 @@ import java.util.Objects;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
-    private static final String MAIN_ELEMENT = "//android.widget.TextView[contains(@content-desc, "
-            + "concat(\"Search in \", "
-            + "//*[contains(@resource-id,\"mainToolbar\")]/android.widget.TextView[1]/@text))]";
-
     private static final String ADD_BOOK_BUTTON_PATTERN = "//android.widget.Button[@content-desc=\"%1$s\"]";
 
     private static final String BOOKS_LOC = ".//*[contains(@resource-id,\"bookCellIdle\")]";
@@ -52,7 +48,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
             "%s/../preceding-sibling::android.widget.TextView[contains(@resource-id,\"bookCellIdleTitle\")]";
 
     public AndroidCatalogBooksScreen() {
-        super(By.xpath(MAIN_ELEMENT));
+        super(By.id("feedWithGroups"));
     }
 
     @Override
@@ -102,7 +98,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public void clickTheBookByTitleBtnWithKey(String title, BookActionButtonKeys key) {
+    public void clickBookByTitleButtonWithKey(String title, BookActionButtonKeys key) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,

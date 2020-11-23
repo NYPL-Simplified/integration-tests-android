@@ -18,11 +18,6 @@ public class AndroidBottomMenuForm extends BottomMenuForm {
         getButton(bottomMenuItem).click();
     }
 
-    @Override
-    public boolean isBottomMenuBtnVisible(BottomMenu bottomMenuItem) {
-        return getButton(bottomMenuItem).state().isDisplayed();
-    }
-
     private IButton getButton(BottomMenu bottomMenuItem) {
         String itemName = bottomMenuItem.getItemName();
         return getElementFactory().getButton(By.id(itemName), itemName);

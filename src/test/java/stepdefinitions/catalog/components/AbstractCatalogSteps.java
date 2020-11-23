@@ -175,7 +175,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     @Override
     public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
-        catalogBooksScreen.clickTheBookByTitleBtnWithKey(catalogBookModel.getTitle(), key);
+        catalogBooksScreen.clickBookByTitleButtonWithKey(catalogBookModel.getTitle(), key);
         notificationModal.handleBookActionsAndNotificationPopups(key);
     }
 
@@ -337,7 +337,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void checkSearchPageIsOpened() {
-        Assert.assertTrue(catalogBooksScreen.state().waitForDisplayed(), "Search page is not present");
+        Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), "Search page is not present");
     }
 
     @Override

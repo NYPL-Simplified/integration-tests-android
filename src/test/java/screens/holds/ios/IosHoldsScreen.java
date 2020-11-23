@@ -57,7 +57,7 @@ public class IosHoldsScreen extends HoldsScreen {
     }
 
     @Override
-    public void clickTheBookByTitleBtnWithKey(String title, BookActionButtonKeys key) {
+    public void clickBookByTitleButtonWithKey(String title, BookActionButtonKeys key) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
