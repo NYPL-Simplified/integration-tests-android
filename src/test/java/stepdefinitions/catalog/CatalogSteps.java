@@ -1,6 +1,7 @@
 package stepdefinitions.catalog;
 
 import com.google.inject.Inject;
+import constants.application.ReaderType;
 import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.localization.application.catalog.CategoriesNamesKeys;
@@ -239,7 +240,6 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
         catalogSteps.checkSearchPageIsOpened();
     }
 
-
     @When("I open first found book from the search result and save as {string}")
     @And("Open first found book from the search result and save as {string}")
     public CatalogBookModel selectFirstFoundBookAndSaveAs(String bookInfoKey) {
@@ -278,6 +278,11 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
         catalogSteps.pressOnTheBookDetailsScreenAtTheActionButton(actionButton);
     }
 
+    @And("Get book on the book details screen")
+    public void getBookOnTheBookDetailsScreen() {
+        catalogSteps.getBookOnTheBookDetailsScreen();
+    }
+
     @Then("I check that the action button text equal to the {}")
     public void checkThatTheActionButtonTextEqualToTheExpected(BookActionButtonKeys actionButton) {
         catalogSteps.checkThatSavedBookContainButtonAtBookDetailsScreen(actionButton);
@@ -287,5 +292,21 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     @And("Change books visibility to show {}")
     public void checkThatTheActionButtonTextEqualToTheExpected(FacetAvailabilityKeys facetAvailabilityKeys) {
         catalogSteps.checkThatTheActionButtonTextEqualToTheExpected(facetAvailabilityKeys);
+    }
+
+    @When("I read {} book")
+    public void openGivenTypeBookReader(ReaderType readerType) {
+        catalogSteps.openTypeBookReader(readerType);
+    }
+
+    @And("I open {} book from {string} lane and save book info as {string}")
+    public void openBookTypeBookFromLLaneAndSaveBookInfoAs(ReaderType readerType, String laneName, String bookInfoKey) {
+        catalogSteps.openBookFromLane(readerType, laneName, bookInfoKey);
+    }
+
+    @Then("Book was borrowed successfully")
+    @Then("Opened book contains read button at book details screen")
+    public void checkBookWasBorrowedSuccessfully() {
+        catalogSteps.checkBookWasBorrowedSuccessfully();
     }
 }

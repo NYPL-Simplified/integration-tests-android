@@ -1,6 +1,7 @@
 package stepdefinitions.catalog.components;
 
 import aquality.appium.mobile.application.AqualityServices;
+import constants.application.ReaderType;
 import constants.application.timeouts.CategoriesTimeouts;
 import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
@@ -383,7 +384,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void pressOnTheBookDetailsScreenAtTheActionButton(BookActionButtonKeys actionButton) {
-        bookDetailsScreen.clickActionButton(actionButton);
+        clickButton(actionButton);
         notificationModal.handleBookActionsAndNotificationPopups(actionButton);
     }
 
@@ -396,5 +397,44 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void openBookWithGivenName(String bookName, String bookInfoKey) {
         subcategoryScreen.state().waitForDisplayed();
         context.add(bookInfoKey, subcategoryScreen.openBookByName(bookName));
+    }
+
+    public void openTypeBookReader(ReaderType readerType) {
+        switch (readerType) {
+            case EBOOK:
+                clickButton(BookActionButtonKeys.READ);
+                break;
+            case AUDIOBOOK:
+                clickButton(BookActionButtonKeys.LISTEN);
+                break;
+        }
+    }
+
+    private void clickButton(BookActionButtonKeys read) {
+        bookDetailsScreen.clickActionButton(read);
+    }
+
+    public void openBookFromLane(ReaderType readerType, String laneName, String bookInfoKey) {
+        Assert.assertTrue(catalogScreen.isAnyBookPresentInLane(readerType, laneName),
+                String.format("No books are present in lane - %s %s", readerType, laneName));
+        catalogScreen.openFirstBookFromLane(readerType, laneName);
+        bookDetailsScreen.state().waitForDisplayed();
+        context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
+    }
+
+    public void getBookOnTheBookDetailsScreen() {
+        BookActionButtonKeys button = BookActionButtonKeys.GET;
+        if (bookDetailsScreen.isActionButtonPresent(BookActionButtonKeys.GET)) {
+            clickButton(BookActionButtonKeys.GET);
+        } else {
+            button = BookActionButtonKeys.DOWNLOAD;
+            clickButton(BookActionButtonKeys.DOWNLOAD);
+        }
+        notificationModal.handleBookActionsAndNotificationPopups(button);
+    }
+
+    public void checkBookWasBorrowedSuccessfully() {
+        Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.READ) || bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.LISTEN),
+                String.format("Opened book page does not contain text %1$s or %2$s", BookActionButtonKeys.READ.i18n(), BookActionButtonKeys.LISTEN.i18n()));
     }
 }

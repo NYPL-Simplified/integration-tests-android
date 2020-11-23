@@ -31,4 +31,6 @@ public abstract class BookDetailsScreen extends Screen {
     public abstract boolean isBookAddButtonTextEqualTo(BookActionButtonKeys key);
 
     public abstract void clickActionButton(BookActionButtonKeys buttonKeys);
+
+    public abstract boolean isActionButtonPresent(BookActionButtonKeys actionButton);
 }

@@ -1,16 +1,28 @@
 package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
+import com.google.inject.Inject;
+import constants.context.ContextLibrariesKeys;
+import framework.configuration.Configuration;
+import framework.utilities.ScenarioContext;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 import screens.account.AccountScreen;
 import screens.accounts.AccountsScreen;
 import screens.addaccount.AddAccountScreen;
+import screens.addcustomopdsfeed.AddCustomOpdsFeedScreen;
+import screens.agegate.AgeGateScreen;
 import screens.alert.AlertScreen;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
+import screens.catalog.form.MainCatalogToolbarForm;
+import screens.catalog.screen.catalog.CatalogScreen;
+import screens.debugoptionsscreen.DebugOptionsScreen;
 import screens.settings.SettingsScreen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountSteps {
     private final AccountsScreen accountsScreen;
@@ -19,14 +31,27 @@ public class AccountSteps {
     private final AddAccountScreen addAccountScreen;
     private final AlertScreen alertScreen;
     private final AccountScreen accountScreen;
+    private final DebugOptionsScreen debugOptionsScreen;
+    private final AddCustomOpdsFeedScreen addCustomOpdsScreen;
+    private final AgeGateScreen ageGateScreen;
+    private final MainCatalogToolbarForm mainCatalogToolbarForm;
+    private final CatalogScreen catalogScreen;
+    private ScenarioContext context;
 
-    public AccountSteps() {
+    @Inject
+    public AccountSteps(ScenarioContext context) {
+        this.context = context;
         accountsScreen = AqualityServices.getScreenFactory().getScreen(AccountsScreen.class);
         bottomMenuForm = AqualityServices.getScreenFactory().getScreen(BottomMenuForm.class);
         settingsScreen = AqualityServices.getScreenFactory().getScreen(SettingsScreen.class);
         addAccountScreen = AqualityServices.getScreenFactory().getScreen(AddAccountScreen.class);
         alertScreen = AqualityServices.getScreenFactory().getScreen(AlertScreen.class);
         accountScreen = AqualityServices.getScreenFactory().getScreen(AccountScreen.class);
+        debugOptionsScreen = AqualityServices.getScreenFactory().getScreen(DebugOptionsScreen.class);
+        addCustomOpdsScreen = AqualityServices.getScreenFactory().getScreen(AddCustomOpdsFeedScreen.class);
+        ageGateScreen = AqualityServices.getScreenFactory().getScreen(AgeGateScreen.class);
+        mainCatalogToolbarForm = AqualityServices.getScreenFactory().getScreen(MainCatalogToolbarForm.class);
+        catalogScreen = AqualityServices.getScreenFactory().getScreen(CatalogScreen.class);
     }
 
     @When("I add {string} account")
@@ -69,5 +94,33 @@ public class AccountSteps {
     private void openAccounts() {
         bottomMenuForm.open(BottomMenu.SETTINGS);
         settingsScreen.openAccounts();
+    }
+
+    @When("I add custom {string} odps feed")
+    public void iAddCustomTheNewYorkPublicLibraryOdpsFeed(String feedName) {
+        bottomMenuForm.open(BottomMenu.SETTINGS);
+        Assert.assertTrue(settingsScreen.openDebugButton(), "Feed name wasn't opened");
+        settingsScreen.openDebugMode();
+        debugOptionsScreen.addCustomOpds();
+        addCustomOpdsScreen.enterOpds(Configuration.getOpds(feedName));
+        bottomMenuForm.open(BottomMenu.SETTINGS);
+        bottomMenuForm.open(BottomMenu.CATALOG);
+        if (ageGateScreen.state().waitForDisplayed()) {
+            ageGateScreen.approveAge();
+        }
+        mainCatalogToolbarForm.chooseAnotherLibrary();
+        catalogScreen.openLibrary(feedName);
+        accountScreen.enterCredentials(Configuration.getCredentials(feedName));
+        context.add(ContextLibrariesKeys.LOG_OUT.getKey(), feedName);
+        settingsScreen.state().waitForDisplayed();
+        bottomMenuForm.open(BottomMenu.CATALOG);
+
+        String libraryName = mainCatalogToolbarForm.getCatalogName();
+        List<String> listOfLibraries = context.containsKey(ContextLibrariesKeys.CANCEL_GET.getKey())
+                ? context.get(ContextLibrariesKeys.CANCEL_GET.getKey())
+                : new ArrayList<>();
+
+        listOfLibraries.add(libraryName);
+        context.add(ContextLibrariesKeys.CANCEL_GET.getKey(), listOfLibraries);
     }
 }

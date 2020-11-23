@@ -60,6 +60,11 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
     }
 
     @Override
+    public boolean isBookNamePresent() {
+        return false;
+    }
+
+    @Override
     public void swipeFromLeftToRight() {
         SwipeElementUtils.swipeFromLeftToRight(lblPage);
     }

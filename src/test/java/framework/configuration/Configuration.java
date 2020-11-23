@@ -17,9 +17,9 @@ public class Configuration {
         Properties systemEnvironments = System.getProperties();
         Map<String, Object> listOfCredentials = new HashMap<>();
         String variableNameBeginning = "credentials." + libraryName + ".";
-        if (systemEnvironments.keySet().stream().anyMatch(x -> ((String)x).startsWith(variableNameBeginning))) {
-            Stream<Object> foundVariables = systemEnvironments.keySet().stream().filter(x -> ((String)x).startsWith(variableNameBeginning));
-            foundVariables.forEach(x -> listOfCredentials.put(((String)x).replace(variableNameBeginning, ""), systemEnvironments.get(x)));
+        if (systemEnvironments.keySet().stream().anyMatch(x -> ((String) x).startsWith(variableNameBeginning))) {
+            Stream<Object> foundVariables = systemEnvironments.keySet().stream().filter(x -> ((String) x).startsWith(variableNameBeginning));
+            foundVariables.forEach(x -> listOfCredentials.put(((String) x).replace(variableNameBeginning, ""), systemEnvironments.get(x)));
         } else {
             listOfCredentials.putAll(Environment.getEnvironment().getMap("/credentials/" + libraryName));
         }
@@ -28,5 +28,18 @@ public class Configuration {
         credentials.setBarcode(randomCredentialsKey);
         credentials.setPin((String) listOfCredentials.get(randomCredentialsKey));
         return credentials;
+    }
+
+    public static String getOpds(String libraryName) {
+        Properties systemEnvironments = System.getProperties();
+        ArrayList<String> listOfCredentials = new ArrayList<>();
+        String variableNameBeginning = "feed.";
+        if (systemEnvironments.keySet().stream().anyMatch(x -> ((String) x).startsWith(variableNameBeginning))) {
+            Stream<Object> foundVariables = systemEnvironments.keySet().stream().filter(x -> ((String) x).startsWith(variableNameBeginning));
+            foundVariables.forEach(x -> listOfCredentials.add((String) systemEnvironments.get(x)));
+        } else {
+            listOfCredentials.add((String) Environment.getEnvironment().getMap("/feed").get(libraryName));
+        }
+        return listOfCredentials.get(RandomUtils.nextInt(0, listOfCredentials.size()));
     }
 }

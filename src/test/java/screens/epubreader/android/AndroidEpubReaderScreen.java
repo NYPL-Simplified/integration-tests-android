@@ -47,6 +47,11 @@ public class AndroidEpubReaderScreen extends EpubReaderScreen {
     }
 
     @Override
+    public boolean isBookNamePresent() {
+        return lblBookName.state().waitForDisplayed();
+    }
+
+    @Override
     public void swipeFromLeftToRight() {
         SwipeElementUtils.swipeFromLeftToRight(lblPage);
     }

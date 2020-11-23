@@ -33,4 +33,12 @@ public class IosSettingsScreen extends SettingsScreen {
         }
     }
 
+    @Override
+    public void openDebugMode() {
+    }
+
+    @Override
+    public boolean openDebugButton() {
+        return false;
+    }
 }

@@ -12,7 +12,7 @@ public class AndroidSearchModal extends SearchModal {
     private final ITextBox txbSearch =
             getElementFactory().getTextBox(By.xpath("//*[contains(@resource-id,\"searchDialogText\")]"), "Search value input");
     private final IButton btnSearch =
-            getElementFactory().getButton(By.xpath("//*[contains(@resource-id,\"buttonPanel\")]//android.widget.Button"), "Apply search button");
+            getElementFactory().getButton(By.xpath("//*[contains(@resource-id,\"buttonPanel\")]//android.widget.Button[contains(@text,'SEARCH')]"), "Apply search button");
 
     public AndroidSearchModal() {
         super(By.xpath("//*[contains(@resource-id,\"parentPanel\")]"));
