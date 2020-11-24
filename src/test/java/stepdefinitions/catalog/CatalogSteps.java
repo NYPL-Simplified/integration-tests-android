@@ -304,7 +304,6 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
         catalogSteps.openBookFromLane(readerType, laneName, bookInfoKey);
     }
 
-    @Then("Book was borrowed successfully")
     @Then("Opened book contains read button at book details screen")
     public void checkBookWasBorrowedSuccessfully() {
         catalogSteps.checkBookWasBorrowedSuccessfully();
