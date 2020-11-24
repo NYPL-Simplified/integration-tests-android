@@ -437,4 +437,8 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.READ) || bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.LISTEN),
                 String.format("Opened book page does not contain text %1$s or %2$s", BookActionButtonKeys.READ.i18n(), BookActionButtonKeys.LISTEN.i18n()));
     }
+
+    public void openFirstBookAndSaveBookInfoAs(ReaderType readerType, String bookInfoKey) {
+        catalogScreen.openFirstBookOfType(readerType, bookInfoKey);
+    }
 }
