@@ -168,7 +168,7 @@ Feature: Book Transactions
     Then Books feed is loaded
     When I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
       And Get book on the book details screen
-    Then Book was borrowed successfully
+    Then Opened book contains read button at book details screen
     When I open Books
     Then Book 'bookInfo' is present in Books List
     When I open book 'bookInfo' details by clicking on cover
