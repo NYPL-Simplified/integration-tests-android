@@ -116,6 +116,7 @@ Feature: Book Transactions
     Scenarios:
       | feedName                            | laneName                                      | bookType  |
       | New York Public Library - QA Server | Axis 360                                      | AUDIOBOOK |
+      | New York Public Library - QA Server | Axis 360                                      | EBOOK     |
       | New York Public Library - QA Server | Plympton                                      | EBOOK     |
       | New York Public Library - QA Server | Plympton                                      | AUDIOBOOK |
       | New York Public Library - QA Server | Bibliotheca                                   | EBOOK     |
@@ -180,6 +181,7 @@ Feature: Book Transactions
     Scenarios:
       | feedName                            | laneName                                      | bookType  |
       | New York Public Library - QA Server | Axis 360                                      | AUDIOBOOK |
+      | New York Public Library - QA Server | Axis 360                                      | EBOOK     |
       | New York Public Library - QA Server | Plympton                                      | EBOOK     |
       | New York Public Library - QA Server | Plympton                                      | AUDIOBOOK |
       | New York Public Library - QA Server | Bibliotheca                                   | EBOOK     |
