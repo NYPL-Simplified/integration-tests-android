@@ -15,10 +15,7 @@ public class AndroidCatalogSteps extends AbstractCatalogSteps {
 
     @Override
     public void checkCurrentCategoryName(String expectedCategoryName) {
-        Assert.assertTrue(AqualityServices.getConditionalWait()
-                        .waitFor(() -> mainCatalogToolbarForm.getCategoryName().equals(expectedCategoryName),
-                                "Wait while category become correct."),
-                String.format("Current category name is not correct. Expected '%1$s' but found '%2$s'",
-                        mainCatalogToolbarForm.getCategoryName(), expectedCategoryName));
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> mainCatalogToolbarForm.getCategoryName().equals(expectedCategoryName), "Wait while category become correct."),
+                String.format("Current category name is not correct. Expected '%1$s' but found '%2$s'", expectedCategoryName, mainCatalogToolbarForm.getCategoryName()));
     }
 }
