@@ -3,7 +3,6 @@ package stepdefinitions.catalog.components;
 import aquality.appium.mobile.application.AqualityServices;
 import constants.application.ReaderType;
 import constants.application.timeouts.CategoriesTimeouts;
-import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.localization.application.catalog.BookActionButtonNames;
 import constants.localization.application.catalog.CategoriesNamesKeys;
@@ -177,27 +176,6 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         catalogBooksScreen.clickBookByTitleButtonWithKey(catalogBookModel.getTitle(), key);
         notificationModal.handleBookActionsAndNotificationPopups(key);
-    }
-
-    @Override
-    public void saveLibraryForCancel(ContextLibrariesKeys contextLibrariesKeys) {
-        String libraryName = mainCatalogToolbarForm.getCatalogName();
-        List<String> listOfLibraries = context.containsKey(contextLibrariesKeys.getKey())
-                ? context.get(contextLibrariesKeys.getKey())
-                : new ArrayList<>();
-
-        listOfLibraries.add(libraryName);
-        context.add(contextLibrariesKeys.getKey(), listOfLibraries);
-    }
-
-    @Override
-    public void saveLibraryForCancel(String libraryName, ContextLibrariesKeys contextLibrariesKeys) {
-        List<String> listOfLibraries = context.containsKey(contextLibrariesKeys.getKey())
-                ? context.get(contextLibrariesKeys.getKey())
-                : new ArrayList<>();
-
-        listOfLibraries.add(libraryName);
-        context.add(contextLibrariesKeys.getKey(), listOfLibraries);
     }
 
     @Override

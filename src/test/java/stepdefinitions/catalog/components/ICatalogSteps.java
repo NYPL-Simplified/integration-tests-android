@@ -1,6 +1,5 @@
 package stepdefinitions.catalog.components;
 
-import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.localization.application.catalog.CategoriesNamesKeys;
 import constants.localization.application.facetedSearch.FacetAvailabilityKeys;
@@ -50,10 +49,6 @@ public interface ICatalogSteps {
     void performActionOnBookByNameAndSaveIt(BookActionButtonKeys actionButtonKey, String bookName, String bookInfoKey);
 
     void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key);
-
-    void saveLibraryForCancel(ContextLibrariesKeys contextLibrariesKeys);
-
-    void saveLibraryForCancel(String libraryName, ContextLibrariesKeys contextLibrariesKeys);
 
     void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks);
 
