@@ -97,9 +97,9 @@ public class AccountSteps {
     }
 
     @When("I add custom {string} odps feed")
-    public void iAddCustomTheNewYorkPublicLibraryOdpsFeed(String feedName) {
+    public void addCustomOpdsFeed(String feedName) {
         bottomMenuForm.open(BottomMenu.SETTINGS);
-        Assert.assertTrue(settingsScreen.openDebugButton(), "Feed name wasn't opened");
+        Assert.assertTrue(settingsScreen.openDebugButton(), "Feed menu wasn't opened");
         settingsScreen.openDebugMode();
         debugOptionsScreen.addCustomOpds();
         addCustomOpdsScreen.enterOpds(Configuration.getOpds(feedName));
