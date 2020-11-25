@@ -86,8 +86,8 @@ public class IosAccountScreen extends AccountScreen {
                 .waitFor(() -> btnLogin.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n())
                                 && !txbCard.getText().equals(loginTextBeforeLogout)
                                 && !txbPin.getText().equals(passwordTextBeforeLogout),
-                        Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getTimeoutMillis()),
-                        Duration.ofMillis(AuthorizationTimeouts.TIMEOUT_USER_LOGGED_OUT.getPollingMillis()),
+                        Duration.ofMillis(AuthorizationTimeouts.USER_LOGGED_OUT.getTimeoutMillis()),
+                        Duration.ofMillis(AuthorizationTimeouts.USER_LOGGED_OUT.getPollingMillis()),
                         Collections.singletonList(NoSuchElementException.class));
     }
 
