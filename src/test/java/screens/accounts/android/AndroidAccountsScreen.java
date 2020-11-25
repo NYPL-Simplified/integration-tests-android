@@ -1,12 +1,8 @@
 package screens.accounts.android;
 
-import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.LongPressOptions;
-import io.appium.java_client.touch.offset.ElementOption;
 import org.openqa.selenium.By;
 import screens.accounts.AccountsScreen;
 
@@ -14,9 +10,13 @@ import screens.accounts.AccountsScreen;
 public class AndroidAccountsScreen extends AccountsScreen {
     public static final String LIBRARY_BUTTON_LOCATOR_PATTERN =
             "//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[contains(@text, \"%s\")]";
+    public static final String DELETE_LIBRARY_BUTTON_LOCATOR_PATTERN =
+            "//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[contains(@text, \"%s\")]//parent::android.widget.LinearLayout//following-sibling::android.widget.ImageButton";
     private final IButton addBtn = getElementFactory().getButton(By.id("accountsMenuActionAccountAdd"), "Add account");
     private IButton btnFirstLibrary =
             getElementFactory().getButton(By.xpath("//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[1]"), "First library");
+    private IButton btnDelete =
+            getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text,'Delete')]"), "Delete");
 
     public AndroidAccountsScreen() {
         super(By.id("accountOthers"));
@@ -48,8 +48,7 @@ public class AndroidAccountsScreen extends AccountsScreen {
 
     @Override
     public void deleteLibrary(String libraryName) {
-        IButton buttonToWaitFor = getLibraryButton(libraryName);
-        TouchAction action = new TouchAction(AqualityServices.getApplication().getDriver());
-        action.longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(buttonToWaitFor.getElement()))).release().perform();
+        getElementFactory().getButton(By.xpath(String.format(DELETE_LIBRARY_BUTTON_LOCATOR_PATTERN, libraryName)), "Delete " + libraryName).click();
+        btnDelete.click();
     }
 }

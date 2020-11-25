@@ -136,19 +136,19 @@ Feature: Catalog Navigation
 Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudley, Harry Potter knows that Voldemort will stop at nothing to find him. There are many who deny the Dark Lord's return, but Harry is not alone: a secret order gathers at Grimmauld Place to fight against the Dark forces. Harry must allow Professor Snape to teach him how to protect himself from Voldemort's savage assaults on his mind. But they are growing stronger by the day and Harry is running out of time...
     """
     When I open related books
-    Then Current category name is 'Related Books'
+    Then Current category name is 'Related books…'
       And Count of books in subcategory 'J. K. Rowling' lane is up to 12
     When I open 'J. K. Rowling' subcategory
     Then Current category name is 'J. K. Rowling'
       And Count of books in search result is up to 12
     When I return to previous screen
-    Then Current category name is 'Related Books'
+    Then Current category name is 'Related books…'
       And Count of books in subcategory 'Similar titles recommended by NoveList' lane is up to 12
     When I open 'Similar titles recommended by NoveList' subcategory
     Then Current category name by localization is TITLE_RECOMMENDED_BY_NOVELIST
       And Count of books in search result is up to 12
     When I return to previous screen
-    Then Current category name is 'Related Books'
+    Then Current category name is 'Related books…'
       And Count of books in subcategory 'Harry Potter' lane is up to 12
     When I open 'Harry Potter' subcategory
     Then Current category name is 'Harry Potter'

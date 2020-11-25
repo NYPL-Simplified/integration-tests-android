@@ -4,8 +4,11 @@ import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import constants.application.timeouts.AuthorizationTimeouts;
 import org.openqa.selenium.By;
 import screens.settings.SettingsScreen;
+
+import java.time.Duration;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidSettingsScreen extends SettingsScreen {
@@ -30,7 +33,7 @@ public class AndroidSettingsScreen extends SettingsScreen {
         return AqualityServices.getConditionalWait().waitFor(() -> {
             buildBtn.click();
             return btnDebugOptions.state().isDisplayed();
-        });
+        }, Duration.ofMillis(AuthorizationTimeouts.DEBUG_MENU_IS_OPENED.getTimeoutMillis()));
     }
 
     @Override
