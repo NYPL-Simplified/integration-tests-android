@@ -61,6 +61,8 @@ public class AccountSteps {
         Assert.assertTrue(addAccountScreen.state().waitForDisplayed(),
                 "Checking that add accounts screen visible");
         addAccountScreen.selectLibrary(libraryName);
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey());
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey());
     }
 
     @Then("Account {string} is present on Accounts screen")
@@ -91,11 +93,6 @@ public class AccountSteps {
         accountsScreen.openAccount(libraryName);
     }
 
-    private void openAccounts() {
-        bottomMenuForm.open(BottomMenu.SETTINGS);
-        settingsScreen.openAccounts();
-    }
-
     @When("I add custom {string} odps feed")
     public void iAddCustomTheNewYorkPublicLibraryOdpsFeed(String feedName) {
         bottomMenuForm.open(BottomMenu.SETTINGS);
@@ -115,12 +112,22 @@ public class AccountSteps {
         settingsScreen.state().waitForDisplayed();
         bottomMenuForm.open(BottomMenu.CATALOG);
 
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey());
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey());
+    }
+
+    private void saveLibraryInContext(String key) {
         String libraryName = mainCatalogToolbarForm.getCatalogName();
-        List<String> listOfLibraries = context.containsKey(ContextLibrariesKeys.CANCEL_GET.getKey())
-                ? context.get(ContextLibrariesKeys.CANCEL_GET.getKey())
+        List<String> listOfLibraries = context.containsKey(key)
+                ? context.get(key)
                 : new ArrayList<>();
 
         listOfLibraries.add(libraryName);
-        context.add(ContextLibrariesKeys.CANCEL_GET.getKey(), listOfLibraries);
+        context.add(key, listOfLibraries);
+    }
+
+    private void openAccounts() {
+        bottomMenuForm.open(BottomMenu.SETTINGS);
+        settingsScreen.openAccounts();
     }
 }
