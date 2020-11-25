@@ -8,9 +8,9 @@ import lombok.NonNull;
 import java.util.Locale;
 
 public enum FontNameKeys implements LocalizedValue {
-    SERIF_FONT_NAME("serif"),
-    SANS_SERIF_FONT_NAME("sans-serif"),
-    ALTERNATIVE_SANS_FONT_NAME("openDyslexic3");
+    SERIF("serif"),
+    SANS_SERIF_ARIAL("sans-serif"),
+    ALTERNATIVE_SANS("openDyslexic3");
 
     private String color;
     private static final AbstractILocalizationProvider localizationProvider =
