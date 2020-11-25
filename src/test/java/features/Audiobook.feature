@@ -6,7 +6,6 @@ Feature: Audiobook
     Then Books feed is loaded
     When I open first AUDIOBOOK book and save book info as 'bookInfo'
       And Get book on the book details screen
-      And Save current 'New York Public Library - QA Server' library for CANCEL_GET books after test
     Then I check that opened book contains LISTEN button at book details screen
 
   @logout @cancelGet @tier2
