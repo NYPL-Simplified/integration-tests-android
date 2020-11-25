@@ -31,6 +31,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
     private static final String FEED_LANE_TITLES_LOC = "//*[contains(@resource-id,\"feedLaneTitle\")]";
     public static final String LANE_LOCATOR_PATTERN = "//*[contains(@text,'{%s} - Medium {%s}')]";
     public static final String BOOK_IN_LANE_LOCATOR_PATTERN = "//*[contains(@text,'{%s} - Medium {%s}')]/following-sibling::androidx.recyclerview.widget.RecyclerView/android.widget.LinearLayout";
+    public static final String BOOK_OF_TYPE_LOCATOR_PATTERN = "//android.widget.LinearLayout[contains(@content-desc,'%s')]";
 
     private final ILabel firstLaneName = getElementFactory().getLabel(
             By.xpath(FEED_LANE_TITLES_LOC), "First lane name");
@@ -120,7 +121,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
     }
 
     @Override
-    public void openFirstBookFromLane(ReaderType readerType,String laneName) {
+    public void openFirstBookFromLane(ReaderType readerType, String laneName) {
         getBookFromLaneLabel(readerType, laneName).getTouchActions().scrollToElement(SwipeDirection.DOWN);
         getBookFromLaneLabel(readerType, laneName).click();
     }
@@ -129,6 +130,14 @@ public class AndroidCatalogScreen extends CatalogScreen {
     public boolean isAnyBookPresentInLane(ReaderType readerType, String laneName) {
         getElementFactory().getButton(By.xpath(String.format(LANE_LOCATOR_PATTERN, laneName, readerType.toString())), laneName).getTouchActions().scrollToElement(SwipeDirection.DOWN);
         return getElementFactory().findElements(By.xpath(String.format(BOOK_IN_LANE_LOCATOR_PATTERN, laneName, readerType.toString())), ElementType.LABEL).size() > 0;
+    }
+
+    @Override
+    public void openFirstBookOfType(ReaderType readerType, String bookInfoKey) {
+        IButton button =
+                getElementFactory().getButton(By.xpath(String.format(BOOK_OF_TYPE_LOCATOR_PATTERN, readerType.toString().toLowerCase())), "First book of " + readerType.toString() + " type in catalog");
+        button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        button.click();
     }
 
     private IButton getBookFromLaneLabel(ReaderType readerType, String laneName) {

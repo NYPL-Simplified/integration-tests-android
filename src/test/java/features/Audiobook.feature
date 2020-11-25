@@ -2,20 +2,10 @@ Feature: Audiobook
 
   Background:
     Given Application is opened
-    When I add 'The New York Public Library' account
-    Then Account 'The New York Public Library' is present on Accounts screen
-    When I enter credentials for 'The New York Public Library' account
-    Then Login is performed successfully
-    When I open Catalog
-    And I switch to 'The New York Public Library' from side menu
+    When I add custom 'New York Public Library - QA Server' odps feed
     Then Books feed is loaded
-    When I switch to 'Audiobooks' catalog tab
-    Then Books feed is loaded
-    When I open category by chain:
-      | 125 Books We Love For Teens |
-    Then Current category name is '125 Books We Love For Teens'
-    When I open the book details for the subsequent GET and save it as 'bookInfo'
-    And Save current 'The New York Public Library' library for CANCEL_GET books after test
+    When I open first AUDIOBOOK book and save book info as 'bookInfo'
+      And Get book on the book details screen
     Then I check that opened book contains LISTEN button at book details screen
 
   @logout @cancelGet @tier2

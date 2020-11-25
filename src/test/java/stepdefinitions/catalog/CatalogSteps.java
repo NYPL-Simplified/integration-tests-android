@@ -2,7 +2,6 @@ package stepdefinitions.catalog;
 
 import com.google.inject.Inject;
 import constants.application.ReaderType;
-import constants.context.ContextLibrariesKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.localization.application.catalog.CategoriesNamesKeys;
 import constants.localization.application.facetedSearch.FacetAvailabilityKeys;
@@ -136,16 +135,6 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     @When("I click on the book {string} button {} on catalog books screen")
     public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
         catalogSteps.clickOnTheBookAddButtonOnCatalogBooksScreen(bookInfoKey, key);
-    }
-
-    @And("Save current library for {} books after test")
-    public void saveLibraryForCancel(ContextLibrariesKeys contextLibrariesKeys) {
-        catalogSteps.saveLibraryForCancel(contextLibrariesKeys);
-    }
-
-    @And("Save current {string} library for {} books after test")
-    public void saveLibraryForCancel(String libraryName, ContextLibrariesKeys contextLibrariesKeys) {
-        catalogSteps.saveLibraryForCancel(libraryName, contextLibrariesKeys);
     }
 
     @And("Count of books in first lane is up to {int}")
@@ -307,5 +296,10 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     @Then("Opened book contains read button at book details screen")
     public void checkBookWasBorrowedSuccessfully() {
         catalogSteps.checkBookWasBorrowedSuccessfully();
+    }
+
+    @When("I open first {} book and save book info as {string}")
+    public void openFirstBookAndSaveBookInfoAs(ReaderType readerType, String bookInfoKey) {
+        catalogSteps.openFirstBookAndSaveBookInfoAs(readerType, bookInfoKey);
     }
 }

@@ -17,7 +17,6 @@ Feature: Book Transactions
       And Change books visibility to show ALL
     Then Current category name is '2020\'s Hottest Books'
     When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
-      And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
     Then I check that opened book contains CANCEL button at book details screen
 
   @tier2
@@ -57,7 +56,6 @@ Feature: Book Transactions
       | Fiction   |
       | Adventure |
       And GET book and save it as 'bookInfo'
-      And Save current 'LYRASIS' library for CANCEL_GET books after test
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open Books
     Then Book 'bookInfo' is present in Books List
@@ -97,7 +95,6 @@ Feature: Book Transactions
       | Biography & Memoir |
     Then Current category name is 'Biography & Memoir'
     When I open the book details for the subsequent GET and save it as 'bookInfo'
-    And Save current 'LYRASIS' library for CANCEL_GET books after test
 
   @logout @cancelGet @tier2 @logout @exclude_ios
   Scenario Outline: Check out from Book Detail View (feed)
@@ -144,7 +141,7 @@ Feature: Book Transactions
     When I enter credentials for 'LYRASIS' account
     Then Login is performed successfully
     When I open Catalog
-    And I switch to 'LYRASIS' from side menu
+      And I switch to 'LYRASIS' from side menu
     Then Books feed is loaded
     When I open category by chain:
       | Nonfiction   |
@@ -152,12 +149,11 @@ Feature: Book Transactions
       | Art          |
     Then Current category name is 'Art'
     When I open the book details for the subsequent GET and save it as 'bookInfo'
-    And Save current 'LYRASIS' library for CANCEL_GET books after test
     Then I check that opened book contains READ button at book details screen
     When I open Books
     Then Book 'bookInfo' is present in Books List
     When I open book 'bookInfo' details by clicking on cover
-    And Press on the book details screen at the action button RETURN
+      And Press on the book details screen at the action button RETURN
     Then I check that the action button text equal to the GET
     When I open Books
     Then Book 'bookInfo' is not present in Books List
@@ -210,17 +206,14 @@ Feature: Book Transactions
     Then Search modal is closed
       And Search page is opened
     When RESERVE book and save it as 'bookInfo'
-      And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
     When I click on the book 'bookInfo' button CANCEL on catalog books screen
     Then Book saved as 'bookInfo' should contain RESERVE button at catalog books screen
     When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
-      And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
     Then I check that opened book contains CANCEL button at book details screen
     When Press on the book details screen at the action button CANCEL
     Then I check that the action button text equal to the RESERVE
     When Press on the book details screen at the action button RESERVE
-      And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
     Then I check that opened book contains CANCEL button at book details screen
     When I open Holds
     Then Book 'bookInfo' is present in Holds List
@@ -234,14 +227,13 @@ Feature: Book Transactions
     When I enter credentials for 'The New York Public Library' account
     Then Login is performed successfully
     When I open Catalog
-    And I switch to 'The New York Public Library' from side menu
+      And I switch to 'The New York Public Library' from side menu
     Then Books feed is loaded
     When I open category by chain:
       | 2020's Hottest Books |
-    And Change books visibility to show ALL
+      And Change books visibility to show ALL
     Then Current category name is '2020\'s Hottest Books'
     When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
-    And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
     Then I check that opened book contains CANCEL button at book details screen
     When I open Holds
     Then Book 'bookInfo' is present in Holds List

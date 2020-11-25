@@ -16,7 +16,6 @@ Feature: Read PDF IOS
     Then Search modal is closed
       And Search page is opened
     When I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
-      And Save current 'The New York Public Library' library for CANCEL_GET books after test
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ

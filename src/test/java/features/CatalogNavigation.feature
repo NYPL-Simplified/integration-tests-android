@@ -167,7 +167,6 @@ Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudl
       | 2020's Hottest Books |
       And Change books visibility to show ALL
       And RESERVE book and save it as 'bookInfo'
-      And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
 
   @logout @cancelGet @tier2
@@ -181,7 +180,6 @@ Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudl
     Then Books feed is loaded
     When I open category by chain:
       | Essential Reads on Feminism |
-      And Save current 'The New York Public Library' library for CANCEL_GET books after test
       And I open the book details for the subsequent GET and save it as 'bookInfo'
       And I check that opened book contains READ button at book details screen
       And Press on the book details screen at the action button RETURN

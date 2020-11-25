@@ -4,6 +4,11 @@ Feature: Manage Libraries
     Given Application is opened
 
   @tier1
+  Scenario: Add Library
+    When I add 'Alameda County Library' account
+    Then Account 'Alameda County Library' is present on Accounts screen
+
+  @tier1
   Scenario: Switch Library Catalogs
     When I add 'Alameda County Library' account
     Then Account 'Alameda County Library' is present on Accounts screen
@@ -52,7 +57,6 @@ Feature: Manage Libraries
       | 2020's Hottest Books |
       And Change books visibility to show ALL
       And I open the book details for the subsequent RESERVE and save it as 'bookInfo'
-      And Save current 'The New York Public Library' library for CANCEL_HOLD books after test
       And Open Holds
     Then Holds feed is loaded
       And Book 'bookInfo' is present in Holds List
