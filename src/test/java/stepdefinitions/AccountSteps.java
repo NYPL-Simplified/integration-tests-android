@@ -61,8 +61,8 @@ public class AccountSteps {
         Assert.assertTrue(addAccountScreen.state().waitForDisplayed(),
                 "Checking that add accounts screen visible");
         addAccountScreen.selectLibrary(libraryName);
-        saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey());
-        saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey());
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey(), libraryName);
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey(), libraryName);
     }
 
     @Then("Account {string} is present on Accounts screen")
@@ -112,12 +112,11 @@ public class AccountSteps {
         settingsScreen.state().waitForDisplayed();
         bottomMenuForm.open(BottomMenu.CATALOG);
 
-        saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey());
-        saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey());
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey(), feedName);
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey(), feedName);
     }
 
-    private void saveLibraryInContext(String key) {
-        String libraryName = mainCatalogToolbarForm.getCatalogName();
+    private void saveLibraryInContext(String key, String libraryName) {
         List<String> listOfLibraries = context.containsKey(key)
                 ? context.get(key)
                 : new ArrayList<>();
