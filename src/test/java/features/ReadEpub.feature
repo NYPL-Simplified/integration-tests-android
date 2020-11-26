@@ -56,11 +56,11 @@ Feature: Read EPUB
       And I DECREASE_FONT of text
     Then Font size 'fontSize' is decreased
     When I change font style to SERIF
-    Then Book text displays in serif font
+    Then Book text displays in SERIF font
     When I change font style to SANS_SERIF_ARIAL
-    Then Book text displays in sans-serif arial font
+    Then Book text displays in SANS_SERIF_ARIAL font
     When I change font style to ALTERNATIVE_SANS
-    Then Book text displays in alternative sans font
+    Then Book text displays in ALTERNATIVE_SANS font
     When I change contrast to WHITE_TEXT_ON_BLACK
     Then Book text displays WHITE on BLACK
     When I change contrast to BLACK_TEXT_ON_WHITE

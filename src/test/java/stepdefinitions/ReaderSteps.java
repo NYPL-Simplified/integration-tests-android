@@ -191,23 +191,9 @@ public class ReaderSteps {
         assertFontAndBackground(text, background);
     }
 
-    @Then("Book text displays in serif font")
-    public void bookTextDisplaysInSerifFont() {
-        assertFontName(FontNameKeys.SERIF_FONT_NAME.i18n());
-    }
-
-    @Then("Book text displays in sans-serif arial font")
-    public void bookTextDisplaysInSansSerifArialFont() {
-        assertFontName(FontNameKeys.SANS_SERIF_FONT_NAME.i18n());
-    }
-
-    @Then("Book text displays in alternative sans font")
-    public void bookTextDisplaysInAlternativeSansFont() {
-        assertFontName(FontNameKeys.ALTERNATIVE_SANS_FONT_NAME.i18n());
-    }
-
-    private void assertFontName(String fontName) {
-        Assert.assertEquals(epubReaderScreen.getFontName(), fontName, "Book font is not correct");
+    @Then("Book text displays in {} font")
+    public void bookTextDisplaysInSerifFont(FontNameKeys key) {
+        assertFontName(key.i18n());
     }
 
     @And("Page info {string} is correct")
@@ -407,5 +393,9 @@ public class ReaderSteps {
         softAssert.assertEquals(epubReaderScreen.getFontColor(), fontColor.i18n(), "Font color is not correct");
         softAssert.assertEquals(epubReaderScreen.getBackgroundColor(), backgroundColor.i18n(), "Background color is not correct");
         softAssert.assertAll();
+    }
+
+    private void assertFontName(String fontName) {
+        Assert.assertEquals(epubReaderScreen.getFontName(), fontName, "Book font is not correct");
     }
 }
