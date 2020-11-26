@@ -68,5 +68,5 @@ Feature: Manage Libraries
     When I enter credentials for 'LYRASIS' account via keyboard
     Then Login is performed successfully
     When I open account 'LYRASIS'
-    When I click the log out button on the account screen
+      And I click the log out button on the account screen
     Then Text on Logout button is changed to Log in on Account screen

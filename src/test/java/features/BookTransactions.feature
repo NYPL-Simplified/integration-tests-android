@@ -215,14 +215,12 @@ Feature: Book Transactions
   @logout @cancelHold @tier2
   Scenario: Reserve Book (hold)
     When I add 'The New York Public Library' account
-    Then Account 'The New York Public Library' is present on Accounts screen
-    When I enter credentials for 'The New York Public Library' account
+      And I enter credentials for 'The New York Public Library' account
     Then Login is performed successfully
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
-    Then Books feed is loaded
-    When I open category by chain:
-      | 2020's Hottest Books |
+      And I open category by chain:
+        | 2020's Hottest Books |
       And Change books visibility to show ALL
       And RESERVE book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
