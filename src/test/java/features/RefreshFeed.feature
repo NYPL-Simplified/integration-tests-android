@@ -1,4 +1,4 @@
-Feature: Refresh Feed
+Feature: Feed
 
   @tier2
   Scenario: Update Bookshelf List

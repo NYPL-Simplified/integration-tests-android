@@ -153,38 +153,3 @@ Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudl
     When I open 'Harry Potter' subcategory
     Then Current category name is 'Harry Potter'
       And Count of books in search result is up to 12
-
-  @logout @cancelHold @tier2
-  Scenario: Reserve Book (hold)
-    When I add 'The New York Public Library' account
-    Then Account 'The New York Public Library' is present on Accounts screen
-    When I enter credentials for 'The New York Public Library' account
-    Then Login is performed successfully
-    When I open Catalog
-      And I switch to 'The New York Public Library' from side menu
-    Then Books feed is loaded
-    When I open category by chain:
-      | 2020's Hottest Books |
-      And Change books visibility to show ALL
-      And RESERVE book and save it as 'bookInfo'
-    Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
-
-  @logout @cancelGet @tier2
-  Scenario: Borrow book
-    When I add 'The New York Public Library' account
-    Then Account 'The New York Public Library' is present on Accounts screen
-    When I enter credentials for 'The New York Public Library' account
-    Then Login is performed successfully
-    When I open Catalog
-      And I switch to 'The New York Public Library' from side menu
-    Then Books feed is loaded
-    When I open category by chain:
-      | Essential Reads on Feminism |
-      And I open the book details for the subsequent GET and save it as 'bookInfo'
-      And I check that opened book contains READ button at book details screen
-      And Press on the book details screen at the action button RETURN
-      And I check that the action button text equal to the GET
-      And I return to previous screen
-      And I open book 'bookInfo' details by clicking on cover
-      And Press on the book details screen at the action button GET
-    Then I check that the action button text equal to the READ
