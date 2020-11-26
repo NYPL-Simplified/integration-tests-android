@@ -20,6 +20,7 @@ public class SearchSteps {
     @When("I open search modal")
     public void openSearchModal() {
         mainCatalogToolbarForm.openSearchModal();
+        searchModal.state().waitForDisplayed();
     }
 
     @Then("Search modal is opened")
@@ -29,6 +30,7 @@ public class SearchSteps {
 
     @When("I set text to the search textBox {string}")
     public void setTextToTheSearch(String searchedText) {
+        searchModal.state().waitForDisplayed();
         searchModal.setSearchedText(searchedText);
     }
 
