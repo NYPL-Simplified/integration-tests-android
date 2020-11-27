@@ -54,8 +54,7 @@ public class ReaderSteps {
 
     @Then("Book {string} is present on screen")
     public void checkBookInfoIsPresentOnScreen(String bookInfoKey) {
-        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
-        Assert.assertEquals(catalogBookModel.getTitle(), epubReaderScreen.getBookName(), "Book name is not correct");
+        assertBookName(context.get(bookInfoKey));
     }
 
     @Then("Book page number is {int}")
@@ -218,6 +217,10 @@ public class ReaderSteps {
     @Then("Pdf book {string} is present on screen")
     public void checkPdfBookBookInfoIsPresentOnScreen(String bookInfoKey) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
+        assertPdfBookName(catalogBookModel);
+    }
+
+    private void assertPdfBookName(CatalogBookModel catalogBookModel) {
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
                         pdfReaderScreen.getBookName().contains(catalogBookModel.getTitle())),
                 String.format("Book name is not correct. Expected that name ['%1$s'] would contains in ['%2$s']",
@@ -356,18 +359,19 @@ public class ReaderSteps {
         switch (readerType) {
             case EBOOK:
                 if (epubReaderScreen.isBookNamePresent()) {
-                    Assert.assertEquals(catalogBookModel.getTitle(), epubReaderScreen.getBookName(), "Book name is not correct");
+                    assertBookName(catalogBookModel);
                 } else {
-                    Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                                    pdfReaderScreen.getBookName().contains(catalogBookModel.getTitle())),
-                            String.format("Book name is not correct. Expected that name ['%1$s'] would contains in ['%2$s']",
-                                    catalogBookModel.getTitle(), pdfReaderScreen.getBookName()));
+                    assertPdfBookName(catalogBookModel);
                 }
                 break;
             case AUDIOBOOK:
                 Assert.assertTrue(audioPlayerScreen.state().waitForDisplayed(), "Audiobook screen is not present");
                 break;
         }
+    }
+
+    private void assertBookName(CatalogBookModel catalogBookModel) {
+        Assert.assertEquals(catalogBookModel.getTitle(), epubReaderScreen.getBookName().replace("   ", " "), "Book name is not correct");
     }
 
     private boolean isPageNumberEqual(String pageNumber) {
