@@ -93,7 +93,7 @@ public class AccountSteps {
         accountsScreen.openAccount(libraryName);
     }
 
-    @When("I add custom {string} odps feed")
+    @When("I add custom {string} opds feed")
     public void addCustomOpdsFeed(String feedName) {
         bottomMenuForm.open(BottomMenu.SETTINGS);
         Assert.assertTrue(settingsScreen.openDebugButton(), "Feed menu wasn't opened");
