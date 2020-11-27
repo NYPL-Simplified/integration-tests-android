@@ -15,6 +15,8 @@ Feature: Book Transactions
       And Change books visibility to show ALL
       And I open the book details for the subsequent RESERVE and save it as 'bookInfo'
     Then I check that opened book contains CANCEL button at book details screen
+    When I open Holds
+    Then Book 'bookInfo' is present in Holds List
 
   @tier2
   Scenario: Download from Bookshelf list
