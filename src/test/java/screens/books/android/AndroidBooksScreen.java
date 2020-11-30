@@ -35,7 +35,7 @@ public class AndroidBooksScreen extends BooksScreen {
 
     @Override
     public boolean isNoBooksMessagePresent() {
-        return lblNoBooks.state().isDisplayed();
+        return lblNoBooks.state().waitForDisplayed();
     }
 
     @Override
