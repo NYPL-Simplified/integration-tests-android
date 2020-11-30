@@ -88,7 +88,7 @@ Feature: Book Transactions
 
   @logout @cancelGet @tier2 @logout @exclude_ios
   Scenario Outline: Check out from Book Detail View (feed)
-    When I add custom '<feedName>' odps feed
+    When I add custom '<feedName>' opds feed
       And I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
       And Get book on the book details screen
     Then Opened book contains read button at book details screen
@@ -144,7 +144,7 @@ Feature: Book Transactions
 
   @logout @cancelGet @tier2 @exclude_ios
   Scenario Outline: Return from Book Detail View (feed)
-    When I add custom '<feedName>' odps feed
+    When I add custom '<feedName>' opds feed
       And I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
       And Get book on the book details screen
     Then Opened book contains read button at book details screen
