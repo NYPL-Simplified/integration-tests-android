@@ -39,28 +39,8 @@ Feature: Book Transactions
       And I Read book 'bookInfo'
     Then Book 'bookInfo' is present on screen
 
-  @logout @cancelGet @tier2
-  Scenario: Return from Bookshelf list
-    When I add 'LYRASIS' account
-      And I enter credentials for 'LYRASIS' account
-    Then Login is performed successfully
-    When I open Catalog
-      And I switch to 'LYRASIS' from side menu
-      And I open category by chain:
-        | Fiction   |
-        | Adventure |
-      And GET book and save it as 'bookInfo'
-    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
-    When I open Books
-    Then Book 'bookInfo' is present in Books List
-    When I open book 'bookInfo' details by clicking on cover
-      And Press on the book details screen at the action button RETURN
-    Then I check that the action button text equal to the GET
-    When I open Books
-    Then Book 'bookInfo' is not present in Books List
-
   @tier2
-  Scenario: Delete from Bookshelf list
+  Scenario: Delete from Book Detail View
     When I open Catalog
       And I open category by chain:
         | Fiction |
