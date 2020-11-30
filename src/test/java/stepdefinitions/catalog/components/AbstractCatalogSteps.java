@@ -82,6 +82,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         bottomMenuForm.open(BottomMenu.CATALOG);
         mainCatalogToolbarForm.chooseAnotherLibrary();
         catalogScreen.openLibrary(libraryName);
+        catalogScreen.state().waitForDisplayed();
     }
 
     @Override
@@ -90,6 +91,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         if (ageGateScreen.state().isDisplayed()) {
             ageGateScreen.approveAge();
         }
+        catalogScreen.state().waitForDisplayed();
     }
 
     @Override

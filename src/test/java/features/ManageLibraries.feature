@@ -11,10 +11,8 @@ Feature: Manage Libraries
   @tier1
   Scenario: Switch Library Catalogs
     When I add 'Alameda County Library' account
-    Then Account 'Alameda County Library' is present on Accounts screen
-    Given Catalog is opened
-    Then Books feed is loaded
-    When I get names of books on screen and save them as 'nameOfBooks'
+      And Catalog is opened
+      And I get names of books on screen and save them as 'nameOfBooks'
       And I switch to 'Alameda County Library' from side menu
     Then Books feed is loaded
       And List of books on screen is not equal to list of books saved as 'nameOfBooks'
@@ -22,16 +20,14 @@ Feature: Manage Libraries
   @tier1
   Scenario: Remove library
     When I add 'Alameda County Library' account
-    Then Account 'Alameda County Library' is present on Accounts screen
-    When I remove 'Alameda County Library' account
+      And I remove 'Alameda County Library' account
     Then Account 'Alameda County Library' is not present on Accounts screen
 
   @tier2
   Scenario: Switch library bookshelf
     When I add 'Alameda County Library' account
-    Then Account 'Alameda County Library' is present on Accounts screen
-    Given Catalog is opened
-    When I switch to 'The SimplyE Collection' from side menu
+      And Catalog is opened
+      And I switch to 'The SimplyE Collection' from side menu
       And I open category by chain:
         | Fiction |
         | Drama   |
@@ -47,14 +43,12 @@ Feature: Manage Libraries
   @logout @cancelHold @tier2
   Scenario: Switch Library Reservations
     When I add 'The New York Public Library' account
-    Then Account 'The New York Public Library' is present on Accounts screen
-    When I enter credentials for 'The New York Public Library' account
+      And I enter credentials for 'The New York Public Library' account
     Then Login is performed successfully
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
-    Then Books feed is loaded
-    When I open category by chain:
-      | 2020's Hottest Books |
+      And I open category by chain:
+        | 2020's Hottest Books |
       And Change books visibility to show ALL
       And I open the book details for the subsequent RESERVE and save it as 'bookInfo'
       And Open Holds
@@ -74,5 +68,5 @@ Feature: Manage Libraries
     When I enter credentials for 'LYRASIS' account via keyboard
     Then Login is performed successfully
     When I open account 'LYRASIS'
-    When I click the log out button on the account screen
+      And I click the log out button on the account screen
     Then Text on Logout button is changed to Log in on Account screen

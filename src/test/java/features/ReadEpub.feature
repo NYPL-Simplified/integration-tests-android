@@ -3,16 +3,11 @@ Feature: Read EPUB
   Background:
     Given Application is opened
     When I open Catalog
-    Then Books feed is loaded
-    When I open search modal
-    Then Search modal is opened
-    When I set text to the search textBox 'Flower Fables'
+      And I open search modal
+      And I set text to the search textBox 'Flower Fables'
       And I click apply search button
-    Then Search modal is closed
-      And Search page is opened
-    When DOWNLOAD book and save it as 'bookInfo'
-    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
-    When I open book 'bookInfo' details by clicking on cover
+      And DOWNLOAD book and save it as 'bookInfo'
+      And I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
     Then Book 'bookInfo' is present on screen
 

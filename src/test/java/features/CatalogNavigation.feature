@@ -6,10 +6,8 @@ Feature: Catalog Navigation
   @tier1
   Scenario: Return to last library catalog
     When I add 'Alameda County Library' account
-    Then Account 'Alameda County Library' is present on Accounts screen
-    When I open Catalog
-    Then Books feed is loaded
-    When I switch to 'Alameda County Library' from side menu
+      And I open Catalog
+      And I switch to 'Alameda County Library' from side menu
     Then Books feed is loaded
     When I restart app
     Then Books feed is loaded
@@ -69,10 +67,8 @@ Feature: Catalog Navigation
   @tier1
   Scenario: Sort Lists
     When I add 'Alameda County Library' account
-    Then Account 'Alameda County Library' is present on Accounts screen
-    When I open Catalog
-    Then Books feed is loaded
-    When I switch to 'Alameda County Library' from side menu
+      And I open Catalog
+      And I switch to 'Alameda County Library' from side menu
     Then Books feed is loaded
     When I switch to 'Audiobooks' catalog tab
     Then Books feed is loaded
@@ -107,13 +103,8 @@ Feature: Catalog Navigation
   @tier1
   Scenario: View Book Details
     When I add 'The New York Public Library' account
-    Then Account 'The New York Public Library' is present on Accounts screen
-    When I open Catalog
-    Then Books feed is loaded
-    When I switch to 'The New York Public Library' from side menu
-    Then Books feed is loaded
-    When I open Catalog
-    Then Books feed is loaded
+      And I open Catalog
+      And I switch to 'The New York Public Library' from side menu
     When I open search modal
     Then Search modal is opened
     When I set text to the search textBox 'Harry Potter and the Order of the Phoenix'
