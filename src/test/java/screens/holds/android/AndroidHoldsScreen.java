@@ -27,7 +27,7 @@ public class AndroidHoldsScreen extends HoldsScreen {
             "//*[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button[@content-desc=\"%1$s\"]";
 
     public AndroidHoldsScreen() {
-        super(By.xpath("//android.widget.TextView[@content-desc=\"Search in Holds…\"]"));
+        super(By.xpath("//android.widget.TextView[contains(@text,\"Holds\")]"));
     }
 
     @Override
