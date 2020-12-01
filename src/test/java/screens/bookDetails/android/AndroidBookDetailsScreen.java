@@ -29,12 +29,15 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     private final ILabel lblBookAuthorsInfo = getElementFactory().getLabel(By.id("bookDetailAuthors"), "Book Authors");
     private final ILabel lblBookDescription =
             getElementFactory().getLabel(By.xpath("//*[contains(@resource-id,\"bookDetailDescriptionText\")]"), "Description");
+    private final ILabel lblErrorMessage = getElementFactory().getLabel(By.id("errorDetails"), "Error message");
 
     private final IButton btnDownload = getActionButton(BookActionButtonKeys.DOWNLOAD);
     private final IButton btnRead = getActionButton(BookActionButtonKeys.READ);
     private final IButton btnDelete = getActionButton(BookActionButtonKeys.DELETE);
     private final IButton btnRelatedBooks =
             getElementFactory().getButton(By.xpath("//*[contains(@resource-id,\"bookDetailRelated\")]"), "Related books button");
+    private final IButton btnErrorDetails =
+            getElementFactory().getButton(By.xpath("//*[contains(@resource-id,'bookDetailButtons')]//*[contains(@text,'Details')]"), "Error");
 
     public AndroidBookDetailsScreen() {
         super(By.id("bookDetailCover"));
@@ -106,6 +109,15 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     @Override
     public boolean isActionButtonPresent(BookActionButtonKeys actionButton) {
         return getActionButton(actionButton).state().waitForDisplayed();
+    }
+
+    @Override
+    public String getErrorDetails() {
+        if (btnErrorDetails.state().waitForDisplayed()) {
+            btnErrorDetails.click();
+            return lblErrorMessage.getText();
+        }
+        return "";
     }
 
     private IButton getActionButton(BookActionButtonKeys buttonKey) {
