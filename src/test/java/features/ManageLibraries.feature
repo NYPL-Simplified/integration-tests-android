@@ -51,7 +51,8 @@ Feature: Manage Libraries
         | 2020's Hottest Books |
       And Change books visibility to show ALL
       And I open the book details for the subsequent RESERVE and save it as 'bookInfo'
-      And Open Holds
+    Then I check that opened book contains CANCEL button at book details screen
+    When I open Holds
     Then Holds feed is loaded
       And Book 'bookInfo' is present in Holds List
     When I open Catalog
