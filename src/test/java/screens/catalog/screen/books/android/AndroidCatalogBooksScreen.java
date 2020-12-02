@@ -44,6 +44,8 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
+    private final ILabel lblErrorDetails = getElementFactory().getLabel(By.id("errorDetails"), "Error details");
+    private final IButton btnErrorDetails = getElementFactory().getButton(By.id("bookCellErrorButtonDetails"), "Error details");
     private String RELATIVE_BOOK_TITLE_LOCATOR_PATTERN =
             "%s/../preceding-sibling::android.widget.TextView[contains(@resource-id,\"bookCellIdleTitle\")]";
 
@@ -139,6 +141,16 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         IButton button = getElementFactory().getButton(By.xpath(bookAddButtonLocator), actionButtonKey.i18n());
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         return openBook(button, bookName);
+    }
+
+    @Override
+    public String getErrorMessage() {
+        if (btnErrorDetails.state().isDisplayed()) {
+            btnErrorDetails.click();
+            lblErrorDetails.state().waitForDisplayed();
+            return lblErrorDetails.getText();
+        }
+        return "";
     }
 
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {

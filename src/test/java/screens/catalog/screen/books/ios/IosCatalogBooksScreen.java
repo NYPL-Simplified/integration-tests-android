@@ -123,6 +123,11 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         return openBook(actionButton, bookName);
     }
 
+    @Override
+    public String getErrorMessage() {
+        return null;
+    }
+
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
