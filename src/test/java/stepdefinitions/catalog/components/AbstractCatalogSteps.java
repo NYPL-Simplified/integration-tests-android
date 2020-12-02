@@ -337,11 +337,9 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     @Override
     public void checkThatSavedBookContainButtonAtCatalogBooksScreen(
             final String bookInfoKey, final BookActionButtonKeys key) {
-        CatalogBookModel catalogBookModel = context.get(bookInfoKey);
-        Assert.assertTrue(catalogBooksScreen.isBookAddButtonTextEqualTo(
-                catalogBookModel.getTitle(), key),
-                String.format("Book with title '%1$s' add button does not contain text '%2$s'",
-                        catalogBookModel.getTitle(), key.i18n()));
+        String title = context.get(bookInfoKey).getTitle();
+        Assert.assertTrue(catalogBooksScreen.isBookAddButtonTextEqualTo(title, key),
+                String.format("Book's with title '%1$s' button does not contain text '%2$s'. Error message (if present) - '%3$s'", title, key.i18n(), catalogBooksScreen.getErrorMessage()));
     }
 
     @Override

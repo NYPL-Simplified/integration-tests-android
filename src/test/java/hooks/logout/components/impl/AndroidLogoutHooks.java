@@ -9,7 +9,6 @@ import screens.bottommenu.BottomMenu;
 @StepsType(platform = PlatformName.ANDROID)
 public class AndroidLogoutHooks extends AbstractLogoutHooks {
 
-
     public AndroidLogoutHooks(ScenarioContext context) {
         super(context);
     }
