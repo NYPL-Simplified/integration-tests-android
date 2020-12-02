@@ -84,7 +84,6 @@ Feature: Book Transactions
       | New York Public Library - QA Server | Axis 360                                      | AUDIOBOOK |
       | New York Public Library - QA Server | Axis 360                                      | EBOOK     |
       | New York Public Library - QA Server | Plympton                                      | EBOOK     |
-      | New York Public Library - QA Server | Plympton                                      | AUDIOBOOK |
       | New York Public Library - QA Server | Bibliotheca                                   | EBOOK     |
       | New York Public Library - QA Server | Bibliotheca                                   | AUDIOBOOK |
       | New York Public Library - QA Server | Library Simplified Open Access Content Server | EBOOK     |
@@ -140,7 +139,6 @@ Feature: Book Transactions
       | New York Public Library - QA Server | Axis 360                                      | AUDIOBOOK |
       | New York Public Library - QA Server | Axis 360                                      | EBOOK     |
       | New York Public Library - QA Server | Plympton                                      | EBOOK     |
-      | New York Public Library - QA Server | Plympton                                      | AUDIOBOOK |
       | New York Public Library - QA Server | Bibliotheca                                   | EBOOK     |
       | New York Public Library - QA Server | Bibliotheca                                   | AUDIOBOOK |
       | New York Public Library - QA Server | Library Simplified Open Access Content Server | EBOOK     |
