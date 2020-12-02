@@ -375,7 +375,6 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     }
 
     public void openBookWithGivenName(String bookName, String bookInfoKey) {
-        subcategoryScreen.state().waitForDisplayed();
         context.add(bookInfoKey, subcategoryScreen.openBookByName(bookName));
     }
 
@@ -415,7 +414,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     public void checkBookWasBorrowedSuccessfully() {
         Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.READ) || bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.LISTEN),
-                String.format("Opened book page does not contain text %1$s or %2$s", BookActionButtonKeys.READ.i18n(), BookActionButtonKeys.LISTEN.i18n()));
+                String.format("Opened book page does not contain button %1$s or %2$s. Error message - %3$s", BookActionButtonKeys.READ.i18n(), BookActionButtonKeys.LISTEN.i18n(), bookDetailsScreen.getErrorDetails()));
     }
 
     public void openFirstBookAndSaveBookInfoAs(ReaderType readerType, String bookInfoKey) {
