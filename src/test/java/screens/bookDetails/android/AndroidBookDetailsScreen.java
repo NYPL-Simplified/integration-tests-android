@@ -113,7 +113,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public String getErrorDetails() {
-        if (btnErrorDetails.state().waitForDisplayed()) {
+        if (btnErrorDetails.state().isDisplayed()) {
             btnErrorDetails.click();
             return lblErrorMessage.getText();
         }

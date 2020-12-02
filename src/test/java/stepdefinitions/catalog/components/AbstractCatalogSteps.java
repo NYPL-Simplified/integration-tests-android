@@ -375,7 +375,6 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     }
 
     public void openBookWithGivenName(String bookName, String bookInfoKey) {
-        subcategoryScreen.state().waitForDisplayed();
         context.add(bookInfoKey, subcategoryScreen.openBookByName(bookName));
     }
 
