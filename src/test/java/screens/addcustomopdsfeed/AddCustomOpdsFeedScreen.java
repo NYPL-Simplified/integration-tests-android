@@ -9,4 +9,6 @@ public abstract class AddCustomOpdsFeedScreen extends Screen {
     }
 
     public abstract void enterOpds(String opds);
+
+    public abstract boolean isFeedAdded();
 }

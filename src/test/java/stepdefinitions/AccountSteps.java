@@ -100,6 +100,7 @@ public class AccountSteps {
         settingsScreen.openDebugMode();
         debugOptionsScreen.addCustomOpds();
         addCustomOpdsScreen.enterOpds(Configuration.getOpds(feedName));
+        Assert.assertTrue(addCustomOpdsScreen.isFeedAdded(), "Opds feed is not added");
         bottomMenuForm.open(BottomMenu.SETTINGS);
         bottomMenuForm.open(BottomMenu.CATALOG);
         if (ageGateScreen.state().waitForDisplayed()) {
