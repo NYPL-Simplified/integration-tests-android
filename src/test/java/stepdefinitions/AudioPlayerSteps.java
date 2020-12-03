@@ -56,8 +56,8 @@ public class AudioPlayerSteps {
 
     @Then("I check that current chapter equal to remembered {string}")
     public void selectChapterIsNotEqualToSavedInTheContextByKeyAndSaveSelectedChapter(String keyCurrentChapter) {
-        Integer currentChapter = getChapterNumber();
-        Assert.assertEquals(currentChapter, context.get(keyCurrentChapter), "Current chapter is not correct");
+        int expectedChapterName = context.get(keyCurrentChapter);
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> getChapterNumber() == expectedChapterName), "Current chapter is not correct");
     }
 
     private int getChapterNumber() {

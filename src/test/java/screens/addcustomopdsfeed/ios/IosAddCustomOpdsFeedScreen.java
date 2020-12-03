@@ -14,4 +14,9 @@ public class IosAddCustomOpdsFeedScreen extends AddCustomOpdsFeedScreen {
     @Override
     public void enterOpds(String opds) {
     }
+
+    @Override
+    public boolean isFeedAdded() {
+        return false;
+    }
 }

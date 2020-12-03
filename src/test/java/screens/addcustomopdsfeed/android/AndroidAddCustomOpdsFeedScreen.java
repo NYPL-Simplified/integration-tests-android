@@ -23,6 +23,11 @@ public class AndroidAddCustomOpdsFeedScreen extends AddCustomOpdsFeedScreen {
     public void enterOpds(String opds) {
         txbBookName.clearAndType(opds);
         btnSubmit.click();
-        AqualityServices.getConditionalWait().waitFor(() -> lblStatus.getText().contains("Creating the account succeeded."));
+        AqualityServices.getConditionalWait().waitFor(this::isFeedAdded);
+    }
+
+    @Override
+    public boolean isFeedAdded() {
+        return lblStatus.getText().contains("Creating the account succeeded.");
     }
 }
