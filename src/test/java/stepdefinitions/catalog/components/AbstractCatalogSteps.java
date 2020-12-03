@@ -3,12 +3,15 @@ package stepdefinitions.catalog.components;
 import aquality.appium.mobile.application.AqualityServices;
 import constants.application.ReaderType;
 import constants.application.timeouts.CategoriesTimeouts;
+import constants.context.ScenarioContextKey;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import constants.localization.application.catalog.BookActionButtonNames;
 import constants.localization.application.catalog.CategoriesNamesKeys;
 import constants.localization.application.facetedSearch.FacetAvailabilityKeys;
 import constants.localization.application.facetedSearch.FacetSortByKeys;
 import framework.utilities.ScenarioContext;
+import framework.utilities.ScreenshotUtils;
+import io.cucumber.java.Scenario;
 import models.android.BookDetailsScreenInformationBlockModel;
 import models.android.CatalogBookModel;
 import org.apache.commons.lang3.StringUtils;
@@ -339,7 +342,12 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
             final String bookInfoKey, final BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         String title = catalogBookModel.getTitle();
-        Assert.assertTrue(catalogBooksScreen.isBookAddButtonTextEqualTo(title, key),
+        boolean isButtonPresent = catalogBooksScreen.isBookAddButtonTextEqualTo(title, key);
+        if (!isButtonPresent && catalogBooksScreen.isErrorButtonPresent()) {
+            Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
+            scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "error_screenshot.png");
+        }
+        Assert.assertTrue(isButtonPresent,
                 String.format("Book's with title '%1$s' button does not contain text '%2$s'. Error message (if present) - '%3$s'", title, key.i18n(), catalogBooksScreen.getErrorMessage()));
     }
 
@@ -412,7 +420,13 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     }
 
     public void checkBookWasBorrowedSuccessfully() {
-        Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.READ) || bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.LISTEN),
+        boolean isButtonPresent =
+                bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.READ) || bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.LISTEN);
+        if (!isButtonPresent && bookDetailsScreen.isErrorButtonPresent()) {
+            Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
+            scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "screenshot.png");
+        }
+        Assert.assertTrue(isButtonPresent,
                 String.format("Opened book page does not contain button %1$s or %2$s. Error message - %3$s", BookActionButtonKeys.READ.i18n(), BookActionButtonKeys.LISTEN.i18n(), bookDetailsScreen.getErrorDetails()));
     }
 

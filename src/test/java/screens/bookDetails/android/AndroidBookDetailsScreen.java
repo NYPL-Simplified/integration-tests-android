@@ -1,6 +1,7 @@
 package screens.bookDetails.android;
 
 import aquality.appium.mobile.actions.SwipeDirection;
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
@@ -83,7 +84,6 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
         btnRelatedBooks.click();
     }
 
-
     @Override
     public boolean isRelatedBooksVisible() {
         return btnRelatedBooks.state().isDisplayed();
@@ -113,11 +113,17 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public String getErrorDetails() {
-        if (btnErrorDetails.state().isDisplayed()) {
+        if (isErrorButtonPresent()) {
             btnErrorDetails.click();
             return lblErrorMessage.getText();
         }
+        AqualityServices.getLogger().info("Error details button is not present");
         return "";
+    }
+
+    @Override
+    public boolean isErrorButtonPresent() {
+        return btnErrorDetails.state().isDisplayed();
     }
 
     private IButton getActionButton(BookActionButtonKeys buttonKey) {
