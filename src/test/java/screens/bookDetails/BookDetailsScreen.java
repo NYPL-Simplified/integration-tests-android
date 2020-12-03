@@ -35,4 +35,6 @@ public abstract class BookDetailsScreen extends Screen {
     public abstract boolean isActionButtonPresent(BookActionButtonKeys actionButton);
 
     public abstract String getErrorDetails();
+
+    public abstract boolean isErrorButtonPresent();
 }

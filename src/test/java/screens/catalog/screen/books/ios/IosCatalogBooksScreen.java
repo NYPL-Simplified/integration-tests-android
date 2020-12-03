@@ -128,6 +128,11 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         return null;
     }
 
+    @Override
+    public boolean isErrorButtonPresent() {
+        return false;
+    }
+
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);

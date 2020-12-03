@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 public class IosBookDetailsScreen extends BookDetailsScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeStaticText[@name=//XCUIElementTypeNavigationBar/@name]";
 
-
     private static final String BOOK_MAIN_INFO = "//XCUIElementTypeStaticText[@name=\"Description\"]//preceding-sibling::XCUIElementTypeStaticText[@name]";
     private static final String INFORMATION_TAB_LABELS_NAME_PART = "Information tab %1$s value";
 
@@ -146,6 +145,11 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     @Override
     public String getErrorDetails() {
         return null;
+    }
+
+    @Override
+    public boolean isErrorButtonPresent() {
+        return false;
     }
 
     private IButton getActionButton(BookActionButtonKeys buttonKey) {

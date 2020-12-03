@@ -145,12 +145,18 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public String getErrorMessage() {
-        if (btnErrorDetails.state().isDisplayed()) {
+        if (isErrorButtonPresent()) {
             btnErrorDetails.click();
             lblErrorDetails.state().waitForDisplayed();
             return lblErrorDetails.getText();
         }
+        AqualityServices.getLogger().info("Error details button is not present");
         return "";
+    }
+
+    @Override
+    public boolean isErrorButtonPresent() {
+        return btnErrorDetails.state().isDisplayed();
     }
 
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
