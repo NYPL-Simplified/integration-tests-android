@@ -10,7 +10,6 @@ import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.timeouts.AudioBookTimeouts;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import org.testng.asserts.SoftAssert;
 import screens.audioplayer.AudioPlayerScreen;
 
 import java.time.Duration;
@@ -19,8 +18,8 @@ import java.util.List;
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     private static final String MAIN_ELEMENT = "player_cover";
-    private static final String CHAPTERS_LOADER = ".//*[contains(@resource-id, \"player_toc_item_downloading_progress\")]";
     private static final String CHAPTERS_LOC = "//android.widget.RelativeLayout[.//*[contains(@resource-id, \"player_toc_item_view_title\")]]";
+    public static final String LOADING_SCREEN_ID = "player_toc_item_downloading_progress";
 
     private final IButton menuBtn = getElementFactory().getButton(By.id("player_menu_toc"), "Menu");
     private final ILabel currentChapter = getElementFactory().getLabel(By.id("player_spine_element"), "Current chapter");
@@ -42,15 +41,8 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public void waitAndCheckAllLoadersDisappeared() {
         checkThatChaptersVisible();
-        SoftAssert softAssert = new SoftAssert();
-        getChapters().forEach(chapter ->
-                softAssert.assertTrue(
-                        AqualityServices.getConditionalWait().waitFor(() ->
-                                        !chapter.findChildElement(By.xpath(CHAPTERS_LOADER), ElementType.LABEL).state().isDisplayed(),
-                                Duration.ofMillis(AudioBookTimeouts.TIMEOUT_AUDIO_BOOK_LOADER_DISAPPEAR.getTimeoutMillis())),
-                        "Loader did not disappear from the chapter block")
-        );
-        softAssert.assertAll("Checking that all loaders are disappeared");
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.id(LOADING_SCREEN_ID), ElementType.LABEL).size() == 0, Duration.ofMillis(AudioBookTimeouts.TIMEOUT_AUDIO_BOOK_LOADER_DISAPPEAR.getTimeoutMillis())),
+                "Book loading wasn't finished");
     }
 
     @Override
