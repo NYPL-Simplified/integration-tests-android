@@ -138,7 +138,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void checkFollowingSubcategoriesArePresent(List<String> expectedValuesList) {
         SoftAssert softAssert = new SoftAssert();
         for (String value : expectedValuesList) {
-            softAssert.assertTrue(catalogScreen.isSubcategoryPresent(value), value + " category is present");
+            softAssert.assertTrue(catalogScreen.isSubcategoryPresent(value), value + " category is not present");
         }
         softAssert.assertAll();
     }
