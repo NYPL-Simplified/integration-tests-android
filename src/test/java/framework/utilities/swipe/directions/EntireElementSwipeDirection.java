@@ -31,9 +31,10 @@ public enum EntireElementSwipeDirection {
         public Direction getSwipeDirection(IElement element) {
             Point upperLeft = element.getElement().getLocation();
             Dimension dimensions = element.getElement().getSize();
+            int y = upperLeft.y + dimensions.height / 2;
             return new Direction()
-                    .setFrom(new Point(upperLeft.x, upperLeft.y + dimensions.height / 2))
-                    .setTo(new Point(upperLeft.x + dimensions.width, upperLeft.y + dimensions.height / 2));
+                    .setFrom(new Point(upperLeft.x, y))
+                    .setTo(new Point(upperLeft.x + dimensions.width - 1, y));
         }
     },
     RIGHT {

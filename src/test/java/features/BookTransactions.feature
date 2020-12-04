@@ -11,7 +11,7 @@ Feature: Book Transactions
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
       And I open category by chain:
-        | Binge-worthy Series |
+        | 2020's Hottest Books |
       And Change books visibility to show ALL
       And I open the book details for the subsequent RESERVE and save it as 'bookInfo'
     Then I check that opened book contains CANCEL button at book details screen
@@ -179,7 +179,7 @@ Feature: Book Transactions
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
       And I open category by chain:
-        | Binge-worthy Series |
+        | 2020's Hottest Books |
       And Change books visibility to show ALL
       And I open the book details for the subsequent RESERVE and save it as 'bookInfo'
     Then I check that opened book contains CANCEL button at book details screen
@@ -197,7 +197,7 @@ Feature: Book Transactions
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
       And I open category by chain:
-        | Binge-worthy Series |
+        | 2020's Hottest Books |
       And Change books visibility to show ALL
       And RESERVE book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
