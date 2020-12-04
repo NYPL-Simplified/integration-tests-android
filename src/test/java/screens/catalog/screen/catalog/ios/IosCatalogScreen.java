@@ -136,6 +136,10 @@ public class IosCatalogScreen extends CatalogScreen {
     public void openFirstBookOfType(ReaderType readerType, String bookInfoKey) {
     }
 
+    @Override
+    public void swipeScreenUp() {
+    }
+
     private List<String> getListOfVisibleBooksNamesInSubcategoryLane(String lineName) {
         return getValuesFromListOfLabels(String.format(LANE_BY_NAME_LOCATOR_PART, lineName)
                 + BOOK_COVER_IN_THE_LANE_LOCATOR);

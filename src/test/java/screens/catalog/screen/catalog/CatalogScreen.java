@@ -37,4 +37,6 @@ public abstract class CatalogScreen extends Screen {
     public abstract boolean isAnyBookPresentInLane(ReaderType readerType, String laneName);
 
     public abstract void openFirstBookOfType(ReaderType readerType, String bookInfoKey);
+
+    public abstract void swipeScreenUp();
 }
