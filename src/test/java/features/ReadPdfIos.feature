@@ -8,9 +8,8 @@ Feature: Read PDF IOS
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
       And I open search modal
-      And I set text to the search textBox 'Bosnian, Croatian, Serbian, a Grammar'
-      And I click apply search button
-    When I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
+      And I search for 'Bosnian, Croatian, Serbian, a Grammar'
+      And I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
       And I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen

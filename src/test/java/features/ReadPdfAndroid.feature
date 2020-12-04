@@ -8,9 +8,8 @@ Feature: Read PDF
     When I open Catalog
       And I switch to 'LYRASIS' from side menu
       And I open search modal
-      And I set text to the search textBox 'PDF'
-      And I click apply search button
-    When DOWNLOAD book of 'PDF' type and save it as 'bookInfo'
+      And I search for 'PDF'
+      And DOWNLOAD book of 'PDF' type and save it as 'bookInfo'
       And I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen

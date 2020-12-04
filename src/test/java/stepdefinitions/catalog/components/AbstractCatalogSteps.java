@@ -319,11 +319,6 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     }
 
     @Override
-    public void checkSearchPageIsOpened() {
-        Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), "Search page is not present");
-    }
-
-    @Override
     public CatalogBookModel selectFirstFoundBookAndSaveAs(String bookInfoKey) {
         CatalogBookModel catalogBookModel = catalogBooksScreen.selectFirstFoundBook();
         context.add(bookInfoKey, catalogBookModel);

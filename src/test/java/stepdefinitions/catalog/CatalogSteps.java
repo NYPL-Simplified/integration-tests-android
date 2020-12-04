@@ -223,12 +223,6 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
         catalogSteps.goBackToThePreviousCatalogScreen();
     }
 
-
-    @And("Search page is opened")
-    public void checkSearchPageIsOpened() {
-        catalogSteps.checkSearchPageIsOpened();
-    }
-
     @When("I open first found book from the search result and save as {string}")
     @And("Open first found book from the search result and save as {string}")
     public CatalogBookModel selectFirstFoundBookAndSaveAs(String bookInfoKey) {

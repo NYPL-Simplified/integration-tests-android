@@ -84,8 +84,6 @@ public interface ICatalogSteps {
 
     void goBackToThePreviousCatalogScreen();
 
-    void checkSearchPageIsOpened();
-
     CatalogBookModel selectFirstFoundBookAndSaveAs(String bookInfoKey);
 
     void checkCountOfBooksInSearchResultIsUpTo(int countOfBooks);
