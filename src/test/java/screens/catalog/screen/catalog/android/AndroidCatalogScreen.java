@@ -33,8 +33,9 @@ public class AndroidCatalogScreen extends CatalogScreen {
     public static final String BOOK_IN_LANE_LOCATOR_PATTERN = "//*[contains(@text,'{%s} - Medium {%s}')]/following-sibling::androidx.recyclerview.widget.RecyclerView/android.widget.LinearLayout";
     public static final String BOOK_OF_TYPE_LOCATOR_PATTERN = "//android.widget.LinearLayout[contains(@content-desc,'%s')]";
 
-    private final ILabel firstLaneName = getElementFactory().getLabel(
-            By.xpath(FEED_LANE_TITLES_LOC), "First lane name");
+    private final ILabel lblFirstLaneName = getElementFactory().getLabel(By.xpath(FEED_LANE_TITLES_LOC), "First lane name");
+    private final ILabel lblMainFragment =
+            getElementFactory().getLabel(By.id("tabbedFragmentHolder"), "Main fragment to swipe on");
 
     public AndroidCatalogScreen() {
         super(By.id("feedWithGroups"));
@@ -43,7 +44,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
     @Override
     public List<String> getListOfBooksNames() {
         List<String> listOfNames = getValuesFromListOfLabels(String.format(LANE_BY_NAME_LOCATOR_PART,
-                firstLaneName.getText()) + BOOK_COVER_IN_THE_LANE_LOCATOR);
+                lblFirstLaneName.getText()) + BOOK_COVER_IN_THE_LANE_LOCATOR);
         AqualityServices.getLogger().info("Found list of books - " + listOfNames.stream().map(Object::toString)
                 .collect(Collectors.joining(", ")));
         return listOfNames;
@@ -102,7 +103,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     @Override
     public Set<String> getListOfAllBooksNamesInFirstLane() {
-        return getListOfAllBooksNamesInSubcategoryLane(firstLaneName.getText());
+        return getListOfAllBooksNamesInSubcategoryLane(lblFirstLaneName.getText());
     }
 
     @Override
@@ -138,6 +139,11 @@ public class AndroidCatalogScreen extends CatalogScreen {
                 getElementFactory().getButton(By.xpath(String.format(BOOK_OF_TYPE_LOCATOR_PATTERN, readerType.toString().toLowerCase())), "First book of " + readerType.toString() + " type in catalog");
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         button.click();
+    }
+
+    @Override
+    public void swipeScreenUp() {
+        SwipeElementUtils.swipeElementDown(lblMainFragment);
     }
 
     private IButton getBookFromLaneLabel(ReaderType readerType, String laneName) {
