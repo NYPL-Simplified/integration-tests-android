@@ -48,7 +48,7 @@ Feature: Manage Libraries
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
       And I open category by chain:
-        | 2020's Hottest Books |
+        | Binge-worthy Series |
       And Change books visibility to show ALL
       And I open the book details for the subsequent RESERVE and save it as 'bookInfo'
     Then I check that opened book contains CANCEL button at book details screen
