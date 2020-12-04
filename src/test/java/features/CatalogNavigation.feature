@@ -107,11 +107,8 @@ Feature: Catalog Navigation
       And I switch to 'The New York Public Library' from side menu
     When I open search modal
     Then Search modal is opened
-    When I set text to the search textBox 'Harry Potter and the Order of the Phoenix'
-      And I click apply search button
-    Then Search modal is closed
-      And Search page is opened
-    When I switch to 'eBooks' catalog tab
+    When I search for 'Harry Potter and the Order of the Phoenix'
+      And I switch to 'eBooks' catalog tab
     Then Subcategory screen is present
     When I open book with name 'Harry Potter and the Order of the Phoenix' and save it as 'bookInfo'
     Then Book 'bookInfo' is opened

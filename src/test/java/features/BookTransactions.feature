@@ -155,11 +155,8 @@ Feature: Book Transactions
       And I switch to 'The New York Public Library' from side menu
       And I open Catalog
       And I open search modal
-      And I set text to the search textBox 'Party of Two'
-      And I click apply search button
-    Then Search modal is closed
-      And Search page is opened
-    When RESERVE book and save it as 'bookInfo'
+      And I search for 'Party of Two'
+      And RESERVE book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
     When I click on the book 'bookInfo' button CANCEL on catalog books screen
     Then Book saved as 'bookInfo' should contain RESERVE button at catalog books screen

@@ -4,8 +4,7 @@ Feature: Read EPUB
     Given Application is opened
     When I open Catalog
       And I open search modal
-      And I set text to the search textBox 'Flower Fables'
-      And I click apply search button
+      And I search for 'Flower Fables'
       And DOWNLOAD book and save it as 'bookInfo'
       And I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
