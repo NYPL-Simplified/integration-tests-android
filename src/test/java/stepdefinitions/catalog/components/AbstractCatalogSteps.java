@@ -352,8 +352,10 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void checkThatSavedBookContainButtonAtBookDetailsScreen(final BookActionButtonKeys key) {
-        Assert.assertTrue(bookDetailsScreen.isBookAddButtonTextEqualTo(key),
-                String.format("Opened book add button does not contain text %1$s", key.i18n()));
+        boolean isButtonPresent = bookDetailsScreen.isBookAddButtonTextEqualTo(key);
+        addScreenshotIfErrorPresent(isButtonPresent);
+        Assert.assertTrue(isButtonPresent,
+                String.format("Button '%1$s' is not present on book details screen. Error (if present) - %2$s", key.i18n(), bookDetailsScreen.getErrorDetails()));
     }
 
     @Override
@@ -421,15 +423,19 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void checkBookWasBorrowedSuccessfully() {
         boolean isButtonPresent =
                 bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.READ) || bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.LISTEN);
-        if (!isButtonPresent && bookDetailsScreen.isErrorButtonPresent()) {
-            Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
-            scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "screenshot.png");
-        }
+        addScreenshotIfErrorPresent(isButtonPresent);
         Assert.assertTrue(isButtonPresent,
                 String.format("Opened book page does not contain button %1$s or %2$s. Error message - %3$s", BookActionButtonKeys.READ.i18n(), BookActionButtonKeys.LISTEN.i18n(), bookDetailsScreen.getErrorDetails()));
     }
 
     public void openFirstBookAndSaveBookInfoAs(ReaderType readerType, String bookInfoKey) {
         catalogScreen.openFirstBookOfType(readerType, bookInfoKey);
+    }
+
+    private void addScreenshotIfErrorPresent(boolean isButtonPresent) {
+        if (!isButtonPresent && bookDetailsScreen.isErrorButtonPresent()) {
+            Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
+            scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "screenshot.png");
+        }
     }
 }
