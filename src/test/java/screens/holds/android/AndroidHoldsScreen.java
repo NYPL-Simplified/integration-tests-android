@@ -70,7 +70,7 @@ public class AndroidHoldsScreen extends HoldsScreen {
 
     @Override
     public boolean isBookForCancelPresent() {
-        return btnCancel.state().isDisplayed();
+        return btnCancel.state().waitForDisplayed();
     }
 
     private void clickOnTheSpecificBookElement(IElement bookWithSpecificAddBtn) {
