@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.logging.Logger;
 import framework.utilities.swipe.SwipeElementUtils;
+import framework.utilities.swipe.directions.EntireElementSwipeDirection;
 import framework.utilities.swipe.directions.EntireScreenDragDirection;
 import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.By;
@@ -47,7 +48,7 @@ public class AndroidPdfReaderScreen extends PdfReaderScreen {
 
     @Override
     public void goToPreviousPage() {
-        SwipeElementUtils.swipeFromLeftToRight(lblPage);
+        SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireElementSwipeDirection.LEFT);
     }
 
     @Override
