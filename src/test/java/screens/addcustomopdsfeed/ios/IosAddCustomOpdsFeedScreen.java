@@ -7,7 +7,7 @@ import screens.addcustomopdsfeed.AddCustomOpdsFeedScreen;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosAddCustomOpdsFeedScreen extends AddCustomOpdsFeedScreen {
-    protected IosAddCustomOpdsFeedScreen() {
+    public IosAddCustomOpdsFeedScreen() {
         super(By.xpath(""));
     }
 
