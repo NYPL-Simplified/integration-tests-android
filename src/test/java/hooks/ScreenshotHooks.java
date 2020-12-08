@@ -8,6 +8,7 @@ import framework.utilities.ScreenshotUtils;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import org.testng.Assert;
 
 public class ScreenshotHooks {
     private ScenarioContext context;
@@ -26,5 +27,10 @@ public class ScreenshotHooks {
     public void takeScreenshot(Scenario scenario) {
         AqualityServices.getLogger().info("Taking screenshot");
         scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "screenshot.png");
+    }
+
+    @After(value = "@failed_test", order = 2)
+    public void closeApplication() {
+        Assert.fail("failed this case");
     }
 }

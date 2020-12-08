@@ -3,7 +3,7 @@ Feature: Manage Libraries
   Background:
     Given Application is opened
 
-  @tier1
+  @tier1 @failed_test
   Scenario: Add Library
     When I add 'Alameda County Library' account
     Then Account 'Alameda County Library' is present on Accounts screen
