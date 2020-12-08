@@ -136,7 +136,9 @@ public class AndroidCatalogScreen extends CatalogScreen {
     @Override
     public void openFirstBookOfType(ReaderType readerType, String bookInfoKey) {
         IButton button =
-                getElementFactory().getButton(By.xpath(String.format(BOOK_OF_TYPE_LOCATOR_PATTERN, readerType.toString().toLowerCase())), "First book of " + readerType.toString() + " type in catalog");
+                //todo temp workaround for skipping axis360 books
+                //getElementFactory().getButton(By.xpath(String.format(BOOK_OF_TYPE_LOCATOR_PATTERN, readerType.toString().toLowerCase())), "First book of " + readerType.toString() + " type in catalog");
+                getElementFactory().getButton(By.xpath(String.format("//android.widget.TextView[not(contains(@text, 'Axis 360'))]//following-sibling::androidx.recyclerview.widget.RecyclerView/android.widget.LinearLayout[contains(@content-desc,'%s')]", readerType.toString().toLowerCase())), "First book of " + readerType.toString() + " type in catalog");
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         button.click();
     }
