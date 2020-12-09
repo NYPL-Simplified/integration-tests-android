@@ -21,16 +21,17 @@ import java.util.Collections;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAccountScreen extends AccountScreen {
-    private static final String LOGIN_BTN_LOC_PATTERN = "//*[contains(@resource-id,\"accountLoginButton\") and @text=\"%1$s\"]";
+    private static final String BTN_LOGIN_ID = "authBasicLogin";
+    private static final String LOGIN_BTN_LOC_PATTERN = "//*[contains(@resource-id,\"" + BTN_LOGIN_ID + "\") and @text=\"%1$s\"]";
 
     private final IButton btnLogin = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AccountScreenLoginStatus.LOG_IN.i18n())),
             "Log in");
-    private final IButton btnLoginAction = getElementFactory().getButton(By.id("accountLoginButton"), "Log ... action");
+    private final IButton btnLoginAction = getElementFactory().getButton(By.id(BTN_LOGIN_ID), "Log ... action");
     private final IButton btnLogout = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AccountScreenLoginStatus.LOG_OUT.i18n())),
             "Log out");
-    private final IButton btnLogInError = getElementFactory().getButton(By.id("accountLoginButtonErrorDetails"), "Log out");
+    private final IButton btnLogInError = getElementFactory().getButton(By.id("accountLoginProgressText"), "Error info");
     private final ITextBox txbCard = getElementFactory().getTextBox(By.id("authBasicUserField"), "Card");
     private final ITextBox txbPin = getElementFactory().getTextBox(By.id("authBasicPassField"), "Pin");
     private final ILabel lblLoginFailed =
