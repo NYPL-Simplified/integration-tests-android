@@ -140,6 +140,16 @@ public class IosCatalogScreen extends CatalogScreen {
     public void swipeScreenUp() {
     }
 
+    @Override
+    public boolean isErrorButtonPresent() {
+        return false;
+    }
+
+    @Override
+    public String getErrorDetails() {
+        return null;
+    }
+
     private List<String> getListOfVisibleBooksNamesInSubcategoryLane(String lineName) {
         return getValuesFromListOfLabels(String.format(LANE_BY_NAME_LOCATOR_PART, lineName)
                 + BOOK_COVER_IN_THE_LANE_LOCATOR);

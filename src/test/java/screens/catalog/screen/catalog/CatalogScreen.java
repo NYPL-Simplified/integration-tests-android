@@ -39,4 +39,8 @@ public abstract class CatalogScreen extends Screen {
     public abstract void openFirstBookOfType(ReaderType readerType, String bookInfoKey);
 
     public abstract void swipeScreenUp();
+
+    public abstract boolean isErrorButtonPresent();
+
+    public abstract String getErrorDetails();
 }

@@ -63,9 +63,13 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void booksFeedIsLoaded() {
-        Assert.assertTrue(catalogScreen.state().waitForDisplayed(Duration.ofMillis(
-                CategoriesTimeouts.TIMEOUT_WAIT_UNTIL_CATEGORY_PAGE_LOAD.getTimeoutMillis())),
-                "Books feed is not loaded");
+        boolean isPagePresent =
+                catalogScreen.state().waitForDisplayed(Duration.ofMillis(CategoriesTimeouts.TIMEOUT_WAIT_UNTIL_CATEGORY_PAGE_LOAD.getTimeoutMillis()));
+        if (!isPagePresent && catalogScreen.isErrorButtonPresent()) {
+            addScreenshot();
+        }
+        Assert.assertTrue(isPagePresent,
+                "Books feed is not loaded. Error message (if present) - " + catalogScreen.getErrorDetails());
     }
 
     @Override
@@ -434,8 +438,12 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     private void addScreenshotIfErrorPresent(boolean isButtonPresent) {
         if (!isButtonPresent && bookDetailsScreen.isErrorButtonPresent()) {
-            Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
-            scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "screenshot.png");
+            addScreenshot();
         }
+    }
+
+    private void addScreenshot() {
+        Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
+        scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "screenshot.png");
     }
 }
