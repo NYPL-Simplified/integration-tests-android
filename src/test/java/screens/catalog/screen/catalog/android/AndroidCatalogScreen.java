@@ -36,6 +36,8 @@ public class AndroidCatalogScreen extends CatalogScreen {
     private final ILabel lblFirstLaneName = getElementFactory().getLabel(By.xpath(FEED_LANE_TITLES_LOC), "First lane name");
     private final ILabel lblMainFragment =
             getElementFactory().getLabel(By.id("tabbedFragmentHolder"), "Main fragment to swipe on");
+    private final IButton btnErrorMessage = getElementFactory().getButton(By.xpath("//*[contains(@text, \"Details\")]"), "Details");
+    private final ILabel lblErrorMessage = getElementFactory().getLabel(By.id("errorDetails"), "Error message");
 
     public AndroidCatalogScreen() {
         super(By.id("feedWithGroups"));
@@ -146,6 +148,22 @@ public class AndroidCatalogScreen extends CatalogScreen {
     @Override
     public void swipeScreenUp() {
         SwipeElementUtils.swipeElementDown(lblMainFragment);
+    }
+
+    @Override
+    public boolean isErrorButtonPresent() {
+        return btnErrorMessage.state().isDisplayed();
+    }
+
+    @Override
+    public String getErrorDetails() {
+        if (isErrorButtonPresent()) {
+            btnErrorMessage.click();
+            AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
+            return lblErrorMessage.getText();
+        }
+        AqualityServices.getLogger().info("Error details button is not present");
+        return "";
     }
 
     private IButton getBookFromLaneLabel(ReaderType readerType, String laneName) {
