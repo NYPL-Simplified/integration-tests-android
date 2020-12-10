@@ -3,7 +3,7 @@ Feature: Book Transactions
   Background:
     Given Application is opened
 
-  @logout @cancelHold @tier2
+  @logout @cancelHold @tier2 @debug_test
   Scenario: Hold
     When I add 'The New York Public Library' account
       And I enter credentials for 'The New York Public Library' account
@@ -146,7 +146,7 @@ Feature: Book Transactions
       | New York Public Library - QA Server | Overdrive                                     | EBOOK     |
       | New York Public Library - QA Server | Overdrive                                     | AUDIOBOOK |
 
-  @logout @cancelHold @tier2
+  @logout @cancelHold @tier2 @debug_test
   Scenario: Remove a Reserved Book
     When I add 'The New York Public Library' account
       And I enter credentials for 'The New York Public Library' account
@@ -189,7 +189,7 @@ Feature: Book Transactions
     Then I click at the popup approve CANCEL the button CANCEL_POPUP
       And Book saved as 'bookInfo' should contain RESERVE button at the hold screen
 
-  @logout @cancelHold @tier2
+  @logout @cancelHold @tier2 @debug_test
   Scenario: Reserve Book (hold)
     When I add 'The New York Public Library' account
       And I enter credentials for 'The New York Public Library' account

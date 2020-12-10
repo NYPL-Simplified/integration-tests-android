@@ -40,7 +40,7 @@ Feature: Manage Libraries
       And I open Books
     Then No books are present in Books list
 
-  @logout @cancelHold @tier2
+  @logout @cancelHold @tier2 @debug_test
   Scenario: Switch Library Reservations
     When I add 'The New York Public Library' account
       And I enter credentials for 'The New York Public Library' account
