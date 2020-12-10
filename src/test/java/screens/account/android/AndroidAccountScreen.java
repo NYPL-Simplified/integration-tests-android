@@ -72,18 +72,13 @@ public class AndroidAccountScreen extends AccountScreen {
 
     @Override
     public boolean isLoginSuccessful() {
-        waitForLogout();
-        if (btnLogInError.state().isDisplayed()) {
-            return false;
-        } else {
-            btnLogout.state().waitForExist(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
-            return btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n());
-        }
+        waitForLogoutButtonAppear();
+        btnLogout.state().waitForExist(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+        return btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n());
     }
 
-    private void waitForLogout() {
-        AqualityServices.getConditionalWait().waitFor(() ->
-                btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n()) || btnLogInError.state().isDisplayed());
+    private void waitForLogoutButtonAppear() {
+        AqualityServices.getConditionalWait().waitFor(() -> btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n()));
     }
 
     @Override
