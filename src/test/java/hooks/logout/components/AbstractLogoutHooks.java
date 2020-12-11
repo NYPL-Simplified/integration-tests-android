@@ -129,6 +129,10 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
         bottomMenuForm.open(BottomMenu.CATALOG);
         mainCatalogToolbarForm.chooseAnotherLibrary();
         catalogScreen.openLibrary(library);
+        if (notificationModal.isModalPresent()) {
+            notificationModal.closeCannotAddBookModalIfDisplayed();
+            catalogScreen.openLibrary(library);
+        }
         bottomMenuForm.open(bottomMenu);
         bottomMenuForm.open(bottomMenu);
     }

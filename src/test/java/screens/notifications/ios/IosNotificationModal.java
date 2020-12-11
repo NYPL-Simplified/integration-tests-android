@@ -54,4 +54,9 @@ public class IosNotificationModal extends NotificationModal {
         closeCannotAddBookModalIfDisplayed();
         clickBookActionPopupIfDisplayed(buttonName, buttonName);
     }
+
+    @Override
+    public boolean isModalPresent() {
+        return btnOkCannotAddBook.state().isDisplayed();
+    }
 }
