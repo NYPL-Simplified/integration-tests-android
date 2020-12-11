@@ -4,7 +4,7 @@ Feature: Book Transactions
     Given Application is opened
 
   @logout @cancelHold @tier2
-  Scenario: Hold
+  Scenario: Hold from Book Detail View
     When I add 'The New York Public Library' account
       And I enter credentials for 'The New York Public Library' account
     Then Login is performed successfully
@@ -190,7 +190,7 @@ Feature: Book Transactions
       And Book saved as 'bookInfo' should contain CANCEL button at the hold screen
 
   @logout @cancelHold @tier2
-  Scenario: Reserve Book (hold)
+  Scenario: Hold from Bookshelf list
     When I add 'The New York Public Library' account
       And I enter credentials for 'The New York Public Library' account
     Then Login is performed successfully
