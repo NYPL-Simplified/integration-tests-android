@@ -1,5 +1,6 @@
 package screens.alert.ios;
 
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
@@ -11,6 +12,8 @@ public class IosAlertScreen extends AlertScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeButton[contains(@name, \"trailing\")]";
     private final IButton btnOk =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeAlert//XCUIElementTypeButton[@name=\"OK\"]"), "OK");
+    private final IButton btnNotNow =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeAlert//XCUIElementTypeButton[@name=\"Not Now\"]"), "Not Now");
 
     public IosAlertScreen() {
         super(By.xpath(MAIN_ELEMENT));
@@ -25,6 +28,14 @@ public class IosAlertScreen extends AlertScreen {
     public void closeModalIfPresent() {
         if (btnOk.state().isDisplayed()) {
             btnOk.click();
+        }
+    }
+
+    @Override
+    public void closeNotNowModalIfPresent() {
+        AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
+        if (btnNotNow.state().isDisplayed()) {
+            btnNotNow.click();
         }
     }
 }
