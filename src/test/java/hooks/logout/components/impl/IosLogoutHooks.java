@@ -27,6 +27,7 @@ public class IosLogoutHooks extends AbstractLogoutHooks {
         navigateBackIfBottomMenuIsNotVisibleUntilItIs();
         if (!accountScreen.state().isDisplayed()) {
             bottomMenuForm.open(BottomMenu.SETTINGS);
+            alertScreen.closeNotNowModalIfPresent();
             bottomMenuForm.open(BottomMenu.SETTINGS);
             settingsScreen.openAccounts();
             accountsScreen.openAccount(context.get(ContextLibrariesKeys.LOG_OUT.getKey()));

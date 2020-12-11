@@ -187,7 +187,7 @@ Feature: Book Transactions
     Then Book 'bookInfo' is present in Holds List
     When I click on the book 'bookInfo' button CANCEL on the holds screen and don't click on the popup button
     Then I click at the popup approve CANCEL the button CANCEL_POPUP
-      And Book saved as 'bookInfo' should contain RESERVE button at the hold screen
+      And Book saved as 'bookInfo' should contain CANCEL button at the hold screen
 
   @logout @cancelHold @tier2
   Scenario: Reserve Book (hold)
