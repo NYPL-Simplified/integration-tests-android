@@ -25,9 +25,8 @@ public class IosBooksScreen extends BooksScreen {
 
     private final ILabel mainBooksElementCollection = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeCollectionView"), "Elements collection container");
-    private final ILabel lblNoBooks = getElementFactory().getLabel(
-            By.xpath("//XCUIElementTypeStaticText[@name=\"Visit the Catalog to add books to My Books.\"]"),
-            "No Books Present");
+    private final ILabel lblNoBooks =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeStaticText[contains(@name,'Visit the Catalog')]"), "No Books Present");
 
     public IosBooksScreen() {
         super(By.xpath(MAIN_ELEMENT_LOC));
@@ -35,7 +34,7 @@ public class IosBooksScreen extends BooksScreen {
 
     @Override
     public boolean isNoBooksMessagePresent() {
-        return lblNoBooks.state().isDisplayed();
+        return lblNoBooks.state().waitForDisplayed();
     }
 
     @Override
