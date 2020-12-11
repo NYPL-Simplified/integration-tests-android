@@ -38,7 +38,7 @@ Feature: Audiobook
     Then I check that current chapter equal to remembered 'newChapter'
     When I restart app
       And I open Catalog
-      And I switch to 'New York Public Library - QA Server' from side menu
+      And I switch to 'The New York Public Library' from side menu
       And I open Books
       And I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button LISTEN
