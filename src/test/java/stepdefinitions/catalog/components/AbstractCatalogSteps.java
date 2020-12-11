@@ -89,6 +89,10 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         bottomMenuForm.open(BottomMenu.CATALOG);
         mainCatalogToolbarForm.chooseAnotherLibrary();
         catalogScreen.openLibrary(libraryName);
+        if (notificationModal.isModalPresent()) {
+            notificationModal.closeCannotAddBookModalIfDisplayed();
+            catalogScreen.openLibrary(libraryName);
+        }
         catalogScreen.state().waitForDisplayed();
     }
 

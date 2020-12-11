@@ -19,6 +19,7 @@ import screens.bottommenu.BottomMenuForm;
 import screens.catalog.form.MainCatalogToolbarForm;
 import screens.catalog.screen.catalog.CatalogScreen;
 import screens.debugoptionsscreen.DebugOptionsScreen;
+import screens.notifications.NotificationModal;
 import screens.settings.SettingsScreen;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class AccountSteps {
     private final AgeGateScreen ageGateScreen;
     private final MainCatalogToolbarForm mainCatalogToolbarForm;
     private final CatalogScreen catalogScreen;
+    private final NotificationModal notificationModal;
     private ScenarioContext context;
 
     @Inject
@@ -52,6 +54,7 @@ public class AccountSteps {
         ageGateScreen = AqualityServices.getScreenFactory().getScreen(AgeGateScreen.class);
         mainCatalogToolbarForm = AqualityServices.getScreenFactory().getScreen(MainCatalogToolbarForm.class);
         catalogScreen = AqualityServices.getScreenFactory().getScreen(CatalogScreen.class);
+        notificationModal = AqualityServices.getScreenFactory().getScreen(NotificationModal.class);
     }
 
     @When("I add {string} account")
@@ -63,6 +66,7 @@ public class AccountSteps {
         addAccountScreen.selectLibrary(libraryName);
         saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey(), libraryName);
         saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey(), libraryName);
+        saveLibraryInContext(ContextLibrariesKeys.LOG_OUT.getKey(), libraryName);
     }
 
     @Then("Account {string} is present on Accounts screen")
@@ -108,6 +112,10 @@ public class AccountSteps {
         }
         mainCatalogToolbarForm.chooseAnotherLibrary();
         catalogScreen.openLibrary(feedName);
+        if (notificationModal.isModalPresent()) {
+            notificationModal.closeCannotAddBookModalIfDisplayed();
+            catalogScreen.openLibrary(feedName);
+        }
         accountScreen.enterCredentials(Configuration.getCredentials(feedName));
         context.add(ContextLibrariesKeys.LOG_OUT.getKey(), feedName);
         settingsScreen.state().waitForDisplayed();

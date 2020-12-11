@@ -32,4 +32,9 @@ public class AndroidNotificationModal extends NotificationModal {
     public void handleBookActionsAndNotificationPopups(BookActionButtonKeys buttonName) {
         // default behavior is ignoring method. Android have not notification popups, appears only in the ios
     }
+
+    @Override
+    public boolean isModalPresent() {
+        return false;
+    }
 }
