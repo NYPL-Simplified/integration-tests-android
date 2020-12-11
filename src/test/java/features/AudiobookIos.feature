@@ -2,12 +2,22 @@ Feature: Audiobook
 
   Background:
     Given Application is opened
-    When I add custom 'New York Public Library - QA Server' opds feed
-      And I open first AUDIOBOOK book and save book info as 'bookInfo'
-      And Get book on the book details screen
+    When I add 'The New York Public Library' account
+    Then Account 'The New York Public Library' is present on Accounts screen
+    When I enter credentials for 'The New York Public Library' account
+    Then Login is performed successfully
+    When I open Catalog
+    And I switch to 'The New York Public Library' from side menu
+    Then Books feed is loaded
+    When I switch to 'Audiobooks' catalog tab
+    Then Books feed is loaded
+    When I open category by chain:
+      | 125 Books We Love For Teens |
+    Then Current category name is '125 Books We Love For Teens'
+    When I open the book details for the subsequent GET and save it as 'bookInfo'
     Then I check that opened book contains LISTEN button at book details screen
 
-  @logout @cancelGet @tier2 @exclude_ios
+  @logout @cancelGet @tier2 @exclude_android
   Scenario: Navigate by Table of Contents Menu
     When Press on the book details screen at the action button LISTEN
       And Remember current book chapter in 'defaultChapter'
@@ -17,7 +27,7 @@ Feature: Audiobook
     When I select the chapter not equal to remembered 'defaultChapter' and remember selected chapter as 'newChapter'
     Then I check that current chapter equal to remembered 'newChapter'
 
-  @logout @cancelGet @tier2 @exclude_ios
+  @logout @cancelGet @tier2 @exclude_android
   Scenario: Return to Chapter (Bookmarking/Syncing)
     When Press on the book details screen at the action button LISTEN
       And Remember current book chapter in 'defaultChapter'
@@ -28,7 +38,7 @@ Feature: Audiobook
     Then I check that current chapter equal to remembered 'newChapter'
     When I restart app
       And I open Catalog
-      And I switch to 'New York Public Library - QA Server' from side menu
+      And I switch to 'The New York Public Library' from side menu
       And I open Books
       And I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button LISTEN
