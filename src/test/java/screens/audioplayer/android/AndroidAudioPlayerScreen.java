@@ -19,7 +19,7 @@ import java.util.List;
 public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     private static final String MAIN_ELEMENT = "player_cover";
     private static final String CHAPTERS_LOC = "//android.widget.RelativeLayout[.//*[contains(@resource-id, \"player_toc_item_view_title\")]]";
-    public static final String LOADING_SCREEN_ID = "player_toc_item_downloading_progress";
+    public static final String LOADING_SCREEN_XPATH = "//*[contains(@resource-id,\"player_toc_item_downloading_progress\")]";
 
     private final IButton menuBtn = getElementFactory().getButton(By.id("player_menu_toc"), "Menu");
     private final ILabel currentChapter = getElementFactory().getLabel(By.id("player_spine_element"), "Current chapter");
@@ -41,7 +41,7 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public void waitAndCheckAllLoadersDisappeared() {
         checkThatChaptersVisible();
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.id(LOADING_SCREEN_ID), ElementType.LABEL).size() == 0, Duration.ofMillis(AudioBookTimeouts.TIMEOUT_AUDIO_BOOK_LOADER_DISAPPEAR.getTimeoutMillis())),
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.xpath(LOADING_SCREEN_XPATH), ElementType.LABEL).size() == 0, Duration.ofMillis(AudioBookTimeouts.TIMEOUT_AUDIO_BOOK_LOADER_DISAPPEAR.getTimeoutMillis())),
                 "Book loading wasn't finished");
     }
 
