@@ -139,7 +139,12 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void checkSubcategoryScreenIsPresent() {
-        Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), "Subcategory screen is not present");
+        boolean isScreenPresent = subcategoryScreen.state().waitForDisplayed();
+        if (!isScreenPresent && catalogBooksScreen.isErrorButtonPresent()) {
+            Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
+            scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "error_screenshot.png");
+        }
+        Assert.assertTrue(isScreenPresent, "Subcategory screen is not present. Error (if present) - " + subcategoryScreen.getErrorMessage());
     }
 
     @Override

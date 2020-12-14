@@ -80,6 +80,16 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
     }
 
     @Override
+    public String getErrorMessage() {
+        return null;
+    }
+
+    @Override
+    public boolean isErrorButtonPresent() {
+        return false;
+    }
+
+    @Override
     public List<String> getAuthorsInfo() {
         List<String> listOfNames = getValuesFromListOfLabels(BOOKS_LOCATOR + AUTHOR_INFO_XPATH);
         AqualityServices.getLogger().info("Found list of authors - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining("; ")));
