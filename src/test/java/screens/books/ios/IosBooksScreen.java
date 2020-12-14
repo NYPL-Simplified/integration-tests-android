@@ -1,5 +1,6 @@
 package screens.books.ios;
 
+import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -42,6 +43,7 @@ public class IosBooksScreen extends BooksScreen {
         ILabel book = getElementFactory()
                 .getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getTitle())),
                         "No Books Present");
+        book.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         return book
                 .state()
                 .waitForDisplayed();
