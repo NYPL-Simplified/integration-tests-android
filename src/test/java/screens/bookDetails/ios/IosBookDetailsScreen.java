@@ -43,8 +43,8 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private final IButton btnRead = getActionButton(BookActionButtonKeys.READ);
     private final IButton btnRelatedBooks = getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"Information\"]/following-sibling::XCUIElementTypeTable"),
             "Related books button");
-    private final IButton moreBtn = getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"More…\"]"),
-            "Show more description button");
+    private final IButton moreBtn =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"Description\"]//following-sibling::XCUIElementTypeButton[@name=\"More…\"]"), "Show more description button");
 
     public IosBookDetailsScreen() {
         super(By.xpath(MAIN_ELEMENT));
@@ -96,8 +96,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
         String description = getDescription();
         if (moreBtn.state().isDisplayed()) {
             moreBtn.click();
-            Assert.assertTrue(moreBtn.state().waitForNotDisplayed(),
-                    "Show more button must not be visible");
+            moreBtn.state().waitForNotDisplayed();
         }
         return description;
     }
