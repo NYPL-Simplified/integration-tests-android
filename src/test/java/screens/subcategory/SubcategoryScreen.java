@@ -26,4 +26,8 @@ public abstract class SubcategoryScreen extends Screen {
     public abstract void openBook(CatalogBookModel bookInfo);
 
     public abstract CatalogBookModel openBookByName(String bookName);
+
+    public abstract String getErrorMessage();
+
+    public abstract boolean isErrorButtonPresent();
 }

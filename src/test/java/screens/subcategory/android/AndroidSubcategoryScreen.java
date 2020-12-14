@@ -3,6 +3,7 @@ package screens.subcategory.android;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
+import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.interfaces.IElement;
@@ -40,6 +41,8 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
             getElementFactory().getLabel(By.xpath(TYPE_INFO_XPATH), "First book type");
     private final ILabel lblFirstBookAuthor =
             getElementFactory().getLabel(By.xpath(AUTHOR_INFO_XPATH), "First book author");
+    private final ILabel lblErrorDetails = getElementFactory().getLabel(By.id("errorDetails"), "Error details");
+    private final IButton btnErrorDetails = getElementFactory().getButton(By.id("bookCellErrorButtonDetails"), "Error details");
 
     public AndroidSubcategoryScreen() {
         super(By.xpath("//androidx.recyclerview.widget.RecyclerView[contains(@resource-id,\"feedWithoutGroupsList\")]"));
@@ -86,6 +89,22 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
                 .setBookType(getElementFactory().getButton(By.xpath(locator + BOOK_TYPE_LABEL_LOCATOR_PART), bookName).getText());
         getElementFactory().getButton(By.xpath(locator), bookName).click();
         return bookInfo;
+    }
+
+    @Override
+    public String getErrorMessage() {
+        if (isErrorButtonPresent()) {
+            btnErrorDetails.click();
+            lblErrorDetails.state().waitForDisplayed();
+            return lblErrorDetails.getText();
+        }
+        AqualityServices.getLogger().info("Error details button is not present");
+        return "";
+    }
+
+    @Override
+    public boolean isErrorButtonPresent() {
+        return btnErrorDetails.state().isDisplayed();
     }
 
     @Override
