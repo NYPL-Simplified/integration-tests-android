@@ -121,7 +121,7 @@ Feature: Book Transactions
     When I open Books
     Then Book 'bookInfo' is not present in Books List
 
-  @logout @cancelGet @tier2 @exclude_ios
+  @logout @cancelGet @tier2 @exclude_ios @retry
   Scenario Outline: Return from Book Detail View (feed)
     When I add custom '<feedName>' opds feed
       And I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
@@ -137,14 +137,14 @@ Feature: Book Transactions
     Scenarios:
       | feedName                            | laneName                                      | bookType  |
       | New York Public Library - QA Server | Axis 360                                      | AUDIOBOOK |
-      | New York Public Library - QA Server | Axis 360                                      | EBOOK     |
-      | New York Public Library - QA Server | Plympton                                      | EBOOK     |
-      | New York Public Library - QA Server | Bibliotheca                                   | EBOOK     |
-      | New York Public Library - QA Server | Bibliotheca                                   | AUDIOBOOK |
-      | New York Public Library - QA Server | Library Simplified Open Access Content Server | EBOOK     |
-      | New York Public Library - QA Server | Library Simplified Open Access Content Server | AUDIOBOOK |
-      | New York Public Library - QA Server | Overdrive                                     | EBOOK     |
-      | New York Public Library - QA Server | Overdrive                                     | AUDIOBOOK |
+      #| New York Public Library - QA Server | Axis 360                                      | EBOOK     |
+      #| New York Public Library - QA Server | Plympton                                      | EBOOK     |
+      #| New York Public Library - QA Server | Bibliotheca                                   | EBOOK     |
+      #| New York Public Library - QA Server | Bibliotheca                                   | AUDIOBOOK |
+      #| New York Public Library - QA Server | Library Simplified Open Access Content Server | EBOOK     |
+      #| New York Public Library - QA Server | Library Simplified Open Access Content Server | AUDIOBOOK |
+      #| New York Public Library - QA Server | Overdrive                                     | EBOOK     |
+      #| New York Public Library - QA Server | Overdrive                                     | AUDIOBOOK |
 
   @logout @cancelHold @tier2
   Scenario: Remove a Reserved Book

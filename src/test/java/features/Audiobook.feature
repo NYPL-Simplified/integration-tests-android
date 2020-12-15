@@ -17,7 +17,7 @@ Feature: Audiobook
     When I select the chapter not equal to remembered 'defaultChapter' and remember selected chapter as 'newChapter'
     Then I check that current chapter equal to remembered 'newChapter'
 
-  @logout @cancelGet @tier2 @exclude_ios
+  @logout @cancelGet @tier2 @exclude_ios @retry
   Scenario: Return to Chapter (Bookmarking/Syncing)
     When Press on the book details screen at the action button LISTEN
       And Remember current book chapter in 'defaultChapter'
