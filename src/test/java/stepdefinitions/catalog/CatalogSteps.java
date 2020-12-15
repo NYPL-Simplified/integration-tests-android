@@ -133,8 +133,8 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     }
 
     @When("I click on the book {string} button {} on catalog books screen")
-    public void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
-        catalogSteps.clickOnTheBookAddButtonOnCatalogBooksScreen(bookInfoKey, key);
+    public void clickOnBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key) {
+        catalogSteps.clickOnBookAddButtonOnCatalogBooksScreen(bookInfoKey, key);
     }
 
     @And("Count of books in first lane is up to {int}")
@@ -203,9 +203,9 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     }
 
     @And("The following values in the information block are present:")
-    public void checkFollowingValuesInTheInformationBlockArePresent(
+    public void checkFollowingValuesInInformationBlockArePresent(
             List<BookDetailsScreenInformationBlockModel> expectedValuesList) {
-        catalogSteps.checkFollowingValuesInTheInformationBlockArePresent(expectedValuesList);
+        catalogSteps.checkFollowingValuesInInformationBlockArePresent(expectedValuesList);
     }
 
     @And("Description has text")
@@ -219,8 +219,8 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     }
 
     @When("I go back to the previous catalog screen")
-    public void goBackToThePreviousCatalogScreen() {
-        catalogSteps.goBackToThePreviousCatalogScreen();
+    public void goBackToPreviousCatalogScreen() {
+        catalogSteps.goBackToPreviousCatalogScreen();
     }
 
     @When("I open first found book from the search result and save as {string}")
@@ -257,24 +257,24 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
 
     @When("I press on the book details screen at the action button {}")
     @And("Press on the book details screen at the action button {}")
-    public void pressOnTheBookDetailsScreenAtTheActionButton(BookActionButtonKeys actionButton) {
-        catalogSteps.pressOnTheBookDetailsScreenAtTheActionButton(actionButton);
+    public void pressOnBookDetailsScreenAtActionButton(BookActionButtonKeys actionButton) {
+        catalogSteps.pressOnBookDetailsScreenAtActionButton(actionButton);
     }
 
     @And("Get book on the book details screen")
-    public void getBookOnTheBookDetailsScreen() {
-        catalogSteps.getBookOnTheBookDetailsScreen();
+    public void getBookOnBookDetailsScreen() {
+        catalogSteps.getBookOnBookDetailsScreen();
     }
 
     @Then("I check that the action button text equal to the {}")
-    public void checkThatTheActionButtonTextEqualToTheExpected(BookActionButtonKeys actionButton) {
+    public void checkThatActionButtonTextEqualToExpected(BookActionButtonKeys actionButton) {
         catalogSteps.checkThatSavedBookContainButtonAtBookDetailsScreen(actionButton);
     }
 
     @When("I change books visibility to show {}")
     @And("Change books visibility to show {}")
-    public void checkThatTheActionButtonTextEqualToTheExpected(FacetAvailabilityKeys facetAvailabilityKeys) {
-        catalogSteps.checkThatTheActionButtonTextEqualToTheExpected(facetAvailabilityKeys);
+    public void checkThatActionButtonTextEqualToExpected(FacetAvailabilityKeys facetAvailabilityKeys) {
+        catalogSteps.checkThatActionButtonTextEqualToExpected(facetAvailabilityKeys);
     }
 
     @When("I read {} book")

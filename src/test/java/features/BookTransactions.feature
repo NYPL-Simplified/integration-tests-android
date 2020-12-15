@@ -21,14 +21,14 @@ Feature: Book Transactions
   @logout @cancelHold @tier2
   Scenario: Hold from Bookshelf list
     When I add 'The New York Public Library' account
-    And I enter credentials for 'The New York Public Library' account
+      And I enter credentials for 'The New York Public Library' account
     Then Login is performed successfully
     When I open Catalog
-    And I switch to 'The New York Public Library' from side menu
-    And I open category by chain:
-      | Binge-worthy Series |
-    And Change books visibility to show ALL
-    And RESERVE book and save it as 'bookInfo'
+      And I switch to 'The New York Public Library' from side menu
+      And I open category by chain:
+        | Binge-worthy Series |
+      And Change books visibility to show ALL
+      And RESERVE book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
     When I open Holds
     Then Book 'bookInfo' is present in Holds List
@@ -36,9 +36,9 @@ Feature: Book Transactions
   @tier2
   Scenario: Download from Book detail view
     When I open Catalog
-    And I open category by chain:
-      | Fiction   |
-      | Mysteries |
+      And I open category by chain:
+        | Fiction   |
+        | Mysteries |
     When I open the book details for the subsequent DOWNLOAD and save it as 'bookInfo'
     Then I check that opened book contains READ button at book details screen
 

@@ -48,7 +48,7 @@ public interface ICatalogSteps {
 
     void performActionOnBookByNameAndSaveIt(BookActionButtonKeys actionButtonKey, String bookName, String bookInfoKey);
 
-    void clickOnTheBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key);
+    void clickOnBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key);
 
     void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks);
 
@@ -76,13 +76,13 @@ public interface ICatalogSteps {
 
     void booksAreSortedByTitleAscending();
 
-    void checkFollowingValuesInTheInformationBlockArePresent(List<BookDetailsScreenInformationBlockModel> expectedValuesList);
+    void checkFollowingValuesInInformationBlockArePresent(List<BookDetailsScreenInformationBlockModel> expectedValuesList);
 
     void checkDescriptionHasText(final String description);
 
     void openRelatedBooks();
 
-    void goBackToThePreviousCatalogScreen();
+    void goBackToPreviousCatalogScreen();
 
     CatalogBookModel selectFirstFoundBookAndSaveAs(String bookInfoKey);
 
@@ -97,7 +97,7 @@ public interface ICatalogSteps {
 
     void openBookDetailsByClickingOnCover(String bookInfoKey);
 
-    void pressOnTheBookDetailsScreenAtTheActionButton(BookActionButtonKeys actionButton);
+    void pressOnBookDetailsScreenAtActionButton(BookActionButtonKeys actionButton);
 
-    void checkThatTheActionButtonTextEqualToTheExpected(FacetAvailabilityKeys facetAvailabilityKeys);
+    void checkThatActionButtonTextEqualToExpected(FacetAvailabilityKeys facetAvailabilityKeys);
 }

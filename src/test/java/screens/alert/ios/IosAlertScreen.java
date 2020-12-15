@@ -1,6 +1,5 @@
 package screens.alert.ios;
 
-import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
@@ -33,7 +32,6 @@ public class IosAlertScreen extends AlertScreen {
 
     @Override
     public void closeNotNowModalIfPresent() {
-        AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
         if (btnNotNow.state().isDisplayed()) {
             btnNotNow.click();
         }

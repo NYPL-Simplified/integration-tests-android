@@ -95,7 +95,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
+    public CatalogBookModel scrollToBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
         return performActionOnBook(bookAddButtonKey);
     }
 
@@ -105,12 +105,12 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
                         key.i18n())), String.format("Book %1$s button", key.i18n()));
-        clickOnTheSpecificBookElement(bookAddBtn);
+        clickOnSpecificBookElement(bookAddBtn);
     }
 
     @Override
     public void openBookDetailsWithAction(BookActionButtonKeys action) {
-        clickOnTheSpecificBookElement(getBookJacketWithGivenButtonLabel(action));
+        clickOnSpecificBookElement(getBookJacketWithGivenButtonLabel(action));
     }
 
     @Override
@@ -124,7 +124,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToTheBookByTypeAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
+    public CatalogBookModel scrollToBookByTypeAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.i18n();
         String bookAddButtonLocator = getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType);
         IButton button = getElementFactory().getButton(By.xpath(bookAddButtonLocator), key);
@@ -136,7 +136,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToTheBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
+    public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
         String bookAddButtonLocator = getBookAddButtonLocatorWithGivenName(actionButtonKey, bookName);
         IButton button = getElementFactory().getButton(By.xpath(bookAddButtonLocator), actionButtonKey.i18n());
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
@@ -173,7 +173,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         return getElementFactory().getLabel(By.xpath(String.format("//*[contains(@resource-id,\"bookCellIdle\") " + "and .//android.widget.Button[@content-desc=\"%1$s\"]]", key)), "Book jacket with" + key);
     }
 
-    private void clickOnTheSpecificBookElement(IElement bookWithSpecificAddBtn) {
+    private void clickOnSpecificBookElement(IElement bookWithSpecificAddBtn) {
         bookWithSpecificAddBtn.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         bookWithSpecificAddBtn.click();
     }
