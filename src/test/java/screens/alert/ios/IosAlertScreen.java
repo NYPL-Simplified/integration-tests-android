@@ -32,7 +32,7 @@ public class IosAlertScreen extends AlertScreen {
 
     @Override
     public void closeNotNowModalIfPresent() {
-        if (btnNotNow.state().isDisplayed()) {
+        if (btnNotNow.state().waitForDisplayed()) {
             btnNotNow.click();
         }
     }

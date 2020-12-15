@@ -42,6 +42,7 @@ Feature: Manage Libraries
 
   @logout @cancelHold @tier2
   Scenario: Switch Library Reservations
+    When I add 'Alameda County Library' account
     When I add 'The New York Public Library' account
       And I enter credentials for 'The New York Public Library' account
     Then Login is performed successfully
@@ -57,7 +58,7 @@ Feature: Manage Libraries
       And Book 'bookInfo' is present in Holds List
     When I open Catalog
       And I open Catalog
-      And I switch to 'The SimplyE Collection' from side menu
+      And I switch to 'Alameda County Library' from side menu
       And Open Holds
     Then Holds feed is loaded
       And No books are present in Holds list
