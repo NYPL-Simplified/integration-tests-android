@@ -18,6 +18,30 @@ Feature: Book Transactions
     When I open Holds
     Then Book 'bookInfo' is present in Holds List
 
+  @logout @cancelHold @tier2
+  Scenario: Hold from Bookshelf list
+    When I add 'The New York Public Library' account
+    And I enter credentials for 'The New York Public Library' account
+    Then Login is performed successfully
+    When I open Catalog
+    And I switch to 'The New York Public Library' from side menu
+    And I open category by chain:
+      | Binge-worthy Series |
+    And Change books visibility to show ALL
+    And RESERVE book and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
+    When I open Holds
+    Then Book 'bookInfo' is present in Holds List
+
+  @tier2
+  Scenario: Download from Book detail view
+    When I open Catalog
+    And I open category by chain:
+      | Fiction   |
+      | Mysteries |
+    When I open the book details for the subsequent DOWNLOAD and save it as 'bookInfo'
+    Then I check that opened book contains READ button at book details screen
+
   @tier2
   Scenario: Download from Bookshelf list
     When I open Catalog
@@ -40,7 +64,7 @@ Feature: Book Transactions
     Then Book 'bookInfo' is present on screen
 
   @tier2
-  Scenario: Delete from Book Detail View
+  Scenario: Delete book
     When I open Catalog
       And I open category by chain:
         | Fiction |
@@ -91,17 +115,8 @@ Feature: Book Transactions
       | New York Public Library - QA Server | Overdrive                                     | EBOOK     |
       | New York Public Library - QA Server | Overdrive                                     | AUDIOBOOK |
 
-  @tier2
-  Scenario: Download from Book detail view
-    When I open Catalog
-      And I open category by chain:
-        | Fiction   |
-        | Mysteries |
-    When I open the book details for the subsequent DOWNLOAD and save it as 'bookInfo'
-    Then I check that opened book contains READ button at book details screen
-
   @logout @cancelGet @tier2 @exclude_android
-  Scenario: Return from Book Detail View
+  Scenario: Return book
     When I add 'LYRASIS' account
       And I enter credentials for 'LYRASIS' account
     Then Login is performed successfully
@@ -122,7 +137,7 @@ Feature: Book Transactions
     Then Book 'bookInfo' is not present in Books List
 
   @logout @cancelGet @tier2 @exclude_ios
-  Scenario Outline: Return from Book Detail View (feed)
+  Scenario Outline: Return book (feed)
     When I add custom '<feedName>' opds feed
       And I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
       And Get book on the book details screen
@@ -188,16 +203,3 @@ Feature: Book Transactions
     When I click on the book 'bookInfo' button CANCEL on the holds screen and don't click on the popup button
     Then I click at the popup approve CANCEL the button CANCEL_POPUP
       And Book saved as 'bookInfo' should contain CANCEL button at the hold screen
-
-  @logout @cancelHold @tier2
-  Scenario: Hold from Bookshelf list
-    When I add 'The New York Public Library' account
-      And I enter credentials for 'The New York Public Library' account
-    Then Login is performed successfully
-    When I open Catalog
-      And I switch to 'The New York Public Library' from side menu
-      And I open category by chain:
-        | Binge-worthy Series |
-      And Change books visibility to show ALL
-      And RESERVE book and save it as 'bookInfo'
-    Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
