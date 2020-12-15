@@ -1,5 +1,6 @@
 package screens.subcategory.android;
 
+import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
@@ -75,7 +76,11 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     @Override
     public void openBook(CatalogBookModel bookInfo) {
         String imageTitle = bookInfo.getImageTitle();
-        getElementFactory().getButton(By.xpath(String.format(BOOK_COVER_LOCATOR_PATTERN, imageTitle)), imageTitle).click();
+        IButton button = getElementFactory().getButton(By.xpath(String.format(BOOK_COVER_LOCATOR_PATTERN, imageTitle)), imageTitle);
+        if (!button.state().waitForDisplayed()) {
+            button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
+        button.click();
     }
 
     @Override
