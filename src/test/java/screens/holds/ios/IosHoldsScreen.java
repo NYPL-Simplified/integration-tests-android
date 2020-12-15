@@ -26,7 +26,7 @@ public class IosHoldsScreen extends HoldsScreen {
     private final IButton btnApproveRemove =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Remove\"]"), "Approve Removal");
 
-    private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
+    private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[contains(@name,\"%1$s\")]";
 
     private static final String BOOK_BLOCK_BY_TITLE_LOC = String.format(
             "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_INFO_LOCATOR_PATTERN);

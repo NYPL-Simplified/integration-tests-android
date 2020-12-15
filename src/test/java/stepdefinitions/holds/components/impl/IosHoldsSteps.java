@@ -1,5 +1,6 @@
 package stepdefinitions.holds.components.impl;
 
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import factories.steps.StepsType;
 import framework.utilities.ScenarioContext;
@@ -17,6 +18,10 @@ public class IosHoldsSteps extends AbstractHoldsSteps {
     @Override
     public void checkBookBookInfoIsPresentInHoldsList(String bookInfoKey) {
         CatalogBookModel bookInfo = context.get(bookInfoKey);
-        Assert.assertTrue(holdsScreen.isBookPresent(bookInfo.getTitle()), "Book '" + bookInfo + "' is not present in Books List");
+        boolean isBookPresent = holdsScreen.isBookPresent(bookInfo.getTitle());
+        if (!isBookPresent) {
+            AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
+        }
+        Assert.assertTrue(isBookPresent, "Book '" + bookInfo + "' is not present in Books List");
     }
 }
