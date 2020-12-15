@@ -162,7 +162,7 @@ Feature: Book Transactions
       | New York Public Library - QA Server | Overdrive                                     | AUDIOBOOK |
 
   @logout @cancelHold @tier2
-  Scenario: Remove a Reserved Book
+  Scenario: Remove a Reserved Book from Bookshelf list
     When I add 'The New York Public Library' account
       And I enter credentials for 'The New York Public Library' account
     Then Login is performed successfully
@@ -175,11 +175,39 @@ Feature: Book Transactions
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
     When I click on the book 'bookInfo' button CANCEL on catalog books screen
     Then Book saved as 'bookInfo' should contain RESERVE button at catalog books screen
+
+  @logout @cancelHold @tier2
+  Scenario: Remove a Reserved Book from Book Detail View
+    When I add 'The New York Public Library' account
+      And I enter credentials for 'The New York Public Library' account
+    Then Login is performed successfully
+    When I open Catalog
+      And I switch to 'The New York Public Library' from side menu
+      And I open Catalog
+      And I open search modal
+      And I search for 'Party of Two'
     When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
     Then I check that opened book contains CANCEL button at book details screen
     When Press on the book details screen at the action button CANCEL
     Then I check that the action button text equal to the RESERVE
     When Press on the book details screen at the action button RESERVE
+    Then I check that opened book contains CANCEL button at book details screen
+    When I open Holds
+    Then Book 'bookInfo' is present in Holds List
+    When I click on the book 'bookInfo' button CANCEL on the holds screen
+    Then Book saved as 'bookInfo' should contain RESERVE button at the hold screen
+
+  @logout @cancelHold @tier2
+  Scenario: Remove a Reserved Book from Holds screen
+    When I add 'The New York Public Library' account
+      And I enter credentials for 'The New York Public Library' account
+    Then Login is performed successfully
+    When I open Catalog
+      And I switch to 'The New York Public Library' from side menu
+      And I open Catalog
+      And I open search modal
+      And I search for 'Party of Two'
+    When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
     Then I check that opened book contains CANCEL button at book details screen
     When I open Holds
     Then Book 'bookInfo' is present in Holds List
