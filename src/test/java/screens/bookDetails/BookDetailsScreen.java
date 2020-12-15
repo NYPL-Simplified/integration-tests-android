@@ -15,7 +15,7 @@ public abstract class BookDetailsScreen extends Screen {
 
     public abstract CatalogBookModel getBookInfo();
 
-    public abstract boolean isValueInTheInformationBlockPresent(
+    public abstract boolean isValuePresentInInformationBlock(
             BookDetailsScreenInformationBlockKeys key, String value);
 
     public abstract boolean isDescriptionPresent();

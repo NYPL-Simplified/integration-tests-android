@@ -74,7 +74,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToTheBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
+    public CatalogBookModel scrollToBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
         return performActionOnBook(bookAddButtonKey);
     }
 
@@ -84,12 +84,12 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
                         key.i18n())), String.format("Book %1$s button", key.i18n()));
-        clickOnTheSpecificBookElement(bookAddBtn);
+        clickOnSpecificBookElement(bookAddBtn);
     }
 
     @Override
     public void openBookDetailsWithAction(BookActionButtonKeys action) {
-        clickOnTheSpecificBookElement(getBookJacketWithGivenButtonLabel(action));
+        clickOnSpecificBookElement(getBookJacketWithGivenButtonLabel(action));
     }
 
     @Override
@@ -103,7 +103,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToTheBookByTypeAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
+    public CatalogBookModel scrollToBookByTypeAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.i18n();
         IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
@@ -114,7 +114,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToTheBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
+    public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
         String key = actionButtonKey.i18n();
         IButton actionButton = getElementFactory().getButton(By.xpath(String.format(BOOK_BLOCK_BY_TITLE_LOC, bookName) +
                 String.format(BOOK_ADD_BUTTON_LOC, key)), key);
@@ -147,7 +147,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
                 "Book jacket with btn " + key);
     }
 
-    private void clickOnTheSpecificBookElement(IElement bookWithSpecificAddBtn) {
+    private void clickOnSpecificBookElement(IElement bookWithSpecificAddBtn) {
         bookWithSpecificAddBtn.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         bookWithSpecificAddBtn.click();
     }

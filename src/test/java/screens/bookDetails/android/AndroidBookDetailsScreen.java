@@ -60,7 +60,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     }
 
     @Override
-    public boolean isValueInTheInformationBlockPresent(BookDetailsScreenInformationBlockKeys key, String value) {
+    public boolean isValuePresentInInformationBlock(BookDetailsScreenInformationBlockKeys key, String value) {
         ILabel lblInformationBlockValue = getElementFactory()
                 .getLabel(By.xpath(String.format(INFORMATION_TAB_VALUE_LOC_PART, key.i18n())),
                         String.format(INFORMATION_TAB_LABELS_NAME_PART, key.i18n()));
