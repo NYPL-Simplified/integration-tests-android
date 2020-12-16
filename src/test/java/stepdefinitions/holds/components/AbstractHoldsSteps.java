@@ -60,9 +60,8 @@ public abstract class AbstractHoldsSteps extends BaseSteps implements IHoldsStep
     public void checkThatSavedBookContainButtonAtTheHoldScreen(
             final String bookInfoKey, final BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
-        Assert.assertTrue(holdsScreen.isBookAddButtonTextEqualTo(
-                catalogBookModel.getTitle(), key),
-                String.format("Book with title '%1$s' add button does not contain text '%2$s'",
-                        catalogBookModel.getTitle(), key.i18n()));
+        String title = catalogBookModel.getTitle();
+        Assert.assertTrue(holdsScreen.isBookAddButtonTextEqualTo(title, key),
+                String.format("Book with title '%1$s' add button does not contain text '%2$s'", title, key.i18n()));
     }
 }
