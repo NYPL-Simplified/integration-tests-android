@@ -1,6 +1,7 @@
 package screens.catalog.screen.books.ios;
 
 import aquality.appium.mobile.actions.SwipeDirection;
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -11,7 +12,6 @@ import constants.application.timeouts.BooksTimeouts;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
-import org.testng.Assert;
 import screens.catalog.screen.books.CatalogBooksScreen;
 
 import java.time.Duration;
@@ -58,12 +58,18 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     @Override
     public CatalogBookModel getBookInfo(final String title) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
-        return getBookModel(blockLoc);
+        return getBookModel(blockLoc, title);
     }
 
     private CatalogBookModel getBookModel(String mainLocator) {
         return new CatalogBookModel()
                 .setTitle(getBookParameter(mainLocator, BOOK_TITLE_LOC, "Book title"))
+                .setAuthor(getBookParameter(mainLocator, BOOK_AUTHOR_LOC, "Book author"));
+    }
+
+    private CatalogBookModel getBookModel(String mainLocator, String title) {
+        return new CatalogBookModel()
+                .setTitle(title)
                 .setAuthor(getBookParameter(mainLocator, BOOK_AUTHOR_LOC, "Book author"));
     }
 
@@ -89,6 +95,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public void openBookDetailsWithAction(BookActionButtonKeys action) {
+        state().waitForDisplayed();
         clickOnSpecificBookElement(getBookJacketWithGivenButtonLabel(action));
     }
 
@@ -118,8 +125,9 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         String key = actionButtonKey.i18n();
         IButton actionButton = getElementFactory().getButton(By.xpath(String.format(BOOK_BLOCK_BY_TITLE_LOC, bookName) +
                 String.format(BOOK_ADD_BUTTON_LOC, key)), key);
-        actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        Assert.assertTrue(actionButton.state().isDisplayed(), "Book was not found after scrolling");
+        if (!actionButton.state().waitForDisplayed()) {
+            actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
         return openBook(actionButton, bookName);
     }
 
@@ -163,8 +171,14 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     private CatalogBookModel openBook(IButton button, String bookTitle) {
-        CatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
+        logPageSource("Logging before gathering book info - ");
+        CatalogBookModel bookInfo = getBookInfo(bookTitle);
+        logPageSource("Logging before button click - ");
         button.click();
-        return androidCatalogBookModel;
+        return bookInfo;
+    }
+
+    private void logPageSource(String s) {
+        AqualityServices.getLogger().info(s + AqualityServices.getApplication().getDriver().getPageSource());
     }
 }
