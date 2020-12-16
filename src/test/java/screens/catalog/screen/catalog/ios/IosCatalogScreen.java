@@ -133,7 +133,7 @@ public class IosCatalogScreen extends CatalogScreen {
     }
 
     @Override
-    public void openFirstBookOfType(ReaderType readerType, String bookInfoKey) {
+    public void openFirstBookOfType(ReaderType readerType) {
     }
 
     @Override

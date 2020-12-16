@@ -1,6 +1,7 @@
 package screens.catalog.screen.books.ios;
 
 import aquality.appium.mobile.actions.SwipeDirection;
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -29,6 +30,12 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_TITLE_LOC = "//XCUIElementTypeStaticText[@name][1]";
     private static final String BOOK_AUTHOR_LOC = "//XCUIElementTypeStaticText[@name][2]";
     private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
+    private static final String AUTHOR_NAME_XPATH_PATTERN =
+            "//XCUIElementTypeStaticText[@name=\"%s\"]//following-sibling::XCUIElementTypeStaticText";
+    public static final String ELEMENTS_TO_WAIT_FOR_XPATH = "//XCUIElementTypeCell//XCUIElementTypeOther//XCUIElementTypeStaticText";
+    public static final int COUNT_OF_BUTTONS_TO_WAIT_FOR = 5;
+    public static final String BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN =
+            "//XCUIElementTypeStaticText[@name=\"%1$s\"]//following-sibling::XCUIElementTypeOther//XCUIElementTypeStaticText[@name=\"%2$s\"]";
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
@@ -56,19 +63,14 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public CatalogBookModel getBookInfo(final String title) {
-        final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
-        return getBookModel(blockLoc, title);
+        return new CatalogBookModel()
+                .setTitle(title)
+                .setAuthor(getElementFactory().getLabel(By.xpath(String.format(AUTHOR_NAME_XPATH_PATTERN, title)), title).getText());
     }
 
     private CatalogBookModel getBookModel(String mainLocator) {
         return new CatalogBookModel()
                 .setTitle(getBookParameter(mainLocator, BOOK_TITLE_LOC, "Book title"))
-                .setAuthor(getBookParameter(mainLocator, BOOK_AUTHOR_LOC, "Book author"));
-    }
-
-    private CatalogBookModel getBookModel(String mainLocator, String title) {
-        return new CatalogBookModel()
-                .setTitle(title)
                 .setAuthor(getBookParameter(mainLocator, BOOK_AUTHOR_LOC, "Book author"));
     }
 
@@ -122,8 +124,10 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     @Override
     public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
         String key = actionButtonKey.i18n();
-        IButton actionButton = getElementFactory().getButton(By.xpath(String.format(BOOK_BLOCK_BY_TITLE_LOC, bookName) +
-                String.format(BOOK_ADD_BUTTON_LOC, key)), key);
+        AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.xpath(ELEMENTS_TO_WAIT_FOR_XPATH), ElementType.BUTTON).size() >= COUNT_OF_BUTTONS_TO_WAIT_FOR);
+        AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
+        IButton actionButton =
+                getElementFactory().getButton(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, bookName, key)), key);
         if (!actionButton.state().waitForDisplayed()) {
             actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
@@ -171,7 +175,10 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private CatalogBookModel openBook(IButton button, String bookTitle) {
         CatalogBookModel bookInfo = getBookInfo(bookTitle);
+        button.state().waitForDisplayed();
+        button.state().waitForClickable();
         button.click();
+        button.state().waitForNotExist();
         return bookInfo;
     }
 }

@@ -380,6 +380,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     @Override
     public void openBookDetailsByClickingOnCover(String bookInfoKey) {
         CatalogBookModel bookInfo = context.get(bookInfoKey);
+        subcategoryScreen.state().waitForDisplayed();
         subcategoryScreen.openBook(bookInfo);
     }
 
@@ -442,7 +443,9 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     }
 
     public void openFirstBookAndSaveBookInfoAs(ReaderType readerType, String bookInfoKey) {
-        catalogScreen.openFirstBookOfType(readerType, bookInfoKey);
+        catalogScreen.openFirstBookOfType(readerType);
+        bookDetailsScreen.state().waitForDisplayed();
+        context.add(bookInfoKey, bookDetailsScreen.getBookInfo());
     }
 
     private void addScreenshotIfErrorPresent(boolean isButtonPresent) {
