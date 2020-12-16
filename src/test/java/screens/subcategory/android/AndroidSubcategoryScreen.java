@@ -44,6 +44,7 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
             getElementFactory().getLabel(By.xpath(AUTHOR_INFO_XPATH), "First book author");
     private final ILabel lblErrorDetails = getElementFactory().getLabel(By.id("errorDetails"), "Error details");
     private final IButton btnErrorDetails = getElementFactory().getButton(By.id("bookCellErrorButtonDetails"), "Error details");
+    private final IButton btnFeedErrorDetails = getElementFactory().getButton(By.id("feedErrorDetails"), "Error details");
 
     public AndroidSubcategoryScreen() {
         super(By.xpath("//androidx.recyclerview.widget.RecyclerView[contains(@resource-id,\"feedWithoutGroupsList\")]"));
@@ -98,10 +99,13 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public String getErrorMessage() {
-        if (isErrorButtonPresent()) {
+        AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
+        if (isErrorDetailsButtonDisplayed()) {
             btnErrorDetails.click();
-            lblErrorDetails.state().waitForDisplayed();
-            return lblErrorDetails.getText();
+            return getErrorDetails();
+        } else if (isFeedErrorDetailsButtonDisplayed()) {
+            btnFeedErrorDetails.click();
+            return getErrorDetails();
         }
         AqualityServices.getLogger().info("Error details button is not present");
         return "";
@@ -109,7 +113,7 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public boolean isErrorButtonPresent() {
-        return btnErrorDetails.state().isDisplayed();
+        return isErrorDetailsButtonDisplayed() || isFeedErrorDetailsButtonDisplayed();
     }
 
     @Override
@@ -138,5 +142,18 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     @Override
     public void openFirstBook() {
         lblFirstBookImageCover.click();
+    }
+
+    private boolean isFeedErrorDetailsButtonDisplayed() {
+        return btnFeedErrorDetails.state().isDisplayed();
+    }
+
+    private boolean isErrorDetailsButtonDisplayed() {
+        return btnErrorDetails.state().isDisplayed();
+    }
+
+    private String getErrorDetails() {
+        lblErrorDetails.state().waitForDisplayed();
+        return lblErrorDetails.getText();
     }
 }
