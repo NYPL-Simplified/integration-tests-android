@@ -1,7 +1,6 @@
 package stepdefinitions.credentials.components;
 
 import aquality.appium.mobile.application.AqualityServices;
-import constants.context.ContextLibrariesKeys;
 import framework.configuration.Configuration;
 import framework.utilities.ScenarioContext;
 import org.testng.Assert;
@@ -34,12 +33,10 @@ public abstract class AbstractCredentialsSteps extends BaseSteps implements ICre
     public void enterCredentialsForLibraryAccount(String libraryName) {
         accountsScreen.openAccount(libraryName);
         accountScreen.enterCredentials(Configuration.getCredentials(libraryName));
-        context.add(ContextLibrariesKeys.LOG_OUT.getKey(), libraryName);
     }
 
     public void enterCredentialsForLibraryAccountViaKeyboard(String libraryName) {
         accountsScreen.openAccount(libraryName);
         accountScreen.enterCredentialsViaKeyboard(Configuration.getCredentials(libraryName));
-        context.add(ContextLibrariesKeys.LOG_OUT.getKey(), libraryName);
     }
 }

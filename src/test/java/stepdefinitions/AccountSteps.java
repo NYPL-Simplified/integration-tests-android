@@ -64,6 +64,7 @@ public class AccountSteps {
         Assert.assertTrue(addAccountScreen.state().waitForDisplayed(),
                 "Checking that add accounts screen visible");
         addAccountScreen.selectLibrary(libraryName);
+
         saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey(), libraryName);
         saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey(), libraryName);
         saveLibraryInContext(ContextLibrariesKeys.LOG_OUT.getKey(), libraryName);
@@ -117,10 +118,10 @@ public class AccountSteps {
             catalogScreen.openLibrary(feedName);
         }
         accountScreen.enterCredentials(Configuration.getCredentials(feedName));
-        context.add(ContextLibrariesKeys.LOG_OUT.getKey(), feedName);
         settingsScreen.state().waitForDisplayed();
         bottomMenuForm.open(BottomMenu.CATALOG);
 
+        saveLibraryInContext(ContextLibrariesKeys.LOG_OUT.getKey(), feedName);
         saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey(), feedName);
         saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey(), feedName);
     }

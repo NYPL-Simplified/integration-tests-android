@@ -10,6 +10,8 @@ import screens.alert.AlertScreen;
 import screens.bottommenu.BottomMenu;
 import screens.notifications.NotificationModal;
 
+import java.util.List;
+
 @StepsType(platform = PlatformName.IOS)
 public class IosLogoutHooks extends AbstractLogoutHooks {
     private final NotificationModal notificationModal;
@@ -25,18 +27,21 @@ public class IosLogoutHooks extends AbstractLogoutHooks {
     public void closeApplication() {
         alertScreen.closeModalIfPresent();
         navigateBackIfBottomMenuIsNotVisibleUntilItIs();
-        if (!accountScreen.state().isDisplayed()) {
-            bottomMenuForm.open(BottomMenu.SETTINGS);
-            alertScreen.closeNotNowModalIfPresent();
-            bottomMenuForm.open(BottomMenu.SETTINGS);
-            settingsScreen.openAccounts();
-            accountsScreen.openAccount(context.get(ContextLibrariesKeys.LOG_OUT.getKey()));
-        }
-        if (accountScreen.isLogoutRequired()) {
-            logOut();
-        }
-        if (!accountScreen.isLogoutSuccessful()) {
-            logOut();
+        List<String> listOfLibraries = context.get(ContextLibrariesKeys.LOG_OUT.getKey());
+        for (String library : listOfLibraries) {
+            if (!accountScreen.state().isDisplayed()) {
+                bottomMenuForm.open(BottomMenu.SETTINGS);
+                alertScreen.closeNotNowModalIfPresent();
+                bottomMenuForm.open(BottomMenu.SETTINGS);
+                settingsScreen.openAccounts();
+                accountsScreen.openAccount(library);
+            }
+            if (accountScreen.isLogoutRequired()) {
+                logOut();
+            }
+            if (!accountScreen.isLogoutSuccessful()) {
+                logOut();
+            }
         }
     }
 
