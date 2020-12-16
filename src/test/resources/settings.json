@@ -1,5 +1,5 @@
 {
-  "platformName": "ios",
+  "platformName": "android",
   "isRemote": true,
   "remoteConnectionUrl": "",
   "screensLocation": "screens",
@@ -23,6 +23,7 @@
         "app": "",
         "noReset": "true",
         "browserstack.appium_version": "1.17.0",
+        "browserstack.networkLogs": true,
         "automationName": "XCUITest",
         "deviceOrientation": "portrait",
         "bundleId": ""

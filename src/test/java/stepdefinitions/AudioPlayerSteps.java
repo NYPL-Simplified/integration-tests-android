@@ -3,6 +3,7 @@ package stepdefinitions;
 import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import constants.RegEx;
+import constants.application.timeouts.BooksTimeouts;
 import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
 import framework.utilities.SmartRandomUtils;
@@ -11,6 +12,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 import screens.audioplayer.AudioPlayerScreen;
+
+import java.time.Duration;
 
 public class AudioPlayerSteps {
     private final AudioPlayerScreen audioPlayerScreen;
@@ -57,7 +60,9 @@ public class AudioPlayerSteps {
     @Then("I check that current chapter equal to remembered {string}")
     public void selectChapterIsNotEqualToSavedInTheContextByKeyAndSaveSelectedChapter(String keyCurrentChapter) {
         int expectedChapterName = context.get(keyCurrentChapter);
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> getChapterNumber() == expectedChapterName), String.format("Current chapter number is not correct. Expected - %d; actual - %d", expectedChapterName, getChapterNumber()));
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> getChapterNumber() == expectedChapterName),
+                String.format("Current chapter number is not correct. Expected - %d; actual - %d", expectedChapterName, getChapterNumber()));
+        AqualityServices.getConditionalWait().waitFor(() -> false, Duration.ofMillis(BooksTimeouts.SYSTEM_CHANGES_STATUS.getTimeoutMillis()));
     }
 
     private int getChapterNumber() {
