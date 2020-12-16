@@ -1,7 +1,6 @@
 package screens.catalog.screen.books.ios;
 
 import aquality.appium.mobile.actions.SwipeDirection;
-import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -171,14 +170,8 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     private CatalogBookModel openBook(IButton button, String bookTitle) {
-        logPageSource("Logging before gathering book info - ");
         CatalogBookModel bookInfo = getBookInfo(bookTitle);
-        logPageSource("Logging before button click - ");
         button.click();
         return bookInfo;
-    }
-
-    private void logPageSource(String message) {
-        AqualityServices.getLogger().info(message + AqualityServices.getApplication().getDriver().getPageSource());
     }
 }
