@@ -100,7 +100,7 @@ Feature: Catalog Navigation
     When I change books visibility to show YOURS_TO_KEEP
     Then All books can be downloaded
 
-  @tier1
+  @tier1 @exclude_ios
   Scenario: View Book Details
     When I add 'The New York Public Library' account
       And I open Catalog
@@ -138,6 +138,45 @@ Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudl
     When I return to previous screen
     Then Current category name is 'Related books…'
       And Count of books in subcategory 'Harry Potter' lane is up to 12
+    When I open 'Harry Potter' subcategory
+    Then Current category name is 'Harry Potter'
+      And Count of books in search result is up to 12
+
+  @tier1 @exclude_android
+  Scenario: View Book Details (iOS)
+    When I add 'The New York Public Library' account
+      And I open Catalog
+      And I switch to 'The New York Public Library' from side menu
+    When I open search modal
+    Then Search modal is opened
+    When I search for 'Harry Potter and the Order of the Phoenix'
+      And I switch to 'eBooks' catalog tab
+    Then Subcategory screen is present
+    When I open book with name 'Harry Potter and the Order of the Phoenix' and save it as 'bookInfo'
+    Then Book 'bookInfo' is opened
+      And The following values in the information block are present:
+        | key         | value                 |
+        | PUBLISHED   | 2015-12-08            |
+        | PUBLISHER   | Pottermore Publishing |
+        | DISTRIBUTOR | Overdrive             |
+        | CATEGORIES  | Fantasy               |
+      And Description has text
+    """
+    "'You are sharing the Dark Lord's thoughts and emotions. The Headmaster thinks it inadvisable for this to continue. He wishes me to teach you how to close your mind to the Dark Lord.'"
+Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudley, Harry Potter knows that Voldemort will stop at nothing to find him. There are many who deny the Dark Lord's return, but Harry is not alone: a secret order gathers at Grimmauld Place to fight against the Dark forces. Harry must allow Professor Snape to teach him how to protect himself from Voldemort's savage assaults on his mind. But they are growing stronger by the day and Harry is running out of time...
+    """
+    When I open related books
+    Then Count of books in subcategory 'J. K. Rowling' lane is up to 12
+    When I open 'J. K. Rowling' subcategory
+    Then Current category name is 'J. K. Rowling'
+      And Count of books in search result is up to 12
+    When I return to previous screen
+    Then Count of books in subcategory 'Similar titles recommended by NoveList' lane is up to 12
+    When I open 'Similar titles recommended by NoveList' subcategory
+    Then Current category name by localization is TITLE_RECOMMENDED_BY_NOVELIST
+      And Count of books in search result is up to 12
+    When I return to previous screen
+    Then Count of books in subcategory 'Harry Potter' lane is up to 12
     When I open 'Harry Potter' subcategory
     Then Current category name is 'Harry Potter'
       And Count of books in search result is up to 12
