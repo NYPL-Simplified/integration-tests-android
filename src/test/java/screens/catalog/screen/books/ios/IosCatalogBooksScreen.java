@@ -178,7 +178,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         return bookInfo;
     }
 
-    private void logPageSource(String s) {
-        AqualityServices.getLogger().info(s + AqualityServices.getApplication().getDriver().getPageSource());
+    private void logPageSource(String message) {
+        AqualityServices.getLogger().info(message + AqualityServices.getApplication().getDriver().getPageSource());
     }
 }
