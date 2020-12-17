@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import aquality.selenium.core.elements.interfaces.IElement;
 import constants.application.ReaderType;
 import constants.application.attributes.AndroidAttributes;
 import framework.utilities.swipe.SwipeElementUtils;
@@ -38,6 +39,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
             getElementFactory().getLabel(By.id("tabbedFragmentHolder"), "Main fragment to swipe on");
     private final IButton btnErrorMessage = getElementFactory().getButton(By.xpath("//*[contains(@text, \"Details\")]"), "Details");
     private final ILabel lblErrorMessage = getElementFactory().getLabel(By.id("errorDetails"), "Error message");
+    private final ILabel lblScreen = getElementFactory().getLabel(By.id("mainFragmentHolder"), "Screen to swipe");
 
     public AndroidCatalogScreen() {
         super(By.id("feedWithGroups"));
@@ -54,8 +56,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     @Override
     public boolean isCategoryPageLoad() {
-        return AqualityServices.getConditionalWait().waitFor(() ->
-                getElementFactory().findElements(By.xpath(FEED_LANE_TITLES_LOC), ElementType.LABEL).size() > 0);
+        return AqualityServices.getConditionalWait().waitFor(() -> getLabels(FEED_LANE_TITLES_LOC).size() > 0);
     }
 
     @Override
@@ -92,13 +93,6 @@ public class AndroidCatalogScreen extends CatalogScreen {
     }
 
     @Override
-    public boolean isSubcategoryPresent(String subcategoryName) {
-        IButton subcategoryButton = getCategoryButton(subcategoryName);
-        subcategoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        return subcategoryButton.state().isDisplayed();
-    }
-
-    @Override
     public void switchToCatalogTab(String catalogTab) {
         getElementFactory().getButton(By.xpath("//android.widget.RadioButton[@text=\"" + catalogTab + "\"]"), catalogTab).click();
     }
@@ -132,7 +126,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
     @Override
     public boolean isAnyBookPresentInLane(ReaderType readerType, String laneName) {
         getElementFactory().getButton(By.xpath(String.format(LANE_LOCATOR_PATTERN, laneName, readerType.toString())), laneName).getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        return getElementFactory().findElements(By.xpath(String.format(BOOK_IN_LANE_LOCATOR_PATTERN, laneName, readerType.toString())), ElementType.LABEL).size() > 0;
+        return getLabels(String.format(BOOK_IN_LANE_LOCATOR_PATTERN, laneName, readerType.toString())).size() > 0;
     }
 
     @Override
@@ -166,6 +160,19 @@ public class AndroidCatalogScreen extends CatalogScreen {
         return "";
     }
 
+    @Override
+    public Set<String> getAllCategoriesNames() {
+        AqualityServices.getConditionalWait().waitFor(() -> getListOfCategories().size() > 0);
+        List<String> currentCategoriesNames = getListOfCategories();
+        Set<String> bookNames = new HashSet<>();
+        do {
+            bookNames.addAll(currentCategoriesNames);
+            SwipeElementUtils.swipeElementUp(lblScreen);
+            currentCategoriesNames = getListOfCategories();
+        } while (!bookNames.containsAll(currentCategoriesNames));
+        return bookNames;
+    }
+
     private IButton getBookFromLaneLabel(ReaderType readerType, String laneName) {
         return getElementFactory().getButton(By.xpath(String.format(BOOK_IN_LANE_LOCATOR_PATTERN, laneName, readerType.toString())), laneName);
     }
@@ -175,10 +182,25 @@ public class AndroidCatalogScreen extends CatalogScreen {
                 + BOOK_COVER_IN_THE_LANE_LOCATOR);
     }
 
+    private List<String> getListOfCategories() {
+        return getTextFromListOfLabels("//android.widget.LinearLayout/android.widget.TextView");
+    }
+
     private List<String> getValuesFromListOfLabels(String xpath) {
-        return getElementFactory().findElements(By.xpath(xpath), ElementType.LABEL)
+        return getLabels(xpath)
                 .stream()
                 .map(x -> x.getAttribute(AndroidAttributes.CONTENT_DESC))
                 .collect(Collectors.toList());
+    }
+
+    private List<String> getTextFromListOfLabels(String xpath) {
+        return getLabels(xpath)
+                .stream()
+                .map(IElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    private List<aquality.appium.mobile.elements.interfaces.IElement> getLabels(String xpath) {
+        return getElementFactory().findElements(By.xpath(xpath), ElementType.LABEL);
     }
 }
