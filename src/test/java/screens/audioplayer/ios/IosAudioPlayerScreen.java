@@ -22,6 +22,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeImage[@name=\"cover_art\"]";
     private static final String CHAPTERS_TIMERS = ".//XCUIElementTypeStaticText[@name]";
     private static final String CHAPTERS_LOC = "//XCUIElementTypeTable//XCUIElementTypeCell";
+    public static final int COUNT_OF_CHAPTERS_TO_WAIT_FOR = 3;
 
     private final IButton menuBtn = getElementFactory().getButton(
             By.xpath("//XCUIElementTypeButton[@name=\"Table of Contents\"]"), "Menu");
@@ -76,7 +77,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public int getCountOfChapters() {
-        AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > 3, Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+        AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > COUNT_OF_CHAPTERS_TO_WAIT_FOR, Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
         return getChapters().size();
     }
 }
