@@ -31,6 +31,7 @@ import stepdefinitions.BaseSteps;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -149,12 +150,10 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void checkFollowingSubcategoriesArePresent(List<String> expectedValuesList) {
-        SoftAssert softAssert = new SoftAssert();
+        catalogScreen.state().waitForDisplayed();
         catalogScreen.swipeScreenUp();
-        for (String value : expectedValuesList) {
-            softAssert.assertTrue(catalogScreen.isSubcategoryPresent(value), value + " category is not present");
-        }
-        softAssert.assertAll();
+        Assert.assertEquals(catalogScreen.getAllCategoriesNames(), new HashSet<>(expectedValuesList),
+                "List of categories is not completely present");
     }
 
     @Override

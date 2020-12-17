@@ -11,6 +11,7 @@ import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.core.elements.ElementsCount;
 import constants.application.ReaderType;
 import constants.application.attributes.IosAttributes;
+import constants.application.timeouts.AuthorizationTimeouts;
 import constants.application.timeouts.CategoriesTimeouts;
 import framework.utilities.swipe.SwipeElementUtils;
 import org.openqa.selenium.By;
@@ -37,6 +38,7 @@ public class IosCatalogScreen extends CatalogScreen {
 
     private final ILabel firstLaneName = getElementFactory().getLabel(
             By.xpath(FEED_LANE_TITLES_LOC), "First lane name");
+    private final ILabel categoryScreen = getElementFactory().getLabel(By.xpath("//XCUIElementTypeTable"), "Category Screen");
 
     public IosCatalogScreen() {
         super(By.xpath(FEED_LANE_TITLES_LOC));
@@ -91,13 +93,6 @@ public class IosCatalogScreen extends CatalogScreen {
     }
 
     @Override
-    public boolean isSubcategoryPresent(String subcategoryName) {
-        IButton subcategoryButton = getCategoryButton(subcategoryName);
-        subcategoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        return subcategoryButton.state().isDisplayed();
-    }
-
-    @Override
     public void switchToCatalogTab(String catalogTab) {
         getElementFactory().getButton(By.xpath(String.format("//XCUIElementTypeButton[@name=\"%1$s\"]", catalogTab)), catalogTab).click();
     }
@@ -148,6 +143,27 @@ public class IosCatalogScreen extends CatalogScreen {
     @Override
     public String getErrorDetails() {
         return null;
+    }
+
+    @Override
+    public Set<String> getAllCategoriesNames() {
+        List<String> currentBooksNames = geListOfCategoriesNames();
+        Set<String> categoriesNames = new HashSet<>();
+        do {
+            categoriesNames.addAll(currentBooksNames);
+            List<String> finalCurrentBooksNames = currentBooksNames;
+            SwipeElementUtils.swipeElementUp(categoryScreen);
+            AqualityServices.getConditionalWait().waitFor(() -> {
+                        return !finalCurrentBooksNames.containsAll(geListOfCategoriesNames());
+                    }
+                    , Duration.ofMillis(AuthorizationTimeouts.DEBUG_MENU_IS_OPENED.getTimeoutMillis()));
+            currentBooksNames = geListOfCategoriesNames();
+        } while (!categoriesNames.containsAll(currentBooksNames));
+        return categoriesNames;
+    }
+
+    private List<String> geListOfCategoriesNames() {
+        return getValuesFromListOfLabels("//XCUIElementTypeOther//XCUIElementTypeButton//XCUIElementTypeStaticText[not(contains(@name, 'More'))]");
     }
 
     private List<String> getListOfVisibleBooksNamesInSubcategoryLane(String lineName) {

@@ -57,6 +57,7 @@ Feature: Catalog Navigation
         | Horror             |
         | Poetry             |
         | Drama              |
+        | Fantasy            |
         | All Fiction        |
     When I open 'Drama' subcategory
     Then Subcategory screen is present
