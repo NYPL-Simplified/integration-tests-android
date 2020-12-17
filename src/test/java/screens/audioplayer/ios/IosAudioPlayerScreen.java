@@ -8,6 +8,7 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.timeouts.AudioBookTimeouts;
+import constants.application.timeouts.BooksTimeouts;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
@@ -62,6 +63,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void selectChapterNumber(int chapterNumber) {
+        AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > chapterNumber);
         ILabel chapter = getChapters().get(chapterNumber);
         chapter.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         chapter.click();
@@ -74,7 +76,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public int getCountOfChapters() {
+        AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > 3, Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
         return getChapters().size();
     }
-
 }
