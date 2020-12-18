@@ -4,12 +4,15 @@ import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
+import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.books.BooksScreen;
+
+import java.util.List;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidBooksScreen extends BooksScreen {
@@ -55,14 +58,12 @@ public class AndroidBooksScreen extends BooksScreen {
 
     @Override
     public int getCountOfBooksWithAction(BookActionButtonKeys actionKey) {
-        return getElementFactory().findElements(
-                By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionKey.i18n())), ElementType.LABEL).size();
+        return getBooksWithAction(actionKey).size();
     }
 
     @Override
     public void openBookPage(int index, BookActionButtonKeys actionKey) {
-        getElementFactory()
-                .findElements(By.xpath(String.format(BOOKS_WITH_ACTION_LOC, actionKey.i18n())), ElementType.BUTTON)
+        getListOfElements(actionKey, BOOKS_WITH_ACTION_LOC, ElementType.BUTTON)
                 .get(index)
                 .click();
     }
@@ -77,5 +78,19 @@ public class AndroidBooksScreen extends BooksScreen {
     public void readBook(CatalogBookModel bookInfo) {
         String readButtonName = BookActionButtonKeys.READ.i18n();
         getElementFactory().getButton(By.xpath(String.format(BOOK_INFO_BUTTON_PATTERN, String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle()), readButtonName)), readButtonName).click();
+    }
+
+    @Override
+    public void scrollForButtonWithAction(BookActionButtonKeys actionButton) {
+        getElementFactory().getButton(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionButton.i18n())), actionButton.i18n()).getTouchActions().scrollToElement(SwipeDirection.DOWN);
+    }
+
+    private List<IElement> getBooksWithAction(BookActionButtonKeys actionKey) {
+        return getListOfElements(actionKey, BOOK_ACTION_BUTTON_LOC, ElementType.LABEL);
+    }
+
+    private List<IElement> getListOfElements(BookActionButtonKeys actionKey, String bookActionButtonLoc, ElementType label) {
+        return getElementFactory().findElements(
+                By.xpath(String.format(bookActionButtonLoc, actionKey.i18n())), label);
     }
 }

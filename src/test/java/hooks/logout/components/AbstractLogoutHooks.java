@@ -100,6 +100,10 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
 
     private void returnBooks(BookActionButtonKeys actionButton) {
         int countOfBooksWithAction = booksScreen.getCountOfBooksWithAction(actionButton);
+        if (booksScreen.getCountOfBooks() >= 4 && countOfBooksWithAction == 0) {
+            booksScreen.scrollForButtonWithAction(actionButton);
+        }
+        countOfBooksWithAction = booksScreen.getCountOfBooksWithAction(actionButton);
         AqualityServices.getLogger().info("Count of books with '" + actionButton.i18n() + "' action - " + countOfBooksWithAction);
         IntStream.range(0, countOfBooksWithAction)
                 .forEach(index -> {
