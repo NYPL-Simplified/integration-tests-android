@@ -1,5 +1,5 @@
 {
-  "platformName": "android",
+  "platformName": "ios",
   "isRemote": true,
   "remoteConnectionUrl": "",
   "screensLocation": "screens",
@@ -56,7 +56,7 @@
   "touchActions": {
     "swipe": {
       "duration": 1,
-      "retries": 90,
+      "retries": 80,
       "verticalOffset": 0.3,
       "horizontalOffset": 0.5
     }

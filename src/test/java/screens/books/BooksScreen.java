@@ -23,4 +23,6 @@ public abstract class BooksScreen extends Screen {
     public abstract void refreshList();
 
     public abstract void readBook(CatalogBookModel bookInfo);
+
+    public abstract void scrollForButtonWithAction(BookActionButtonKeys actionButton);
 }
