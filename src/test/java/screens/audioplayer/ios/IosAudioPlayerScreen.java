@@ -8,6 +8,7 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.timeouts.AudioBookTimeouts;
+import constants.application.timeouts.BooksTimeouts;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
@@ -21,6 +22,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeImage[@name=\"cover_art\"]";
     private static final String CHAPTERS_TIMERS = ".//XCUIElementTypeStaticText[@name]";
     private static final String CHAPTERS_LOC = "//XCUIElementTypeTable//XCUIElementTypeCell";
+    public static final int COUNT_OF_CHAPTERS_TO_WAIT_FOR = 3;
 
     private final IButton menuBtn = getElementFactory().getButton(
             By.xpath("//XCUIElementTypeButton[@name=\"Table of Contents\"]"), "Menu");
@@ -62,7 +64,8 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void selectChapterNumber(int chapterNumber) {
-        ILabel chapter = getChapters().get(chapterNumber);
+        AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() >= chapterNumber);
+        ILabel chapter = getChapters().get(chapterNumber - 1);
         chapter.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         chapter.click();
     }
@@ -74,7 +77,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public int getCountOfChapters() {
+        AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > COUNT_OF_CHAPTERS_TO_WAIT_FOR, Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
         return getChapters().size();
     }
-
 }

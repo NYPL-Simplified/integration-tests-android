@@ -1,6 +1,5 @@
 package framework.utilities;
 
-import io.cucumber.java.ParameterType;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
 
@@ -9,7 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class SmartRandomUtils {
-    private SmartRandomUtils() {}
+    private SmartRandomUtils() {
+    }
 
     public static int getRandomWithExclusion(int start, int end, int... exclusion) {
         Validate.isTrue(end - start > exclusion.length, "Count of exclusions can not be greater than range");

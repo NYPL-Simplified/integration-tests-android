@@ -57,6 +57,12 @@ public class AudioPlayerSteps {
         context.add(keySelectedChapter, chapterToSelect + 1);
     }
 
+    @When("I select {int} chapter and remember selected chapter as {string}")
+    public void selectSecondChapterAndSaveSelectedChapter(int chapterToSelect, String keySelectedChapter) {
+        audioPlayerScreen.selectChapterNumber(chapterToSelect);
+        context.add(keySelectedChapter, chapterToSelect);
+    }
+
     @Then("I check that current chapter equal to remembered {string}")
     public void selectChapterIsNotEqualToSavedInTheContextByKeyAndSaveSelectedChapter(String keyCurrentChapter) {
         int expectedChapterName = context.get(keyCurrentChapter);
