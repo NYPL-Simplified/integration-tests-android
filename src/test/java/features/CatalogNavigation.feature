@@ -26,16 +26,23 @@ Feature: Catalog Navigation
         | Philosophy              |
         | Science & Technology    |
         | Religion & Spirituality |
+        | All Nonfiction          |
       And List of books on screen is not equal to list of books saved as 'listOfBooksOnMainPage'
     When I return to previous screen
       And I open 'Fiction' category
     Then Current category name is 'Fiction'
       And Books feed is loaded
       And Following subcategories are present:
-        | Literary Fiction |
-        | Science Fiction  |
-        | Mysteries        |
-        | Romance          |
+        | Literary Fiction   |
+        | Science Fiction    |
+        | Historical Fiction |
+        | Horror             |
+        | Drama              |
+        | Fantasy            |
+        | Poetry             |
+        | Mysteries          |
+        | Romance            |
+        | All Fiction        |
       And List of books on screen is not equal to list of books saved as 'listOfBooksOnMainPage'
     When I open 'Drama' subcategory
     Then Subcategory screen is present
