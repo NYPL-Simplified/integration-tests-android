@@ -85,6 +85,6 @@ public class IosBooksScreen extends BooksScreen {
     @Override
     public void scrollForButtonWithAction(BookActionButtonKeys actionButton) {
         String buttonName = actionButton.i18n();
-        getElementFactory().getLabel(By.xpath(String.format(BOOKS_WITH_ACTION_LOC, buttonName)), buttonName);
+        getElementFactory().getLabel(By.xpath(String.format(BOOKS_WITH_ACTION_LOC, buttonName)), buttonName).getTouchActions().scrollToElement(SwipeDirection.DOWN);
     }
 }
