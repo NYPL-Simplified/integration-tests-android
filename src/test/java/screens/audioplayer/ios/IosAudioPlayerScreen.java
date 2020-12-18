@@ -64,8 +64,8 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void selectChapterNumber(int chapterNumber) {
-        AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > chapterNumber);
-        ILabel chapter = getChapters().get(chapterNumber);
+        AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() >= chapterNumber);
+        ILabel chapter = getChapters().get(chapterNumber - 1);
         chapter.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         chapter.click();
     }

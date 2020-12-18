@@ -20,11 +20,10 @@ Feature: Audiobook
   @logout @cancelGet @tier2 @exclude_android
   Scenario: Navigate by Table of Contents Menu
     When Press on the book details screen at the action button LISTEN
-      And Remember current book chapter in 'defaultChapter'
       And Open the menu-based position in the audiobook
     Then I check that chapters are visible
       And Wait and check that all loaders are disappeared
-    When I select the chapter not equal to remembered 'defaultChapter' and remember selected chapter as 'newChapter'
+    When I select 2 chapter and remember selected chapter as 'newChapter'
     Then I check that current chapter equal to remembered 'newChapter'
 
   @logout @cancelGet @tier2 @exclude_android
@@ -34,7 +33,7 @@ Feature: Audiobook
       And Open the menu-based position in the audiobook
     Then I check that chapters are visible
       And Wait and check that all loaders are disappeared
-    When I select the chapter not equal to remembered 'defaultChapter' and remember selected chapter as 'newChapter'
+    When I select 2 chapter and remember selected chapter as 'newChapter'
     Then I check that current chapter equal to remembered 'newChapter'
     When I restart app
       And I open Catalog
