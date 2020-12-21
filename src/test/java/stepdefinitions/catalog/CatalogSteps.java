@@ -147,6 +147,11 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
         catalogSteps.checkCountOfBooksInSubcategoryLaneIsUpTo(lineName, countOfBooks);
     }
 
+    @And("Count of books in subcategory {string} lane is more then {int}")
+    public void checkCountOfBooksInSubcategoryLaneIsMoreThen(String lineName, int countOfBooks) {
+        catalogSteps.checkCountOfBooksInSubcategoryLaneIsMoreThen(lineName, countOfBooks);
+    }
+
     @Then("Book {string} is opened")
     public void checkBookInfoIsOpened(String bookInfoKey) {
         catalogSteps.checkBookInfoIsOpened(bookInfoKey);
@@ -232,6 +237,11 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     @And("Count of books in search result is up to {int}")
     public void checkCountOfBooksInSearchResultIsUpTo(int countOfBooks) {
         catalogSteps.checkCountOfBooksInSearchResultIsUpTo(countOfBooks);
+    }
+
+    @And("Count of books in search result is more then {int}")
+    public void checkCountOfBooksInSearchResultIsMoreThen(int countOfBooks) {
+        catalogSteps.checkCountOfBooksInSearchResultIsMoreThen(countOfBooks);
     }
 
     @Then("Book saved as {string} should contain {} button at catalog books screen")

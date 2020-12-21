@@ -115,39 +115,45 @@ Feature: Catalog Navigation
       And I switch to 'The New York Public Library' from side menu
     When I open search modal
     Then Search modal is opened
-    When I search for 'Little Women'
+    When I search for 'Tom Swift and His War Tank: Or, Doing His Bit for Uncle Sam'
       And I switch to 'eBooks' catalog tab
     Then Subcategory screen is present
-    When I open book with name 'Little Women' and save it as 'bookInfo'
+    When I open book with name 'Tom Swift and His War Tank: Or, Doing His Bit for Uncle Sam' and save it as 'bookInfo'
     Then Book 'bookInfo' is opened
       And The following values in the information block are present:
-        | key         | value         |
-        | PUBLISHED   | 2014-04-23    |
-        | PUBLISHER   | Duke Classics |
-        | DISTRIBUTOR | Overdrive     |
-        | CATEGORIES  | Classics      |
+        | key         | value                     |
+        | PUBLISHED   | 2020-09-28                |
+        | PUBLISHER   | Duke Classics             |
+        | DISTRIBUTOR | Overdrive                 |
+        | CATEGORIES  | Classics, Science Fiction |
       And Description has text
     """
-    	Louisa May Alcott wrote Little Women in two parts, each resoundingly popular and receiving critical acclaim. The novel follows the lives of the four March sisters, Meg, Jo, Beth and Amy, from childhood into maturity. The journey is not an easy one, and each is humbled and ultimately uplifted by her encounters with love, society and death. The work is based loosely on Alcott's experiences growing up with three sisters.
+    	Tom Swift and His War Tank is the 21st book in the original Tom Swift series.
+
+"Every boy possesses some form of inventive genius. Tom Swift is a bright, ingenious boy and his inventions and adventures make the most interesting kind of reading."
+
+"These spirited tales convey in a realistic way, the wonderful advances in land and sea locomotion and other successful inventions. Stories like these are impressed upon the memory and their reading is productive only of good."
+
+This series of adventure novels starring the genius boy inventor Tom Swift falls into the genre of "invention fiction" or "Edisonade".
     """
     When I open related books
     Then Current category name is 'Related books…'
-      And Count of books in subcategory 'Louisa May Alcott' lane is up to 12
-    When I open 'Louisa May Alcott' subcategory
-    Then Current category name is 'Louisa May Alcott'
-      And Count of books in search result is up to 12
+      And Count of books in subcategory 'Victor Appleton' lane is more then 1
+    When I open 'Victor Appleton' subcategory
+    Then Current category name is 'Victor Appleton'
+      And Count of books in search result is more then 1
     When I return to previous screen
     Then Current category name is 'Related books…'
-      And Count of books in subcategory 'Similar titles recommended by NoveList' lane is up to 12
+      And Count of books in subcategory 'Similar titles recommended by NoveList' lane is more then 1
     When I open 'Similar titles recommended by NoveList' subcategory
     Then Current category name by localization is TITLE_RECOMMENDED_BY_NOVELIST
-      And Count of books in search result is up to 12
+      And Count of books in search result is more then 1
     When I return to previous screen
     Then Current category name is 'Related books…'
-      And Count of books in subcategory 'Little Women' lane is up to 12
-    When I open 'Little Women' subcategory
-    Then Current category name is 'Little Women'
-      And Count of books in search result is up to 12
+      And Count of books in subcategory 'Tom Swift' lane is more then 1
+    When I open 'Tom Swift' subcategory
+    Then Current category name is 'Tom Swift'
+      And Count of books in search result is more then 1
 
   @tier1 @exclude_android
   Scenario: View Book Details (iOS)
