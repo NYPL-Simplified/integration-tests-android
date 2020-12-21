@@ -43,7 +43,7 @@ public class AndroidPdfReaderScreen extends PdfReaderScreen {
 
     @Override
     public void goToNextPage() {
-        SwipeElementUtils.swipeFromRightToLeft(lblPage);
+        SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireElementSwipeDirection.RIGHT);
     }
 
     @Override

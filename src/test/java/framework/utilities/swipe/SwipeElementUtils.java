@@ -52,24 +52,24 @@ public final class SwipeElementUtils {
     /**
      * The method can be applied to every element with swiping support.
      * Swipe/scroll will be performed from one edge of the element to another.
-     * @param element element to be scrolled/swiped
+     *
+     * @param element                     element to be scrolled/swiped
      * @param entireElementSwipeDirection direction of the scroll/swipe
      */
     public static void swipeThroughEntireElement(IElement element, EntireElementSwipeDirection entireElementSwipeDirection) {
         Direction direction = entireElementSwipeDirection.getSwipeDirection(element);
-        ITouchActions touchActions = AqualityServices.getTouchActions();
-        touchActions.swipe(direction.getFrom(), direction.getTo());
+        AqualityServices.getTouchActions().swipe(direction.getFrom(), direction.getTo());
     }
 
     /**
      * The method can be applied to every element with swiping/dragging support.
      * Swipe/drag will be performed from one edge of the screen to another.
-     * @param element element to be dragged/swiped
+     *
+     * @param element                   element to be dragged/swiped
      * @param entireScreenDragDirection direction of the drag/swipe
      */
     public static void dragElementThroughEntireScreen(IElement element, EntireScreenDragDirection entireScreenDragDirection) {
         Direction direction = entireScreenDragDirection.getDragDirection(element);
-        ITouchActions touchActions = AqualityServices.getTouchActions();
-        touchActions.swipe(direction.getFrom(), direction.getTo());
+        AqualityServices.getTouchActions().swipe(direction.getFrom(), direction.getTo());
     }
 }
