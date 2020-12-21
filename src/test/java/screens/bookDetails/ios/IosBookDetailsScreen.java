@@ -32,19 +32,18 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
             + "/following-sibling::XCUIElementTypeStaticText[@name])[1]";
     private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
 
-    private static final String BTN_APPROVE_BOOK_ACTION = "//XCUIElementTypeScrollView[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]"
-            + "/following-sibling::XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"%1$s\"]";
     private static final String LBL_BOOK_AUTHORS_INFO = String.format("(%1$s)[%%d]", BOOK_MAIN_INFO);
     private static final String DESCRIPTIONS_LOC = "//XCUIElementTypeStaticText[@name=\"Description\"]/following-sibling::XCUIElementTypeTextView/XCUIElementTypeStaticText";
-
 
     private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.xpath("(//XCUIElementTypeOther//XCUIElementTypeStaticText[@name])[1]"), "Book title");
     private final IButton btnDownload = getActionButton(BookActionButtonKeys.DOWNLOAD);
     private final IButton btnRead = getActionButton(BookActionButtonKeys.READ);
     private final IButton btnRelatedBooks = getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"Information\"]/following-sibling::XCUIElementTypeTable"),
             "Related books button");
-    private final IButton moreBtn =
+    private final IButton btnMore =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"Description\"]//following-sibling::XCUIElementTypeButton[@name=\"More…\"]"), "Show more description button");
+    private final IButton lblErrorDetails =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeAlert//XCUIElementTypeStaticText"), "Error details");
 
     public IosBookDetailsScreen() {
         super(By.xpath(MAIN_ELEMENT));
@@ -94,9 +93,9 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     @Override
     public String getDescriptionText() {
         String description = getDescription();
-        if (moreBtn.state().isDisplayed()) {
-            moreBtn.click();
-            moreBtn.state().waitForNotDisplayed();
+        if (btnMore.state().isDisplayed()) {
+            btnMore.click();
+            btnMore.state().waitForNotDisplayed();
         }
         return description;
     }
@@ -143,12 +142,15 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public String getErrorDetails() {
-        return null;
+        if (isErrorButtonPresent()) {
+            return lblErrorDetails.getText();
+        }
+        return "";
     }
 
     @Override
     public boolean isErrorButtonPresent() {
-        return false;
+        return lblErrorDetails.state().isDisplayed();
     }
 
     private IButton getActionButton(BookActionButtonKeys buttonKey) {

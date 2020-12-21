@@ -191,7 +191,7 @@ Feature: Book Transactions
     When Press on the book details screen at the action button CANCEL
     Then I check that the action button text equal to the RESERVE
 
-  @logout @cancelHold @tier2
+  @logout @cancelHold @tier2 @exclude_ios
   Scenario: Remove a Reserved Book from Holds screen
     When I add 'The New York Public Library' account
       And I enter credentials for 'The New York Public Library' account
@@ -207,6 +207,23 @@ Feature: Book Transactions
     Then Book 'bookInfo' is present in Holds List
     When I click on the book 'bookInfo' button CANCEL on the holds screen
     Then Book saved as 'bookInfo' should contain RESERVE button at the hold screen
+
+  @logout @cancelHold @tier2 @exclude_android
+  Scenario: Remove a Reserved Book from Holds screen (iOS)
+    When I add 'The New York Public Library' account
+      And I enter credentials for 'The New York Public Library' account
+    Then Login is performed successfully
+    When I open Catalog
+      And I switch to 'The New York Public Library' from side menu
+      And I open Catalog
+      And I open search modal
+      And I search for 'Party of Two'
+    When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
+    Then I check that opened book contains CANCEL button at book details screen
+    When I open Holds
+    Then Book 'bookInfo' is present in Holds List
+    When I click on the book 'bookInfo' button CANCEL on the holds screen
+    Then Book 'bookInfo' is not present in Holds List
 
   @logout @cancelHold @tier3 @exclude_android
   Scenario: Cancel remove

@@ -22,6 +22,13 @@ public class IosHoldsSteps extends AbstractHoldsSteps {
         if (!isBookPresent) {
             AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
         }
-        Assert.assertTrue(isBookPresent, "Book '" + bookInfo + "' is not present in Books List");
+        Assert.assertTrue(isBookPresent, String.format("Book '%s' is not present in Books List", bookInfo));
+    }
+
+    @Override
+    public void checkBookBookInfoIsNotPresentInHoldsList(String bookInfoKey) {
+        CatalogBookModel bookInfo = context.get(bookInfoKey);
+        Assert.assertFalse(holdsScreen.isBookPresent(bookInfo.getTitle()),
+                String.format("Book '%s' is not present in Books List", bookInfo));
     }
 }

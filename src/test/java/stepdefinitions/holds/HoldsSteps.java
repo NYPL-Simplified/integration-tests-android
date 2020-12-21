@@ -39,6 +39,11 @@ public class HoldsSteps extends BaseSteps implements IHoldsSteps {
         abstractHoldsSteps.checkBookBookInfoIsPresentInHoldsList(bookInfoKey);
     }
 
+    @And("Book {string} is not present in Holds List")
+    public void checkBookBookInfoIsNotPresentInHoldsList(String bookInfoKey) {
+        abstractHoldsSteps.checkBookBookInfoIsNotPresentInHoldsList(bookInfoKey);
+    }
+
     @When("I click on the book {string} button {} on the holds screen")
     public void clickOnTheBookAddButtonOnTheHoldsScreen(String bookInfoKey, BookActionButtonKeys key) {
         abstractHoldsSteps.clickOnTheBookAddButtonOnTheHoldsScreen(bookInfoKey, key);
