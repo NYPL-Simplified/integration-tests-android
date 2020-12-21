@@ -14,6 +14,6 @@ public class IosCredentialsSteps extends AbstractCredentialsSteps {
 
     @Override
     public void checkLoginIsPerformedSuccessfully() {
-        Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), "Log in is not completed");
+        Assert.assertTrue(subcategoryScreen.state().waitForDisplayed() || accountScreen.isLoginSuccessful(), "Log in is not completed");
     }
 }
