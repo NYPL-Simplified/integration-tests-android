@@ -54,7 +54,7 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     public List<String> getBooksInfo() {
         List<String> listOfNames = getElementFactory().findElements(By.xpath(BOOKS_LOCATOR), ElementType.LABEL)
                 .stream()
-                .map(x -> x.getAttribute("content-desc"))
+                .map(x -> x.getAttribute(AndroidAttributes.CONTENT_DESC))
                 .collect(Collectors.toList());
         AqualityServices.getLogger().info("Found list of books - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
         return listOfNames;

@@ -7,12 +7,17 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import constants.application.attributes.AndroidAttributes;
 import constants.localization.application.catalog.BookActionButtonKeys;
+import framework.utilities.swipe.SwipeElementUtils;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.books.BooksScreen;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidBooksScreen extends BooksScreen {
@@ -31,6 +36,7 @@ public class AndroidBooksScreen extends BooksScreen {
             getElementFactory().getButton(By.xpath("//android.widget.ImageView[@content-desc=\"More options\"]"),
                     "Menu");
     private final IButton btnRefresh = getElementFactory().getButton(By.id("title"), "Refresh");
+    private final IButton btnScreen = getElementFactory().getButton(By.id("tabbedFragmentHolder"), "Screen");
 
     public AndroidBooksScreen() {
         super(By.xpath(MAIN_ELEMENT_LOC));
@@ -53,7 +59,7 @@ public class AndroidBooksScreen extends BooksScreen {
 
     @Override
     public int getCountOfBooks() {
-        return getElementFactory().findElements(By.xpath(BOOKS_LABELS_XPATH), ElementType.LABEL).size();
+        return getBooks().size();
     }
 
     @Override
@@ -82,7 +88,20 @@ public class AndroidBooksScreen extends BooksScreen {
 
     @Override
     public void scrollForButtonWithAction(BookActionButtonKeys actionButton) {
-        getElementFactory().getButton(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionButton.i18n())), actionButton.i18n()).getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        IButton button = getElementFactory().getButton(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionButton.i18n())), actionButton.i18n());
+        if (!button.state().isDisplayed()) {
+            List<String> currentBooksNames = getBookNames();
+            Set<String> bookNames = new HashSet<>();
+            do {
+                bookNames.addAll(currentBooksNames);
+                SwipeElementUtils.swipeElementUp(btnScreen);
+                currentBooksNames = getBookNames();
+            } while (!bookNames.containsAll(currentBooksNames));
+        }
+    }
+
+    private List<String> getBookNames() {
+        return getBooks().stream().map(x -> x.getAttribute(AndroidAttributes.CONTENT_DESC)).collect(Collectors.toList());
     }
 
     private List<IElement> getBooksWithAction(BookActionButtonKeys actionKey) {
@@ -92,5 +111,9 @@ public class AndroidBooksScreen extends BooksScreen {
     private List<IElement> getListOfElements(BookActionButtonKeys actionKey, String bookActionButtonLoc, ElementType label) {
         return getElementFactory().findElements(
                 By.xpath(String.format(bookActionButtonLoc, actionKey.i18n())), label);
+    }
+
+    private List<IElement> getBooks() {
+        return getElementFactory().findElements(By.xpath(BOOKS_LABELS_XPATH), ElementType.LABEL);
     }
 }
