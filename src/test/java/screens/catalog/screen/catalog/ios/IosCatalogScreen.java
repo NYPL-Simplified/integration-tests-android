@@ -94,7 +94,7 @@ public class IosCatalogScreen extends CatalogScreen {
 
     @Override
     public void switchToCatalogTab(String catalogTab) {
-        getElementFactory().getButton(By.xpath(String.format("//XCUIElementTypeButton[@name=\"%1$s\"]", catalogTab)), catalogTab).click();
+        getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, catalogTab)), catalogTab).click();
     }
 
     @Override

@@ -14,8 +14,7 @@ public class IosSearchModal extends SearchModal {
     private final ITextBox txbSearch = getElementFactory().getTextBox(
             By.xpath("//XCUIElementTypeSearchField[contains(@name, \"Search\")]"),
             "Search value input");
-    private final IButton btnSearch = getElementFactory().getButton(
-            By.xpath("//XCUIElementTypeButton[@name=\"Search\"]"), "Search");
+    private final IButton btnSearch = getElementFactory().getButton(By.xpath(MAIN_ELEMENT), "Search");
 
     public IosSearchModal() {
         super(By.xpath(MAIN_ELEMENT));
