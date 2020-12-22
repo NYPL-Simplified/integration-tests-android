@@ -1,6 +1,7 @@
 package screens.books.ios;
 
 import aquality.appium.mobile.actions.SwipeDirection;
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -63,8 +64,9 @@ public class IosBooksScreen extends BooksScreen {
 
     @Override
     public int getCountOfBooksWithAction(BookActionButtonKeys actionKey) {
-        return getElementFactory().findElements(
-                By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionKey.i18n())), ElementType.LABEL).size();
+        AqualityServices.getApplication().getDriver().getPageSource();
+        AqualityServices.getConditionalWait().waitFor(() -> getBooksWithAction(actionKey).size() > 0);
+        return getBooksWithAction(actionKey).size();
     }
 
     @Override
@@ -110,5 +112,10 @@ public class IosBooksScreen extends BooksScreen {
 
     private List<IElement> getBooks() {
         return getElementFactory().findElements(By.xpath(BOOKS_LABELS_XPATH), ElementType.LABEL);
+    }
+
+    private List<IElement> getBooksWithAction(BookActionButtonKeys actionKey) {
+        return getElementFactory().findElements(
+                By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionKey.i18n())), ElementType.LABEL);
     }
 }
