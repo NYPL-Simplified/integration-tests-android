@@ -71,5 +71,3 @@ Feature: Read PDF IOS
       And I save page number as 'pageNumber' of the first item
       And I open the first found item
     Then Pdf page number 'pageNumber' is correct
-
-

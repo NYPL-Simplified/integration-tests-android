@@ -72,7 +72,7 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
                 getElementFactory().getLabel(By.xpath(String.format(BOOK_NAME_LOCATOR_PATTERN, bookName) + AUTHOR_LABEL_LOCATOR_PATTERN), bookName);
         lblAuthor.state().waitForDisplayed();
         CatalogBookModel bookInfo = new CatalogBookModel()
-                .setTitle(lblBookName.getText())
+                .setTitle(bookName)
                 .setAuthor(lblAuthor.getText());
         lblBookName.click();
         return bookInfo;

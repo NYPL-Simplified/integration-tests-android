@@ -12,7 +12,7 @@ public class IosAccountsScreen extends AccountsScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeNavigationBar[@name=\"Accounts\"]";
     private static final String BUTTON_LIBRARY_LOC = "//XCUIElementTypeCell[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
 
-    private final IButton addBtn = getElementFactory().getButton(
+    private final IButton btnAdd = getElementFactory().getButton(
             By.xpath("//XCUIElementTypeButton[@name=\"Add Library\"]"), "Add library");
     private final IButton btnFirstLibrary =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeCell[2]"), "First library");
@@ -37,7 +37,7 @@ public class IosAccountsScreen extends AccountsScreen {
 
     @Override
     public void addAccount() {
-        addBtn.click();
+        btnAdd.click();
     }
 
     @Override

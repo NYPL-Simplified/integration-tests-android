@@ -20,6 +20,7 @@ public class IosAddAccountScreen extends AddAccountScreen {
     public void selectLibrary(String libraryName) {
         IButton buttonToWaitFor = getLibraryButton(libraryName);
         buttonToWaitFor.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        buttonToWaitFor.state().waitForDisplayed();
         buttonToWaitFor.click();
     }
 
