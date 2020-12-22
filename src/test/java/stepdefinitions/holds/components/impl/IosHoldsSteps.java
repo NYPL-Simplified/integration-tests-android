@@ -28,7 +28,7 @@ public class IosHoldsSteps extends AbstractHoldsSteps {
     @Override
     public void checkBookBookInfoIsNotPresentInHoldsList(String bookInfoKey) {
         CatalogBookModel bookInfo = context.get(bookInfoKey);
-        Assert.assertFalse(holdsScreen.isBookPresent(bookInfo.getTitle()),
+        Assert.assertTrue(holdsScreen.isBookNotPresent(bookInfo.getTitle()),
                 String.format("Book '%s' is not present in Books List", bookInfo));
     }
 }

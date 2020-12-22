@@ -37,10 +37,12 @@ public class AndroidHoldsScreen extends HoldsScreen {
 
     @Override
     public boolean isBookPresent(String bookInfo) {
-        ILabel book =
-                getElementFactory().getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo)), "No Books Present");
-        book.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        return book.state().waitForDisplayed();
+        return getBook(bookInfo).state().waitForDisplayed();
+    }
+
+    @Override
+    public boolean isBookNotPresent(String bookInfo) {
+        return getBook(bookInfo).state().waitForNotDisplayed();
     }
 
     @Override
@@ -76,5 +78,12 @@ public class AndroidHoldsScreen extends HoldsScreen {
     private void clickOnTheSpecificBookElement(IElement bookWithSpecificAddBtn) {
         bookWithSpecificAddBtn.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         bookWithSpecificAddBtn.click();
+    }
+
+    private ILabel getBook(String bookInfo) {
+        ILabel book =
+                getElementFactory().getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo)), "No Books Present");
+        book.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        return book;
     }
 }
