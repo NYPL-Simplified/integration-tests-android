@@ -9,6 +9,7 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.timeouts.AudioBookTimeouts;
 import constants.application.timeouts.BooksTimeouts;
+import constants.application.timeouts.CategoriesTimeouts;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
@@ -21,7 +22,8 @@ import java.util.List;
 public class IosAudioPlayerScreen extends AudioPlayerScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeImage[@name=\"cover_art\"]";
     private static final String CHAPTERS_TIMERS = ".//XCUIElementTypeStaticText[@name]";
-    private static final String CHAPTERS_LOC = "//XCUIElementTypeTable//XCUIElementTypeCell";
+    private static final String CHAPTERS_LOCATOR = "//XCUIElementTypeTable//XCUIElementTypeCell";
+    private static final String LOADED_CHAPTERS_LOCATOR = "//XCUIElementTypeTable//XCUIElementTypeCell//XCUIElementTypeOther[@visible=\"false\"]";
     public static final int COUNT_OF_CHAPTERS_TO_WAIT_FOR = 3;
 
     private final IButton menuBtn = getElementFactory().getButton(
@@ -36,7 +38,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     }
 
     public List<ILabel> getChapters() {
-        return getElementFactory().findElements(By.xpath(CHAPTERS_LOC), ElementType.LABEL);
+        return getElementFactory().findElements(By.xpath(CHAPTERS_LOCATOR), ElementType.LABEL);
     }
 
     @Override
@@ -64,7 +66,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void selectChapterNumber(int chapterNumber) {
-        AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() >= chapterNumber);
+        AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.xpath(LOADED_CHAPTERS_LOCATOR), ElementType.LABEL).size() >= chapterNumber, Duration.ofMillis(CategoriesTimeouts.TIMEOUT_WAIT_UNTIL_CATEGORY_PAGE_LOAD.getTimeoutMillis()));
         ILabel chapter = getChapters().get(chapterNumber - 1);
         chapter.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         chapter.click();
