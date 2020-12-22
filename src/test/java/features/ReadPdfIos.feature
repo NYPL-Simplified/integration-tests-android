@@ -14,11 +14,11 @@ Feature: Read PDF IOS
       And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen
 
-  @logout @cancelGet @tier1 @exclude_android
+  @logout @cancelGet @tier1 @exclude_android @debug
   Scenario: Open document
       And Pdf book page number is 1
 
-  @logout @cancelGet @tier1 @exclude_android
+  @logout @cancelGet @tier1 @exclude_android @debug
   Scenario: Navigate by page
       And Pdf book page number is 1
     When I go to next page in pdf book
@@ -26,11 +26,11 @@ Feature: Read PDF IOS
     When I go to previous page in pdf book
     Then Pdf book page number is 1
 
-  @logout @cancelGet @tier1 @exclude_android
+  @logout @cancelGet @tier1 @exclude_android @debug
   Scenario: Navigate by Table of Contents Menu
       And Each chapter of pdf book can be opened from Table of Contents
 
-  @logout @cancelGet @tier1 @exclude_android
+  @logout @cancelGet @tier1 @exclude_android @debug
   Scenario: Open book to last page read
     When I scroll pdf page forward from 10 to 20 times
       And I save pdf page number as 'pageNumber'
@@ -46,7 +46,7 @@ Feature: Read PDF IOS
     Then Pdf book 'bookInfo' is present on screen
       And Pdf page number 'pageNumber' is correct
 
-  @logout @cancelGet @tier1 @exclude_android
+  @logout @cancelGet @tier1 @exclude_android @debug
   Scenario: Navigate by Gallery
     When I open gallery menu
     Then Gallery is opened
@@ -57,14 +57,14 @@ Feature: Read PDF IOS
     Then Pdf book 'bookInfo' is present on screen
       And Pdf book page number is not 1
 
-  @logout @cancelGet @tier1 @exclude_android
+  @logout @cancelGet @tier1 @exclude_android @debug
   Scenario: Search document
     When I click the search in the pdf button
     Then The search in the pdf page opened
     When I am typing 'Ronelle Alexander' to the search field and apply search
     Then Found lines should contain 'Ronelle Alexander' in themselves
 
-  @logout @cancelGet @tier1 @exclude_android
+  @logout @cancelGet @tier1 @exclude_android @debug
   Scenario: Navigate to Search Term
     When I click the search in the pdf button
       And I am typing 'Ronelle Alexander' to the search field and apply search
