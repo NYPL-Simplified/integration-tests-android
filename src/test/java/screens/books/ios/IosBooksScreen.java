@@ -22,14 +22,13 @@ import java.util.stream.Collectors;
 @ScreenType(platform = PlatformName.IOS)
 public class IosBooksScreen extends BooksScreen {
     private static final String MAIN_ELEMENT_LOC = "//XCUIElementTypeButton[@name=\"All\"]";
-    private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
-    private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
+    private static final String BOOK_ACTION_BUTTON_LOCATOR = "//XCUIElementTypeButton[contains(@name,\"%1$s\")]";
+    private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[contains(@name,\"%1$s\")]";
+    private static final String BOOK_ITEM_LOCATOR_PATTERN = "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]";
 
-    private static final String BOOKS_WITH_ACTION_LOC = String.format(
-            "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_ACTION_BUTTON_LOC);
-    private static final String BOOKS_BY_TITLE_LOC = String.format(
-            "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_INFO_LOCATOR_PATTERN);
-    public static final String BOOKS_LABELS_XPATH = "//XCUIElementTypeCollectionView//XCUIElementTypeCell";
+    private static final String BOOKS_WITH_ACTION_LOC = String.format(BOOK_ITEM_LOCATOR_PATTERN, BOOK_ACTION_BUTTON_LOCATOR);
+    private static final String BOOKS_BY_TITLE_LOC = String.format(BOOK_ITEM_LOCATOR_PATTERN, BOOK_INFO_LOCATOR_PATTERN);
+    private static final String BOOKS_LABELS_XPATH = "//XCUIElementTypeCollectionView//XCUIElementTypeCell";
 
     private final ILabel mainBooksElementCollection = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeCollectionView"), "Elements collection container");
@@ -88,7 +87,7 @@ public class IosBooksScreen extends BooksScreen {
         IButton btnBookName =
                 getElementFactory().getButton(By.xpath(String.format(BOOKS_BY_TITLE_LOC, bookInfo.getTitle())), "The book " + bookInfo.getTitle());
         btnBookName.state().waitForDisplayed();
-        btnBookName.findChildElement(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, readButtonName)), ElementType.BUTTON).click();
+        btnBookName.findChildElement(By.xpath(String.format(BOOK_ACTION_BUTTON_LOCATOR, readButtonName)), ElementType.BUTTON).click();
     }
 
     @Override
@@ -116,6 +115,6 @@ public class IosBooksScreen extends BooksScreen {
 
     private List<IElement> getBooksWithAction(BookActionButtonKeys actionKey) {
         return getElementFactory().findElements(
-                By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionKey.i18n())), ElementType.LABEL);
+                By.xpath(String.format(BOOK_ACTION_BUTTON_LOCATOR, actionKey.i18n())), ElementType.LABEL);
     }
 }

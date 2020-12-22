@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosCatalogScreen extends CatalogScreen {
-    private static final String CATEGORY_LOCATOR = "(//XCUIElementTypeButton[@name=\"%1$s\"])[1]/following-sibling::XCUIElementTypeButton[contains(@name, \"More\")]";
+    private static final String CATEGORY_LOCATOR = "//XCUIElementTypeButton[@name=\"%1$s\"]/following-sibling::XCUIElementTypeButton[contains(@name, \"More\")]";
     private static final String LANE_BY_NAME_LOCATOR_PART = "(//XCUIElementTypeOther[.//XCUIElementTypeButton[@name=\"%1$s\"]]"
             + "/following-sibling::XCUIElementTypeCell)[1]";
     private static final String BOOK_COVER_IN_THE_LANE_LOCATOR = "/XCUIElementTypeButton";
@@ -84,7 +84,9 @@ public class IosCatalogScreen extends CatalogScreen {
     @Override
     public void openCategory(String categoryName) {
         IButton categoryButton = getCategoryButton(categoryName);
+        categoryButton.state().waitForDisplayed();
         categoryButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        categoryButton.state().waitForDisplayed();
         categoryButton.click();
     }
 

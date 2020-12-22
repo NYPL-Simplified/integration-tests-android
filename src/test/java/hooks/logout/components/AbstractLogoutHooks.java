@@ -80,6 +80,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
     public void cancelGet() {
         startAppIfCrashed();
         alertScreen.closeModalIfPresent();
+        alertScreen.closeNotNowModalIfPresent();
         List<String> librariesForCancelGet = context.get(ContextLibrariesKeys.CANCEL_GET.getKey());
         navigateBackIfBottomMenuIsNotVisibleUntilItIs();
         Optional.ofNullable(librariesForCancelGet).ifPresent(libraries ->

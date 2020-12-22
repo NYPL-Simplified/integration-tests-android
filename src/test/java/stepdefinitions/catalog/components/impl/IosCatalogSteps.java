@@ -18,11 +18,8 @@ public class IosCatalogSteps extends AbstractCatalogSteps {
         if (expectedCategoryName.equals("Related Books")) {
             Assert.assertTrue(bookDetailsScreen.isRelatedBooksVisible(), "Related books are not visible");
         } else {
-            Assert.assertTrue(AqualityServices.getConditionalWait()
-                            .waitFor(() -> mainCatalogToolbarForm.getCategoryName().equals(expectedCategoryName),
-                                    "Wait while category become correct."),
-                    String.format("Current category name is not correct. Expected '%1$s' but found '%2$s'",
-                            mainCatalogToolbarForm.getCategoryName(), expectedCategoryName));
+            Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> mainCatalogToolbarForm.getCategoryName().equals(expectedCategoryName), "Wait while category become correct."),
+                    String.format("Current category name is not correct. Expected '%1$s' but found '%2$s'", expectedCategoryName, mainCatalogToolbarForm.getCategoryName()));
         }
     }
 }
