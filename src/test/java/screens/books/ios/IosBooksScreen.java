@@ -64,13 +64,13 @@ public class IosBooksScreen extends BooksScreen {
     @Override
     public int getCountOfBooksWithAction(BookActionButtonKeys actionKey) {
         return getElementFactory().findElements(
-                By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionKey)), ElementType.LABEL).size();
+                By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionKey.i18n())), ElementType.LABEL).size();
     }
 
     @Override
     public void openBookPage(int index, BookActionButtonKeys actionKey) {
         getElementFactory()
-                .findElements(By.xpath(String.format(BOOKS_WITH_ACTION_LOC, actionKey)), ElementType.BUTTON)
+                .findElements(By.xpath(String.format(BOOKS_WITH_ACTION_LOC, actionKey.i18n())), ElementType.BUTTON)
                 .get(index)
                 .click();
     }
