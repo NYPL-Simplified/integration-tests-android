@@ -13,6 +13,8 @@ public abstract class HoldsScreen extends Screen {
 
     public abstract boolean isBookPresent(String bookInfo);
 
+    public abstract boolean isBookNotPresent(String bookInfo);
+
     public abstract void cancelReservations();
 
     public abstract void clickBookByTitleButtonWithKey(String title, BookActionButtonKeys key);

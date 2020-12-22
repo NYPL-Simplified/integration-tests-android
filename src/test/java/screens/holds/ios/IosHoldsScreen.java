@@ -44,10 +44,12 @@ public class IosHoldsScreen extends HoldsScreen {
 
     @Override
     public boolean isBookPresent(String bookInfo) {
-        return getElementFactory()
-                .getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo)), "No Books Present")
-                .state()
-                .waitForDisplayed();
+        return getBook(bookInfo).state().waitForDisplayed();
+    }
+
+    @Override
+    public boolean isBookNotPresent(String bookInfo) {
+        return getBook(bookInfo).state().waitForNotDisplayed();
     }
 
     @Override
@@ -83,5 +85,9 @@ public class IosHoldsScreen extends HoldsScreen {
     private void clickOnTheSpecificBookElement(IElement bookWithSpecificAddBtn) {
         bookWithSpecificAddBtn.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         bookWithSpecificAddBtn.click();
+    }
+
+    private ILabel getBook(String bookInfo) {
+        return getElementFactory().getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo)), bookInfo);
     }
 }
