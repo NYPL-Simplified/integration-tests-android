@@ -25,6 +25,8 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     private final IButton btnMenu = getElementFactory().getButton(By.id("player_menu_toc"), "Menu");
     private final ILabel lblCurrentChapter = getElementFactory().getLabel(By.id("player_spine_element"), "Current chapter");
     private final ILabel lblCurrentTiming = getElementFactory().getLabel(By.id("player_time"), "Current time");
+    private final IButton btnPlay = getElementFactory().getButton(By.id("player_play_button"), "Play");
+    private final IButton btnPause = getElementFactory().getButton(By.id("player_pause_button"), "Pause");
 
     public AndroidAudioPlayerScreen() {
         super(By.id(MAIN_ELEMENT));
@@ -71,22 +73,23 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void playBook() {
-
+        btnPlay.click();
     }
 
     @Override
     public void pauseBook() {
-
+        btnPause.click();
     }
 
     @Override
     public boolean isPauseButtonPresent() {
-        return false;
+        AqualityServices.getApplication().getDriver().getPageSource();
+        return btnPause.state().waitForDisplayed();
     }
 
     @Override
     public boolean isPlayButtonPresent() {
-        return false;
+        return btnPlay.state().waitForDisplayed();
     }
 
     @Override

@@ -39,7 +39,7 @@ Feature: Audiobook
     When Press on the book details screen at the action button LISTEN
       And I click play button on player screen
     Then Pause button is present
-    And Book is playing
+      And Book is playing
     When I click pause button on player screen
     Then Play button is present
-    And Book is not playing
+      And Book is not playing

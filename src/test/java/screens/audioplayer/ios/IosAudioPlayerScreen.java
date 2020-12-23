@@ -28,10 +28,16 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     private final IButton btnMenu =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Table of Contents\"]"), "Menu");
-    private final IButton btnPlay = getElementFactory().getButton(By.id("player_play_button"), "Play");
-    private final IButton btnPause = getElementFactory().getButton(By.id("player_pause_button"), "Pause");
+    private final IButton btnPlay =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@label=\"Play\"]"), "Play");
+    private final IButton btnPause =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Pause\"]"), "Pause");
     private final ILabel lblCurrentChapter =
             getElementFactory().getLabel(By.xpath("(//XCUIElementTypeStaticText[@name=\"progress_rightLabel\"])[1]"), "Current chapter");
+    private final ILabel lblCurrentTime =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeStaticText[@name=\"progress_leftLabel\"]"), "Current time");
+    private final ILabel lblDownloadingStatus =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeStaticText[@value=\"Downloading\"]"), "Downloading");
 
 
     public IosAudioPlayerScreen() {
@@ -86,6 +92,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void playBook() {
+        lblDownloadingStatus.state().waitForNotExist();
         btnPlay.click();
     }
 
@@ -96,17 +103,16 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public boolean isPauseButtonPresent() {
-        AqualityServices.getApplication().getDriver().getPageSource();
-        return btnPause.state().waitForDisplayed();
+        return btnPause.state().isDisplayed();
     }
 
     @Override
     public boolean isPlayButtonPresent() {
-        return btnPlay.state().waitForDisplayed();
+        return btnPlay.state().isDisplayed();
     }
 
     @Override
     public String getCurrentPlayTime() {
-        return null;
+        return lblCurrentTime.getAttribute("value");
     }
 }
