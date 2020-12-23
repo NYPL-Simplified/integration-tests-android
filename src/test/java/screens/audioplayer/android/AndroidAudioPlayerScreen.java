@@ -66,4 +66,24 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     public int getCountOfChapters() {
         return getChapters().size();
     }
+
+    @Override
+    public void playBook() {
+
+    }
+
+    @Override
+    public void pauseBook() {
+
+    }
+
+    @Override
+    public boolean isPauseButtonPresent() {
+        return false;
+    }
+
+    @Override
+    public boolean isPlayButtonPresent() {
+        return false;
+    }
 }

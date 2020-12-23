@@ -26,11 +26,12 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     private static final String LOADED_CHAPTERS_LOCATOR = "//XCUIElementTypeTable//XCUIElementTypeCell//XCUIElementTypeOther[@visible=\"false\"]";
     public static final int COUNT_OF_CHAPTERS_TO_WAIT_FOR = 3;
 
-    private final IButton menuBtn = getElementFactory().getButton(
-            By.xpath("//XCUIElementTypeButton[@name=\"Table of Contents\"]"), "Menu");
-
-    private final ILabel currentChapter = getElementFactory().getLabel(
-            By.xpath("(//XCUIElementTypeStaticText[@name=\"progress_rightLabel\"])[1]"), "Current chapter");
+    private final IButton btnMenu =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Table of Contents\"]"), "Menu");
+    private final IButton btnPlay = getElementFactory().getButton(By.id("player_play_button"), "Play");
+    private final IButton btnPause = getElementFactory().getButton(By.id("player_pause_button"), "Pause");
+    private final ILabel lblCurrentChapter =
+            getElementFactory().getLabel(By.xpath("(//XCUIElementTypeStaticText[@name=\"progress_rightLabel\"])[1]"), "Current chapter");
 
 
     public IosAudioPlayerScreen() {
@@ -61,7 +62,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void openMenu() {
-        menuBtn.click();
+        btnMenu.click();
     }
 
     @Override
@@ -74,12 +75,33 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public String getCurrentChapterInfo() {
-        return currentChapter.getText();
+        return lblCurrentChapter.getText();
     }
 
     @Override
     public int getCountOfChapters() {
         AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > COUNT_OF_CHAPTERS_TO_WAIT_FOR, Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
         return getChapters().size();
+    }
+
+    @Override
+    public void playBook() {
+        btnPlay.click();
+    }
+
+    @Override
+    public void pauseBook() {
+        btnPause.click();
+    }
+
+    @Override
+    public boolean isPauseButtonPresent() {
+        AqualityServices.getApplication().getDriver().getPageSource();
+        return btnPause.state().waitForDisplayed();
+    }
+
+    @Override
+    public boolean isPlayButtonPresent() {
+        return btnPlay.state().waitForDisplayed();
     }
 }

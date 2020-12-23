@@ -71,6 +71,26 @@ public class AudioPlayerSteps {
         AqualityServices.getConditionalWait().waitFor(() -> false, Duration.ofMillis(BooksTimeouts.SYSTEM_CHANGES_STATUS.getTimeoutMillis()));
     }
 
+    @And("I click play button on player screen")
+    public void iClickPlayButtonOnPlayerScreen() {
+        audioPlayerScreen.playBook();
+    }
+
+    @When("I click pause button on player screen")
+    public void iClickPauseButtonOnPlayerScreen() {
+        audioPlayerScreen.pauseBook();
+    }
+
+    @Then("Pause button is present")
+    public void pauseButtonIsPresent() {
+        Assert.assertTrue(audioPlayerScreen.isPauseButtonPresent(), "Pause button is not present");
+    }
+
+    @Then("Play button is present")
+    public void playButtonIsPresent() {
+        Assert.assertTrue(audioPlayerScreen.isPlayButtonPresent(), "Play button is not present");
+    }
+
     private int getChapterNumber() {
         return Integer.parseInt(RegExUtil.getStringFromFirstGroup(audioPlayerScreen.getCurrentChapterInfo(), RegEx.AUDIO_BOOK_CURRENT_CHAPTER_REGEX));
     }
