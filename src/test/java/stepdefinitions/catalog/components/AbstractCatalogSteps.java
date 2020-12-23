@@ -410,8 +410,8 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         }
     }
 
-    private void clickButton(BookActionButtonKeys read) {
-        bookDetailsScreen.clickActionButton(read);
+    private void clickButton(BookActionButtonKeys actionButton) {
+        bookDetailsScreen.clickActionButton(actionButton);
     }
 
     public void openBookFromLane(ReaderType readerType, String laneName, String bookInfoKey) {
