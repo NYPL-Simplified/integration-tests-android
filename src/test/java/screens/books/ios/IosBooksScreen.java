@@ -8,6 +8,8 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import aquality.selenium.core.elements.ElementState;
+import aquality.selenium.core.elements.ElementsCount;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import framework.utilities.swipe.SwipeElementUtils;
 import models.android.CatalogBookModel;
@@ -110,7 +112,7 @@ public class IosBooksScreen extends BooksScreen {
     }
 
     private List<IElement> getBooks() {
-        return getElementFactory().findElements(By.xpath(BOOKS_LABELS_XPATH), ElementType.LABEL);
+        return getElementFactory().findElements(By.xpath(BOOKS_LABELS_XPATH), ElementType.LABEL, ElementsCount.ANY, ElementState.EXISTS_IN_ANY_STATE);
     }
 
     private List<IElement> getBooksWithAction(BookActionButtonKeys actionKey) {
