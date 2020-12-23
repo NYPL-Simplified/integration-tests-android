@@ -24,18 +24,15 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private static final String ADD_BOOK_BUTTON_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
     private static final String BOOKS_LOC = ".//XCUIElementTypeCell";
-    private static final String BOOK_BLOCK_BY_TITLE_LOC = "//XCUIElementTypeCell[.//XCUIElementTypeStaticText[@name=\"%1$s\"]]";
     private static final String BOOK_BLOCK_BY_BUTTON_LOC = "//XCUIElementTypeCell[.//XCUIElementTypeButton[@name=\"%1$s\"]]";
-
     private static final String BOOK_TITLE_LOC = "//XCUIElementTypeStaticText[@name][1]";
     private static final String BOOK_AUTHOR_LOC = "//XCUIElementTypeStaticText[@name][2]";
-    private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
     private static final String AUTHOR_NAME_XPATH_PATTERN =
             "//XCUIElementTypeStaticText[@name=\"%s\"]//following-sibling::XCUIElementTypeStaticText";
     public static final String ELEMENTS_TO_WAIT_FOR_XPATH = "//XCUIElementTypeCell//XCUIElementTypeOther//XCUIElementTypeStaticText";
     public static final int COUNT_OF_BUTTONS_TO_WAIT_FOR = 5;
     public static final String BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN =
-            "//XCUIElementTypeStaticText[@name=\"%1$s\"]//following-sibling::XCUIElementTypeOther//XCUIElementTypeStaticText[@name=\"%2$s\"]";
+            "//XCUIElementTypeStaticText[contains(@name,\"%1$s\")]//following-sibling::XCUIElementTypeOther//XCUIElementTypeStaticText[contains(@name,\"%2$s\")]";
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
@@ -86,11 +83,10 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public void clickBookByTitleButtonWithKey(String title, BookActionButtonKeys key) {
-        final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
-        final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
-                        key.i18n())), String.format("Book %1$s button", key.i18n()));
+    public void clickBookByTitleButtonWithKey(String title, BookActionButtonKeys actionButton) {
+        String key = actionButton.i18n();
+        IButton bookAddBtn =
+                getButtonForBookWithAction(title, key);
         clickOnSpecificBookElement(bookAddBtn);
     }
 
@@ -101,13 +97,10 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key) {
-        final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, bookTitle);
-        final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.i18n())),
-                String.format("Book %1$s button", key.i18n()));
-        return bookAddBtn.state().waitForDisplayed(
-                Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+    public boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys buttonKeys) {
+        String key = buttonKeys.i18n();
+        IButton bookAddBtn = getButtonForBookWithAction(bookTitle, key);
+        return bookAddBtn.state().waitForDisplayed(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
     @Override
@@ -126,8 +119,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         String key = actionButtonKey.i18n();
         AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.xpath(ELEMENTS_TO_WAIT_FOR_XPATH), ElementType.BUTTON).size() >= COUNT_OF_BUTTONS_TO_WAIT_FOR);
         AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
-        IButton actionButton =
-                getElementFactory().getButton(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, bookName, key)), key);
+        IButton actionButton = getButtonForBookWithAction(bookName, key);
         if (!actionButton.state().waitForDisplayed()) {
             actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
@@ -180,5 +172,9 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         button.click();
         button.state().waitForNotExist();
         return bookInfo;
+    }
+
+    private IButton getButtonForBookWithAction(String title, String key) {
+        return getElementFactory().getButton(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, title, key)), key);
     }
 }
