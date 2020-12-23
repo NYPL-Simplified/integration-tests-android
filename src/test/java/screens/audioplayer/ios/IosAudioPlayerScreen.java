@@ -104,4 +104,9 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     public boolean isPlayButtonPresent() {
         return btnPlay.state().waitForDisplayed();
     }
+
+    @Override
+    public String getCurrentPlayTime() {
+        return null;
+    }
 }

@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import constants.application.attributes.AndroidAttributes;
 import constants.application.timeouts.AudioBookTimeouts;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -21,8 +22,9 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     private static final String CHAPTERS_LOC = "//android.widget.RelativeLayout[.//*[contains(@resource-id, \"player_toc_item_view_title\")]]";
     public static final String LOADING_SCREEN_XPATH = "//*[contains(@resource-id,\"player_toc_item_downloading_progress\")]";
 
-    private final IButton menuBtn = getElementFactory().getButton(By.id("player_menu_toc"), "Menu");
-    private final ILabel currentChapter = getElementFactory().getLabel(By.id("player_spine_element"), "Current chapter");
+    private final IButton btnMenu = getElementFactory().getButton(By.id("player_menu_toc"), "Menu");
+    private final ILabel lblCurrentChapter = getElementFactory().getLabel(By.id("player_spine_element"), "Current chapter");
+    private final ILabel lblCurrentTiming = getElementFactory().getLabel(By.id("player_time"), "Current time");
 
     public AndroidAudioPlayerScreen() {
         super(By.id(MAIN_ELEMENT));
@@ -47,7 +49,7 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void openMenu() {
-        menuBtn.click();
+        btnMenu.click();
     }
 
     @Override
@@ -59,7 +61,7 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public String getCurrentChapterInfo() {
-        return currentChapter.getText();
+        return lblCurrentChapter.getText();
     }
 
     @Override
@@ -85,5 +87,12 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public boolean isPlayButtonPresent() {
         return false;
+    }
+
+    @Override
+    public String getCurrentPlayTime() {
+        AqualityServices.getLogger().info(lblCurrentTiming.getText());
+        AqualityServices.getLogger().info(lblCurrentTiming.getAttribute(AndroidAttributes.CONTENT_DESC));
+        return lblCurrentTiming.getText();
     }
 }

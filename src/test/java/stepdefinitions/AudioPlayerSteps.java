@@ -94,4 +94,16 @@ public class AudioPlayerSteps {
     private int getChapterNumber() {
         return Integer.parseInt(RegExUtil.getStringFromFirstGroup(audioPlayerScreen.getCurrentChapterInfo(), RegEx.AUDIO_BOOK_CURRENT_CHAPTER_REGEX));
     }
+
+    @And("Book is playing")
+    public void bookIsPlaying() {
+        String firstTiming = audioPlayerScreen.getCurrentPlayTime();
+        Assert.assertNotEquals(audioPlayerScreen.getCurrentPlayTime(), firstTiming, "Book is not playing");
+    }
+
+    @And("Book is not playing")
+    public void bookIsNotPlaying() {
+        String firstTiming = audioPlayerScreen.getCurrentPlayTime();
+        Assert.assertEquals(audioPlayerScreen.getCurrentPlayTime(), firstTiming, "Book is still playing");
+    }
 }

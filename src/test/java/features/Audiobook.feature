@@ -41,6 +41,5 @@ Feature: Audiobook
     Then Pause button is present
     And Book is playing
     When I click pause button on player screen
-  player_time
     Then Play button is present
     And Book is not playing

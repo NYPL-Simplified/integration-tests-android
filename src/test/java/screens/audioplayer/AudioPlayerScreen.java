@@ -27,4 +27,6 @@ public abstract class AudioPlayerScreen extends Screen {
     public abstract boolean isPauseButtonPresent();
 
     public abstract boolean isPlayButtonPresent();
+
+    public abstract String getCurrentPlayTime();
 }
