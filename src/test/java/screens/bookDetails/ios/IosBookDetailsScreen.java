@@ -30,7 +30,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     private static final String INFORMATION_TAB_VALUE_LOC_PART = "(//XCUIElementTypeStaticText[contains(@name, \"%1$s\")]"
             + "/following-sibling::XCUIElementTypeStaticText[@name])[1]";
-    private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
+    private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[contains(@name,\"%1$s\")]";
 
     private static final String LBL_BOOK_AUTHORS_INFO = String.format("(%1$s)[%%d]", BOOK_MAIN_INFO);
     private static final String DESCRIPTIONS_LOC = "//XCUIElementTypeStaticText[@name=\"Description\"]/following-sibling::XCUIElementTypeTextView/XCUIElementTypeStaticText";
