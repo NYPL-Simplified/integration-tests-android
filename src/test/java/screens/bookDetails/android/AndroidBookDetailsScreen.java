@@ -115,7 +115,11 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     public String getErrorDetails() {
         if (isErrorButtonPresent()) {
             btnErrorDetails.click();
-            return lblErrorMessage.getText();
+            if (lblErrorMessage.state().isDisplayed()) {
+                return lblErrorMessage.getText();
+            } else {
+                return "";
+            }
         }
         AqualityServices.getLogger().info("Error details button is not present");
         return "";

@@ -10,7 +10,8 @@ Feature: Read PDF IOS
       And I open search modal
       And I search for 'Bosnian, Croatian, Serbian, a Grammar'
       And I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
-      And I open book 'bookInfo' details by clicking on cover
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen
 
@@ -71,5 +72,3 @@ Feature: Read PDF IOS
       And I save page number as 'pageNumber' of the first item
       And I open the first found item
     Then Pdf page number 'pageNumber' is correct
-
-

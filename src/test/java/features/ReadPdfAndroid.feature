@@ -10,7 +10,8 @@ Feature: Read PDF
       And I open search modal
       And I search for 'PDF'
       And DOWNLOAD book of 'PDF' type and save it as 'bookInfo'
-      And I open book 'bookInfo' details by clicking on cover
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen
 

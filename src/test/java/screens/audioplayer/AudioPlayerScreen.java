@@ -19,4 +19,16 @@ public abstract class AudioPlayerScreen extends Screen {
     public abstract String getCurrentChapterInfo();
 
     public abstract int getCountOfChapters();
+
+    public abstract void playBook();
+
+    public abstract void pauseBook();
+
+    public abstract boolean isPauseButtonPresent();
+
+    public abstract boolean isPlayButtonPresent();
+
+    public abstract String getCurrentPlayTime();
+
+    public abstract String getLoadingStatus();
 }

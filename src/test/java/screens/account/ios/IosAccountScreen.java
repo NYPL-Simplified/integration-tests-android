@@ -39,7 +39,7 @@ public class IosAccountScreen extends AccountScreen {
 
     @Override
     public void enterCredentials(Credentials credentials) {
-        if (!btnLogout.state().isDisplayed()) {
+        if (!btnLogout.state().waitForDisplayed()) {
             txbCard.click();
             txbCard.clearAndType(credentials.getBarcode());
             txbPin.clearAndTypeSecret(credentials.getPin());

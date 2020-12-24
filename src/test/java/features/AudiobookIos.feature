@@ -42,3 +42,13 @@ Feature: Audiobook
       And I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button LISTEN
     Then I check that current chapter equal to remembered 'newChapter'
+
+  @logout @cancelGet @tier2 @exclude_android
+  Scenario: Play Audiobook
+    When Press on the book details screen at the action button LISTEN
+      And I click play button on player screen
+    Then Pause button is present
+      And Book is playing
+    When I click pause button on player screen
+    Then Play button is present
+      And Book is not playing

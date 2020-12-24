@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import aquality.selenium.core.elements.ElementState;
 import constants.application.timeouts.AudioBookTimeouts;
 import constants.application.timeouts.BooksTimeouts;
 import constants.application.timeouts.CategoriesTimeouts;
@@ -26,11 +27,18 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     private static final String LOADED_CHAPTERS_LOCATOR = "//XCUIElementTypeTable//XCUIElementTypeCell//XCUIElementTypeOther[@visible=\"false\"]";
     public static final int COUNT_OF_CHAPTERS_TO_WAIT_FOR = 3;
 
-    private final IButton menuBtn = getElementFactory().getButton(
-            By.xpath("//XCUIElementTypeButton[@name=\"Table of Contents\"]"), "Menu");
-
-    private final ILabel currentChapter = getElementFactory().getLabel(
-            By.xpath("(//XCUIElementTypeStaticText[@name=\"progress_rightLabel\"])[1]"), "Current chapter");
+    private final IButton btnMenu =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Table of Contents\"]"), "Menu");
+    private final IButton btnPlay =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@label=\"Play\"]"), "Play");
+    private final IButton btnPause =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@label=\"Pause\"]"), "Pause");
+    private final ILabel lblCurrentChapter =
+            getElementFactory().getLabel(By.xpath("(//XCUIElementTypeStaticText[@name=\"progress_rightLabel\"])[1]"), "Current chapter");
+    private final ILabel lblCurrentTime =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeStaticText[@name=\"progress_leftLabel\"]"), "Current time", ElementState.EXISTS_IN_ANY_STATE);
+    private final ILabel lblDownloadingStatus =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeStaticText[@value=\"Downloading\"]"), "Downloading");
 
 
     public IosAudioPlayerScreen() {
@@ -61,7 +69,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void openMenu() {
-        menuBtn.click();
+        btnMenu.click();
     }
 
     @Override
@@ -74,12 +82,43 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public String getCurrentChapterInfo() {
-        return currentChapter.getText();
+        return lblCurrentChapter.getText();
     }
 
     @Override
     public int getCountOfChapters() {
         AqualityServices.getConditionalWait().waitFor(() -> getChapters().size() > COUNT_OF_CHAPTERS_TO_WAIT_FOR, Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
         return getChapters().size();
+    }
+
+    @Override
+    public void playBook() {
+        lblDownloadingStatus.state().waitForNotExist();
+        btnPlay.click();
+    }
+
+    @Override
+    public void pauseBook() {
+        btnPause.click();
+    }
+
+    @Override
+    public boolean isPauseButtonPresent() {
+        return btnPause.state().isDisplayed();
+    }
+
+    @Override
+    public boolean isPlayButtonPresent() {
+        return btnPlay.state().isDisplayed();
+    }
+
+    @Override
+    public String getCurrentPlayTime() {
+        return lblCurrentTime.getAttribute("value");
+    }
+
+    @Override
+    public String getLoadingStatus() {
+        return "";
     }
 }

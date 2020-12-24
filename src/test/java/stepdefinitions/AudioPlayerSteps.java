@@ -71,6 +71,39 @@ public class AudioPlayerSteps {
         AqualityServices.getConditionalWait().waitFor(() -> false, Duration.ofMillis(BooksTimeouts.SYSTEM_CHANGES_STATUS.getTimeoutMillis()));
     }
 
+    @And("I click play button on player screen")
+    public void clickPlayButtonOnPlayerScreen() {
+        audioPlayerScreen.playBook();
+    }
+
+    @When("I click pause button on player screen")
+    public void clickPauseButtonOnPlayerScreen() {
+        audioPlayerScreen.pauseBook();
+    }
+
+    @Then("Pause button is present")
+    public void checkPauseButtonIsPresent() {
+        Assert.assertTrue(audioPlayerScreen.isPauseButtonPresent(), "Pause button is not present");
+    }
+
+    @Then("Play button is present")
+    public void checkPlayButtonIsPresent() {
+        Assert.assertTrue(audioPlayerScreen.isPlayButtonPresent(), "Play button is not present");
+    }
+
+    @And("Book is playing")
+    public void checkBookIsPlaying() {
+        String firstTiming = audioPlayerScreen.getCurrentPlayTime();
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> !firstTiming.equals(audioPlayerScreen.getCurrentPlayTime())),
+                "Book is not playing. Error (if present) - " + audioPlayerScreen.getLoadingStatus());
+    }
+
+    @And("Book is not playing")
+    public void checkBookIsNotPlaying() {
+        String firstTiming = audioPlayerScreen.getCurrentPlayTime();
+        Assert.assertEquals(audioPlayerScreen.getCurrentPlayTime(), firstTiming, "Book is still playing");
+    }
+
     private int getChapterNumber() {
         return Integer.parseInt(RegExUtil.getStringFromFirstGroup(audioPlayerScreen.getCurrentChapterInfo(), RegEx.AUDIO_BOOK_CURRENT_CHAPTER_REGEX));
     }
