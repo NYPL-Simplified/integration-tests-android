@@ -37,12 +37,10 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
     private final ILabel lblPage = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"),
             "Book Page");
-    private final IButton btnChapters = getElementFactory().getButton(
-            By.xpath(String.format(BUTTON_LOC_PATTERN, PdfButtons.CHAPTERS)),
-            "Table of contents");
-    private final IButton btnSearch = getElementFactory().getButton(
-            By.xpath(String.format(BUTTON_LOC_PATTERN, PdfButtons.SEARCH)),
-            "Search btn");
+    private final IButton btnChapters =
+            getElementFactory().getButton(By.xpath(String.format(BUTTON_LOC_PATTERN, PdfButtons.CHAPTERS.i18n())), "Table of contents");
+    private final IButton btnSearch =
+            getElementFactory().getButton(By.xpath(String.format(BUTTON_LOC_PATTERN, PdfButtons.SEARCH.i18n())), "Search btn");
 
     public IosPdfReaderScreen() {
         super(By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"));
