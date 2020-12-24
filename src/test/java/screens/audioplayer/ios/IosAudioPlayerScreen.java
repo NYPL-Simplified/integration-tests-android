@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import aquality.selenium.core.elements.ElementState;
 import constants.application.timeouts.AudioBookTimeouts;
 import constants.application.timeouts.BooksTimeouts;
 import constants.application.timeouts.CategoriesTimeouts;
@@ -31,11 +32,11 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     private final IButton btnPlay =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@label=\"Play\"]"), "Play");
     private final IButton btnPause =
-            getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Pause\"]"), "Pause");
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@label=\"Pause\"]"), "Pause");
     private final ILabel lblCurrentChapter =
             getElementFactory().getLabel(By.xpath("(//XCUIElementTypeStaticText[@name=\"progress_rightLabel\"])[1]"), "Current chapter");
     private final ILabel lblCurrentTime =
-            getElementFactory().getLabel(By.xpath("//XCUIElementTypeStaticText[@name=\"progress_leftLabel\"]"), "Current time");
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeStaticText[@name=\"progress_leftLabel\"]"), "Current time", ElementState.EXISTS_IN_ANY_STATE);
     private final ILabel lblDownloadingStatus =
             getElementFactory().getLabel(By.xpath("//XCUIElementTypeStaticText[@value=\"Downloading\"]"), "Downloading");
 
@@ -114,5 +115,10 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public String getCurrentPlayTime() {
         return lblCurrentTime.getAttribute("value");
+    }
+
+    @Override
+    public String getLoadingStatus() {
+        return "";
     }
 }

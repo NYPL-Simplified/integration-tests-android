@@ -371,7 +371,7 @@ public class ReaderSteps {
     }
 
     private void assertBookName(CatalogBookModel catalogBookModel) {
-        Assert.assertEquals(removeSpaces(epubReaderScreen.getBookName()), removeSpaces(catalogBookModel.getTitle()), "Book name is not correct");
+        Assert.assertEquals(removeSpaces(epubReaderScreen.getBookName()).toLowerCase(), removeSpaces(catalogBookModel.getTitle().toLowerCase()), "Book name is not correct");
     }
 
     private String removeSpaces(String text) {

@@ -98,7 +98,8 @@ public class AudioPlayerSteps {
     @And("Book is playing")
     public void bookIsPlaying() {
         String firstTiming = audioPlayerScreen.getCurrentPlayTime();
-        Assert.assertNotEquals(audioPlayerScreen.getCurrentPlayTime(), firstTiming, "Book is not playing");
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> !firstTiming.equals(audioPlayerScreen.getCurrentPlayTime())),
+                "Book is not playing. Error (if present) - " + audioPlayerScreen.getLoadingStatus());
     }
 
     @And("Book is not playing")

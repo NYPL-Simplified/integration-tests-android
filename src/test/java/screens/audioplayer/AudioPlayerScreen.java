@@ -29,4 +29,6 @@ public abstract class AudioPlayerScreen extends Screen {
     public abstract boolean isPlayButtonPresent();
 
     public abstract String getCurrentPlayTime();
+
+    public abstract String getLoadingStatus();
 }
