@@ -24,6 +24,7 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
             "//XCUIElementTypeStaticText[@name and not(.//ancestor::XCUIElementTypeButton)][1]";
     public static final String BOOK_NAME_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%s\"]";
     public static final String AUTHOR_LABEL_LOCATOR_PATTERN = "//following-sibling::XCUIElementTypeStaticText";
+    public static final int COUNT_OF_BUTTONS_TO_WAIT_FOR = 5;
 
     private final ILabel lblFirstBookName =
             getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR + BOOK_NAME_XPATH), "First book name");
@@ -68,6 +69,7 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
     public CatalogBookModel openBookByName(String bookName) {
         ILabel lblBookName = getElementFactory().getLabel(MobileBy.AccessibilityId(bookName), bookName);
         lblBookName.state().waitForDisplayed();
+        waitForPageLoading();
         ILabel lblAuthor =
                 getElementFactory().getLabel(By.xpath(String.format(BOOK_NAME_LOCATOR_PATTERN, bookName) + AUTHOR_LABEL_LOCATOR_PATTERN), bookName);
         lblAuthor.state().waitForDisplayed();
@@ -95,13 +97,6 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
         return listOfNames;
     }
 
-    private List<String> getValuesFromListOfLabels(String xpath) {
-        return getElementFactory().findElements(By.xpath(xpath), ElementType.LABEL)
-                .stream()
-                .map(IElement::getText)
-                .collect(Collectors.toList());
-    }
-
     @Override
     public CatalogBookModel getFirstBookInfo() {
         return new CatalogBookModel()
@@ -112,5 +107,16 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
     @Override
     public void openFirstBook() {
         lblFirstBookName.click();
+    }
+
+    private List<String> getValuesFromListOfLabels(String xpath) {
+        return getElementFactory().findElements(By.xpath(xpath), ElementType.LABEL)
+                .stream()
+                .map(IElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    private void waitForPageLoading() {
+        AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.xpath(BOOK_BUTTON_XPATH), ElementType.BUTTON).size() >= COUNT_OF_BUTTONS_TO_WAIT_FOR);
     }
 }
