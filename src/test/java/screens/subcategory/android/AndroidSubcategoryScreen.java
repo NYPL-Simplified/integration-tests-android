@@ -99,7 +99,6 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public String getErrorMessage() {
-        AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
         if (isErrorDetailsButtonDisplayed()) {
             btnErrorDetails.click();
             return getErrorDetails();

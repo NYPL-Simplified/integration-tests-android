@@ -8,15 +8,19 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
+import constants.application.attributes.IosAttributes;
 import constants.application.timeouts.AudioBookTimeouts;
 import constants.application.timeouts.BooksTimeouts;
 import constants.application.timeouts.CategoriesTimeouts;
+import framework.utilities.DateUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import screens.audioplayer.AudioPlayerScreen;
 
+import java.text.ParseException;
 import java.time.Duration;
+import java.util.Date;
 import java.util.List;
 
 @ScreenType(platform = PlatformName.IOS)
@@ -113,12 +117,37 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     }
 
     @Override
-    public String getCurrentPlayTime() {
-        return lblCurrentTime.getAttribute("value");
+    public Date getCurrentPlayTime() throws ParseException {
+        return DateUtils.parseTime(lblCurrentTime.getAttribute(IosAttributes.VALUE));
     }
 
     @Override
     public String getLoadingStatus() {
         return "";
+    }
+
+    @Override
+    public void skipAhead() {
+
+    }
+
+    @Override
+    public void skipBehind() {
+
+    }
+
+    @Override
+    public void moveChapterToMiddle() {
+
+    }
+
+    @Override
+    public Date getChapterLength() throws ParseException {
+        return null;
+    }
+
+    @Override
+    public void waitForBookLoading() {
+
     }
 }

@@ -141,7 +141,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     @Override
     public void checkSubcategoryScreenIsPresent() {
         boolean isScreenPresent = subcategoryScreen.state().waitForDisplayed();
-        if (!isScreenPresent && catalogBooksScreen.isErrorButtonPresent()) {
+        if (!isScreenPresent && subcategoryScreen.isErrorButtonPresent()) {
             Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
             scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "error_screenshot.png");
         }

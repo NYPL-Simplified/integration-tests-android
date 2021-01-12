@@ -43,3 +43,18 @@ Feature: Audiobook
     When I click pause button on player screen
     Then Play button is present
       And Book is not playing
+
+  @logout @cancelGet @tier2 @exclude_ios
+  Scenario: Navigate Audiobook
+    When Press on the book details screen at the action button LISTEN
+      And I click play button on player screen
+    Then Pause button is present
+      And Book is playing
+    When I save book play time as 'timeAhead'
+      And I skip ahead 15 seconds
+    Then Playback 'timeAhead' moves forward by 15 seconds increment
+    When I save book play time as 'timeBehind'
+      And I skip behind 15 seconds
+    Then Playback 'timeBehind' moves behind by 15 seconds increment
+    When I move to middle part of chapter
+    Then Play time is close to middle part of chapter
