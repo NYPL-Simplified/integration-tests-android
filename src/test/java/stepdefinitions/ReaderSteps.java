@@ -108,8 +108,9 @@ public class ReaderSteps {
 
     @Then("Book page number is smaller then previous {string}")
     public void bookPageNumberIsSmallerThenPreviousPageInfo(String pageNumberInfo) {
-        String actualBookInfo = epubReaderScreen.getPageNumberInfo();
         String expectedBookInfo = context.get(pageNumberInfo);
+        AqualityServices.getConditionalWait().waitFor(() -> !expectedBookInfo.equals(epubReaderScreen.getPageNumberInfo()));
+        String actualBookInfo = epubReaderScreen.getPageNumberInfo();
         int expectedPageNumber = getPageNumber(expectedBookInfo) - 1;
         int actualPageNumber = getPageNumber(actualBookInfo);
         Assert.assertTrue(expectedPageNumber == actualPageNumber ||
