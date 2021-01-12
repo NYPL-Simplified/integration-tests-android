@@ -93,6 +93,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     @Override
     public void openBookDetailsWithAction(BookActionButtonKeys action) {
         state().waitForDisplayed();
+        waitForPageLoading();
         clickOnSpecificBookElement(getBookJacketWithGivenButtonLabel(action));
     }
 
@@ -117,7 +118,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     @Override
     public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
         String key = actionButtonKey.i18n();
-        AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.xpath(ELEMENTS_TO_WAIT_FOR_XPATH), ElementType.BUTTON).size() >= COUNT_OF_BUTTONS_TO_WAIT_FOR);
+        waitForPageLoading();
         AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
         IButton actionButton = getButtonForBookWithAction(bookName, key);
         if (!actionButton.state().waitForDisplayed()) {
@@ -138,6 +139,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private CatalogBookModel performActionOnBook(BookActionButtonKeys buttonName) {
         IButton button = getAddBookButton(buttonName);
+        waitForPageLoading();
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         String bookTitle =
                 getBookJacketWithGivenButtonLabel(buttonName).findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL).getText();
@@ -176,5 +178,9 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private IButton getButtonForBookWithAction(String title, String key) {
         return getElementFactory().getButton(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, title, key)), key);
+    }
+
+    private void waitForPageLoading() {
+        AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.xpath(ELEMENTS_TO_WAIT_FOR_XPATH), ElementType.BUTTON).size() >= COUNT_OF_BUTTONS_TO_WAIT_FOR);
     }
 }

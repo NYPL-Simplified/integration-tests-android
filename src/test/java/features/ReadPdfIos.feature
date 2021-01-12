@@ -8,19 +8,25 @@ Feature: Read PDF IOS
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
       And I open search modal
-      And I search for 'Bosnian, Croatian, Serbian, a Grammar'
+
+  @logout @cancelGet @tier1 @exclude_android
+  Scenario: Open document
+    When I search for 'Bosnian, Croatian, Serbian, a Grammar'
       And I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen
-
-  @logout @cancelGet @tier1 @exclude_android
-  Scenario: Open document
       And Pdf book page number is 1
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Navigate by page
+    When I search for 'Bosnian, Croatian, Serbian, a Textbook'
+      And I GET book by name 'Bosnian, Croatian, Serbian, a Textbook' and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
+    Then Pdf book 'bookInfo' is present on screen
       And Pdf book page number is 1
     When I go to next page in pdf book
     Then Pdf book page number is 2
@@ -29,10 +35,22 @@ Feature: Read PDF IOS
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Navigate by Table of Contents Menu
+    When I search for 'Bosnian, Croatian, Serbian, a Textbook'
+      And I GET book by name 'Bosnian, Croatian, Serbian, a Textbook' and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
+    Then Pdf book 'bookInfo' is present on screen
       And Each chapter of pdf book can be opened from Table of Contents
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Open book to last page read
+    When I search for 'Bosnian, Croatian, Serbian, a Textbook'
+      And I GET book by name 'Bosnian, Croatian, Serbian, a Textbook' and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
+    Then Pdf book 'bookInfo' is present on screen
     When I scroll pdf page forward from 10 to 20 times
       And I save pdf page number as 'pageNumber'
       And I return to previous screen
@@ -49,6 +67,12 @@ Feature: Read PDF IOS
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Navigate by Gallery
+    When I search for 'Bosnian, Croatian, Serbian, a Textbook'
+      And I GET book by name 'Bosnian, Croatian, Serbian, a Textbook' and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
+    Then Pdf book 'bookInfo' is present on screen
     When I open gallery menu
     Then Gallery is opened
       And I save count of books on gallery to 'countOfTheBookPages'
@@ -60,6 +84,12 @@ Feature: Read PDF IOS
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Search document
+    When I search for 'Bosnian, Croatian, Serbian, a Grammar'
+      And I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
+    Then Pdf book 'bookInfo' is present on screen
     When I click the search in the pdf button
     Then The search in the pdf page opened
     When I am typing 'Ronelle Alexander' to the search field and apply search
@@ -67,6 +97,12 @@ Feature: Read PDF IOS
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Navigate to Search Term
+    When I search for 'Bosnian, Croatian, Serbian, a Grammar'
+      And I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
+    Then Book saved as 'bookInfo' should contain READ button at catalog books screen
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button READ
+    Then Pdf book 'bookInfo' is present on screen
     When I click the search in the pdf button
       And I am typing 'Ronelle Alexander' to the search field and apply search
       And I save page number as 'pageNumber' of the first item
