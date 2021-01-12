@@ -172,6 +172,5 @@ public class AudioPlayerSteps {
             }
             return middleOfChapterImMillis - 10 < currentTimeDifference && currentTimeDifference < middleOfChapterImMillis + 10;
         }), "Middle of chapter wasn't opened");
-
     }
 }
