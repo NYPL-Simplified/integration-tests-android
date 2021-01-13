@@ -7,6 +7,7 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import framework.utilities.RomanNumericUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import screens.pdfsearch.PdfSearchScreen;
@@ -58,10 +59,10 @@ public class IosPdfSearchScreen extends PdfSearchScreen {
     }
 
     @Override
-    public String getSearchedItemPageNumber(final String itemName) {
-        return getSearchedItemByName(itemName)
+    public int getSearchedItemPageNumber(final String itemName) {
+        return RomanNumericUtils.convertToInt(getSearchedItemByName(itemName)
                 .findChildElement(By.xpath(SEARCHED_ELEMENT_PAGE_NUMBER_LOC), ElementType.LABEL)
-                .getText();
+                .getText());
     }
 
     private ILabel getSearchedItemByName(final String itemName) {
