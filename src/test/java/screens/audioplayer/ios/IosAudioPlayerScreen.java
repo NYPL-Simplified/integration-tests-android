@@ -93,7 +93,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public void playBook() {
-        lblDownloadingStatus.state().waitForNotExist();
+        waitForLoadingDisappearing();
         btnPlay.click();
     }
 
@@ -120,5 +120,10 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public String getLoadingStatus() {
         return "";
+    }
+
+    @Override
+    public void waitForLoadingDisappearing() {
+        lblDownloadingStatus.state().waitForNotExist();
     }
 }
