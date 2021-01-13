@@ -110,4 +110,9 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
             return "";
         }
     }
+
+    @Override
+    public void waitForLoadingDisappearing() {
+
+    }
 }

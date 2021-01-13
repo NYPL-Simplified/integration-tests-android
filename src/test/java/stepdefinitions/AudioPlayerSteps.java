@@ -27,6 +27,7 @@ public class AudioPlayerSteps {
 
     @And("Remember current book chapter in {string}")
     public void saveCurrentBookChapterInContextByKey(String key) {
+        audioPlayerScreen.waitForLoadingDisappearing();
         context.add(key, getChapterNumber());
     }
 
@@ -60,6 +61,7 @@ public class AudioPlayerSteps {
     @When("I select {int} chapter and remember selected chapter as {string}")
     public void selectSecondChapterAndSaveSelectedChapter(int chapterToSelect, String keySelectedChapter) {
         audioPlayerScreen.selectChapterNumber(chapterToSelect);
+        audioPlayerScreen.waitForLoadingDisappearing();
         context.add(keySelectedChapter, chapterToSelect);
     }
 

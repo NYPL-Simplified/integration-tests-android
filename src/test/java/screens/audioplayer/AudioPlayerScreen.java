@@ -31,4 +31,6 @@ public abstract class AudioPlayerScreen extends Screen {
     public abstract String getCurrentPlayTime();
 
     public abstract String getLoadingStatus();
+
+    public abstract void waitForLoadingDisappearing();
 }
