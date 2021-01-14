@@ -7,6 +7,8 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import aquality.selenium.core.elements.ElementState;
+import aquality.selenium.core.elements.ElementsCount;
 import aquality.selenium.core.elements.interfaces.IElement;
 import framework.utilities.swipe.SwipeElementUtils;
 import framework.utilities.swipe.directions.EntireElementSwipeDirection;
@@ -20,24 +22,18 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
-    public static final String GALLERY_VIEW = "//XCUIElementTypeCollectionView";
-    public static final String PAGES_IN_GALLERY_VIEW = GALLERY_VIEW + "/XCUIElementTypeCell";
-    public static final String CHAPTER_NAME_BUTTON_XPATH_PATTERN = "//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]";
-    public static final String PAGE_NUMBER_LOCATOR_PATTERN = "//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]/following-sibling::XCUIElementTypeStaticText";
+    private static final String GALLERY_VIEW = "//XCUIElementTypeCollectionView";
+    private static final String PAGES_IN_GALLERY_VIEW = GALLERY_VIEW + "/XCUIElementTypeCell";
+    private static final String CHAPTER_NAME_BUTTON_XPATH_PATTERN =
+            "//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]";
+    private static final String PAGE_NUMBER_LOCATOR_PATTERN =
+            "//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]/following-sibling::XCUIElementTypeStaticText";
+    private static final String CHAPTER_XPATH_LOCATOR = "//XCUIElementTypeCell//XCUIElementTypeStaticText[@name][1]";
 
     private final ILabel lblGallery = getElementFactory().getLabel(By.xpath(GALLERY_VIEW), "Gallery view");
     private final ILabel lblTable = getElementFactory().getLabel(By.xpath("//XCUIElementTypeTable"), "Table");
-
-    private final IButton btnListView = getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"List\"]"), "Chapters list view");
-
-    private List<ILabel> getChapters() {
-        return getElementFactory().findElements(By.xpath("//XCUIElementTypeCell//XCUIElementTypeStaticText[@name][1]"), ElementType.LABEL);
-    }
-
-    private List<IElement> getPages() {
-        return getElementFactory().findElements(By.xpath(PAGES_IN_GALLERY_VIEW), ElementType.LABEL).stream()
-                .filter(iElement -> iElement.state().isDisplayed()).collect(Collectors.toList());
-    }
+    private final IButton btnListView =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"List\"]"), "Chapters list view");
 
     public IosPdfTableOfContentsScreen() {
         super(By.xpath("//XCUIElementTypeTable"));
@@ -76,13 +72,18 @@ public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     }
 
     @Override
-    public boolean isGalleryPagesLoad() {
+    public boolean isGalleryPagesLoaded() {
         return AqualityServices.getConditionalWait().waitFor(() -> getPages().size() > 0);
     }
 
     @Override
     public int getCountOfTheBookPages() {
         return getPages().size();
+    }
+
+    @Override
+    public int getChaptersCount() {
+        return getChapters().size();
     }
 
     @Override
@@ -93,5 +94,14 @@ public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     @Override
     public void openGalleryPage(int pageNumber) {
         getPages().get(pageNumber).click();
+    }
+
+    private List<ILabel> getChapters() {
+        return getElementFactory().findElements(By.xpath(CHAPTER_XPATH_LOCATOR), ElementType.LABEL, ElementsCount.ANY, ElementState.EXISTS_IN_ANY_STATE);
+    }
+
+    private List<IElement> getPages() {
+        return getElementFactory().findElements(By.xpath(PAGES_IN_GALLERY_VIEW), ElementType.LABEL).stream()
+                .filter(iElement -> iElement.state().isDisplayed()).collect(Collectors.toList());
     }
 }
