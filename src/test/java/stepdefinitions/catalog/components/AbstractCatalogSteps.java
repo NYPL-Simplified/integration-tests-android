@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import screens.agegate.AgeGateScreen;
+import screens.alert.AlertScreen;
 import screens.bookDetails.BookDetailsScreen;
 import screens.bottommenu.BottomMenu;
 import screens.bottommenu.BottomMenuForm;
@@ -45,6 +46,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     protected final FacetedSearchScreen facetedSearchScreen;
     protected final ScenarioContext context;
     protected final NotificationModal notificationModal;
+    private final AlertScreen alertScreen;
 
     public AbstractCatalogSteps(ScenarioContext context) {
         this.context = context;
@@ -57,6 +59,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         catalogBooksScreen = AqualityServices.getScreenFactory().getScreen(CatalogBooksScreen.class);
         facetedSearchScreen = AqualityServices.getScreenFactory().getScreen(FacetedSearchScreen.class);
         notificationModal = AqualityServices.getScreenFactory().getScreen(NotificationModal.class);
+        alertScreen = AqualityServices.getScreenFactory().getScreen(AlertScreen.class);
     }
 
     @Override
@@ -138,7 +141,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     @Override
     public void checkSubcategoryScreenIsPresent() {
         boolean isScreenPresent = subcategoryScreen.state().waitForDisplayed();
-        if (!isScreenPresent && catalogBooksScreen.isErrorButtonPresent()) {
+        if (!isScreenPresent && subcategoryScreen.isErrorButtonPresent()) {
             Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
             scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "error_screenshot.png");
         }
@@ -375,6 +378,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void pressOnBookDetailsScreenAtActionButton(BookActionButtonKeys actionButton) {
         clickButton(actionButton);
         notificationModal.handleBookActionsAndNotificationPopups(actionButton);
+        alertScreen.closeNotNowModalIfPresent();
     }
 
     @Override

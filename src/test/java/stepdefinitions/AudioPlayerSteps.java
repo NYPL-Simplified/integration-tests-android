@@ -13,7 +13,10 @@ import io.cucumber.java.en.When;
 import org.testng.Assert;
 import screens.audioplayer.AudioPlayerScreen;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 
 public class AudioPlayerSteps {
     private final AudioPlayerScreen audioPlayerScreen;
@@ -94,19 +97,82 @@ public class AudioPlayerSteps {
     }
 
     @And("Book is playing")
-    public void checkBookIsPlaying() {
-        String firstTiming = audioPlayerScreen.getCurrentPlayTime();
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> !firstTiming.equals(audioPlayerScreen.getCurrentPlayTime())),
+    public void checkBookIsPlaying() throws ParseException {
+        audioPlayerScreen.waitForBookLoading();
+        Date firstTiming = audioPlayerScreen.getCurrentPlayTime();
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> {
+                    try {
+                        return !firstTiming.equals(audioPlayerScreen.getCurrentPlayTime());
+                    } catch (ParseException e) {
+                        AqualityServices.getLogger().info("Date parsing error." + e.getMessage());
+                        return false;
+                    }
+                }),
                 "Book is not playing. Error (if present) - " + audioPlayerScreen.getLoadingStatus());
     }
 
     @And("Book is not playing")
-    public void checkBookIsNotPlaying() {
-        String firstTiming = audioPlayerScreen.getCurrentPlayTime();
+    public void checkBookIsNotPlaying() throws ParseException {
+        Date firstTiming = audioPlayerScreen.getCurrentPlayTime();
         Assert.assertEquals(audioPlayerScreen.getCurrentPlayTime(), firstTiming, "Book is still playing");
+    }
+
+    @When("I save book play time as {string}")
+    public void iSaveBookPlayTimeAsTimeAhead(String dateKey) throws ParseException {
+        context.add(dateKey, audioPlayerScreen.getCurrentPlayTime());
     }
 
     private int getChapterNumber() {
         return Integer.parseInt(RegExUtil.getStringFromFirstGroup(audioPlayerScreen.getCurrentChapterInfo(), RegEx.AUDIO_BOOK_CURRENT_CHAPTER_REGEX));
+    }
+
+    @And("I skip ahead 15 seconds")
+    public void skipAhead() {
+        audioPlayerScreen.skipAhead();
+    }
+
+    @And("I skip behind 15 seconds")
+    public void skipBehind() {
+        audioPlayerScreen.skipBehind();
+    }
+
+    @Then("Playback {string} moves forward by {int} seconds increment")
+    public void checkPlaybackTimeAheadMovesForwardBySecondsIncrement(String timeKey, int secondsDiff) throws ParseException {
+        Date savedDate = context.get(timeKey);
+        int diffInSec = (int) (audioPlayerScreen.getCurrentPlayTime().getTime() - savedDate.getTime()) / 1000;
+        AqualityServices.getLogger().info("diff between  times -" + diffInSec);
+        Assert.assertTrue(diffInSec >= secondsDiff && diffInSec < secondsDiff + 5,
+                "Date is not moved forward by " + secondsDiff + " seconds");
+    }
+
+    @Then("Playback {string} moves behind by {int} seconds increment")
+    public void checkPlaybackTimeAheadMovesBehindBySecondsIncrement(String timeKey, int secondsDiff) throws ParseException {
+        Date savedDate = context.get(timeKey);
+        int diffInSec = (int) (savedDate.getTime() - audioPlayerScreen.getCurrentPlayTime().getTime()) / 1000;
+        AqualityServices.getLogger().info("diff between  times -" + diffInSec);
+        Assert.assertTrue(diffInSec > secondsDiff - 5 && diffInSec <= secondsDiff,
+                "Date is not moved behind by " + secondsDiff + " seconds");
+    }
+
+    @And("I move to middle part of chapter")
+    public void moveToMiddlePartOfChapter() {
+        audioPlayerScreen.moveChapterToMiddle();
+    }
+
+    @Then("Play time is close to middle part of chapter")
+    public void checkPlayTimeIsCloseToMiddlePartOfChapter() throws ParseException {
+        Date zeroDate = new SimpleDateFormat("HH:mm:ss").parse("00:00:00");
+        Date fullChapterLength = audioPlayerScreen.getChapterLength();
+        int middleOfChapterImMillis = (int) ((fullChapterLength.getTime() - zeroDate.getTime()) / 1000 / 2);
+        AqualityServices.getLogger().info("middle im mills " + middleOfChapterImMillis);
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> {
+            int currentTimeDifference = 0;
+            try {
+                currentTimeDifference = (int) (audioPlayerScreen.getCurrentPlayTime().getTime() - zeroDate.getTime()) / 1000;
+                AqualityServices.getLogger().info("current time in mills " + currentTimeDifference);
+            } catch (ParseException e) {
+            }
+            return middleOfChapterImMillis - 10 < currentTimeDifference && currentTimeDifference < middleOfChapterImMillis + 10;
+        }), "Middle of chapter wasn't opened");
     }
 }

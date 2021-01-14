@@ -7,13 +7,16 @@ import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import constants.application.attributes.AndroidAttributes;
 import constants.application.timeouts.AudioBookTimeouts;
+import framework.utilities.DateUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import screens.audioplayer.AudioPlayerScreen;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.List;
 
 @ScreenType(platform = PlatformName.ANDROID)
@@ -26,10 +29,14 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     private final ILabel lblCurrentChapter = getElementFactory().getLabel(By.id("player_spine_element"), "Current chapter");
     private final ILabel lblCurrentTiming = getElementFactory().getLabel(By.id("player_time"), "Current time");
     private final ILabel lblLoadingStatus = getElementFactory().getLabel(By.id("player_waiting_buffering"), "Loading status");
+    private final ILabel lblChapterLength = getElementFactory().getLabel(By.id("player_time_maximum"), "Chapter length");
     private final IButton btnPlay =
             getElementFactory().getButton(By.xpath("//android.widget.ImageView[@content-desc=\"Play\"]"), "Play");
     private final IButton btnPause =
             getElementFactory().getButton(By.xpath("//android.widget.ImageView[@content-desc=\"Pause\"]"), "Pause");
+    private final IButton btnSkipAhead = getElementFactory().getButton(By.id("player_jump_forwards"), "Move forwards");
+    private final IButton btnSkipBehind = getElementFactory().getButton(By.id("player_jump_backwards"), "Move backwards");
+    private final IButton btnProgressButton = getElementFactory().getButton(By.id("player_progress"), "Player progress");
 
     public AndroidAudioPlayerScreen() {
         super(By.id(MAIN_ELEMENT));
@@ -96,10 +103,8 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     }
 
     @Override
-    public String getCurrentPlayTime() {
-        AqualityServices.getLogger().info(lblCurrentTiming.getText());
-        AqualityServices.getLogger().info(lblCurrentTiming.getAttribute(AndroidAttributes.CONTENT_DESC));
-        return lblCurrentTiming.getText();
+    public Date getCurrentPlayTime() throws ParseException {
+        return new SimpleDateFormat("HH:mm:ss").parse(lblCurrentTiming.getText());
     }
 
     @Override
@@ -114,5 +119,31 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public void waitForLoadingDisappearing() {
 
+    }
+
+    @Override
+    public void skipAhead() {
+        btnSkipAhead.click();
+    }
+
+    @Override
+    public void skipBehind() {
+        btnSkipBehind.click();
+
+    }
+
+    @Override
+    public void moveChapterToMiddle() {
+        btnProgressButton.click();
+    }
+
+    @Override
+    public Date getChapterLength() throws ParseException {
+        return DateUtils.parseTime(lblChapterLength.getText());
+    }
+
+    @Override
+    public void waitForBookLoading() {
+        lblChapterLength.state().waitForDisplayed();
     }
 }

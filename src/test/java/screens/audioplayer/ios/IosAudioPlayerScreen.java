@@ -8,15 +8,19 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
+import constants.application.attributes.IosAttributes;
 import constants.application.timeouts.AudioBookTimeouts;
 import constants.application.timeouts.BooksTimeouts;
 import constants.application.timeouts.CategoriesTimeouts;
+import framework.utilities.DateUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import screens.audioplayer.AudioPlayerScreen;
 
+import java.text.ParseException;
 import java.time.Duration;
+import java.util.Date;
 import java.util.List;
 
 @ScreenType(platform = PlatformName.IOS)
@@ -33,8 +37,13 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
             getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@label=\"Play\"]"), "Play");
     private final IButton btnPause =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@label=\"Pause\"]"), "Pause");
+    private final IButton btnProgress = getElementFactory().getButton(By.name("progress_grip"), "Progress bar");
+    private final IButton btnBehind = getElementFactory().getButton(By.name("skip_back"), "Behind");
+    private final IButton btnAhead = getElementFactory().getButton(By.name("skip_forward"), "Ahead");
     private final ILabel lblCurrentChapter =
             getElementFactory().getLabel(By.xpath("(//XCUIElementTypeStaticText[@name=\"progress_rightLabel\"])[1]"), "Current chapter");
+    private final ILabel lblChapterTime =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeStaticText[@name=\"progress_rightLabel\" and contains(@label,\":\")]"), "Chapter time");
     private final ILabel lblCurrentTime =
             getElementFactory().getLabel(By.xpath("//XCUIElementTypeStaticText[@name=\"progress_leftLabel\"]"), "Current time", ElementState.EXISTS_IN_ANY_STATE);
     private final ILabel lblDownloadingStatus =
@@ -113,13 +122,38 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     }
 
     @Override
-    public String getCurrentPlayTime() {
-        return lblCurrentTime.getAttribute("value");
+    public Date getCurrentPlayTime() throws ParseException {
+        return DateUtils.parseSmallTime(lblCurrentTime.getAttribute(IosAttributes.VALUE));
     }
 
     @Override
     public String getLoadingStatus() {
         return "";
+    }
+
+    @Override
+    public void skipAhead() {
+        btnAhead.click();
+    }
+
+    @Override
+    public void skipBehind() {
+        btnBehind.click();
+    }
+
+    @Override
+    public void moveChapterToMiddle() {
+        btnProgress.click();
+    }
+
+    @Override
+    public Date getChapterLength() throws ParseException {
+        return DateUtils.parseTime(lblChapterTime.getAttribute(IosAttributes.VALUE));
+    }
+
+    @Override
+    public void waitForBookLoading() {
+        lblCurrentChapter.state().waitForDisplayed();
     }
 
     @Override
