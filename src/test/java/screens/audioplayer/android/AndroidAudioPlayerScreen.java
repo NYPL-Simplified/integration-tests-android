@@ -117,6 +117,11 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     }
 
     @Override
+    public void waitForLoadingDisappearing() {
+
+    }
+
+    @Override
     public void skipAhead() {
         btnSkipAhead.click();
     }

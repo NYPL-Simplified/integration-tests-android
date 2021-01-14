@@ -95,7 +95,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
+    public CatalogBookModel scrollToBookAndClickActionButton(BookActionButtonKeys bookAddButtonKey) {
         return performActionOnBook(bookAddButtonKey);
     }
 
@@ -109,7 +109,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public void openBookDetailsWithAction(BookActionButtonKeys action) {
+    public void openBookWithGivenActionButtonDetails(BookActionButtonKeys action) {
         clickOnSpecificBookElement(getBookJacketWithGivenButtonLabel(action));
     }
 

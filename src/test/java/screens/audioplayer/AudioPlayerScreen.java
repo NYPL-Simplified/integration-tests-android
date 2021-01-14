@@ -44,4 +44,6 @@ public abstract class AudioPlayerScreen extends Screen {
     public abstract Date getChapterLength() throws ParseException;
 
     public abstract void waitForBookLoading();
+
+    public abstract void waitForLoadingDisappearing();
 }

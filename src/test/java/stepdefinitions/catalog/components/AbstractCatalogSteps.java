@@ -31,10 +31,7 @@ import screens.subcategory.SubcategoryScreen;
 import stepdefinitions.BaseSteps;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -172,7 +169,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     @Override
     public void openBookDetailsExecuteBookActionAndSaveItToContext(
             BookActionButtonKeys actionButtonKey, String bookInfoKey) {
-        catalogBooksScreen.openBookDetailsWithAction(actionButtonKey);
+        catalogBooksScreen.openBookWithGivenActionButtonDetails(actionButtonKey);
         CatalogBookModel catalogBookModel = bookDetailsScreen.getBookInfo();
         pressOnBookDetailsScreenAtActionButton(actionButtonKey);
         context.add(bookInfoKey, catalogBookModel);
@@ -181,7 +178,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     @Override
     public void executeBookActionAndSaveItToContextAndLibraryCancel(
             BookActionButtonKeys actionButtonKey, String bookInfoKey) {
-        context.add(bookInfoKey, catalogBooksScreen.scrollToBookAndClickAddButton(actionButtonKey));
+        context.add(bookInfoKey, catalogBooksScreen.scrollToBookAndClickActionButton(actionButtonKey));
         notificationModal.handleBookActionsAndNotificationPopups(actionButtonKey);
     }
 
@@ -279,8 +276,8 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void checkBooksAreSortedByAuthorAscending() {
         List<String> list = subcategoryScreen.getAuthorsInfo();
         List<String> listOfSurnames = getSurnames(list);
-        Assert.assertEquals(listOfSurnames, listOfSurnames.stream().sorted().collect(Collectors.toList()),
-                "Lists of authors is not sorted properly" + list.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        Assert.assertEquals(listOfSurnames, getSurnames(listOfSurnames.stream().sorted().collect(Collectors.toList())),
+                "Lists of authors is not sorted properly " + list.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
 
     @Override
@@ -294,17 +291,8 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         List<String> listOfSurnames = new ArrayList<>();
         for (String authorName : list) {
             String[] separatedName = authorName.split("\\s");
-            if (separatedName.length > 1) {
-                if (authorName.contains(",")) {
-                    listOfSurnames.add(separatedName[0]);
-                } else if (authorName.contains(".")) {
-                    listOfSurnames.add(separatedName[separatedName.length - 1]);
-                } else {
-                    listOfSurnames.add(separatedName[1]);
-                }
-            } else {
-                listOfSurnames.add(separatedName[0]);
-            }
+            List<String> sortedNames = Arrays.stream(separatedName).sorted().collect(Collectors.toList());
+            listOfSurnames.add(sortedNames.get(0));
         }
         return listOfSurnames;
     }
