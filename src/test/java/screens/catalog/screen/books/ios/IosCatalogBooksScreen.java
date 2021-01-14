@@ -78,7 +78,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey) {
+    public CatalogBookModel scrollToBookAndClickActionButton(BookActionButtonKeys bookAddButtonKey) {
         return performActionOnBook(bookAddButtonKey);
     }
 
@@ -91,10 +91,10 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public void openBookDetailsWithAction(BookActionButtonKeys action) {
+    public void openBookWithGivenActionButtonDetails(BookActionButtonKeys action) {
         state().waitForDisplayed();
         waitForPageLoading();
-        clickOnSpecificBookElement(getBookJacketWithGivenButtonLabel(action));
+        clickOnSpecificBookElement(getBookJacketWithGivenButtonName(action));
     }
 
     @Override
@@ -142,11 +142,11 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         waitForPageLoading();
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         String bookTitle =
-                getBookJacketWithGivenButtonLabel(buttonName).findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL).getText();
+                getBookJacketWithGivenButtonName(buttonName).findChildElement(By.xpath(BOOK_TITLE_LOC), ElementType.LABEL).getText();
         return openBook(button, bookTitle);
     }
 
-    private ILabel getBookJacketWithGivenButtonLabel(BookActionButtonKeys button) {
+    private ILabel getBookJacketWithGivenButtonName(BookActionButtonKeys button) {
         String key = button.i18n();
         return getElementFactory().getLabel(By.xpath(String.format(BOOK_BLOCK_BY_BUTTON_LOC, key)),
                 "Book jacket with btn " + key);
