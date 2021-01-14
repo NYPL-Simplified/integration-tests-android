@@ -16,11 +16,11 @@ public abstract class CatalogBooksScreen extends Screen {
 
     public abstract CatalogBookModel getBookInfo(String title);
 
-    public abstract CatalogBookModel scrollToBookAndClickAddButton(BookActionButtonKeys bookAddButtonKey);
+    public abstract CatalogBookModel scrollToBookAndClickActionButton(BookActionButtonKeys bookAddButtonKey);
 
     public abstract void clickBookByTitleButtonWithKey(String title, BookActionButtonKeys key);
 
-    public abstract void openBookDetailsWithAction(BookActionButtonKeys action);
+    public abstract void openBookWithGivenActionButtonDetails(BookActionButtonKeys action);
 
     public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key);
 
