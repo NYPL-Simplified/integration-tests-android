@@ -20,13 +20,10 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
-    public static final String CHAPTER_NAME_BUTTON_XPATH_PATTERN = "//android.widget.TextView[contains(@resource-id,\"reader_toc_element_title\") and @text=\"%s\"]";
-    public static final String PAGE_NUMBER_LOCATOR_PATTERN = "//android.widget.TextView[contains(@resource-id,\"reader_toc_element_title\") and @text=\"%s\"]//following-sibling::android.widget.TextView";
+    private static final String CHAPTER_NAME_BUTTON_XPATH_PATTERN = "//android.widget.TextView[contains(@resource-id,\"reader_toc_element_title\") and @text=\"%s\"]";
+    private static final String PAGE_NUMBER_LOCATOR_PATTERN = "//android.widget.TextView[contains(@resource-id,\"reader_toc_element_title\") and @text=\"%s\"]//following-sibling::android.widget.TextView";
+    private static final String CHAPTER_XPATH_LOCATOR = "//android.widget.TextView[contains(@resource-id,\"reader_toc_element_title\")]";
     private final ILabel lblTable = getElementFactory().getLabel(By.id("recyclerView"), "Table");
-
-    private List<ILabel> getChapters() {
-        return getElementFactory().findElements(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_title\")]"), ElementType.LABEL);
-    }
 
     public AndroidPdfTableOfContentsScreen() {
         super(By.id("pdf_reader_fragment_holder"));
@@ -63,13 +60,18 @@ public class AndroidPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     }
 
     @Override
-    public boolean isGalleryPagesLoad() {
+    public boolean isGalleryPagesLoaded() {
         throw new NotImplementedException();
     }
 
     @Override
     public int getCountOfTheBookPages() {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public int getChaptersCount() {
+        return getChapters().size();
     }
 
     @Override
@@ -80,5 +82,9 @@ public class AndroidPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     @Override
     public void openGalleryPage(int pageNumber) {
         throw new NotImplementedException();
+    }
+
+    private List<ILabel> getChapters() {
+        return getElementFactory().findElements(By.xpath(CHAPTER_XPATH_LOCATOR), ElementType.LABEL);
     }
 }

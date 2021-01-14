@@ -14,7 +14,6 @@ import framework.utilities.swipe.SwipeElementUtils;
 import framework.utilities.swipe.directions.EntireElementSwipeDirection;
 import framework.utilities.swipe.directions.EntireScreenDragDirection;
 import org.openqa.selenium.By;
-import org.testng.Assert;
 import screens.pdfreader.PdfReaderScreen;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
 
@@ -75,9 +74,8 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
     @Override
     public Set<String> getListOfChapters() {
         PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContentsInListView();
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> pdfTableOfContentsScreen.getListOfBookChapters().size() > 0,
-                Duration.ofMillis(PdfTimeouts.PDF_LIST_OF_CHAPTERS_APPEAR_TIMEOUT.getTimeoutMillis())),
-                "Checking that chapters exist on list view");
+        AqualityServices.getConditionalWait().waitFor(() -> pdfTableOfContentsScreen.getChaptersCount() > 0,
+                Duration.ofMillis(PdfTimeouts.PDF_LIST_OF_CHAPTERS_APPEAR_TIMEOUT.getTimeoutMillis()));
         Set<String> bookNames = pdfTableOfContentsScreen.getListOfBookChapters();
         AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
         AqualityServices.getApplication().getDriver().navigate().back();

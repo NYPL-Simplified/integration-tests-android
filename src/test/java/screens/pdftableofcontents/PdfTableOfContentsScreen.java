@@ -19,9 +19,11 @@ public abstract class PdfTableOfContentsScreen extends Screen {
 
     public abstract int getChapterPageNumber(String chapter);
 
-    public abstract boolean isGalleryPagesLoad();
+    public abstract boolean isGalleryPagesLoaded();
 
     public abstract int getCountOfTheBookPages();
+
+    public abstract int getChaptersCount();
 
     public abstract void scrollGallery(EntireElementSwipeDirection entireElementSwipeDirection);
 

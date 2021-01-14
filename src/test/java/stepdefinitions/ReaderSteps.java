@@ -292,7 +292,7 @@ public class ReaderSteps {
 
     @Then("Gallery is opened")
     public void isGalleryPagesLoad() {
-        pdfTableOfContentsScreen.isGalleryPagesLoad();
+        pdfTableOfContentsScreen.isGalleryPagesLoaded();
     }
 
     @And("I save count of books on gallery to {string}")
