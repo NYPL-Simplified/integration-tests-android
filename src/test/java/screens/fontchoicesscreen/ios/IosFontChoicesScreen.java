@@ -27,9 +27,9 @@ public class IosFontChoicesScreen extends FontChoicesScreen {
     @Override
     public void closeFontChoices() {
         ILabel fontChoicesScreen = getElementFactory().getLabel(By.xpath(MAIN_ELEMENT), "Font choices screen");
-        CoordinatesClickUtils.clickOutOfTheElement(fontChoicesScreen);
+        CoordinatesClickUtils.clickOutOfElement(fontChoicesScreen);
 
         Assert.assertTrue(super.state().waitForNotDisplayed(), "Font choices screen is not closed");
-        CoordinatesClickUtils.clickAtTheCenterOfTheScreen();
+        CoordinatesClickUtils.clickAtCenterOfScreen();
     }
 }

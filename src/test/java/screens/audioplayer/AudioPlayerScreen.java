@@ -1,10 +1,10 @@
 package screens.audioplayer;
 
 import aquality.appium.mobile.screens.Screen;
+import constants.localization.application.catalog.TimerKeys;
 import org.openqa.selenium.By;
 
-import java.text.ParseException;
-import java.util.Date;
+import java.time.Duration;
 
 public abstract class AudioPlayerScreen extends Screen {
     protected AudioPlayerScreen(By locator) {
@@ -31,7 +31,7 @@ public abstract class AudioPlayerScreen extends Screen {
 
     public abstract boolean isPlayButtonPresent();
 
-    public abstract Date getCurrentPlayTime() throws ParseException;
+    public abstract Duration getCurrentPlayTime();
 
     public abstract String getLoadingStatus();
 
@@ -41,9 +41,19 @@ public abstract class AudioPlayerScreen extends Screen {
 
     public abstract void moveChapterToMiddle();
 
-    public abstract Date getChapterLength() throws ParseException;
+    public abstract Duration getChapterLength();
 
     public abstract void waitForBookLoading();
 
     public abstract void waitForLoadingDisappearing();
+
+    public abstract void selectPlaybackSpeed(double playbackSpeed);
+
+    public abstract boolean isSpeedOptionSelected(double playbackSpeed);
+
+    public abstract void setTimer(TimerKeys timerSetting);
+
+    public abstract boolean isTimerEqualTo(Duration chapterLength);
+
+    public abstract boolean isTimerSetTo(TimerKeys timerSetting);
 }

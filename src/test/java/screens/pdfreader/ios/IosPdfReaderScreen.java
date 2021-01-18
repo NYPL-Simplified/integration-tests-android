@@ -53,7 +53,7 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
     @Override
     public int getPageNumber() {
         if (!lblPageNumber.state().waitForDisplayed()) {
-            CoordinatesClickUtils.clickOutOfTheElement(lblPage); // needed to expand navigation and labels
+            CoordinatesClickUtils.clickOutOfElement(lblPage); // needed to expand navigation and labels
         }
         return Integer.parseInt(RegExUtil.getStringFromFirstGroup(lblPageNumber.getText(), RegEx.PDF_CURRENT_PAGE_REGEX));
     }
@@ -61,14 +61,14 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
     @Override
     public void goToNextPage() {
         SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireElementSwipeDirection.RIGHT);
-        CoordinatesClickUtils.clickOutOfTheElement(lblPage); // needed to expand navigation and labels
+        CoordinatesClickUtils.clickOutOfElement(lblPage); // needed to expand navigation and labels
 
     }
 
     @Override
     public void goToPreviousPage() {
         SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireElementSwipeDirection.LEFT);
-        CoordinatesClickUtils.clickOutOfTheElement(lblPage); // needed to expand navigation and labels
+        CoordinatesClickUtils.clickOutOfElement(lblPage); // needed to expand navigation and labels
     }
 
     @Override
@@ -113,7 +113,7 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
 
     private PdfTableOfContentsScreen openTableOfContentsInListView() {
         PdfTableOfContentsScreen pdfTableOfContentsScreen = openChaptersGallery();
-        pdfTableOfContentsScreen.switchToTheChaptersListView();
+        pdfTableOfContentsScreen.switchToChaptersListView();
         return pdfTableOfContentsScreen;
     }
 

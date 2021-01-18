@@ -1,15 +1,18 @@
 package framework.utilities;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 
 public class DateUtils {
-    public static Date parseTime(String date) throws ParseException {
-        return new SimpleDateFormat("HH:mm:ss").parse(date);
-    }
-
-    public static Date parseSmallTime(String date) throws ParseException {
-        return new SimpleDateFormat("mm:ss").parse(date);
+    public static Duration getDuration(String date) {
+        String formattedString = "";
+        List<String> parts = Arrays.asList(date.split(":"));
+        if (parts.size() > 2) {
+            formattedString = "PT" + parts.get(0) + "H" + parts.get(1) + "M" + parts.get(2) + "S";
+        } else if (parts.size() > 1) {
+            formattedString = "PT" + parts.get(0) + "M" + parts.get(1) + "S";
+        }
+        return Duration.parse(formattedString);
     }
 }

@@ -58,3 +58,17 @@ Feature: Audiobook
     Then Playback 'timeBehind' moves behind by 15 seconds increment
     When I move to middle part of chapter
     Then Play time is close to middle part of chapter
+
+  @logout @cancelGet @tier2 @exclude_ios
+  Scenario: Navigate playback options
+    When Press on the book details screen at the action button LISTEN
+      And I click play button on player screen
+    Then Pause button is present
+      And Book is playing
+    When I select playback speed 2X
+      And I save book play time as 'timeAhead'
+      And I wait for 5 seconds
+    Then Playback 'timeAhead' moves forward by 10 seconds increment
+      And Current playback speed value is 2X
+    When I set sleep timer as END_OF_CHAPTER
+    Then Sleep timer is set to END_OF_CHAPTER

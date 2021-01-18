@@ -4,6 +4,8 @@ import aquality.appium.mobile.application.AqualityServices;
 import com.google.inject.Inject;
 import constants.RegEx;
 import constants.application.timeouts.BooksTimeouts;
+import constants.localization.application.catalog.TimerKeys;
+import framework.utilities.DateUtils;
 import framework.utilities.RegExUtil;
 import framework.utilities.ScenarioContext;
 import framework.utilities.SmartRandomUtils;
@@ -14,9 +16,7 @@ import org.testng.Assert;
 import screens.audioplayer.AudioPlayerScreen;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
 
 public class AudioPlayerSteps {
     private final AudioPlayerScreen audioPlayerScreen;
@@ -36,7 +36,7 @@ public class AudioPlayerSteps {
 
     @And("Open the menu-based position in the audiobook")
     @When("I open the menu-based position in the audiobook")
-    public void openTheMenuBasedPositionInTheAudiobook() {
+    public void openMenuBasedPositionInAudiobook() {
         audioPlayerScreen.openMenu();
     }
 
@@ -51,7 +51,7 @@ public class AudioPlayerSteps {
     }
 
     @When("I select the chapter not equal to remembered {string} and remember selected chapter as {string}")
-    public void selectChapterIsNotEqualToSavedInTheContextByKeyAndSaveSelectedChapter(String keySavedChapter, String keySelectedChapter) {
+    public void selectChapterIsNotEqualToSavedInContextByKeyAndSaveSelectedChapter(String keySavedChapter, String keySelectedChapter) {
         int savedChapterNumber = context.get(keySavedChapter);
         int totalChapterCount = audioPlayerScreen.getCountOfChapters();
         int chapterToSelect =
@@ -69,7 +69,7 @@ public class AudioPlayerSteps {
     }
 
     @Then("I check that current chapter equal to remembered {string}")
-    public void selectChapterIsNotEqualToSavedInTheContextByKeyAndSaveSelectedChapter(String keyCurrentChapter) {
+    public void selectChapterIsNotEqualToSavedInContextByKeyAndSaveSelectedChapter(String keyCurrentChapter) {
         int expectedChapterName = context.get(keyCurrentChapter);
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> getChapterNumber() == expectedChapterName),
                 String.format("Current chapter number is not correct. Expected - %d; actual - %d", expectedChapterName, getChapterNumber()));
@@ -99,21 +99,14 @@ public class AudioPlayerSteps {
     @And("Book is playing")
     public void checkBookIsPlaying() throws ParseException {
         audioPlayerScreen.waitForBookLoading();
-        Date firstTiming = audioPlayerScreen.getCurrentPlayTime();
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> {
-                    try {
-                        return !firstTiming.equals(audioPlayerScreen.getCurrentPlayTime());
-                    } catch (ParseException e) {
-                        AqualityServices.getLogger().info("Date parsing error." + e.getMessage());
-                        return false;
-                    }
-                }),
+        Duration firstTiming = audioPlayerScreen.getCurrentPlayTime();
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> !firstTiming.equals(audioPlayerScreen.getCurrentPlayTime())),
                 "Book is not playing. Error (if present) - " + audioPlayerScreen.getLoadingStatus());
     }
 
     @And("Book is not playing")
     public void checkBookIsNotPlaying() throws ParseException {
-        Date firstTiming = audioPlayerScreen.getCurrentPlayTime();
+        Duration firstTiming = audioPlayerScreen.getCurrentPlayTime();
         Assert.assertEquals(audioPlayerScreen.getCurrentPlayTime(), firstTiming, "Book is still playing");
     }
 
@@ -137,18 +130,26 @@ public class AudioPlayerSteps {
     }
 
     @Then("Playback {string} moves forward by {int} seconds increment")
-    public void checkPlaybackTimeAheadMovesForwardBySecondsIncrement(String timeKey, int secondsDiff) throws ParseException {
-        Date savedDate = context.get(timeKey);
-        int diffInSec = (int) (audioPlayerScreen.getCurrentPlayTime().getTime() - savedDate.getTime()) / 1000;
-        AqualityServices.getLogger().info("diff between  times -" + diffInSec);
-        Assert.assertTrue(diffInSec >= secondsDiff && diffInSec < secondsDiff + 5,
+    public void checkPlaybackTimeAheadMovesForwardBySecondsIncrement(String timeKey, int secondsDiff) {
+        Duration savedDate = context.get(timeKey);
+        AqualityServices.getConditionalWait().waitFor(() -> {
+            long diffInSeconds = audioPlayerScreen.getCurrentPlayTime().getSeconds() - savedDate.getSeconds();
+            return diffInSeconds >= secondsDiff && diffInSeconds < secondsDiff + 5;
+        });
+        long diffInSeconds = audioPlayerScreen.getCurrentPlayTime().getSeconds() - savedDate.getSeconds();
+        AqualityServices.getLogger().info("diff between  times -" + diffInSeconds);
+        Assert.assertTrue(diffInSeconds >= secondsDiff && diffInSeconds < secondsDiff + 5,
                 "Date is not moved forward by " + secondsDiff + " seconds");
     }
 
     @Then("Playback {string} moves behind by {int} seconds increment")
-    public void checkPlaybackTimeAheadMovesBehindBySecondsIncrement(String timeKey, int secondsDiff) throws ParseException {
-        Date savedDate = context.get(timeKey);
-        int diffInSec = (int) (savedDate.getTime() - audioPlayerScreen.getCurrentPlayTime().getTime()) / 1000;
+    public void checkPlaybackTimeAheadMovesBehindBySecondsIncrement(String timeKey, int secondsDiff) {
+        Duration savedDate = context.get(timeKey);
+        AqualityServices.getConditionalWait().waitFor(() -> {
+            long diffInSec = savedDate.getSeconds() - audioPlayerScreen.getCurrentPlayTime().getSeconds();
+            return diffInSec > secondsDiff - 5 && diffInSec <= secondsDiff;
+        });
+        long diffInSec = savedDate.getSeconds() - audioPlayerScreen.getCurrentPlayTime().getSeconds();
         AqualityServices.getLogger().info("diff between  times -" + diffInSec);
         Assert.assertTrue(diffInSec > secondsDiff - 5 && diffInSec <= secondsDiff,
                 "Date is not moved behind by " + secondsDiff + " seconds");
@@ -160,19 +161,60 @@ public class AudioPlayerSteps {
     }
 
     @Then("Play time is close to middle part of chapter")
-    public void checkPlayTimeIsCloseToMiddlePartOfChapter() throws ParseException {
-        Date zeroDate = new SimpleDateFormat("HH:mm:ss").parse("00:00:00");
-        Date fullChapterLength = audioPlayerScreen.getChapterLength();
-        int middleOfChapterImMillis = (int) ((fullChapterLength.getTime() - zeroDate.getTime()) / 1000 / 2);
+    public void checkPlayTimeIsCloseToMiddlePartOfChapter() {
+        Duration zeroDate = DateUtils.getDuration("00:00:00");
+        Duration fullChapterLength = audioPlayerScreen.getChapterLength();
+        long middleOfChapterImMillis = (fullChapterLength.getSeconds() - zeroDate.getSeconds()) / 2;
         AqualityServices.getLogger().info("middle im mills " + middleOfChapterImMillis);
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> {
-            int currentTimeDifference = 0;
-            try {
-                currentTimeDifference = (int) (audioPlayerScreen.getCurrentPlayTime().getTime() - zeroDate.getTime()) / 1000;
-                AqualityServices.getLogger().info("current time in mills " + currentTimeDifference);
-            } catch (ParseException e) {
-            }
+            long currentTimeDifference = audioPlayerScreen.getCurrentPlayTime().getSeconds() - zeroDate.getSeconds();
+            AqualityServices.getLogger().info("current time in mills " + currentTimeDifference);
             return middleOfChapterImMillis - 10 < currentTimeDifference && currentTimeDifference < middleOfChapterImMillis + 10;
         }), "Middle of chapter wasn't opened");
+    }
+
+    @And("I wait for {int} seconds")
+    public void waitForSeconds(int secondsCount) {
+        AqualityServices.getConditionalWait().waitFor(() -> false, Duration.ofSeconds(secondsCount));
+    }
+
+    @And("I select playback speed {double}X")
+    public void selectPlaybackSpeed(double playbackSpeed) {
+        audioPlayerScreen.selectPlaybackSpeed(playbackSpeed);
+    }
+
+    @And("Current playback speed value is {double}X")
+    public void checkCurrentPlaybackSpeedValueIsX(double playbackSpeed) {
+        Assert.assertTrue(audioPlayerScreen.isSpeedOptionSelected(playbackSpeed), "Current playback speed value is not correct");
+    }
+
+    @When("I set sleep timer as {}")
+    public void setSleepTimerAs(TimerKeys timerSetting) {
+        audioPlayerScreen.setTimer(timerSetting);
+    }
+
+    @Then("Sleep timer shows time till chapter finish")
+    public void checkSleepTimerShowsTimeTillChapterFinish() throws ParseException {
+        Assert.assertTrue(audioPlayerScreen.isTimerEqualTo(audioPlayerScreen.getChapterLength()), "Timer value is not correct");
+    }
+
+    @And("I save chapter length as {string}")
+    public void saveChapterLengthAs(String chapterLength) {
+        context.add(chapterLength, audioPlayerScreen.getChapterLength());
+    }
+
+    @Then("Saved play time {string} is close to middle part of chapter")
+    public void checkSavedPlayTimeChapterLengthIsCloseToMiddlePartOfChapter(String chapterLengthKey) {
+        Duration fullChapterLength = context.get(chapterLengthKey);
+        long middleOfChapterInSeconds = fullChapterLength.getSeconds() / 2;
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> {
+            long currentTimeDifference = audioPlayerScreen.getCurrentPlayTime().getSeconds();
+            return middleOfChapterInSeconds - 10 < currentTimeDifference && currentTimeDifference < middleOfChapterInSeconds + 10;
+        }), "Middle of chapter wasn't opened");
+    }
+
+    @Then("Sleep timer is set to {}")
+    public void checkSleepTimerIsSetTo(TimerKeys timerSetting) {
+        Assert.assertTrue(audioPlayerScreen.isTimerSetTo(timerSetting), "Timer value is not correct");
     }
 }

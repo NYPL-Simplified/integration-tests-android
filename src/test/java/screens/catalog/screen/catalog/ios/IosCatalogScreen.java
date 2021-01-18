@@ -28,7 +28,7 @@ public class IosCatalogScreen extends CatalogScreen {
     private static final String CATEGORY_LOCATOR = "//XCUIElementTypeButton[@name=\"%1$s\"]/following-sibling::XCUIElementTypeButton[contains(@name, \"More\")]";
     private static final String LANE_BY_NAME_LOCATOR_PART = "(//XCUIElementTypeOther[.//XCUIElementTypeButton[@name=\"%1$s\"]]"
             + "/following-sibling::XCUIElementTypeCell)[1]";
-    private static final String BOOK_COVER_IN_THE_LANE_LOCATOR = "/XCUIElementTypeButton";
+    private static final String BOOK_COVER_IN_LANE_LOCATOR = "/XCUIElementTypeButton";
     private static final String FEED_LANE_TITLES_LOCATOR =
             "//XCUIElementTypeOther[./following-sibling::XCUIElementTypeCell[1]]//XCUIElementTypeButton[1]";
     private static final String LIBRARY_BUTTON_LOCATOR_PATTERN =
@@ -135,6 +135,7 @@ public class IosCatalogScreen extends CatalogScreen {
 
     @Override
     public void swipeScreenUp() {
+        firstLaneName.click();
     }
 
     @Override
@@ -155,13 +156,16 @@ public class IosCatalogScreen extends CatalogScreen {
             categoriesNames.addAll(currentBooksNames);
             List<String> finalCurrentBooksNames = currentBooksNames;
             SwipeElementUtils.swipeElementUp(categoryScreen);
-            AqualityServices.getConditionalWait().waitFor(() -> {
-                        return !finalCurrentBooksNames.containsAll(geListOfCategoriesNames());
-                    }
+            AqualityServices.getConditionalWait().waitFor(() -> !finalCurrentBooksNames.containsAll(geListOfCategoriesNames())
                     , Duration.ofMillis(AuthorizationTimeouts.DEBUG_MENU_IS_OPENED.getTimeoutMillis()));
             currentBooksNames = geListOfCategoriesNames();
         } while (!categoriesNames.containsAll(currentBooksNames));
         return categoriesNames;
+    }
+
+    @Override
+    public void openFirstCategory() {
+        firstLaneName.click();
     }
 
     private List<String> geListOfCategoriesNames() {
@@ -169,8 +173,7 @@ public class IosCatalogScreen extends CatalogScreen {
     }
 
     private List<String> getListOfVisibleBooksNamesInSubcategoryLane(String lineName) {
-        return getValuesFromListOfLabels(String.format(LANE_BY_NAME_LOCATOR_PART, lineName)
-                + BOOK_COVER_IN_THE_LANE_LOCATOR);
+        return getValuesFromListOfLabels(String.format(LANE_BY_NAME_LOCATOR_PART, lineName) + BOOK_COVER_IN_LANE_LOCATOR);
     }
 
     private List<String> getValuesFromListOfLabels(String xpath) {

@@ -30,7 +30,7 @@ public class AndroidPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     }
 
     @Override
-    public void switchToTheChaptersListView() {
+    public void switchToChaptersListView() {
         // not implemented on Android
     }
 
@@ -65,7 +65,7 @@ public class AndroidPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     }
 
     @Override
-    public int getCountOfTheBookPages() {
+    public int getCountOfBookPages() {
         throw new NotImplementedException();
     }
 

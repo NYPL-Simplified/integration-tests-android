@@ -24,7 +24,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
     private static final String CATEGORY_LOCATOR = "//*[contains(@resource-id, \"feedLaneTitle\") and @text=\"%1$s\"]";
     private static final String LANE_BY_NAME_LOCATOR_PART =
             CATEGORY_LOCATOR + "/following-sibling::*[contains(@resource-id,\"feedLaneCoversScroll\")]";
-    private static final String BOOK_COVER_IN_THE_LANE_LOCATOR = "/android.widget.LinearLayout";
+    private static final String BOOK_COVER_IN_LANE_LOCATOR = "/android.widget.LinearLayout";
     private static final String LIBRARY_BUTTON_LOCATOR_PATTERN =
             "//android.widget.TextView[contains(@resource-id,\"accountTitle\") and @text=\"%s\"]";
     private static final String BOOKS_LOCATOR = "//androidx.recyclerview.widget.RecyclerView[1]"
@@ -48,7 +48,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
     @Override
     public List<String> getListOfBooksNames() {
         List<String> listOfNames = getValuesFromListOfLabels(String.format(LANE_BY_NAME_LOCATOR_PART,
-                lblFirstLaneName.getText()) + BOOK_COVER_IN_THE_LANE_LOCATOR);
+                lblFirstLaneName.getText()) + BOOK_COVER_IN_LANE_LOCATOR);
         AqualityServices.getLogger().info("Found list of books - " + listOfNames.stream().map(Object::toString)
                 .collect(Collectors.joining(", ")));
         return listOfNames;
@@ -173,13 +173,17 @@ public class AndroidCatalogScreen extends CatalogScreen {
         return bookNames;
     }
 
+    @Override
+    public void openFirstCategory() {
+    }
+
     private IButton getBookFromLaneLabel(ReaderType readerType, String laneName) {
         return getElementFactory().getButton(By.xpath(String.format(BOOK_IN_LANE_LOCATOR_PATTERN, laneName, readerType.toString())), laneName);
     }
 
     private List<String> getListOfVisibleBooksNamesInSubcategoryLane(String lineName) {
         return getValuesFromListOfLabels(String.format(LANE_BY_NAME_LOCATOR_PART, lineName)
-                + BOOK_COVER_IN_THE_LANE_LOCATOR);
+                + BOOK_COVER_IN_LANE_LOCATOR);
     }
 
     private List<String> getListOfCategories() {

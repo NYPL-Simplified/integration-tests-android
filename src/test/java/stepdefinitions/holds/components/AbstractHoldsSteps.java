@@ -42,12 +42,12 @@ public abstract class AbstractHoldsSteps extends BaseSteps implements IHoldsStep
     public abstract void checkBookBookInfoIsPresentInHoldsList(String bookInfoKey);
 
     @Override
-    public void clickOnTheBookAddButtonOnTheHoldsScreen(String bookInfoKey, BookActionButtonKeys key) {
-        clickOnTheBookAddButtonOnTheHoldsScreenWithoutPopupHandling(bookInfoKey, key);
+    public void clickOnBookAddButtonOnHoldsScreen(String bookInfoKey, BookActionButtonKeys key) {
+        clickOnBookAddButtonOnHoldsScreenWithoutPopupHandling(bookInfoKey, key);
         notificationModal.handleBookActionsAndNotificationPopups(key);
     }
 
-    public void clickOnTheBookAddButtonOnTheHoldsScreenWithoutPopupHandling(String bookInfoKey, BookActionButtonKeys key) {
+    public void clickOnBookAddButtonOnHoldsScreenWithoutPopupHandling(String bookInfoKey, BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         holdsScreen.clickBookByTitleButtonWithKey(catalogBookModel.getTitle(), key);
     }
@@ -57,7 +57,7 @@ public abstract class AbstractHoldsSteps extends BaseSteps implements IHoldsStep
     }
 
     @Override
-    public void checkThatSavedBookContainButtonAtTheHoldScreen(
+    public void checkThatSavedBookContainButtonAtHoldScreen(
             final String bookInfoKey, final BookActionButtonKeys key) {
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         String title = catalogBookModel.getTitle();

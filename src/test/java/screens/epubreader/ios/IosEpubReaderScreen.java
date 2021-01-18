@@ -48,7 +48,7 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
 
     private void checkThatBookOpenedAndOpenMenus() {
         Assert.assertTrue(super.state().waitForDisplayed(), "Book page does not displayed");
-        CoordinatesClickUtils.clickAtTheCenterOfTheScreen();
+        CoordinatesClickUtils.clickAtCenterOfScreen();
     }
 
     @Override

@@ -40,7 +40,7 @@ public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     }
 
     @Override
-    public void switchToTheChaptersListView() {
+    public void switchToChaptersListView() {
         btnListView.click();
     }
 
@@ -77,7 +77,7 @@ public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     }
 
     @Override
-    public int getCountOfTheBookPages() {
+    public int getCountOfBookPages() {
         return getPages().size();
     }
 

@@ -451,14 +451,22 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     }
 
     public void checkCountOfBooksInSearchResultIsMoreThen(int countOfBooks) {
-        int foundBooksCount = catalogBooksScreen.getFoundBooksCount();
-        Assert.assertTrue(countOfBooks <= foundBooksCount,
-                String.format("Found count of books (%d) is less than expected - %d", foundBooksCount, countOfBooks));
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> countOfBooks <= catalogBooksScreen.getFoundBooksCount()),
+                String.format("Found count of books (%d) is less than expected - %d", catalogBooksScreen.getFoundBooksCount(), countOfBooks));
     }
 
     public void checkCountOfBooksInSubcategoryLaneIsMoreThen(String lineName, int countOfBooks) {
         int foundCountOfBooks = catalogScreen.getListOfAllBooksNamesInSubcategoryLane(lineName).size();
         Assert.assertTrue(countOfBooks <= foundCountOfBooks,
                 String.format("Expected count of books bigger or equal to %1$s but found %2$s", countOfBooks, foundCountOfBooks));
+    }
+
+    public void openFirstCategory() {
+        catalogScreen.openFirstCategory();
+        catalogScreen.state().waitForDisplayed();
+        if (!subcategoryScreen.state().waitForDisplayed()) {
+            catalogScreen.openFirstCategory();
+            catalogScreen.state().waitForDisplayed();
+        }
     }
 }
