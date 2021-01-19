@@ -5,6 +5,7 @@ import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
+import aquality.appium.mobile.elements.interfaces.IElement;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
@@ -35,6 +36,8 @@ public class IosCatalogScreen extends CatalogScreen {
             "//XCUIElementTypeButton[@name=\"%1$s\"]";
 
     private static final String BOOKS_LOCATOR = "//XCUIElementTypeTable//XCUIElementTypeCell//XCUIElementTypeButton[@name]";
+    private static final String CATEGORY_XPATH_PATTERN = "//XCUIElementTypeOther//XCUIElementTypeButton//XCUIElementTypeStaticText[not(contains(@name, 'More'))]";
+    private static final int COUNT_OF_CATEGORIES_TO_WAIT_FOR = 5;
 
     private final ILabel firstLaneName =
             getElementFactory().getLabel(By.xpath(FEED_LANE_TITLES_LOCATOR), "First lane name", ElementState.EXISTS_IN_ANY_STATE);
@@ -135,7 +138,6 @@ public class IosCatalogScreen extends CatalogScreen {
 
     @Override
     public void swipeScreenUp() {
-        firstLaneName.click();
     }
 
     @Override
@@ -150,11 +152,13 @@ public class IosCatalogScreen extends CatalogScreen {
 
     @Override
     public Set<String> getAllCategoriesNames() {
+        AqualityServices.getConditionalWait().waitFor(() -> getElements(CATEGORY_XPATH_PATTERN).size() > COUNT_OF_CATEGORIES_TO_WAIT_FOR);
         List<String> currentBooksNames = geListOfCategoriesNames();
         Set<String> categoriesNames = new HashSet<>();
         do {
             categoriesNames.addAll(currentBooksNames);
             List<String> finalCurrentBooksNames = currentBooksNames;
+            SwipeElementUtils.swipeElementUp(categoryScreen);
             SwipeElementUtils.swipeElementUp(categoryScreen);
             AqualityServices.getConditionalWait().waitFor(() -> !finalCurrentBooksNames.containsAll(geListOfCategoriesNames())
                     , Duration.ofMillis(AuthorizationTimeouts.DEBUG_MENU_IS_OPENED.getTimeoutMillis()));
@@ -169,7 +173,7 @@ public class IosCatalogScreen extends CatalogScreen {
     }
 
     private List<String> geListOfCategoriesNames() {
-        return getValuesFromListOfLabels("//XCUIElementTypeOther//XCUIElementTypeButton//XCUIElementTypeStaticText[not(contains(@name, 'More'))]");
+        return getValuesFromListOfLabels(CATEGORY_XPATH_PATTERN);
     }
 
     private List<String> getListOfVisibleBooksNamesInSubcategoryLane(String lineName) {
@@ -177,11 +181,13 @@ public class IosCatalogScreen extends CatalogScreen {
     }
 
     private List<String> getValuesFromListOfLabels(String xpath) {
-        return getElementFactory()
-                .findElements(By.xpath(xpath), ElementType.LABEL,
-                        ElementsCount.MORE_THEN_ZERO, ElementState.EXISTS_IN_ANY_STATE)
+        return getElements(xpath)
                 .stream()
                 .map(x -> x.getAttribute(IosAttributes.NAME))
                 .collect(Collectors.toList());
+    }
+
+    private List<IElement> getElements(String xpath) {
+        return getElementFactory().findElements(By.xpath(xpath), ElementType.LABEL, ElementsCount.MORE_THEN_ZERO, ElementState.EXISTS_IN_ANY_STATE);
     }
 }
