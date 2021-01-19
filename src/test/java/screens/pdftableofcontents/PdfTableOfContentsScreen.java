@@ -11,7 +11,7 @@ public abstract class PdfTableOfContentsScreen extends Screen {
         super(locator, "Table of Contents");
     }
 
-    public abstract void switchToTheChaptersListView();
+    public abstract void switchToChaptersListView();
 
     public abstract Set<String> getListOfBookChapters();
 
@@ -21,7 +21,7 @@ public abstract class PdfTableOfContentsScreen extends Screen {
 
     public abstract boolean isGalleryPagesLoaded();
 
-    public abstract int getCountOfTheBookPages();
+    public abstract int getCountOfBookPages();
 
     public abstract int getChaptersCount();
 

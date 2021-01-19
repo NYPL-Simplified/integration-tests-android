@@ -40,7 +40,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     public static final String BOOK_BY_NAME_BUTTON_PATTERN =
             "//android.widget.TextView[contains(@resource-id,\"bookCellIdleTitle\") and @text=\"%1$s\"]"
                     + "/following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%2$s\"]";
-    public static final String BOOK_COVER_LOCATOR = ".//*[contains(@resource-id,\"bookCellIdleCover\")]";
+    public static final String BOOK_COVER_LOCATOR = "//*[contains(@resource-id,\"bookCellIdleCover\")]";
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");

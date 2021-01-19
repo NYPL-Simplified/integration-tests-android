@@ -43,4 +43,6 @@ public abstract class CatalogScreen extends Screen {
     public abstract String getErrorDetails();
 
     public abstract Set<String> getAllCategoriesNames();
+
+    public abstract void openFirstCategory();
 }

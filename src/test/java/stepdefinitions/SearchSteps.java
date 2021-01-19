@@ -31,7 +31,7 @@ public class SearchSteps {
     }
 
     @When("I search for {string}")
-    public void setTextToTheSearch(String searchedText) {
+    public void searchFor(String searchedText) {
         searchModal.state().waitForDisplayed();
         searchModal.setSearchedText(searchedText);
         searchModal.applySearch();

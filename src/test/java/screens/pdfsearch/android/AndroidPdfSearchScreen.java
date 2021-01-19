@@ -16,7 +16,7 @@ public class AndroidPdfSearchScreen extends PdfSearchScreen {
     }
 
     @Override
-    public void findTextInTheDocument(String textToBeFound) {
+    public void findTextInDocument(String textToBeFound) {
         throw new NotImplementedException();
     }
 

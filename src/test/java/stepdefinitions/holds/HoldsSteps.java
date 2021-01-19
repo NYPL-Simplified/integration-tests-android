@@ -45,13 +45,13 @@ public class HoldsSteps extends BaseSteps implements IHoldsSteps {
     }
 
     @When("I click on the book {string} button {} on the holds screen")
-    public void clickOnTheBookAddButtonOnTheHoldsScreen(String bookInfoKey, BookActionButtonKeys key) {
-        abstractHoldsSteps.clickOnTheBookAddButtonOnTheHoldsScreen(bookInfoKey, key);
+    public void clickOnBookAddButtonOnHoldsScreen(String bookInfoKey, BookActionButtonKeys key) {
+        abstractHoldsSteps.clickOnBookAddButtonOnHoldsScreen(bookInfoKey, key);
     }
 
     @When("I click on the book {string} button {} on the holds screen and don't click on the popup button")
-    public void clickOnTheBookAddButtonOnTheHoldsScreenWithoutPopupHandling(String bookInfoKey, BookActionButtonKeys key) {
-        abstractHoldsSteps.clickOnTheBookAddButtonOnTheHoldsScreenWithoutPopupHandling(bookInfoKey, key);
+    public void clickOnBookAddButtonOnHoldsScreenWithoutPopupHandling(String bookInfoKey, BookActionButtonKeys key) {
+        abstractHoldsSteps.clickOnBookAddButtonOnHoldsScreenWithoutPopupHandling(bookInfoKey, key);
     }
 
     @Then("I click at the popup approve {} the button {}")
@@ -60,8 +60,8 @@ public class HoldsSteps extends BaseSteps implements IHoldsSteps {
     }
 
     @Then("Book saved as {string} should contain {} button at the hold screen")
-    public void checkThatSavedBookContainButtonAtTheHoldScreen(
+    public void checkThatSavedBookContainButtonAtHoldScreen(
             final String bookInfoKey, final BookActionButtonKeys key) {
-        abstractHoldsSteps.checkThatSavedBookContainButtonAtTheHoldScreen(bookInfoKey, key);
+        abstractHoldsSteps.checkThatSavedBookContainButtonAtHoldScreen(bookInfoKey, key);
     }
 }

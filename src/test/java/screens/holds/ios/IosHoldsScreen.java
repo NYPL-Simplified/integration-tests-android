@@ -64,7 +64,7 @@ public class IosHoldsScreen extends HoldsScreen {
         final IButton bookAddBtn = getElementFactory().getButton(
                 By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
                         key.i18n())), String.format("Book %1$s button", key.i18n()));
-        clickOnTheSpecificBookElement(bookAddBtn);
+        clickOnSpecificBookElement(bookAddBtn);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class IosHoldsScreen extends HoldsScreen {
         return btnRemove.state().isDisplayed();
     }
 
-    private void clickOnTheSpecificBookElement(IElement bookWithSpecificAddBtn) {
+    private void clickOnSpecificBookElement(IElement bookWithSpecificAddBtn) {
         bookWithSpecificAddBtn.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         bookWithSpecificAddBtn.click();
     }

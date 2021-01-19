@@ -296,28 +296,28 @@ public class ReaderSteps {
     }
 
     @And("I save count of books on gallery to {string}")
-    public void saveTheBookPagesListToTheBookPagesList(String countOfTheBookPagesKey) {
-        context.add(countOfTheBookPagesKey, pdfTableOfContentsScreen.getCountOfTheBookPages());
+    public void saveBookPagesList(String countOfBookPagesKey) {
+        context.add(countOfBookPagesKey, pdfTableOfContentsScreen.getCountOfBookPages());
     }
 
     @When("I scroll the gallery page {}")
-    public void scrollTheGalleryPageDown(EntireElementSwipeDirection entireElementSwipeDirection) {
+    public void scrollGalleryPageDown(EntireElementSwipeDirection entireElementSwipeDirection) {
         pdfTableOfContentsScreen.scrollGallery(entireElementSwipeDirection);
     }
 
     @Then("Page has scrolled and count of books have changed {string}")
-    public void pageHasScrolledAndAppearedNewElementsCompareToBookPagesList(String countOfTheBookPagesKey) {
-        int countOfTheBookPages = context.get(countOfTheBookPagesKey);
+    public void pageHasScrolledAndAppearedNewElementsCompareToBookPagesList(String countOfBookPagesKey) {
+        int countOfBookPages = context.get(countOfBookPagesKey);
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                        countOfTheBookPages != pdfTableOfContentsScreen.getCountOfTheBookPages()),
+                        countOfBookPages != pdfTableOfContentsScreen.getCountOfBookPages()),
                 String.format("Count of the book pages equal to have gotten before scrolling. "
                                 + "Actual count of pages %1$d should not be equal to the count before scrolling %2$d.",
-                        pdfTableOfContentsScreen.getCountOfTheBookPages(), countOfTheBookPages));
+                        pdfTableOfContentsScreen.getCountOfBookPages(), countOfBookPages));
     }
 
     @When("I open any page on the gallery screen")
-    public void openAnyPageOnTheGalleryScreen() {
-        int countOfPages = pdfTableOfContentsScreen.getCountOfTheBookPages();
+    public void openAnyPageOnGalleryScreen() {
+        int countOfPages = pdfTableOfContentsScreen.getCountOfBookPages();
         pdfTableOfContentsScreen.openGalleryPage(RandomUtils.nextInt(0, countOfPages));
     }
 
@@ -333,7 +333,7 @@ public class ReaderSteps {
 
     @When("I am typing {string} to the search field and apply search")
     public void checkThatPdfSearchScreenVisible(String textToBeFound) {
-        pdfSearchScreen.findTextInTheDocument(textToBeFound);
+        pdfSearchScreen.findTextInDocument(textToBeFound);
     }
 
     @Then("Found lines should contain {string} in themselves")
@@ -350,7 +350,7 @@ public class ReaderSteps {
     }
 
     @When("I save page number as {string} of the first item")
-    public void savePageNumberOfTheFirstItem(String pageKey) {
+    public void savePageNumberOfFirstItem(String pageKey) {
         context.add(pageKey, pdfSearchScreen.getSearchedItemPageNumber(pdfSearchScreen.getListOfFoundItems().get(0)));
     }
 

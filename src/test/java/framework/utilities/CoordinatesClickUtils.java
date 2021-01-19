@@ -12,18 +12,18 @@ public final class CoordinatesClickUtils {
     private CoordinatesClickUtils() {
     }
 
-    public static void clickAtTheCenterOfTheScreen() {
+    public static void clickAtCenterOfScreen() {
         Dimension dimension = AqualityServices.getApplication().getDriver().manage().window().getSize();
         TouchAction<?> action = new TouchAction<>(AqualityServices.getApplication().getDriver());
         action.tap(PointOption.point(dimension.width / 2, dimension.height / 2)).perform();
     }
 
-    public static void clickOutOfTheElement(IElement iElement) {
+    public static void clickOutOfElement(IElement iElement) {
         int yOffset = 100;
-        clickOutOfTheElement(iElement, yOffset);
+        clickOutOfElement(iElement, yOffset);
     }
 
-    public static void clickOutOfTheElement(IElement iElement, int yOffset) {
+    public static void clickOutOfElement(IElement iElement, int yOffset) {
         Point fontChoicesScreenUpperLeftPoint = iElement.getElement().getLocation();
         Dimension fontChoicesScreenSize = iElement.getElement().getSize();
 

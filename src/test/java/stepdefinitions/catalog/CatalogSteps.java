@@ -306,4 +306,9 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     public void openFirstBookAndSaveBookInfoAs(ReaderType readerType, String bookInfoKey) {
         catalogSteps.openFirstBookAndSaveBookInfoAs(readerType, bookInfoKey);
     }
+
+    @When("I open first present category")
+    public void openFirstPresentCategory() {
+        catalogSteps.openFirstCategory();
+    }
 }

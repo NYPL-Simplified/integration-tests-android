@@ -10,7 +10,7 @@ public abstract class PdfSearchScreen extends Screen {
         super(locator, "Pdf search");
     }
 
-    public abstract void findTextInTheDocument(String textToBeFound);
+    public abstract void findTextInDocument(String textToBeFound);
 
     public abstract boolean isFoundItemsExist();
 
