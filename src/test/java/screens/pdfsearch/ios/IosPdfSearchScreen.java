@@ -22,6 +22,7 @@ public class IosPdfSearchScreen extends PdfSearchScreen {
     private static final String SEARCHED_ELEMENTS_LOC = "//XCUIElementTypeCell";
     private static final String SEARCHED_ELEMENT_NAME_LOC = ".//XCUIElementTypeStaticText[@name][1]";
     private static final String SEARCHED_ELEMENT_PAGE_NUMBER_LOC = ".//XCUIElementTypeStaticText[@name][2]";
+    public static final int COUNT_OF_ITEMS_TO_WAIT_FOR = 2;
 
     private final ITextBox searchTxb = getElementFactory().getTextBox(
             By.xpath(MAIN_ELEMENT), "Search");
@@ -60,6 +61,7 @@ public class IosPdfSearchScreen extends PdfSearchScreen {
 
     @Override
     public int getSearchedItemPageNumber(final String itemName) {
+        AqualityServices.getConditionalWait().waitFor(() -> getSearchedElements().size() >= COUNT_OF_ITEMS_TO_WAIT_FOR);
         return RomanNumericUtils.convertToInt(getSearchedItemByName(itemName)
                 .findChildElement(By.xpath(SEARCHED_ELEMENT_PAGE_NUMBER_LOC), ElementType.LABEL)
                 .getText());

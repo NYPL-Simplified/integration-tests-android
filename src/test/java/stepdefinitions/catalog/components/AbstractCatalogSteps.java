@@ -462,8 +462,8 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     }
 
     public void openFirstCategory() {
-        catalogScreen.openFirstCategory();
         catalogScreen.state().waitForDisplayed();
+        catalogScreen.openFirstCategory();
         if (!subcategoryScreen.state().waitForDisplayed()) {
             catalogScreen.openFirstCategory();
             catalogScreen.state().waitForDisplayed();

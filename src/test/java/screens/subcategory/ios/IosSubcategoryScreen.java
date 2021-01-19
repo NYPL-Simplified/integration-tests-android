@@ -22,9 +22,9 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
     private static final String AUTHOR_INFO_XPATH = "//XCUIElementTypeStaticText[@name][2]";
     private static final String BOOK_NAME_XPATH =
             "//XCUIElementTypeStaticText[@name and not(.//ancestor::XCUIElementTypeButton)][1]";
-    public static final String BOOK_NAME_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%s\"]";
-    public static final String AUTHOR_LABEL_LOCATOR_PATTERN = "//following-sibling::XCUIElementTypeStaticText";
-    public static final int COUNT_OF_BUTTONS_TO_WAIT_FOR = 5;
+    private static final String BOOK_NAME_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[@name=\"%s\"]";
+    private static final String AUTHOR_LABEL_LOCATOR_PATTERN = "//following-sibling::XCUIElementTypeStaticText";
+    private static final int COUNT_OF_ITEMS_TO_WAIT_FOR = 5;
 
     private final ILabel lblFirstBookName =
             getElementFactory().getLabel(By.xpath(BOOKS_LOCATOR + BOOK_NAME_XPATH), "First book name");
@@ -37,7 +37,7 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public List<String> getBooksInfo() {
-        List<String> listOfNames = getElementFactory().findElements(By.xpath(BOOKS_LOCATOR + BOOK_NAME_XPATH), ElementType.LABEL)
+        List<String> listOfNames = getElements(BOOKS_LOCATOR + BOOK_NAME_XPATH, ElementType.LABEL)
                 .stream()
                 .map(IElement::getText)
                 .collect(Collectors.toList());
@@ -92,6 +92,7 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
 
     @Override
     public List<String> getAuthorsInfo() {
+        AqualityServices.getConditionalWait().waitFor(() -> getElements(BOOKS_LOCATOR + AUTHOR_INFO_XPATH, ElementType.LABEL).size() > COUNT_OF_ITEMS_TO_WAIT_FOR);
         List<String> listOfNames = getValuesFromListOfLabels(BOOKS_LOCATOR + AUTHOR_INFO_XPATH);
         AqualityServices.getLogger().info("Found list of authors - " + listOfNames.stream().map(Object::toString).collect(Collectors.joining("; ")));
         return listOfNames;
@@ -110,13 +111,17 @@ public class IosSubcategoryScreen extends SubcategoryScreen {
     }
 
     private List<String> getValuesFromListOfLabels(String xpath) {
-        return getElementFactory().findElements(By.xpath(xpath), ElementType.LABEL)
+        return getElements(xpath, ElementType.LABEL)
                 .stream()
                 .map(IElement::getText)
                 .collect(Collectors.toList());
     }
 
+    private List<aquality.appium.mobile.elements.interfaces.IElement> getElements(String xpath, ElementType label) {
+        return getElementFactory().findElements(By.xpath(xpath), label);
+    }
+
     private void waitForPageLoading() {
-        AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.xpath(BOOK_BUTTON_XPATH), ElementType.BUTTON).size() >= COUNT_OF_BUTTONS_TO_WAIT_FOR);
+        AqualityServices.getConditionalWait().waitFor(() -> getElements(BOOK_BUTTON_XPATH, ElementType.BUTTON).size() >= COUNT_OF_ITEMS_TO_WAIT_FOR);
     }
 }
