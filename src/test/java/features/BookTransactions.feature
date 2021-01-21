@@ -111,7 +111,6 @@ Feature: Book Transactions
       | New York Public Library - QA Server | Bibliotheca                                   | EBOOK     |
       | New York Public Library - QA Server | Bibliotheca                                   | AUDIOBOOK |
       | New York Public Library - QA Server | Library Simplified Open Access Content Server | EBOOK     |
-      | New York Public Library - QA Server | Library Simplified Open Access Content Server | AUDIOBOOK |
       | New York Public Library - QA Server | Overdrive                                     | EBOOK     |
       | New York Public Library - QA Server | Overdrive                                     | AUDIOBOOK |
 
