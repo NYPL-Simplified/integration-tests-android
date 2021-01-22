@@ -124,7 +124,7 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public void selectPlaybackSpeed(double playbackSpeed) {
         btnPlaybackSpeed.click();
-        getElementFactory().getButton(By.xpath("//*[@resource-id=\"player_rate_item_view_name\" and @text=\"" + String.format("%.1f", playbackSpeed) + "x\"]"), "Playback speed").click();
+        getElementFactory().getButton(By.xpath("//*[@text=\"" + String.format("%.1f", playbackSpeed) + "x\"]"), "Playback speed").click();
     }
 
     @Override

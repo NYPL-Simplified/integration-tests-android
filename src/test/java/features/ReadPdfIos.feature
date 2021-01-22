@@ -2,17 +2,17 @@ Feature: Read PDF IOS
 
   Background:
     Given Application is opened
-    When I add 'The New York Public Library' account
-      And I enter credentials for 'The New York Public Library' account
+    When I add 'LYRASIS' account
+      And I enter credentials for 'LYRASIS' account
     Then Login is performed successfully
     When I open Catalog
-      And I switch to 'The New York Public Library' from side menu
+      And I switch to 'LYRASIS' from side menu
       And I open search modal
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Open document
-    When I search for 'Bosnian, Croatian, Serbian, a Grammar'
-      And I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
+    When I search for 'Enterprise Pharo a Web Perspective'
+      And I GET book by name 'Enterprise Pharo a Web Perspective' and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
@@ -21,8 +21,8 @@ Feature: Read PDF IOS
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Navigate by page
-    When I search for 'Bosnian, Croatian, Serbian, a Textbook'
-      And I GET book by name 'Bosnian, Croatian, Serbian, a Textbook' and save it as 'bookInfo'
+    When I search for 'Fundamentals of Business'
+      And I GET book by name 'Fundamentals of Business' and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
@@ -35,8 +35,8 @@ Feature: Read PDF IOS
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Navigate by Table of Contents Menu
-    When I search for 'Bosnian, Croatian, Serbian, a Textbook'
-      And I GET book by name 'Bosnian, Croatian, Serbian, a Textbook' and save it as 'bookInfo'
+    When I search for 'Communication Beginnings: An Introductory Listening and Speaking Text for English Language Learners'
+      And I GET book by name 'Communication Beginnings: An Introductory Listening and Speaking Text for English Language Learners' and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
@@ -45,8 +45,8 @@ Feature: Read PDF IOS
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Open book to last page read
-    When I search for 'Bosnian, Croatian, Serbian, a Textbook'
-      And I GET book by name 'Bosnian, Croatian, Serbian, a Textbook' and save it as 'bookInfo'
+    When I search for 'Enterprise Pharo a Web Perspective'
+      And I GET book by name 'Enterprise Pharo a Web Perspective' and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
@@ -67,8 +67,8 @@ Feature: Read PDF IOS
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Navigate by Gallery
-    When I search for 'Bosnian, Croatian, Serbian, a Textbook'
-      And I GET book by name 'Bosnian, Croatian, Serbian, a Textbook' and save it as 'bookInfo'
+    When I search for 'Fundamentals of Business'
+      And I GET book by name 'Fundamentals of Business' and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
@@ -84,8 +84,8 @@ Feature: Read PDF IOS
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Search document
-    When I search for 'Bosnian, Croatian, Serbian, a Grammar'
-      And I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
+    When I search for 'Communication Beginnings: An Introductory Listening and Speaking Text for English Language Learners'
+      And I GET book by name 'Communication Beginnings: An Introductory Listening and Speaking Text for English Language Learners' and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ
@@ -97,8 +97,8 @@ Feature: Read PDF IOS
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Navigate to Search Term
-    When I search for 'Bosnian, Croatian, Serbian, a Grammar'
-      And I GET book by name 'Bosnian, Croatian, Serbian, a Grammar' and save it as 'bookInfo'
+    When I search for 'Enterprise Pharo a Web Perspective'
+      And I GET book by name 'Enterprise Pharo a Web Perspective' and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain READ button at catalog books screen
     When I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button READ

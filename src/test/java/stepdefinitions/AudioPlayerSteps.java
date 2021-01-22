@@ -134,7 +134,7 @@ public class AudioPlayerSteps {
         Duration savedDate = context.get(timeKey);
         AqualityServices.getConditionalWait().waitFor(() -> {
             long diffInSeconds = audioPlayerScreen.getCurrentPlayTime().getSeconds() - savedDate.getSeconds();
-            return diffInSeconds >= secondsDiff && diffInSeconds < secondsDiff + 5;
+            return diffInSeconds >= secondsDiff && diffInSeconds <= secondsDiff + 5;
         });
         long diffInSeconds = audioPlayerScreen.getCurrentPlayTime().getSeconds() - savedDate.getSeconds();
         AqualityServices.getLogger().info("diff between  times -" + diffInSeconds);
