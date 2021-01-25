@@ -95,6 +95,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
             catalogScreen.openLibrary(libraryName);
         }
         catalogScreen.state().waitForDisplayed();
+        AqualityServices.getConditionalWait().waitFor(() -> catalogBooksScreen.getFoundBooksCount() > 0);
     }
 
     @Override
