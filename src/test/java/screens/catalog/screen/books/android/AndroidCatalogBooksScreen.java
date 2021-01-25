@@ -60,10 +60,6 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         return catalogBookModel;
     }
 
-    private List<ILabel> getFoundBooks() {
-        return getElementFactory().findElements(By.xpath(BOOK_COVER_LOCATOR), ElementType.LABEL);
-    }
-
     @Override
     public int getFoundBooksCount() {
         return getFoundBooks().size();
@@ -73,25 +69,6 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     public CatalogBookModel getBookInfo(final String title) {
         final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
         return getBookModel(blockLoc);
-    }
-
-    private CatalogBookModel getBookModel(String mainLocator) {
-        AqualityServices.getConditionalWait().waitFor(() -> getBookDescriptionFromImage(mainLocator) != null);
-        return new CatalogBookModel()
-                .setImageTitle(Objects.requireNonNull(getBookDescriptionFromImage(mainLocator)))
-                .setTitle(getBookParameter(mainLocator, BOOK_TITLE_LOC, "Book title"))
-                .setAuthor(getBookParameter(mainLocator, BOOK_AUTHOR_LOC, "Book author"))
-                .setBookType(getBookParameter(mainLocator, BOOK_TYPE_LOC, "Book type"));
-    }
-
-    private String getBookDescriptionFromImage(String mainLocator) {
-        return getElementFactory().getLabel(By.xpath(mainLocator + BOOK_IMAGE_LOC), "Book image content description").getAttribute(AndroidAttributes.CONTENT_DESC);
-    }
-
-    private String getBookParameter(String mainLocator, String subLocator, String name) {
-        return Objects.requireNonNull(
-                getElementFactory().getLabel(By.xpath(mainLocator + subLocator), name)
-                        .getText());
     }
 
     @Override
@@ -197,5 +174,26 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
         CatalogBookModel androidCatalogBookModel = getBookInfo(bookTitle);
         button.click();
         return androidCatalogBookModel;
+    }
+
+    private List<ILabel> getFoundBooks() {
+        return getElementFactory().findElements(By.xpath(BOOK_COVER_LOCATOR), ElementType.LABEL);
+    }
+
+    private CatalogBookModel getBookModel(String mainLocator) {
+        AqualityServices.getConditionalWait().waitFor(() -> getBookDescriptionFromImage(mainLocator) != null);
+        return new CatalogBookModel()
+                .setImageTitle(Objects.requireNonNull(getBookDescriptionFromImage(mainLocator)))
+                .setTitle(getBookParameter(mainLocator, BOOK_TITLE_LOC, "Book title"))
+                .setAuthor(getBookParameter(mainLocator, BOOK_AUTHOR_LOC, "Book author"))
+                .setBookType(getBookParameter(mainLocator, BOOK_TYPE_LOC, "Book type"));
+    }
+
+    private String getBookDescriptionFromImage(String mainLocator) {
+        return getElementFactory().getLabel(By.xpath(mainLocator + BOOK_IMAGE_LOC), "Book image content description").getAttribute(AndroidAttributes.CONTENT_DESC);
+    }
+
+    private String getBookParameter(String mainLocator, String subLocator, String name) {
+        return Objects.requireNonNull(getElementFactory().getLabel(By.xpath(mainLocator + subLocator), name).getText());
     }
 }
