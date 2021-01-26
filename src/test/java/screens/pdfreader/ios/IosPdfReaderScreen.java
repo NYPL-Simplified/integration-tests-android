@@ -2,6 +2,7 @@ package screens.pdfreader.ios;
 
 import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
+import aquality.appium.mobile.elements.Attributes;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
@@ -25,10 +26,8 @@ import java.util.stream.Collectors;
 public class IosPdfReaderScreen extends PdfReaderScreen {
     private static final String BUTTON_LOC_PATTERN = "//XCUIElementTypeButton[@name=\"%1$s\"]";
 
-    private final ILabel lblBookName = getElementFactory().getLabel(
-            By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]"
-                    + "/preceding-sibling::XCUIElementTypeOther/XCUIElementTypeStaticText[@name])[1]"),
-            "Book Name");
+    private final ILabel lblBookName =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"), "Book Name");
     private final ILabel lblPageNumber = getElementFactory().getLabel(
             By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]"
                     + "/preceding-sibling::XCUIElementTypeOther/XCUIElementTypeStaticText[@name])[2]"),
@@ -47,7 +46,7 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
 
     @Override
     public String getBookName() {
-        return lblBookName.getText();
+        return lblBookName.getAttribute(Attributes.VALUE);
     }
 
     @Override
