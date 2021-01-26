@@ -62,19 +62,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     public CatalogBookModel getBookInfo(final String title) {
         return new CatalogBookModel()
                 .setTitle(title)
-                .setAuthor(getElementFactory().getLabel(By.xpath(String.format(AUTHOR_NAME_XPATH_PATTERN, title)), title).getText());
-    }
-
-    private CatalogBookModel getBookModel(String mainLocator) {
-        return new CatalogBookModel()
-                .setTitle(getBookParameter(mainLocator, BOOK_TITLE_LOC, "Book title"))
-                .setAuthor(getBookParameter(mainLocator, BOOK_AUTHOR_LOC, "Book author"));
-    }
-
-    private String getBookParameter(String mainLocator, String subLocator, String name) {
-        return Objects.requireNonNull(
-                getElementFactory().getLabel(By.xpath(mainLocator + subLocator), name)
-                        .getText());
+                .setAuthor(getAuthorsName(title));
     }
 
     @Override
@@ -119,7 +107,6 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
         String key = actionButtonKey.i18n();
         waitForPageLoading();
-        AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
         IButton actionButton = getButtonForBookWithAction(bookName, key);
         if (!actionButton.state().waitForDisplayed()) {
             actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
@@ -182,5 +169,20 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private void waitForPageLoading() {
         AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.xpath(ELEMENTS_TO_WAIT_FOR_XPATH), ElementType.BUTTON).size() >= COUNT_OF_BUTTONS_TO_WAIT_FOR);
+    }
+
+    private String getAuthorsName(String title) {
+        ILabel label = getElementFactory().getLabel(By.xpath(String.format(AUTHOR_NAME_XPATH_PATTERN, title)), title);
+        return label.state().isDisplayed() ? label.getText() : "";
+    }
+
+    private CatalogBookModel getBookModel(String mainLocator) {
+        return new CatalogBookModel()
+                .setTitle(getBookParameter(mainLocator, BOOK_TITLE_LOC, "Book title"))
+                .setAuthor(getBookParameter(mainLocator, BOOK_AUTHOR_LOC, "Book author"));
+    }
+
+    private String getBookParameter(String mainLocator, String subLocator, String name) {
+        return Objects.requireNonNull(getElementFactory().getLabel(By.xpath(mainLocator + subLocator), name).getText());
     }
 }

@@ -1,6 +1,8 @@
 package screens.addaccount.android;
 
+import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
+import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
@@ -20,6 +22,7 @@ public class AndroidAddAccountScreen extends AddAccountScreen {
 
     @Override
     public void selectLibrary(String libraryName) {
+        AqualityServices.getConditionalWait().waitFor(() -> getElementFactory().findElements(By.xpath("//*[@resource-id=\"accountTitle\"]"), ElementType.LABEL).size() > 0);
         btnSearch.click();
         txbSearch.clearAndType(libraryName);
         getLibraryButton(libraryName).click();

@@ -162,6 +162,9 @@ Feature: Book Transactions
       | New York Public Library - QA Server | Library Simplified Open Access Content Server | AUDIOBOOK |
       | New York Public Library - QA Server | Overdrive                                     | EBOOK     |
       | New York Public Library - QA Server | Overdrive                                     | AUDIOBOOK |
+      | LYRASIS                             | DPLA Exchange                                 | EBOOK     |
+      | LYRASIS                             | DPLA Exchange                                 | AUDIOBOOK |
+      | LYRASIS                             | Johns Hopkins University Press                | EBOOK     |
 
   @logout @cancelHold @tier2
   Scenario: Remove a Reserved Book from Bookshelf list
