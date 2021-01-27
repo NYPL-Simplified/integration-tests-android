@@ -118,8 +118,9 @@ public class AccountSteps {
             catalogScreen.openLibrary(feedName);
         }
         accountScreen.enterCredentials(Configuration.getCredentials(feedName));
-        settingsScreen.state().waitForDisplayed();
-        Assert.assertTrue(accountScreen.isLoginSuccessful(), "Login failed. Message:" + accountScreen.getLoginFailedMessage());
+        if (!settingsScreen.state().waitForDisplayed()) {
+            Assert.assertTrue(accountScreen.isLoginSuccessful(), "Login failed. Message:" + accountScreen.getLoginFailedMessage());
+        }
         bottomMenuForm.open(BottomMenu.CATALOG);
 
         saveLibraryInContext(ContextLibrariesKeys.LOG_OUT.getKey(), feedName);
