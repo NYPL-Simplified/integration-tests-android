@@ -107,6 +107,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
         String key = actionButtonKey.i18n();
         waitForPageLoading();
+        AqualityServices.getLogger().info("Count of buttons to click - " + getElementFactory().findElements(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, bookName, key)), ElementType.LABEL));
         IButton actionButton = getButtonForBookWithAction(bookName, key);
         if (!actionButton.state().waitForDisplayed()) {
             actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);

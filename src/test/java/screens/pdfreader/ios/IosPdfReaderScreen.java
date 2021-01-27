@@ -28,10 +28,8 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
 
     private final ILabel lblBookName =
             getElementFactory().getLabel(By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"), "Book Name");
-    private final ILabel lblPageNumber = getElementFactory().getLabel(
-            By.xpath("(//XCUIElementTypeOther[./XCUIElementTypeToolbar]"
-                    + "/preceding-sibling::XCUIElementTypeOther/XCUIElementTypeStaticText[@name])[2]"),
-            "Book Page number");
+    private final ILabel lblPageNumber =
+            getElementFactory().getLabel(By.xpath("//XCUIElementTypeOther/XCUIElementTypeStaticText[contains(@value,'/')]"), "Book Page number");
     private final ILabel lblPage = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"),
             "Book Page");
