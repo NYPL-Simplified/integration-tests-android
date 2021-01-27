@@ -174,8 +174,8 @@ Feature: Book Transactions
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
       And I open Catalog
-      And I open search modal
-      And I search for 'Party of Two'
+      And I open category by chain:
+        | Best Sellers |
       And RESERVE book and save it as 'bookInfo'
     Then Book saved as 'bookInfo' should contain CANCEL button at catalog books screen
     When I click on the book 'bookInfo' button CANCEL on catalog books screen
@@ -189,8 +189,8 @@ Feature: Book Transactions
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
       And I open Catalog
-      And I open search modal
-      And I search for 'Party of Two'
+      And I open category by chain:
+        | Best Sellers |
     When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
     Then I check that opened book contains CANCEL button at book details screen
     When Press on the book details screen at the action button CANCEL
@@ -204,8 +204,8 @@ Feature: Book Transactions
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
       And I open Catalog
-      And I open search modal
-      And I search for 'Party of Two'
+      And I open category by chain:
+        | Best Sellers |
     When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
     Then I check that opened book contains CANCEL button at book details screen
     When I open Holds
@@ -221,8 +221,8 @@ Feature: Book Transactions
     When I open Catalog
       And I switch to 'The New York Public Library' from side menu
       And I open Catalog
-      And I open search modal
-      And I search for 'Party of Two'
+      And I open category by chain:
+        | Best Sellers |
     When I open the book details for the subsequent RESERVE and save it as 'bookInfo'
     Then I check that opened book contains CANCEL button at book details screen
     When I open Holds
