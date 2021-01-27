@@ -35,7 +35,7 @@ public class Configuration {
         ArrayList<String> listOfCredentials = new ArrayList<>();
         String variableNameBeginning = "feed.";
         if (systemEnvironments.keySet().stream().anyMatch(x -> ((String) x).startsWith(variableNameBeginning))) {
-            Stream<Object> foundVariables = systemEnvironments.keySet().stream().filter(x -> ((String) x).startsWith(variableNameBeginning));
+            Stream<Object> foundVariables = systemEnvironments.keySet().stream().filter(x -> ((String) x).startsWith(variableNameBeginning + libraryName));
             foundVariables.forEach(x -> listOfCredentials.add((String) systemEnvironments.get(x)));
         } else {
             listOfCredentials.add((String) Environment.getEnvironment().getMap("/feed").get(libraryName));
