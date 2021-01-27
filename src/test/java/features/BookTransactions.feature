@@ -247,3 +247,7 @@ Feature: Book Transactions
     When I click on the book 'bookInfo' button CANCEL on the holds screen and don't click on the popup button
     Then I click at the popup approve CANCEL the button CANCEL_POPUP
       And Book saved as 'bookInfo' should contain CANCEL button at the hold screen
+
+    @test_feed @logout
+  Scenario: Tesssst
+    When I add custom 'LYRASIS' opds feed
