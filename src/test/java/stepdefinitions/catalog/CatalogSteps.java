@@ -118,14 +118,12 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     @When("I {} book of {string} type and save it as {string}")
     @And("{} book of {string} type and save it as {string}")
     public void performActionOnBookOfTypeAndSaveIt(BookActionButtonKeys actionButtonKey, String bookType, String bookInfoKey) {
-        //upd
         catalogSteps.performActionOnBookOfTypeAndSaveIt(actionButtonKey, bookType, bookInfoKey);
     }
 
     @When("I {} book by name {string} and save it as {string}")
     @And("{} book by name {string} type and save it as {string}")
     public void performActionOnBookByNameAndSaveIt(BookActionButtonKeys actionButtonKey, String bookName, String bookInfoKey) {
-        //upd
         catalogSteps.performActionOnBookByNameAndSaveIt(actionButtonKey, bookName, bookInfoKey);
     }
 
