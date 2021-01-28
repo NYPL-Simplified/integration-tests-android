@@ -94,7 +94,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     @Override
     public void switchToCatalogTab(String catalogTab) {
-        getElementFactory().getButton(By.xpath("//android.widget.RadioButton[@text=\"" + catalogTab + "\"]"), catalogTab).click();
+        getElementFactory().getButton(By.xpath(String.format("//android.widget.RadioButton[@text=\"%s\"]", catalogTab)), catalogTab).click();
     }
 
     @Override
