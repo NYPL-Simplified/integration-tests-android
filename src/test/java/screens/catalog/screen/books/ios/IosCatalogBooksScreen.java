@@ -29,11 +29,11 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_AUTHOR_LOC = "//XCUIElementTypeStaticText[@name][2]";
     private static final String AUTHOR_NAME_XPATH_PATTERN =
             "//XCUIElementTypeStaticText[@name=\"%s\"]//following-sibling::XCUIElementTypeStaticText";
-    public static final String ELEMENTS_TO_WAIT_FOR_XPATH = "//XCUIElementTypeCell//XCUIElementTypeOther//XCUIElementTypeStaticText";
-    public static final int COUNT_OF_BUTTONS_TO_WAIT_FOR = 5;
-    public static final String BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN =
+    private static final String ELEMENTS_TO_WAIT_FOR_XPATH = "//XCUIElementTypeCell//XCUIElementTypeOther//XCUIElementTypeStaticText";
+    private static final int COUNT_OF_BUTTONS_TO_WAIT_FOR = 5;
+    private static final String BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN =
             "//XCUIElementTypeStaticText[contains(@name,\"%1$s\")]//following-sibling::XCUIElementTypeOther//XCUIElementTypeStaticText[contains(@name,\"%2$s\")]";
-
+    private static final String LIBRARY_BUTTON_LOCATOR_PATTERN = "//XCUIElementTypeButton[@name=\"%1$s\"]";
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
 
@@ -100,6 +100,12 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
         String bookTitle =
                 getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key).getText();
+        //testing fix for misclick
+        button.getElement().getCenter();
+        getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, "eBooks")), "eBooks").click();
+        waitForPageLoading();
+        button.getElement().getCenter();
+        //ends here
         return openBook(button, bookTitle);
     }
 
@@ -112,6 +118,15 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         if (!actionButton.state().waitForDisplayed()) {
             actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
+        //testing fix for misclick
+        actionButton.getElement().getCenter();
+        getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, "eBooks")), "eBooks").click();
+        waitForPageLoading();
+        AqualityServices.getLogger().info("Count of buttons to click - " + getElementFactory().findElements(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, bookName, key)), ElementType.LABEL).size());
+        if (!actionButton.state().waitForDisplayed()) {
+            actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        }
+        //ends here
         return openBook(actionButton, bookName);
     }
 
