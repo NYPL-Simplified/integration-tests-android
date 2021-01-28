@@ -42,6 +42,11 @@ public class AndroidPdfReaderScreen extends PdfReaderScreen {
     }
 
     @Override
+    public void openMenu() {
+
+    }
+
+    @Override
     public void goToNextPage() {
         SwipeElementUtils.swipeThroughEntireElement(lblPage, EntireElementSwipeDirection.RIGHT);
     }
@@ -88,6 +93,11 @@ public class AndroidPdfReaderScreen extends PdfReaderScreen {
     @Override
     public void openSearchPdf() {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public void closeReader() {
+
     }
 
     private PdfTableOfContentsScreen openTableOfContents() {

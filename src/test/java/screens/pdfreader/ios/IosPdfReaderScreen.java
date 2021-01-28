@@ -36,7 +36,9 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
     private final IButton btnChapters =
             getElementFactory().getButton(By.xpath(String.format(BUTTON_LOC_PATTERN, PdfButtons.CHAPTERS.i18n())), "Table of contents");
     private final IButton btnSearch =
-            getElementFactory().getButton(By.xpath(String.format(BUTTON_LOC_PATTERN, PdfButtons.SEARCH.i18n())), "Search btn");
+            getElementFactory().getButton(By.xpath("(//XCUIElementTypeNavigationBar/XCUIElementTypeButton)[3]"), "Search btn");
+    private final IButton btnGoBack =
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeNavigationBar/XCUIElementTypeButton"), "Go back");
 
     public IosPdfReaderScreen() {
         super(By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"));
@@ -49,10 +51,15 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
 
     @Override
     public int getPageNumber() {
+        openMenu();
+        return Integer.parseInt(RegExUtil.getStringFromFirstGroup(lblPageNumber.getText(), RegEx.PDF_CURRENT_PAGE_REGEX));
+    }
+
+    @Override
+    public void openMenu() {
         if (!lblPageNumber.state().waitForDisplayed()) {
             CoordinatesClickUtils.clickOutOfElement(lblPage); // needed to expand navigation and labels
         }
-        return Integer.parseInt(RegExUtil.getStringFromFirstGroup(lblPageNumber.getText(), RegEx.PDF_CURRENT_PAGE_REGEX));
     }
 
     @Override
@@ -117,5 +124,10 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
     @Override
     public void openSearchPdf() {
         btnSearch.click();
+    }
+
+    @Override
+    public void closeReader() {
+        btnGoBack.click();
     }
 }

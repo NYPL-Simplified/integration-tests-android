@@ -16,6 +16,7 @@ import screens.catalog.form.MainCatalogToolbarForm;
 import screens.catalog.screen.catalog.CatalogScreen;
 import screens.holds.HoldsScreen;
 import screens.notifications.NotificationModal;
+import screens.pdfreader.PdfReaderScreen;
 import screens.settings.SettingsScreen;
 import stepdefinitions.BaseSteps;
 import stepdefinitions.application.components.AbstractApplicationSteps;
@@ -39,6 +40,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
     protected final NotificationModal notificationModal;
     protected final AbstractApplicationSteps applicationSteps;
     private final AlertScreen alertScreen;
+    private final PdfReaderScreen pdfReaderScreen;
 
     protected ScenarioContext context;
 
@@ -55,6 +57,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
         notificationModal = AqualityServices.getScreenFactory().getScreen(NotificationModal.class);
         applicationSteps = stepsFactory.getSteps(AbstractApplicationSteps.class);
         alertScreen = AqualityServices.getScreenFactory().getScreen(AlertScreen.class);
+        pdfReaderScreen = AqualityServices.getScreenFactory().getScreen(PdfReaderScreen.class);
 
         this.context = context;
     }
@@ -83,6 +86,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
         alertScreen.closeNotNowModalIfPresent();
         List<String> librariesForCancelGet = context.get(ContextLibrariesKeys.CANCEL_GET.getKey());
         navigateBackIfBottomMenuIsNotVisibleUntilItIs();
+        returnFromPdfScreen();
         Optional.ofNullable(librariesForCancelGet).ifPresent(libraries ->
                 libraries.forEach(library -> {
                     openPageForRequiredLibrary(library, BottomMenu.BOOKS);
@@ -97,6 +101,13 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
                     returnBooks(BookActionButtonKeys.READ);
                     returnBooks(BookActionButtonKeys.LISTEN);
                 }));
+    }
+
+    private void returnFromPdfScreen() {
+        if (pdfReaderScreen.state().isDisplayed()) {
+            pdfReaderScreen.openMenu();
+            pdfReaderScreen.closeReader();
+        }
     }
 
     private void returnBooks(BookActionButtonKeys actionButton) {

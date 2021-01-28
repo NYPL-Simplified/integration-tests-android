@@ -223,7 +223,7 @@ public class ReaderSteps {
 
     private void assertPdfBookName(CatalogBookModel catalogBookModel) {
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                        pdfReaderScreen.getBookName().contains(catalogBookModel.getTitle())),
+                        pdfReaderScreen.getBookName().trim().replaceAll("[\n\r]", "").contains(catalogBookModel.getTitle())),
                 String.format("Book name is not correct. Expected that name ['%1$s'] would contains in ['%2$s']",
                         catalogBookModel.getTitle(), pdfReaderScreen.getBookName()));
     }
