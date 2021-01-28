@@ -16,6 +16,8 @@ public abstract class PdfReaderScreen extends Screen {
 
     public abstract int getPageNumber();
 
+    public abstract void openMenu();
+
     public abstract void goToNextPage();
 
     public abstract void goToPreviousPage();
@@ -31,4 +33,6 @@ public abstract class PdfReaderScreen extends Screen {
     public abstract PdfTableOfContentsScreen openChaptersGallery();
 
     public abstract void openSearchPdf();
+
+    public abstract void closeReader();
 }

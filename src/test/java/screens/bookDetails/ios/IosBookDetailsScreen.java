@@ -12,6 +12,8 @@ import constants.application.BookDetailsScreenConstants;
 import constants.application.timeouts.BooksTimeouts;
 import constants.localization.application.bookdetals.BookDetailsScreenInformationBlockKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.offset.PointOption;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -132,7 +134,10 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public void clickActionButton(BookActionButtonKeys buttonKeys) {
-        getActionButton(buttonKeys).click();
+        IButton actionButton = getActionButton(buttonKeys);
+        TouchAction action = new TouchAction(AqualityServices.getApplication().getDriver());
+        action.tap(PointOption.point(actionButton.getElement().getCenter()));
+        action.perform();
     }
 
     @Override
