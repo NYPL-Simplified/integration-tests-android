@@ -2,6 +2,7 @@ package stepdefinitions.catalog.components;
 
 import aquality.appium.mobile.application.AqualityServices;
 import constants.application.ReaderType;
+import constants.application.timeouts.AuthorizationTimeouts;
 import constants.application.timeouts.CategoriesTimeouts;
 import constants.context.ScenarioContextKey;
 import constants.localization.application.catalog.BookActionButtonKeys;
@@ -141,7 +142,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void checkSubcategoryScreenIsPresent() {
-        boolean isScreenPresent = subcategoryScreen.state().waitForDisplayed();
+        boolean isScreenPresent = subcategoryScreen.state().waitForDisplayed(Duration.ofMillis(AuthorizationTimeouts.DEBUG_MENU_IS_OPENED.getTimeoutMillis()));
         if (!isScreenPresent && subcategoryScreen.isErrorButtonPresent()) {
             Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
             scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "error_screenshot.png");
