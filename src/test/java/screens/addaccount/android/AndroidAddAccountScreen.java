@@ -5,8 +5,11 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
+import constants.application.timeouts.AuthorizationTimeouts;
 import org.openqa.selenium.By;
 import screens.addaccount.AddAccountScreen;
+
+import java.time.Duration;
 
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidAddAccountScreen extends AddAccountScreen {
@@ -23,7 +26,7 @@ public class AndroidAddAccountScreen extends AddAccountScreen {
 
     @Override
     public void selectLibrary(String libraryName) {
-        lblSelectLibrary.state().waitForDisplayed();
+        lblSelectLibrary.state().waitForDisplayed(Duration.ofMillis(AuthorizationTimeouts.DEBUG_MENU_IS_OPENED.getTimeoutMillis()));
         btnSearch.click();
         txbSearch.clearAndType(libraryName);
         getLibraryButton(libraryName).click();
