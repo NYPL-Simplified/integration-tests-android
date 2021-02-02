@@ -63,28 +63,17 @@ public class AndroidAccountScreen extends AccountScreen {
         return lblLoginFailed.state().isDisplayed() ? lblLoginFailed.getText() : "";
     }
 
-    private void enterDataViaKeyboard(ITextBox textBox, String value) {
-        textBox.click();
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(KeyboardUtils::isKeyboardVisible),
-                "Checking that keyboard is shown");
-        textBox.sendKeys(value);
-    }
-
     @Override
     public boolean isLoginSuccessful() {
         waitForLogoutButtonAppear();
         btnLogout.state().waitForExist(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
-        return btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n());
-    }
-
-    private void waitForLogoutButtonAppear() {
-        AqualityServices.getConditionalWait().waitFor(() -> btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_OUT.i18n()));
+        return getLoginButtonText().equals(AccountScreenLoginStatus.LOG_OUT.i18n());
     }
 
     @Override
     public boolean isLogoutSuccessful() {
         return AqualityServices.getConditionalWait().waitFor(() ->
-                btnLoginAction.getText().equals(AccountScreenLoginStatus.LOG_IN.i18n()));
+                getLoginButtonText().equals(AccountScreenLoginStatus.LOG_IN.i18n()));
     }
 
     @Override
@@ -104,5 +93,20 @@ public class AndroidAccountScreen extends AccountScreen {
     @Override
     public boolean isLogoutRequired() {
         return btnLogout.state().isDisplayed();
+    }
+
+    private void waitForLogoutButtonAppear() {
+        AqualityServices.getConditionalWait().waitFor(() -> getLoginButtonText().equals(AccountScreenLoginStatus.LOG_OUT.i18n()));
+    }
+
+    private String getLoginButtonText() {
+        return btnLoginAction.state().waitForDisplayed() ? btnLoginAction.getText() : "";
+    }
+
+    private void enterDataViaKeyboard(ITextBox textBox, String value) {
+        textBox.click();
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(KeyboardUtils::isKeyboardVisible),
+                "Checking that keyboard is shown");
+        textBox.sendKeys(value);
     }
 }

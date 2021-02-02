@@ -13,7 +13,7 @@ import java.time.Duration;
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidSettingsScreen extends SettingsScreen {
     private final IButton accountsBtn =
-            getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, \"Accounts\")]"), "Accounts");
+            getElementFactory().getButton(By.xpath("//android.widget.RelativeLayout/android.widget.TextView[contains(@text, \"Accounts\")]"), "Accounts");
     private final IButton buildBtn =
             getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text, \"Build\")]"), "Build");
     private final IButton btnDebugOptions =
