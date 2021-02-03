@@ -10,6 +10,7 @@ import constants.application.attributes.AndroidAttributes;
 import constants.application.timeouts.BooksTimeouts;
 import constants.localization.application.bookdetals.BookDetailsScreenInformationBlockKeys;
 import constants.localization.application.catalog.BookActionButtonKeys;
+import framework.utilities.swipe.SwipeElementUtils;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.bookDetails.BookDetailsScreen;
@@ -25,6 +26,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     private static final String BOOK_ACTION_BUTTON_LOC = "//android.widget.Button[@content-desc=\"%1$s\"]";
 
     private final ILabel lblBookInfo = getElementFactory().getLabel(By.id("bookDetailCoverImage"), "Cover Image");
+    private final ILabel lblErrorScreen = getElementFactory().getLabel(By.xpath("//android.widget.ScrollView"), "Error Screen");
     private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.id("bookDetailTitle"), "Book title");
     private final ILabel lblBookFormatInfo = getElementFactory().getLabel(By.id("bookDetailFormat"), "Book format");
     private final ILabel lblBookAuthorsInfo = getElementFactory().getLabel(By.id("bookDetailAuthors"), "Book Authors");
@@ -113,21 +115,26 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public String getErrorDetails() {
-        if (isErrorButtonPresent()) {
-            btnErrorDetails.click();
-            if (lblErrorMessage.state().isDisplayed()) {
-                return lblErrorMessage.getText();
-            } else {
-                return "";
-            }
+        if (lblErrorMessage.state().isDisplayed()) {
+            return lblErrorMessage.getText();
+        } else {
+            return "";
         }
-        AqualityServices.getLogger().info("Error details button is not present");
-        return "";
     }
 
     @Override
     public boolean isErrorButtonPresent() {
         return btnErrorDetails.state().isDisplayed();
+    }
+
+    @Override
+    public void openErrorDetails() {
+        btnErrorDetails.click();
+    }
+
+    @Override
+    public void swipeError() {
+        SwipeElementUtils.swipeThroughEntireElementUp(lblErrorScreen);
     }
 
     private IButton getActionButton(BookActionButtonKeys buttonKey) {

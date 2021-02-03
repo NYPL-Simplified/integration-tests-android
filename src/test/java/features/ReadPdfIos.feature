@@ -104,7 +104,7 @@ Feature: Read PDF IOS
       And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen
     When I click the search in the pdf button
-      And I am typing 'Ronelle Alexander' to the search field and apply search
+      And I am typing 'LiveDebugging' to the search field and apply search
       And I save page number as 'pageNumber' of the first item
       And I open the first found item
     Then Pdf page number 'pageNumber' is correct
