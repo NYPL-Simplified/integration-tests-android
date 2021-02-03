@@ -223,9 +223,9 @@ public class ReaderSteps {
 
     private void assertPdfBookName(CatalogBookModel catalogBookModel) {
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                        pdfReaderScreen.getBookName().trim().replaceAll("[\n\r]", "").contains(catalogBookModel.getTitle())),
+                        getTrimmedBookName().contains(catalogBookModel.getTitle())),
                 String.format("Book name is not correct. Expected that name ['%1$s'] would contains in ['%2$s']",
-                        catalogBookModel.getTitle(), pdfReaderScreen.getBookName()));
+                        catalogBookModel.getTitle(), getTrimmedBookName()));
     }
 
     @Then("Pdf book page number is {int}")
@@ -406,5 +406,9 @@ public class ReaderSteps {
 
     private void assertFontName(String fontName) {
         Assert.assertEquals(epubReaderScreen.getFontName(), fontName, "Book font is not correct");
+    }
+
+    private String getTrimmedBookName() {
+        return pdfReaderScreen.getBookName().strip().replaceAll("[\n\r]", " ");
     }
 }

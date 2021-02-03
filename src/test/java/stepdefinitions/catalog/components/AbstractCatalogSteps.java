@@ -360,7 +360,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         boolean isButtonPresent = bookDetailsScreen.isBookAddButtonTextEqualTo(key);
         addScreenshotIfErrorPresent(isButtonPresent);
         Assert.assertTrue(isButtonPresent,
-                String.format("Button '%1$s' is not present on book details screen. Error (if present) - %2$s", key.i18n(), bookDetailsScreen.getErrorDetails()));
+                String.format("Button '%1$s' is not present on book details screen. Error (if present) - %2$s", key.i18n(), getErrorDetails()));
     }
 
     @Override
@@ -432,7 +432,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
                 bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.READ) || bookDetailsScreen.isBookAddButtonTextEqualTo(BookActionButtonKeys.LISTEN);
         addScreenshotIfErrorPresent(isButtonPresent);
         Assert.assertTrue(isButtonPresent,
-                String.format("Opened book page does not contain button %1$s or %2$s. Error message - %3$s", BookActionButtonKeys.READ.i18n(), BookActionButtonKeys.LISTEN.i18n(), bookDetailsScreen.getErrorDetails()));
+                String.format("Opened book page does not contain button %1$s or %2$s. Error message - %3$s", BookActionButtonKeys.READ.i18n(), BookActionButtonKeys.LISTEN.i18n(), getErrorDetails()));
     }
 
     public void openFirstBookAndSaveBookInfoAs(ReaderType readerType, String bookInfoKey) {
@@ -469,6 +469,18 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         if (!subcategoryScreen.state().waitForDisplayed()) {
             catalogScreen.openFirstCategory();
             catalogScreen.state().waitForDisplayed();
+        }
+    }
+
+    private String getErrorDetails() {
+        if (bookDetailsScreen.isErrorButtonPresent()) {
+            bookDetailsScreen.openErrorDetails();
+            String errorDetails = bookDetailsScreen.getErrorDetails();
+            addScreenshot();
+            bookDetailsScreen.swipeError();
+            return errorDetails;
+        } else {
+            return "";
         }
     }
 }

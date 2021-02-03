@@ -37,4 +37,8 @@ public abstract class BookDetailsScreen extends Screen {
     public abstract String getErrorDetails();
 
     public abstract boolean isErrorButtonPresent();
+
+    public abstract void openErrorDetails();
+
+    public abstract void swipeError();
 }
