@@ -1,7 +1,12 @@
 {
   "credentials": {
     "exampleLibrary": {
-      "barcode": "password"
+      "ios": {
+        "barcode": "password"
+      },
+      "android": {
+        "barcode1": "password1"
+      }
     }
   },
   "feed": {
