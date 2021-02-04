@@ -63,7 +63,7 @@ Feature: Manage Libraries
     Then Holds feed is loaded
       And No books are present in Holds list
 
-  @logout @tier2 @cred_test
+  @logout @tier2
   Scenario: Store library card
     When I add 'LYRASIS' account
     Then Account 'LYRASIS' is present on Accounts screen
