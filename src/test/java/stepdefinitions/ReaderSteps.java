@@ -409,6 +409,6 @@ public class ReaderSteps {
     }
 
     private String getTrimmedBookName() {
-        return pdfReaderScreen.getBookName().strip().replaceAll("[\n\r]", " ");
+        return pdfReaderScreen.getBookName().trim().replaceAll("[\n\r]", " ");
     }
 }
