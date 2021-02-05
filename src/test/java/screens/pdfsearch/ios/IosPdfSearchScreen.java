@@ -7,7 +7,6 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.elements.interfaces.ITextBox;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
-import framework.utilities.RomanNumericUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import screens.pdfsearch.PdfSearchScreen;
@@ -21,8 +20,8 @@ public class IosPdfSearchScreen extends PdfSearchScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeSearchField";
     private static final String SEARCHED_ELEMENTS_LOC = "//XCUIElementTypeCell";
     private static final String SEARCHED_ELEMENT_NAME_LOC = ".//XCUIElementTypeStaticText[@name][1]";
-    private static final String SEARCHED_ELEMENT_PAGE_NUMBER_LOC = ".//XCUIElementTypeStaticText[@name][2]";
-    public static final int COUNT_OF_ITEMS_TO_WAIT_FOR = 2;
+    private static final String PAGE_NUMBER_LOC = "//XCUIElementTypeCell/XCUIElementTypeStaticText[@name][2]";
+    private static final int COUNT_OF_ITEMS_TO_WAIT_FOR = 2;
 
     private final ITextBox searchTxb = getElementFactory().getTextBox(
             By.xpath(MAIN_ELEMENT), "Search");
@@ -60,11 +59,9 @@ public class IosPdfSearchScreen extends PdfSearchScreen {
     }
 
     @Override
-    public int getSearchedItemPageNumber(final String itemName) {
+    public int getSearchedItemPageNumber(int index) {
         AqualityServices.getConditionalWait().waitFor(() -> getSearchedElements().size() >= COUNT_OF_ITEMS_TO_WAIT_FOR);
-        return RomanNumericUtils.convertToInt(getSearchedItemByName(itemName)
-                .findChildElement(By.xpath(SEARCHED_ELEMENT_PAGE_NUMBER_LOC), ElementType.LABEL)
-                .getText());
+        return Integer.parseInt(getPageNumbers().get(index).getText());
     }
 
     private ILabel getSearchedItemByName(final String itemName) {
@@ -83,5 +80,9 @@ public class IosPdfSearchScreen extends PdfSearchScreen {
 
     private List<ILabel> getSearchedElements() {
         return getElementFactory().findElements(By.xpath(SEARCHED_ELEMENTS_LOC), ElementType.LABEL);
+    }
+
+    private List<ILabel> getPageNumbers() {
+        return getElementFactory().findElements(By.xpath(PAGE_NUMBER_LOC), ElementType.LABEL);
     }
 }

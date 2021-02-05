@@ -18,5 +18,5 @@ public abstract class PdfSearchScreen extends Screen {
 
     public abstract void openSearchedItemByName(String itemName);
 
-    public abstract int getSearchedItemPageNumber(String itemName);
+    public abstract int getSearchedItemPageNumber(int index);
 }

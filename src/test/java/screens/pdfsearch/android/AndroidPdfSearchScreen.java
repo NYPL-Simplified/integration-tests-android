@@ -36,7 +36,7 @@ public class AndroidPdfSearchScreen extends PdfSearchScreen {
     }
 
     @Override
-    public int getSearchedItemPageNumber(String itemName) {
+    public int getSearchedItemPageNumber(int index) {
         throw new NotImplementedException();
     }
 }
