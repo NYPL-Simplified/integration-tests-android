@@ -26,6 +26,7 @@ import screens.pdfreader.PdfReaderScreen;
 import screens.pdfsearch.PdfSearchScreen;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
 
+import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.IntStream;
@@ -340,7 +341,7 @@ public class ReaderSteps {
     public void checkThatPdfFoundLinesContainText(String textToBeContained) {
         SoftAssert softAssert = new SoftAssert();
         pdfSearchScreen.getListOfFoundItems()
-                .forEach(line -> softAssert.assertTrue(line.contains(textToBeContained), String.format("Line '%1$s' does not contain text '%2$s'", line, textToBeContained)));
+                .forEach(line -> softAssert.assertTrue(line.toLowerCase(Locale.ROOT).contains(textToBeContained.toLowerCase(Locale.ROOT)), String.format("Line '%1$s' does not contain text '%2$s'", line, textToBeContained)));
         softAssert.assertAll("Checking that all lines contain text");
     }
 
@@ -351,7 +352,7 @@ public class ReaderSteps {
 
     @When("I save page number as {string} of the first item")
     public void savePageNumberOfFirstItem(String pageKey) {
-        context.add(pageKey, pdfSearchScreen.getSearchedItemPageNumber(pdfSearchScreen.getListOfFoundItems().get(0)));
+        context.add(pageKey, pdfSearchScreen.getSearchedItemPageNumber(0));
     }
 
     @Then("Reader screen for {} type book {string} is present")
@@ -409,6 +410,6 @@ public class ReaderSteps {
     }
 
     private String getTrimmedBookName() {
-        return pdfReaderScreen.getBookName().trim().replaceAll("[\n\r]", " ");
+        return pdfReaderScreen.getBookName().trim().replaceAll("[\n\r]", "");
     }
 }
