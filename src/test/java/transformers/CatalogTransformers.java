@@ -14,7 +14,7 @@ public class CatalogTransformers {
     }
 
     @DataTableType
-    public BookDetailsScreenInformationBlockModel getAndroidBookDetailsScreenInformationBlockModel(
+    public BookDetailsScreenInformationBlockModel getBookDetailsScreenInformationBlockModel(
             Map<String, String> entry) {
         return BookDetailsScreenInformationBlockModel.createBookDetailsScreenInformationBlockModel(entry);
     }

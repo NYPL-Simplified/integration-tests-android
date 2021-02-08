@@ -224,7 +224,7 @@ public class ReaderSteps {
 
     private void assertPdfBookName(CatalogBookModel catalogBookModel) {
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                        getTrimmedBookName().contains(catalogBookModel.getTitle())),
+                        getTrimmedBookName().replace(" ", "").contains(catalogBookModel.getTitle().replace(" ", ""))),
                 String.format("Book name is not correct. Expected that name ['%1$s'] would contains in ['%2$s']",
                         catalogBookModel.getTitle(), getTrimmedBookName()));
     }
