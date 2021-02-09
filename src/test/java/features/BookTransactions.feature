@@ -116,6 +116,8 @@ Feature: Book Transactions
       | LYRASIS                             | DPLA Exchange                                 | EBOOK     |
       | LYRASIS                             | DPLA Exchange                                 | AUDIOBOOK |
       | LYRASIS                             | Johns Hopkins University Press                | EBOOK     |
+      | LYRASIS                             | Bibliotheca                                   | EBOOK     |
+      | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
   @logout @cancelGet @tier2 @exclude_android
   Scenario: Return book
@@ -164,6 +166,8 @@ Feature: Book Transactions
       | LYRASIS                             | DPLA Exchange                                 | EBOOK     |
       | LYRASIS                             | DPLA Exchange                                 | AUDIOBOOK |
       | LYRASIS                             | Johns Hopkins University Press                | EBOOK     |
+      | LYRASIS                             | Bibliotheca                                   | EBOOK     |
+      | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
   @logout @cancelHold @tier2
   Scenario: Remove a Reserved Book from Bookshelf list
