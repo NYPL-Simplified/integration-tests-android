@@ -2,12 +2,12 @@ Feature: Audiobook
 
   Background:
     Given Application is opened
-    When I add 'The New York Public Library' account
-    Then Account 'The New York Public Library' is present on Accounts screen
-    When I enter credentials for 'The New York Public Library' account
+    When I add 'LYRASIS' account
+    Then Account 'LYRASIS' is present on Accounts screen
+    When I enter credentials for 'LYRASIS' account
     Then Login is performed successfully
     When I open Catalog
-      And I switch to 'The New York Public Library' from side menu
+      And I switch to 'LYRASIS' from side menu
     Then Books feed is loaded
     When I switch to 'Audiobooks' catalog tab
     Then Books feed is loaded
@@ -35,7 +35,7 @@ Feature: Audiobook
     Then I check that current chapter equal to remembered 'newChapter'
     When I restart app
       And I open Catalog
-      And I switch to 'The New York Public Library' from side menu
+      And I switch to 'LYRASIS' from side menu
       And I open Books
       And I open book 'bookInfo' details by clicking on cover
       And Press on the book details screen at the action button LISTEN
