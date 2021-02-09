@@ -90,7 +90,7 @@ Feature: Book Transactions
     When I open the book details for the subsequent GET and save it as 'bookInfo'
     Then I check that opened book contains READ button at book details screen
 
-  @logout @cancelGet @tier2 @logout @exclude_ios
+  @logout @cancelGet @tier2 @logout @exclude_ios @feed_test
   Scenario Outline: Check out from Book Detail View (feed)
     When I add custom '<feedName>' opds feed
       And I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
@@ -113,11 +113,11 @@ Feature: Book Transactions
       | New York Public Library - QA Server | Library Simplified Open Access Content Server | EBOOK     |
       | New York Public Library - QA Server | Overdrive                                     | EBOOK     |
       | New York Public Library - QA Server | Overdrive                                     | AUDIOBOOK |
-      | LYRASIS                             | DPLA Exchange                                 | EBOOK     |
-      | LYRASIS                             | DPLA Exchange                                 | AUDIOBOOK |
-      | LYRASIS                             | Johns Hopkins University Press                | EBOOK     |
-      | LYRASIS                             | Bibliotheca                                   | EBOOK     |
-      | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
+      #| LYRASIS                             | DPLA Exchange                                 | EBOOK     |
+      #| LYRASIS                             | DPLA Exchange                                 | AUDIOBOOK |
+      #| LYRASIS                             | Johns Hopkins University Press                | EBOOK     |
+      #| LYRASIS                             | Bibliotheca                                   | EBOOK     |
+      #| LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
   @logout @cancelGet @tier2 @exclude_android
   Scenario: Return book
@@ -140,7 +140,7 @@ Feature: Book Transactions
     When I open Books
     Then Book 'bookInfo' is not present in Books List
 
-  @logout @cancelGet @tier2 @exclude_ios
+  @logout @cancelGet @tier2 @exclude_ios @feed_test
   Scenario Outline: Return book (feed)
     When I add custom '<feedName>' opds feed
       And I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
@@ -163,11 +163,11 @@ Feature: Book Transactions
       | New York Public Library - QA Server | Library Simplified Open Access Content Server | EBOOK     |
       | New York Public Library - QA Server | Overdrive                                     | EBOOK     |
       | New York Public Library - QA Server | Overdrive                                     | AUDIOBOOK |
-      | LYRASIS                             | DPLA Exchange                                 | EBOOK     |
-      | LYRASIS                             | DPLA Exchange                                 | AUDIOBOOK |
-      | LYRASIS                             | Johns Hopkins University Press                | EBOOK     |
-      | LYRASIS                             | Bibliotheca                                   | EBOOK     |
-      | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
+      #| LYRASIS                             | DPLA Exchange                                 | EBOOK     |
+      #| LYRASIS                             | DPLA Exchange                                 | AUDIOBOOK |
+      #| LYRASIS                             | Johns Hopkins University Press                | EBOOK     |
+      #| LYRASIS                             | Bibliotheca                                   | EBOOK     |
+      #| LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
   @logout @cancelHold @tier2
   Scenario: Remove a Reserved Book from Bookshelf list
