@@ -32,7 +32,7 @@ public class SearchSteps {
 
     @When("I search for {string}")
     public void searchFor(String searchedText) {
-        searchModal.state().waitForDisplayed();
+        Assert.assertTrue(searchModal.state().waitForDisplayed(), "Search modal is not present. Error (if present) - "+ subcategoryScreen.getErrorMessage());
         searchModal.setSearchedText(searchedText);
         searchModal.applySearch();
         Assert.assertTrue(searchModal.state().waitForNotDisplayed(), "Search modal is not disappear");

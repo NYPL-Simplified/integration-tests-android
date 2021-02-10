@@ -8,14 +8,12 @@ Feature: Audiobook
     Then Login is performed successfully
     When I open Catalog
       And I switch to 'LYRASIS' from side menu
-    Then Books feed is loaded
-    When I switch to 'Audiobooks' catalog tab
+      And I switch to 'Audiobooks' catalog tab
     Then Books feed is loaded
     When I open category by chain:
       | Fiction     |
       | All Fiction |
-    Then Current category name is 'All Fiction'
-    When I open the book details for the subsequent GET and save it as 'bookInfo'
+      And I open the book details for the subsequent GET and save it as 'bookInfo'
     Then I check that opened book contains LISTEN button at book details screen
 
   @logout @cancelGet @tier2 @exclude_ios
