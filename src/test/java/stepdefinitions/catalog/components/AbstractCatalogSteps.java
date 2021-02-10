@@ -411,6 +411,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void openBookFromLane(ReaderType readerType, String laneName, String bookInfoKey) {
         Assert.assertTrue(catalogScreen.isAnyBookPresentInLane(readerType, laneName),
                 String.format("No books are present in lane - %s %s", readerType, laneName));
+        bottomMenuForm.open(BottomMenu.CATALOG);
         catalogScreen.openFirstBookFromLane(readerType, laneName);
         bookDetailsScreen.state().waitForDisplayed();
         context.add(bookInfoKey, bookDetailsScreen.getBookInfo());

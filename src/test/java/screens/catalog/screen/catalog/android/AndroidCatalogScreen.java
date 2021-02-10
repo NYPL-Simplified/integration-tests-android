@@ -119,14 +119,15 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     @Override
     public void openFirstBookFromLane(ReaderType readerType, String laneName) {
-        getBookFromLaneLabel(readerType, laneName).getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        getBookFromLaneLabel(readerType, laneName).click();
+        IButton label = getBookFromLaneLabel(readerType, laneName);
+        label.getTouchActions().scrollToElement(SwipeDirection.DOWN);
+        label.click();
     }
 
     @Override
     public boolean isAnyBookPresentInLane(ReaderType readerType, String laneName) {
-        getElementFactory().getButton(By.xpath(String.format(LANE_LOCATOR_PATTERN, laneName, readerType.toString())), laneName).getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        return getLabels(String.format(BOOK_IN_LANE_LOCATOR_PATTERN, laneName, readerType.toString())).size() > 0;
+        Set<String> allCategoriesNames = getAllCategoriesNames();
+        return allCategoriesNames.stream().anyMatch(x -> x.contains(String.format("{%s} - Medium {%s}", laneName, readerType.toString())));
     }
 
     @Override
