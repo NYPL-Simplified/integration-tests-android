@@ -107,6 +107,11 @@ public class IosBooksScreen extends BooksScreen {
         }
     }
 
+    @Override
+    public void scrollUp() {
+        SwipeElementUtils.swipeElementDown(mainBooksElementCollection);
+    }
+
     private List<String> getBookNames() {
         return getBooks().stream().map(aquality.selenium.core.elements.interfaces.IElement::getText).collect(Collectors.toList());
     }
