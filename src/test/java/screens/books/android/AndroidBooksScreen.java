@@ -26,9 +26,9 @@ public class AndroidBooksScreen extends BooksScreen {
             "//*[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button[@content-desc=\"%1$s\"]";
     private static final String BOOKS_WITH_ACTION_LOC =
             String.format("//*[contains(@resource-id,\"bookCellIdle\") and .%1$s]", BOOK_ACTION_BUTTON_LOC);
-    public static final String BOOK_INFO_BUTTON_PATTERN =
+    private static final String BOOK_INFO_BUTTON_PATTERN =
             "%s//following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%s\"]";
-    public static final String BOOKS_LABELS_XPATH = "//android.widget.ImageView[contains(@resource-id,\"bookCellIdleCover\")]";
+    private static final String BOOKS_LABELS_XPATH = "//android.widget.ImageView[contains(@resource-id,\"bookCellIdleCover\")]";
     private final String BOOK_INFO_LOCATOR_PATTERN = "//android.widget.ImageView[@content-desc=\"%s\"]";
 
     private final ILabel lblNoBooks = getElementFactory().getLabel(By.id("feedEmptyText"), "No Books Present");
@@ -98,6 +98,10 @@ public class AndroidBooksScreen extends BooksScreen {
                 currentBooksNames = getBookNames();
             } while (!bookNames.containsAll(currentBooksNames));
         }
+    }
+
+    @Override
+    public void scrollUp() {
     }
 
     private List<String> getBookNames() {

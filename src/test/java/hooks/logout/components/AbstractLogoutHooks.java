@@ -99,6 +99,7 @@ public abstract class AbstractLogoutHooks extends BaseSteps implements ILogoutHo
                         AqualityServices.getLogger().info("Books are not found and message about it is not present");
                     }
                     returnBooks(BookActionButtonKeys.READ);
+                    booksScreen.scrollUp();
                     returnBooks(BookActionButtonKeys.LISTEN);
                 }));
     }
