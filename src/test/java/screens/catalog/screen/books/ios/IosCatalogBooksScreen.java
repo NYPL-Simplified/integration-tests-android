@@ -34,6 +34,8 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN =
             "//XCUIElementTypeStaticText[contains(@name,\"%1$s\")]//following-sibling::XCUIElementTypeOther//XCUIElementTypeStaticText[contains(@name,\"%2$s\")]";
     private static final String LIBRARY_BUTTON_LOCATOR_PATTERN = "//XCUIElementTypeButton[@name=\"%1$s\"]";
+    private static final int MILLIS_TO_WAIT_FOR_SEARCH_LOADING = 40000;
+
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
             By.xpath(BOOKS_LOC), "First found book");
 
@@ -113,20 +115,23 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
         String key = actionButtonKey.i18n();
         waitForPageLoading();
-        AqualityServices.getLogger().info("Count of buttons to click - " + getElementFactory().findElements(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, bookName, key)), ElementType.LABEL).size());
+        logBooksCount(bookName, key);
         IButton actionButton = getButtonForBookWithAction(bookName, key);
-        if (!actionButton.state().waitForDisplayed()) {
-            actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        }
-        //testing fix for misclick
-        actionButton.getElement().getCenter();
         getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, "eBooks")), "eBooks").click();
+        //testing fix for misclick
         waitForPageLoading();
-        AqualityServices.getLogger().info("Count of buttons to click - " + getElementFactory().findElements(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, bookName, key)), ElementType.LABEL).size());
+        logBooksCount(bookName, key);
+        //ends here
         if (!actionButton.state().waitForDisplayed()) {
             actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
-        //ends here
+        AqualityServices.getLogger().info("Started Thread.sleep");
+        try {
+            Thread.sleep(MILLIS_TO_WAIT_FOR_SEARCH_LOADING);
+        } catch (InterruptedException e) {
+            AqualityServices.getLogger().debug("Thread.sleep issue happened. " + e.getLocalizedMessage());
+        }
+        AqualityServices.getLogger().info("Finished Thread.sleep");
         return openBook(actionButton, bookName);
     }
 
@@ -200,5 +205,9 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private String getBookParameter(String mainLocator, String subLocator, String name) {
         return Objects.requireNonNull(getElementFactory().getLabel(By.xpath(mainLocator + subLocator), name).getText());
+    }
+
+    private void logBooksCount(String bookName, String key) {
+        AqualityServices.getLogger().info("Count of buttons to click - " + getElementFactory().findElements(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, bookName, key)), ElementType.LABEL).size());
     }
 }
