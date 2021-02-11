@@ -133,7 +133,11 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, "eBooks")), "eBooks").click();
         waitForPageLoading();
         IButton book = getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN2, bookName)), "Book");
-        book.findChildElement(By.xpath("./XCUIElementTypeOther/XCUIElementTypeButton[@name=\"Get\"]"), ElementType.BUTTON).click();
+        IButton get = book.findChildElement(By.xpath("./XCUIElementTypeOther/XCUIElementTypeButton[@name=\"Get\"]"), ElementType.BUTTON);
+        AqualityServices.getLogger().info("GET btn locator - " + get.getLocator().toString());
+        AqualityServices.getLogger().info("GET center - " + get.getElement().getCenter());
+        AqualityServices.getLogger().info("GET Location - " + get.getElement().getLocation());
+        get.click();
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
