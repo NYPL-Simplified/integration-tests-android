@@ -158,6 +158,15 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        for(int i=0; i<30000; i++){
+            AqualityServices.getLogger().info("!!!!!!! GET Location - " + get.getElement().getLocation());
+            AqualityServices.getLogger().info("!!!!!!! BOOK Location - " + book.getElement().getLocation());
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         CatalogBookModel bookInfo = getBookInfo(bookName);
         AqualityServices.getLogger().info("BOOK Location - " + book.getElement().getLocation());
         touchAction = new TouchAction(AqualityServices.getApplication().getDriver());
