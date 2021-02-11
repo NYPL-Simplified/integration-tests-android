@@ -10,6 +10,8 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.application.timeouts.BooksTimeouts;
 import constants.localization.application.catalog.BookActionButtonKeys;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.offset.PointOption;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import screens.catalog.screen.books.CatalogBooksScreen;
@@ -137,14 +139,22 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         AqualityServices.getLogger().info("GET btn locator - " + get.getLocator().toString());
         AqualityServices.getLogger().info("GET center - " + get.getElement().getCenter());
         AqualityServices.getLogger().info("GET Location - " + get.getElement().getLocation());
-        get.click();
+        AqualityServices.getLogger().info("Back Location - " + getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@Name=\"Back\"]"), "Back").getElement().getLocation());
+        TouchAction touchAction = new TouchAction(AqualityServices.getApplication().getDriver());
+        touchAction.tap(PointOption.point(get.getElement().getLocation().x, get.getElement().getLocation().y))
+                .perform();
+        //get.click();
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         CatalogBookModel bookInfo = getBookInfo(bookName);
-        book.click();
+        AqualityServices.getLogger().info("BOOK Location - " + book.getElement().getLocation());
+        touchAction = new TouchAction(AqualityServices.getApplication().getDriver());
+        touchAction.tap(PointOption.point(book.getElement().getLocation().x, book.getElement().getLocation().y))
+                .perform();
+        //book.click();
         return bookInfo;
     }
 
