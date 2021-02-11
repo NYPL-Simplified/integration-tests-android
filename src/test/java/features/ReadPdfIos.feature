@@ -33,7 +33,7 @@ Feature: Read PDF IOS
     When I go to previous page in pdf book
     Then Pdf book page number is 1
 
-  @logout @cancelGet @tier1 @exclude_android
+  @logout @cancelGet @tier1 @exclude_android @testigor
   Scenario: Navigate by Table of Contents Menu
     When I search for 'Communication Beginnings: An Introductory Listening and Speaking Text for English Language Learners'
       And I GET book by name 'Communication Beginnings: An Introductory Listening and Speaking Text for English Language Learners' and save it as 'bookInfo'
