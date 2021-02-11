@@ -115,13 +115,9 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
         String key = actionButtonKey.i18n();
         waitForPageLoading();
-        logBooksCount(bookName, key);
         IButton actionButton = getButtonForBookWithAction(bookName, key);
         getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, "eBooks")), "eBooks").click();
-        //testing fix for misclick
         waitForPageLoading();
-        logBooksCount(bookName, key);
-        //ends here
         if (!actionButton.state().waitForDisplayed()) {
             actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
@@ -205,9 +201,5 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private String getBookParameter(String mainLocator, String subLocator, String name) {
         return Objects.requireNonNull(getElementFactory().getLabel(By.xpath(mainLocator + subLocator), name).getText());
-    }
-
-    private void logBooksCount(String bookName, String key) {
-        AqualityServices.getLogger().info("Count of buttons to click - " + getElementFactory().findElements(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, bookName, key)), ElementType.LABEL).size());
     }
 }
