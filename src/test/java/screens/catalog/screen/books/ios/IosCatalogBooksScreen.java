@@ -139,7 +139,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         AqualityServices.getLogger().info("GET btn locator - " + get.getLocator().toString());
         AqualityServices.getLogger().info("GET center - " + get.getElement().getCenter());
         AqualityServices.getLogger().info("GET Location - " + get.getElement().getLocation());
-        AqualityServices.getLogger().info("Back Location - " + getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@Name=\"Back\"]"), "Back").getElement().getLocation());
+        AqualityServices.getLogger().info("Back Location - " + getElementFactory().getButton(By.xpath("//XCUIElementTypeSearchField[contains(@name, \"Search\")]"), "Search").getElement().getLocation());
         TouchAction touchAction = new TouchAction(AqualityServices.getApplication().getDriver());
         touchAction.tap(PointOption.point(get.getElement().getLocation().x, get.getElement().getLocation().y))
                 .perform();
