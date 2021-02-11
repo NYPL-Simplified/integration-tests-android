@@ -111,7 +111,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
-        String key = actionButtonKey.i18n();
+        /*String key = actionButtonKey.i18n();
         waitForPageLoading();
         AqualityServices.getLogger().info("Count of buttons to click - " + getElementFactory().findElements(By.xpath(String.format(BUTTON_FOR_GIVEN_BOOK_XPATH_PATTERN, bookName, key)), ElementType.LABEL).size());
         IButton actionButton = getButtonForBookWithAction(bookName, key);
@@ -127,7 +127,20 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
             actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
         //ends here
-        return openBook(actionButton, bookName);
+        return openBook(actionButton, bookName);*/
+        waitForPageLoading();
+        getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, "eBooks")), "eBooks").click();
+        waitForPageLoading();
+        IButton book = getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN, bookName)), "Book");
+        book.findChildElement(By.xpath("./XCUIElementTypeOther/XCUIElementTypeButton[@name=\"Get\"]"), ElementType.BUTTON).click();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        CatalogBookModel bookInfo = getBookInfo(bookName);
+        book.click();
+        return bookInfo;
     }
 
     @Override
