@@ -23,6 +23,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeCollectionView";
 
     private static final String ADD_BOOK_BUTTON_PATTERN = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
+    private static final String ADD_BOOK_BUTTON_PATTERN2 = "//XCUIElementTypeStaticText[@name=\"%1$s\"]/..";
     private static final String BOOKS_LOC = ".//XCUIElementTypeCell";
     private static final String BOOK_BLOCK_BY_BUTTON_LOC = "//XCUIElementTypeCell[.//XCUIElementTypeButton[@name=\"%1$s\"]]";
     private static final String BOOK_TITLE_LOC = "//XCUIElementTypeStaticText[@name][1]";
@@ -131,7 +132,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         waitForPageLoading();
         getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, "eBooks")), "eBooks").click();
         waitForPageLoading();
-        IButton book = getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN, bookName)), "Book");
+        IButton book = getElementFactory().getButton(By.xpath(String.format(ADD_BOOK_BUTTON_PATTERN2, bookName)), "Book");
         book.findChildElement(By.xpath("./XCUIElementTypeOther/XCUIElementTypeButton[@name=\"Get\"]"), ElementType.BUTTON).click();
         try {
             Thread.sleep(3000);
