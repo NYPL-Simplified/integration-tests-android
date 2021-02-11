@@ -36,6 +36,6 @@ public class SearchSteps {
         searchModal.setSearchedText(searchedText);
         searchModal.applySearch();
         Assert.assertTrue(searchModal.state().waitForNotDisplayed(), "Search modal is not disappear");
-        Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), String.format("Search page for book %s is not present", searchedText));
+        Assert.assertTrue(subcategoryScreen.state().waitForDisplayed(), String.format("Search results page for value '%s' is not present. Error (if present) - %s", searchedText, subcategoryScreen.getErrorMessage()));
     }
 }
