@@ -28,22 +28,22 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_BLOCK_BY_TITLE_LOC =
             "//*[contains(@resource-id,\"bookCellIdle\") and .//*[contains(@resource-id,\"bookCellIdleTitle\") and contains(@text, \"%1$s\")]]";
 
-    private static final String BOOK_IMAGE_LOC = "//*[contains(@resource-id,\"bookCellIdleCover\")]";
     private static final String BOOK_TITLE_LOC = "//*[contains(@resource-id,\"bookCellIdleTitle\")]";
     private static final String BOOK_AUTHOR_LOC = "//*[contains(@resource-id,\"bookCellIdleAuthor\")]";
     private static final String BOOK_TYPE_LOC = "//*[contains(@resource-id,\"bookCellIdleMeta\")]";
     private static final String BOOK_ADD_BUTTON_LOC =
             "//*[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button[@content-desc=\"%1$s\"]";
-    public static final String BOOK_OF_TYPE_BUTTON_PATTERN =
+    private static final String BOOK_OF_TYPE_BUTTON_PATTERN =
             "//android.widget.TextView[contains(@resource-id,\"bookCellIdleMeta\") and @text=\"%1$s\"]"
                     + "/following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%2$s\"]";
-    public static final String BOOK_BY_NAME_BUTTON_PATTERN =
+    private static final String BOOK_BY_NAME_BUTTON_PATTERN =
             "//android.widget.TextView[contains(@resource-id,\"bookCellIdleTitle\") and @text=\"%1$s\"]"
                     + "/following-sibling::android.widget.LinearLayout/android.widget.Button[@content-desc=\"%2$s\"]";
-    public static final String BOOK_COVER_LOCATOR = "//*[contains(@resource-id,\"bookCellIdleCover\")]";
+    private static final String BOOK_COVER_LOCATOR = "//*[contains(@resource-id,\"bookCellIdleCover\")]";
+    private static final String BOOK_JACKET_XPATH_PATTERN =
+            "//*[contains(@resource-id,\"bookCellIdle\") and .//android.widget.Button[@content-desc=\"%1$s\"]]";
 
-    private final ILabel lblFirstFoundBook = getElementFactory().getLabel(
-            By.xpath(BOOKS_LOC), "First found book");
+    private final ILabel lblFirstFoundBook = getElementFactory().getLabel(By.xpath(BOOKS_LOC), "First found book");
     private final ILabel lblErrorDetails = getElementFactory().getLabel(By.id("errorDetails"), "Error details");
     private final IButton btnErrorDetails = getElementFactory().getButton(By.id("bookCellErrorButtonDetails"), "Error details");
     private String RELATIVE_BOOK_TITLE_LOCATOR_PATTERN =
@@ -147,7 +147,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     private ILabel getBookJacketWithGivenButtonLabel(BookActionButtonKeys button) {
         String key = button.i18n();
-        return getElementFactory().getLabel(By.xpath(String.format("//*[contains(@resource-id,\"bookCellIdle\") " + "and .//android.widget.Button[@content-desc=\"%1$s\"]]", key)), "Book jacket with" + key);
+        return getElementFactory().getLabel(By.xpath(String.format(BOOK_JACKET_XPATH_PATTERN, key)), "Book jacket with " + key);
     }
 
     private void clickOnSpecificBookElement(IElement bookWithSpecificAddBtn) {
@@ -190,7 +190,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     private String getBookDescriptionFromImage(String mainLocator) {
-        return getElementFactory().getLabel(By.xpath(mainLocator + BOOK_IMAGE_LOC), "Book image content description").getAttribute(AndroidAttributes.CONTENT_DESC);
+        return getElementFactory().getLabel(By.xpath(mainLocator + BOOK_COVER_LOCATOR), "Book image content description").getAttribute(AndroidAttributes.CONTENT_DESC);
     }
 
     private String getBookParameter(String mainLocator, String subLocator, String name) {

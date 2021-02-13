@@ -1,5 +1,7 @@
 package stepdefinitions.catalog;
 
+import aquality.appium.mobile.application.AqualityServices;
+import aquality.appium.mobile.application.PlatformName;
 import com.google.inject.Inject;
 import constants.application.ReaderType;
 import constants.localization.application.catalog.BookActionButtonKeys;
@@ -104,15 +106,21 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
 
     @When("I open the book details for the subsequent {} and save it as {string}")
     @And("Open the book details for the subsequent {} and save it as {string}")
-    public void openBookDetailsExecuteBookActionAndSaveItToContext(
-            BookActionButtonKeys actionButtonKey, String bookInfoKey) {
-        catalogSteps.openBookDetailsExecuteBookActionAndSaveItToContext(actionButtonKey, bookInfoKey);
+    public void openBookDetailsExecuteBookActionAndSaveItToContext(BookActionButtonKeys actionButtonKey, String bookInfoKey) {
+        if (actionButtonKey == BookActionButtonKeys.DOWNLOAD && AqualityServices.getApplication().getPlatformName() == PlatformName.IOS) {
+            catalogSteps.openBookDetailsExecuteBookActionAndSaveItToContext(BookActionButtonKeys.GET, bookInfoKey);
+        } else {
+            catalogSteps.openBookDetailsExecuteBookActionAndSaveItToContext(actionButtonKey, bookInfoKey);
+        }
     }
 
     @And("{} book and save it as {string}")
-    public void executeBookActionAndSaveItToContextAndLibraryCancel(
-            BookActionButtonKeys actionButtonKey, String bookInfoKey) {
-        catalogSteps.executeBookActionAndSaveItToContextAndLibraryCancel(actionButtonKey, bookInfoKey);
+    public void executeBookActionAndSaveItToContextAndLibraryCancel(BookActionButtonKeys actionButtonKey, String bookInfoKey) {
+        if (actionButtonKey == BookActionButtonKeys.DOWNLOAD && AqualityServices.getApplication().getPlatformName() == PlatformName.IOS) {
+            catalogSteps.executeBookActionAndSaveItToContextAndLibraryCancel(BookActionButtonKeys.GET, bookInfoKey);
+        } else {
+            catalogSteps.executeBookActionAndSaveItToContextAndLibraryCancel(actionButtonKey, bookInfoKey);
+        }
     }
 
     @When("I {} book of {string} type and save it as {string}")
