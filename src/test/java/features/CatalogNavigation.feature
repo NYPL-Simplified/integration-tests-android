@@ -144,12 +144,6 @@ This series of adventure novels starring the genius boy inventor Tom Swift falls
       And Count of books in search result is more then 1
     When I return to previous screen
     Then Current category name is 'Related books…'
-      And Count of books in subcategory 'Similar titles recommended by NoveList' lane is more then 1
-    When I open 'Similar titles recommended by NoveList' subcategory
-    Then Current category name by localization is TITLE_RECOMMENDED_BY_NOVELIST
-      And Count of books in search result is more then 1
-    When I return to previous screen
-    Then Current category name is 'Related books…'
       And Count of books in subcategory 'Tom Swift' lane is more then 1
     When I open 'Tom Swift' subcategory
     Then Current category name is 'Tom Swift'
@@ -182,11 +176,6 @@ Dark times have come to Hogwarts. After the Dementors' attack on his cousin Dudl
     Then Count of books in subcategory 'J. K. Rowling' lane is up to 12
     When I open 'J. K. Rowling' subcategory
     Then Current category name is 'J. K. Rowling'
-      And Count of books in search result is up to 12
-    When I return to previous screen
-    Then Count of books in subcategory 'Similar titles recommended by NoveList' lane is up to 12
-    When I open 'Similar titles recommended by NoveList' subcategory
-    Then Current category name by localization is TITLE_RECOMMENDED_BY_NOVELIST
       And Count of books in search result is up to 12
     When I return to previous screen
     Then Count of books in subcategory 'Harry Potter' lane is up to 12
