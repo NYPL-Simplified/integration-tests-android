@@ -14,12 +14,10 @@ public class IosFacetedSearchScreen extends FacetedSearchScreen {
     private static final String MAIN_ELEMENT = "//XCUIElementTypeCollectionView/preceding-sibling::XCUIElementTypeOther";
     private static final String FACET_SEARCH_SELECTION = "//XCUIElementTypeButton[@name=\"%1$s\"]";
 
-    private final IButton availabilityButton = getElementFactory().getButton(
-            By.xpath(String.format("(%1$s//XCUIElementTypeButton)[2]", MAIN_ELEMENT)),
-            "Availability button");
-    private final IButton btnSortBy = getElementFactory().getButton(
-            By.xpath(String.format("(%1$s//XCUIElementTypeButton)[1]", MAIN_ELEMENT)),
-            "Sort by button");
+    private final IButton availabilityButton =
+            getElementFactory().getButton(By.xpath(String.format("(%1$s//XCUIElementTypeButton)[2]", MAIN_ELEMENT)), "Availability");
+    private final IButton btnSortBy =
+            getElementFactory().getButton(By.xpath(String.format("(%1$s//XCUIElementTypeButton)[1]", MAIN_ELEMENT)), "Sort by");
 
     public IosFacetedSearchScreen() {
         super(By.xpath(MAIN_ELEMENT));

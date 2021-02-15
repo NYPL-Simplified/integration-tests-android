@@ -109,7 +109,9 @@ public class IosBooksScreen extends BooksScreen {
 
     @Override
     public void scrollUp() {
-        SwipeElementUtils.swipeElementDown(mainBooksElementCollection);
+        if (mainBooksElementCollection.state().isDisplayed()) {
+            SwipeElementUtils.swipeElementDown(mainBooksElementCollection);
+        }
     }
 
     private List<String> getBookNames() {

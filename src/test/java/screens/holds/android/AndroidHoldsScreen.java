@@ -53,21 +53,13 @@ public class AndroidHoldsScreen extends HoldsScreen {
 
     @Override
     public void clickBookByTitleButtonWithKey(String title, BookActionButtonKeys key) {
-        final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
-        final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
-                        key.i18n())), String.format("Book %1$s button", key.i18n()));
-        clickOnSpecificBookElement(bookAddBtn);
+        clickOnSpecificBookElement(getActionButton(key, getBookTitleLocator(title)));
     }
 
     @Override
     public boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key) {
-        final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, bookTitle);
-        final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.i18n())),
-                String.format("Book %1$s button", key.i18n()));
-        return bookAddBtn.state().waitForDisplayed(
-                Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+        IButton btnBookAction = getActionButton(key, getBookTitleLocator(bookTitle));
+        return btnBookAction.state().waitForDisplayed(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
     @Override
@@ -85,5 +77,14 @@ public class AndroidHoldsScreen extends HoldsScreen {
                 getElementFactory().getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo)), "No Books Present");
         book.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         return book;
+    }
+
+    private IButton getActionButton(BookActionButtonKeys key, String blockLoc) {
+        String buttonName = key.i18n();
+        return getElementFactory().getButton(By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, buttonName)), buttonName);
+    }
+
+    private String getBookTitleLocator(String title) {
+        return String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
     }
 }

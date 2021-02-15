@@ -7,7 +7,6 @@ import aquality.appium.mobile.elements.interfaces.IButton;
 import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import constants.RegEx;
-import constants.application.timeouts.PdfTimeouts;
 import constants.localization.application.reader.PdfButtons;
 import framework.utilities.CoordinatesClickUtils;
 import framework.utilities.RegExUtil;
@@ -17,10 +16,6 @@ import framework.utilities.swipe.directions.EntireScreenDragDirection;
 import org.openqa.selenium.By;
 import screens.pdfreader.PdfReaderScreen;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
-
-import java.time.Duration;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosPdfReaderScreen extends PdfReaderScreen {
@@ -37,6 +32,8 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
             getElementFactory().getButton(By.xpath(String.format(BUTTON_LOC_PATTERN, PdfButtons.CHAPTERS.i18n())), "Table of contents");
     private final IButton btnSearch =
             getElementFactory().getButton(By.xpath("(//XCUIElementTypeNavigationBar/XCUIElementTypeButton)[3]"), "Search btn");
+    private final IButton btnTableOfContents =
+            getElementFactory().getButton(By.xpath("(//XCUIElementTypeNavigationBar/XCUIElementTypeButton)[2]"), "Table of contents");
     private final IButton btnGoBack =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeNavigationBar/XCUIElementTypeButton"), "Go back");
 
@@ -76,32 +73,6 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
     }
 
     @Override
-    public Set<String> getListOfChapters() {
-        PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContentsInListView();
-        AqualityServices.getConditionalWait().waitFor(() -> pdfTableOfContentsScreen.getChaptersCount() > 0,
-                Duration.ofMillis(PdfTimeouts.PDF_LIST_OF_CHAPTERS_APPEAR_TIMEOUT.getTimeoutMillis()));
-        Set<String> bookNames = pdfTableOfContentsScreen.getListOfBookChapters();
-        AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
-        AqualityServices.getApplication().getDriver().navigate().back();
-        AqualityServices.getLogger().info("Found chapters - " + bookNames.stream().map(Object::toString).collect(Collectors.joining(", ")));
-        return bookNames;
-    }
-
-    @Override
-    public void openChapter(String chapter) {
-        PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContentsInListView();
-        pdfTableOfContentsScreen.openChapter(chapter);
-    }
-
-    @Override
-    public int getChapterPageNumber(String chapter) {
-        PdfTableOfContentsScreen pdfTableOfContentsScreen = openTableOfContentsInListView();
-        int chapterPageNumber = pdfTableOfContentsScreen.getChapterPageNumber(chapter);
-        AqualityServices.getApplication().getDriver().navigate().back();
-        return chapterPageNumber;
-    }
-
-    @Override
     public void slidePageSlider(EntireScreenDragDirection entireScreenDragDirection) {
         // not implemented on iOS
     }
@@ -115,12 +86,6 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
         return pdfTableOfContentsScreen;
     }
 
-    private PdfTableOfContentsScreen openTableOfContentsInListView() {
-        PdfTableOfContentsScreen pdfTableOfContentsScreen = openChaptersGallery();
-        pdfTableOfContentsScreen.switchToChaptersListView();
-        return pdfTableOfContentsScreen;
-    }
-
     @Override
     public void openSearchPdf() {
         btnSearch.click();
@@ -129,5 +94,10 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
     @Override
     public void closeReader() {
         btnGoBack.click();
+    }
+
+    @Override
+    public void openTableOfContents() {
+        btnTableOfContents.click();
     }
 }

@@ -23,11 +23,9 @@ import java.util.Objects;
 @ScreenType(platform = PlatformName.ANDROID)
 public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     private static final String ADD_BOOK_BUTTON_PATTERN = "//android.widget.Button[@content-desc=\"%1$s\"]";
-
     private static final String BOOKS_LOC = ".//*[contains(@resource-id,\"bookCellIdle\")]";
     private static final String BOOK_BLOCK_BY_TITLE_LOC =
             "//*[contains(@resource-id,\"bookCellIdle\") and .//*[contains(@resource-id,\"bookCellIdleTitle\") and contains(@text, \"%1$s\")]]";
-
     private static final String BOOK_TITLE_LOC = "//*[contains(@resource-id,\"bookCellIdleTitle\")]";
     private static final String BOOK_AUTHOR_LOC = "//*[contains(@resource-id,\"bookCellIdleAuthor\")]";
     private static final String BOOK_TYPE_LOC = "//*[contains(@resource-id,\"bookCellIdleMeta\")]";
@@ -42,12 +40,13 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     private static final String BOOK_COVER_LOCATOR = "//*[contains(@resource-id,\"bookCellIdleCover\")]";
     private static final String BOOK_JACKET_XPATH_PATTERN =
             "//*[contains(@resource-id,\"bookCellIdle\") and .//android.widget.Button[@content-desc=\"%1$s\"]]";
+    private static final String ANY_BUTTON_LOCATOR_XPATH = "//*[contains(@resource-id,\"bookCellIdleButtons\")]/android.widget.Button[@content-desc]";
+    private String RELATIVE_BOOK_TITLE_LOCATOR_PATTERN =
+            "%s/../preceding-sibling::android.widget.TextView[contains(@resource-id,\"bookCellIdleTitle\")]";
 
     private final ILabel lblFirstFoundBook = getElementFactory().getLabel(By.xpath(BOOKS_LOC), "First found book");
     private final ILabel lblErrorDetails = getElementFactory().getLabel(By.id("errorDetails"), "Error details");
     private final IButton btnErrorDetails = getElementFactory().getButton(By.id("bookCellErrorButtonDetails"), "Error details");
-    private String RELATIVE_BOOK_TITLE_LOCATOR_PATTERN =
-            "%s/../preceding-sibling::android.widget.TextView[contains(@resource-id,\"bookCellIdleTitle\")]";
 
     public AndroidCatalogBooksScreen() {
         super(By.id("feedWithGroups"));
@@ -67,8 +66,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public CatalogBookModel getBookInfo(final String title) {
-        final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
-        return getBookModel(blockLoc);
+        return getBookModel(getBlockLocator(title));
     }
 
     @Override
@@ -78,11 +76,11 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public void clickBookByTitleButtonWithKey(String title, BookActionButtonKeys key) {
-        final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
-        final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
-                        key.i18n())), String.format("Book %1$s button", key.i18n()));
-        clickOnSpecificBookElement(bookAddBtn);
+        String buttonName = key.i18n();
+        IButton bookActionBtn =
+                getElementFactory().getButton(By.xpath(getBlockLocator(title) + String.format(BOOK_ADD_BUTTON_LOC, buttonName)), buttonName);
+        clickOnSpecificBookElement(bookActionBtn);
+        bookActionBtn.state().waitForNotDisplayed();
     }
 
     @Override
@@ -92,12 +90,12 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     @Override
     public boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key) {
-        final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, bookTitle);
-        final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.i18n())),
-                String.format("Book %1$s button", key.i18n()));
-        return bookAddBtn.state().waitForDisplayed(
-                Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+        String buttonName = key.i18n();
+        IButton bookBtn =
+                getElementFactory().getButton(By.xpath(getBlockLocator(bookTitle) + ANY_BUTTON_LOCATOR_XPATH), buttonName);
+        AqualityServices.getConditionalWait().waitFor(() ->
+                bookBtn.state().isDisplayed() || btnErrorDetails.state().isDisplayed(), Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+        return bookBtn.getAttribute(AndroidAttributes.CONTENT_DESC).equals(buttonName);
     }
 
     @Override
@@ -195,5 +193,9 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
 
     private String getBookParameter(String mainLocator, String subLocator, String name) {
         return Objects.requireNonNull(getElementFactory().getLabel(By.xpath(mainLocator + subLocator), name).getText());
+    }
+
+    private String getBlockLocator(String title) {
+        return String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
     }
 }

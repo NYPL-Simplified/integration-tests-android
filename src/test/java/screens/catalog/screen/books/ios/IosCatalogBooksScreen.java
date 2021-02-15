@@ -152,8 +152,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private ILabel getBookJacketWithGivenButtonName(BookActionButtonKeys button) {
         String key = button.i18n();
-        return getElementFactory().getLabel(By.xpath(String.format(BOOK_BLOCK_BY_BUTTON_LOC, key)),
-                "Book jacket with btn " + key);
+        return getElementFactory().getLabel(By.xpath(String.format(BOOK_BLOCK_BY_BUTTON_LOC, key)), "Book jacket with button " + key);
     }
 
     private void clickOnSpecificBookElement(IElement bookWithSpecificAddBtn) {
