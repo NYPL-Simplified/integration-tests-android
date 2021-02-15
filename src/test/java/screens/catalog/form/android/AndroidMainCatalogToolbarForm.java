@@ -17,15 +17,11 @@ public class AndroidMainCatalogToolbarForm extends MainCatalogToolbarForm {
                     By.xpath(MAIN_ELEMENT_LOC +
                             "//android.widget.ImageButton[@content-desc=\"Choose another library catalog…\"]"),
                     "Menu");
-    private final IButton backBtn = getElementFactory().getButton(
-            By.xpath(MAIN_ELEMENT_LOC + "/android.widget.ImageButton"),
-            "Back button");
-
+    private final IButton backBtn = getElementFactory().getButton(By.xpath(MAIN_ELEMENT_LOC + "/android.widget.ImageButton"), "Back");
     private final ILabel lblCategoryName =
             getElementFactory().getLabel(By.xpath(CATEGORY_INFO_LOCATOR_PART + "[1]"), "Category name");
     private final ILabel lblCatalogName =
             getElementFactory().getLabel(By.xpath(CATEGORY_INFO_LOCATOR_PART + "[2]"), "Catalog name");
-
     private final IButton btnSearch =
             getElementFactory().getButton(By.xpath(MAIN_ELEMENT_LOC + "//*[contains(@resource-id,\"catalogMenuActionSearch\")]"), "Search");
 

@@ -30,9 +30,9 @@ public class AndroidCatalogScreen extends CatalogScreen {
     private static final String BOOKS_LOCATOR = "//androidx.recyclerview.widget.RecyclerView[1]"
             + "//android.widget.LinearLayout[@content-desc]";
     private static final String FEED_LANE_TITLES_LOC = "//*[contains(@resource-id,\"feedLaneTitle\")]";
-    public static final String LANE_LOCATOR_PATTERN = "//*[contains(@text,'{%s} - Medium {%s}')]";
-    public static final String BOOK_IN_LANE_LOCATOR_PATTERN = "//*[contains(@text,'{%s} - Medium {%s}')]/following-sibling::androidx.recyclerview.widget.RecyclerView/android.widget.LinearLayout";
-    public static final String BOOK_OF_TYPE_LOCATOR_PATTERN = "//android.widget.LinearLayout[contains(@content-desc,'%s')]";
+    private static final String BOOK_IN_LANE_LOCATOR_PATTERN =
+            "//*[contains(@text,'{%s} - Medium {%s}')]/following-sibling::androidx.recyclerview.widget.RecyclerView/android.widget.LinearLayout";
+    private static final String CATEGORY_NAME_XPATH_LOCATOR = "//android.widget.LinearLayout/android.widget.TextView";
 
     private final ILabel lblFirstLaneName = getElementFactory().getLabel(By.xpath(FEED_LANE_TITLES_LOC), "First lane name");
     private final ILabel lblMainFragment =
@@ -163,7 +163,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     @Override
     public Set<String> getAllCategoriesNames() {
-        AqualityServices.getConditionalWait().waitFor(() -> getListOfCategories().size() > 0);
+        AqualityServices.getConditionalWait().waitFor(() -> getLabels(CATEGORY_NAME_XPATH_LOCATOR).size() > 0);
         List<String> currentCategoriesNames = getListOfCategories();
         Set<String> bookNames = new HashSet<>();
         do {
@@ -188,7 +188,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
     }
 
     private List<String> getListOfCategories() {
-        return getTextFromListOfLabels("//android.widget.LinearLayout/android.widget.TextView");
+        return getTextFromListOfLabels(CATEGORY_NAME_XPATH_LOCATOR);
     }
 
     private List<String> getValuesFromListOfLabels(String xpath) {

@@ -16,22 +16,19 @@ import java.time.Duration;
 @ScreenType(platform = PlatformName.IOS)
 public class IosHoldsScreen extends HoldsScreen {
     private static final String MAIN_ELEMENT_EXISTING_BOOKS_IN_HOLDS = "//XCUIElementTypeStaticText[@name=\"WAITING FOR AVAILABILITY\"]";
-    private static final String LBL_NO_BOOKS_LOC = "//XCUIElementTypeStaticText"
-            + "[@name=\"When you reserve a book from the catalog, it will show up here. "
-            + "Look here from time to time to see if your book is available to download.\"]";
+    private static final String LBL_NO_BOOKS_LOC =
+            "//XCUIElementTypeStaticText[@name=\"When you reserve a book from the catalog, it will show up here. Look here from time to time to see if your book is available to download.\"]";
+    private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[contains(@name,\"%1$s\")]";
+    private static final String BOOK_BLOCK_BY_TITLE_LOC =
+            String.format("//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_INFO_LOCATOR_PATTERN);
+    private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
+
     private final ILabel lblNoBooks = getElementFactory().getLabel(By.xpath(LBL_NO_BOOKS_LOC),
             "No Books Present");
     private final IButton btnRemove =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeStaticText[@name=\"Remove\"]"), "Remove");
     private final IButton btnApproveRemove =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Remove\"]"), "Approve Removal");
-
-    private static final String BOOK_INFO_LOCATOR_PATTERN = "//XCUIElementTypeStaticText[contains(@name,\"%1$s\")]";
-
-    private static final String BOOK_BLOCK_BY_TITLE_LOC = String.format(
-            "//XCUIElementTypeCollectionView//XCUIElementTypeCell[.%1$s]", BOOK_INFO_LOCATOR_PATTERN);
-
-    private static final String BOOK_ADD_BUTTON_LOC = "//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
     public IosHoldsScreen() {
         super(By.xpath(MAIN_ELEMENT_EXISTING_BOOKS_IN_HOLDS + "|" + LBL_NO_BOOKS_LOC));
@@ -60,21 +57,13 @@ public class IosHoldsScreen extends HoldsScreen {
 
     @Override
     public void clickBookByTitleButtonWithKey(String title, BookActionButtonKeys key) {
-        final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
-        final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC,
-                        key.i18n())), String.format("Book %1$s button", key.i18n()));
-        clickOnSpecificBookElement(bookAddBtn);
+        clickOnSpecificBookElement(getBookActionButton(key, getBookBlockLocator(title)));
     }
 
     @Override
     public boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key) {
-        final String blockLoc = String.format(BOOK_BLOCK_BY_TITLE_LOC, bookTitle);
-        final IButton bookAddBtn = getElementFactory().getButton(
-                By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.i18n())),
-                String.format("Book %1$s button", key.i18n()));
-        return bookAddBtn.state().waitForDisplayed(
-                Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+        IButton btnBookAdd = getBookActionButton(key, getBookBlockLocator(bookTitle));
+        return btnBookAdd.state().waitForDisplayed(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
     }
 
     @Override
@@ -89,5 +78,13 @@ public class IosHoldsScreen extends HoldsScreen {
 
     private ILabel getBook(String bookInfo) {
         return getElementFactory().getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo)), bookInfo);
+    }
+
+    private IButton getBookActionButton(BookActionButtonKeys key, String blockLoc) {
+        return getElementFactory().getButton(By.xpath(blockLoc + String.format(BOOK_ADD_BUTTON_LOC, key.i18n())), String.format("Book %1$s", key.i18n()));
+    }
+
+    private String getBookBlockLocator(String title) {
+        return String.format(BOOK_BLOCK_BY_TITLE_LOC, title);
     }
 }

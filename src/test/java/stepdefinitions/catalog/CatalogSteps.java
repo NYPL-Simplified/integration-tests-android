@@ -301,7 +301,7 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     }
 
     @And("I open {} book from {string} lane and save book info as {string}")
-    public void openBookTypeBookFromLLaneAndSaveBookInfoAs(ReaderType readerType, String laneName, String bookInfoKey) {
+    public void openBookTypeBookFromLaneAndSaveBookInfoAs(ReaderType readerType, String laneName, String bookInfoKey) {
         catalogSteps.openBookFromLane(readerType, laneName, bookInfoKey);
     }
 

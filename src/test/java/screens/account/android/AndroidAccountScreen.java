@@ -31,11 +31,13 @@ public class AndroidAccountScreen extends AccountScreen {
     private final IButton btnLogout = getElementFactory().getButton(
             By.xpath(String.format(LOGIN_BTN_LOC_PATTERN, AccountScreenLoginStatus.LOG_OUT.i18n())),
             "Log out");
-    private final IButton btnLogInError = getElementFactory().getButton(By.id("accountLoginProgressText"), "Error info");
+    private final IButton btnLogInError = getElementFactory().getButton(By.id("accountLoginButtonErrorDetails"), "Error info");
     private final ITextBox txbCard = getElementFactory().getTextBox(By.id("authBasicUserField"), "Card");
     private final ITextBox txbPin = getElementFactory().getTextBox(By.id("authBasicPassField"), "Pin");
     private final ILabel lblLoginFailed =
             getElementFactory().getLabel(By.id("accountLoginProgressText"), "Login Failed Message");
+    private final ILabel lblLoading =
+            getElementFactory().getLabel(By.id("accountLoginProgressBar"), "Login loading status bar");
 
     public AndroidAccountScreen() {
         super(By.id("auth"));
@@ -65,8 +67,10 @@ public class AndroidAccountScreen extends AccountScreen {
 
     @Override
     public boolean isLoginSuccessful() {
-        waitForLogoutButtonAppear();
-        btnLogout.state().waitForExist(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+        lblLoading.state().waitForDisplayed();
+        lblLoading.state().waitForNotDisplayed();
+        AqualityServices.getConditionalWait().waitFor(() ->
+                btnLogout.state().isDisplayed() || btnLogInError.state().isDisplayed(), Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
         return getLoginButtonText().equals(AccountScreenLoginStatus.LOG_OUT.i18n());
     }
 
@@ -93,10 +97,6 @@ public class AndroidAccountScreen extends AccountScreen {
     @Override
     public boolean isLogoutRequired() {
         return btnLogout.state().isDisplayed();
-    }
-
-    private void waitForLogoutButtonAppear() {
-        AqualityServices.getConditionalWait().waitFor(() -> getLoginButtonText().equals(AccountScreenLoginStatus.LOG_OUT.i18n()));
     }
 
     private String getLoginButtonText() {

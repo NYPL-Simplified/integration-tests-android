@@ -252,11 +252,16 @@ public class ReaderSteps {
     @And("Each chapter of pdf book can be opened from Table of Contents")
     public void checkEachChapterOfPdfBookCanBeOpenedFromTableOfContents() {
         SoftAssert softAssert = new SoftAssert();
-        Set<String> chapters = pdfReaderScreen.getListOfChapters();
+        pdfReaderScreen.openTableOfContents();
+        pdfTableOfContentsScreen.switchToChaptersListView();
+        Set<String> chapters = pdfTableOfContentsScreen.getListOfBookChapters();
+        AqualityServices.getApplication().getDriver().navigate().back();
         for (String chapter : chapters) {
-            int pageNumber = pdfReaderScreen.getChapterPageNumber(chapter);
-            pdfReaderScreen.openChapter(chapter);
-            softAssert.assertNotEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Chapter name is not correct");
+            pdfReaderScreen.openTableOfContents();
+            pdfTableOfContentsScreen.state().waitForDisplayed();
+            int pageNumber = pdfTableOfContentsScreen.getChapterPageNumber(chapter);
+            pdfTableOfContentsScreen.openChapter(chapter);
+            softAssert.assertEquals(pdfReaderScreen.getPageNumber(), pageNumber, "Chapter name is not correct");
         }
         softAssert.assertAll();
     }
