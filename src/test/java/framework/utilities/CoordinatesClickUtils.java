@@ -23,12 +23,12 @@ public final class CoordinatesClickUtils {
         clickOutOfElement(iElement, yOffset);
     }
 
-    public static void clickOutOfElement(IElement iElement, int yOffset) {
-        Point fontChoicesScreenUpperLeftPoint = iElement.getElement().getLocation();
-        Dimension fontChoicesScreenSize = iElement.getElement().getSize();
+    public static void clickOutOfElement(IElement element, int yOffset) {
+        Point fontChoicesScreenUpperLeftPoint = element.getElement().getLocation();
+        Dimension fontChoicesScreenSize = element.getElement().getSize();
 
         TouchAction<?> touchAction = new TouchAction<>(AqualityServices.getApplication().getDriver());
-        touchAction.tap(PointOption.point(fontChoicesScreenUpperLeftPoint.x + fontChoicesScreenSize.width / 2,
-                fontChoicesScreenUpperLeftPoint.y - yOffset)).perform();
+        int offset = fontChoicesScreenUpperLeftPoint.y + fontChoicesScreenSize.height + yOffset;
+        touchAction.tap(PointOption.point(fontChoicesScreenUpperLeftPoint.x + fontChoicesScreenSize.width / 2, offset)).perform();
     }
 }

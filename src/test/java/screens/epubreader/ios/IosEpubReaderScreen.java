@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosEpubReaderScreen extends EpubReaderScreen {
-    public static final String EPUB_CONTENT_IFRAME = "epubContentIframe";
+    private static final String EPUB_CONTENT_IFRAME = "epubContentIframe";
     private static final String CHAPTER_ITEM_LOC = "//XCUIElementTypeTable//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]";
 
     private final ILabel lblBookName =
@@ -47,8 +47,10 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
     }
 
     private void checkThatBookOpenedAndOpenMenus() {
-        Assert.assertTrue(super.state().waitForDisplayed(), "Book page does not displayed");
-        CoordinatesClickUtils.clickAtCenterOfScreen();
+        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> state().isDisplayed() || btnFontSettings.state().isDisplayed()), "Book page does not displayed");
+        if (!btnFontSettings.state().isDisplayed()) {
+            CoordinatesClickUtils.clickAtCenterOfScreen();
+        }
     }
 
     @Override
@@ -118,11 +120,13 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
 
     @Override
     public void openFontSettings() {
+        checkThatBookOpenedAndOpenMenus();
         btnFontSettings.click();
     }
 
     @Override
     public void openTableOfContents() {
+        checkThatBookOpenedAndOpenMenus();
         btnChapters.click();
     }
 

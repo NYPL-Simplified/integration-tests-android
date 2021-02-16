@@ -11,8 +11,10 @@ import screens.fontchoicesscreen.FontChoicesScreen;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosFontChoicesScreen extends FontChoicesScreen {
-    private static final String MAIN_ELEMENT = "//XCUIElementTypeOther[./XCUIElementTypeButton[@name=\"Decrease font size\"]]";
+    private static final String MAIN_ELEMENT = "//XCUIElementTypeOther[./XCUIElementTypeButton[@name=\"Sans font\"]]";
     private static final String SETTING_LOC = "//XCUIElementTypeButton[@name=\"%1$s\"]";
+
+    private final ILabel fontChoicesScreen = getElementFactory().getLabel(By.xpath(MAIN_ELEMENT), "Font choices screen");
 
     public IosFontChoicesScreen() {
         super(By.xpath(MAIN_ELEMENT));
@@ -26,9 +28,7 @@ public class IosFontChoicesScreen extends FontChoicesScreen {
 
     @Override
     public void closeFontChoices() {
-        ILabel fontChoicesScreen = getElementFactory().getLabel(By.xpath(MAIN_ELEMENT), "Font choices screen");
         CoordinatesClickUtils.clickOutOfElement(fontChoicesScreen);
-
         Assert.assertTrue(super.state().waitForNotDisplayed(), "Font choices screen is not closed");
         CoordinatesClickUtils.clickAtCenterOfScreen();
     }
