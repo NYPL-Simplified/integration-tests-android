@@ -32,7 +32,7 @@ public class AndroidHoldsScreen extends HoldsScreen {
 
     @Override
     public boolean isNoBooksMessagePresent() {
-        return lblNoBooks.state().isDisplayed();
+        return lblNoBooks.state().waitForDisplayed();
     }
 
     @Override
