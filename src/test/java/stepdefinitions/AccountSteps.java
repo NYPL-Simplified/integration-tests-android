@@ -119,7 +119,7 @@ public class AccountSteps {
         }
         accountScreen.enterCredentials(Configuration.getCredentials(feedName));
         if (!settingsScreen.state().waitForDisplayed()) {
-            Assert.assertTrue(accountScreen.isLoginSuccessful() || catalogScreen.state().waitForDisplayed(),
+            Assert.assertTrue(accountScreen.isLogoutRequired() || catalogScreen.state().waitForDisplayed(),
                     "Login failed. Message: " + accountScreen.getLoginFailedMessage() + catalogScreen.getErrorDetails());
         }
         bottomMenuForm.open(BottomMenu.CATALOG);

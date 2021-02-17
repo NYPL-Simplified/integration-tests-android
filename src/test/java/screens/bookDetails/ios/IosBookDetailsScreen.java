@@ -168,6 +168,11 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     }
 
+    @Override
+    public boolean isBookReadyToRead() {
+        return false;
+    }
+
     private IButton getActionButton(BookActionButtonKeys buttonKey) {
         String key = buttonKey.i18n();
         return getElementFactory().getButton(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, key)), key);
