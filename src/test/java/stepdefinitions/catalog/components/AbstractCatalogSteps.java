@@ -163,7 +163,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         IntStream.range(0, categoriesChain.size()).forEach(index -> {
             openCategory(categoriesChain.get(index));
             if (index != categoriesChain.size() - 1) {
-                Assert.assertTrue(catalogScreen.isCategoryPageLoad(), "Check that category page has been loaded");
+                Assert.assertTrue(catalogScreen.isCategoryPageLoad(), "Category page is not loaded. Error (if present) - " + catalogScreen.getErrorDetails());
             }
         });
     }
