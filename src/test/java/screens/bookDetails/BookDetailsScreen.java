@@ -41,4 +41,6 @@ public abstract class BookDetailsScreen extends Screen {
     public abstract void openErrorDetails();
 
     public abstract void swipeError();
+
+    public abstract boolean isBookReadyToRead();
 }

@@ -37,6 +37,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     private final IButton btnDownload = getActionButton(BookActionButtonKeys.DOWNLOAD);
     private final IButton btnRead = getActionButton(BookActionButtonKeys.READ);
     private final IButton btnDelete = getActionButton(BookActionButtonKeys.DELETE);
+    private final IButton btnListen = getActionButton(BookActionButtonKeys.LISTEN);
     private final IButton btnRelatedBooks =
             getElementFactory().getButton(By.xpath("//*[contains(@resource-id,\"bookDetailRelated\")]"), "Related books");
     private final IButton btnErrorDetails =
@@ -135,6 +136,11 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
     @Override
     public void swipeError() {
         SwipeElementUtils.swipeThroughEntireElementUp(lblErrorScreen);
+    }
+
+    @Override
+    public boolean isBookReadyToRead() {
+        return btnRead.state().isDisplayed() || btnListen.state().isDisplayed();
     }
 
     private IButton getActionButton(BookActionButtonKeys buttonKey) {
