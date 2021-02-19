@@ -97,7 +97,7 @@ public class AudioPlayerSteps {
     }
 
     @And("Book is playing")
-    public void checkBookIsPlaying() throws ParseException {
+    public void checkBookIsPlaying() {
         audioPlayerScreen.waitForBookLoading();
         Duration firstTiming = audioPlayerScreen.getCurrentPlayTime();
         Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() -> !firstTiming.equals(audioPlayerScreen.getCurrentPlayTime())),
@@ -105,7 +105,7 @@ public class AudioPlayerSteps {
     }
 
     @And("Book is not playing")
-    public void checkBookIsNotPlaying() throws ParseException {
+    public void checkBookIsNotPlaying() {
         Duration firstTiming = audioPlayerScreen.getCurrentPlayTime();
         Assert.assertEquals(audioPlayerScreen.getCurrentPlayTime(), firstTiming, "Book is still playing");
     }

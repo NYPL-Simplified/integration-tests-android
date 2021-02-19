@@ -70,11 +70,6 @@ public class AndroidPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     }
 
     @Override
-    public int getChaptersCount() {
-        return getChapters().size();
-    }
-
-    @Override
     public void scrollGallery(EntireElementSwipeDirection entireElementSwipeDirection) {
         throw new NotImplementedException();
     }

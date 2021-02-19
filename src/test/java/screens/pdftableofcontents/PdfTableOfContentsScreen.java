@@ -23,8 +23,6 @@ public abstract class PdfTableOfContentsScreen extends Screen {
 
     public abstract int getCountOfBookPages();
 
-    public abstract int getChaptersCount();
-
     public abstract void scrollGallery(EntireElementSwipeDirection entireElementSwipeDirection);
 
     public abstract void openGalleryPage(int pageNumber);

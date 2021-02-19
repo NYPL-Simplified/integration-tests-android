@@ -82,11 +82,6 @@ public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     }
 
     @Override
-    public int getChaptersCount() {
-        return getChapters().size();
-    }
-
-    @Override
     public void scrollGallery(EntireElementSwipeDirection entireElementSwipeDirection) {
         SwipeElementUtils.swipeThroughEntireElement(lblGallery, entireElementSwipeDirection);
     }

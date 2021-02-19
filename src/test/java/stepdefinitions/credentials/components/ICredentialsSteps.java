@@ -8,6 +8,4 @@ public interface ICredentialsSteps {
     void clickLogOut();
 
     void enterCredentialsForLibraryAccount(String libraryName);
-
-    void enterCredentialsForLibraryAccountViaKeyboard(String libraryName);
 }
