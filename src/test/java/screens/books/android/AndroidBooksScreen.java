@@ -1,6 +1,5 @@
 package screens.books.android;
 
-import aquality.appium.mobile.actions.SwipeDirection;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -49,12 +48,7 @@ public class AndroidBooksScreen extends BooksScreen {
 
     @Override
     public boolean isBookPresent(CatalogBookModel bookInfo) {
-        ILabel book = getElementFactory()
-                .getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getImageTitle())),
-                        "No Books Present");
-        book.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-
-        return book.state().waitForDisplayed();
+        return getAllBooksTitles().contains(bookInfo.getImageTitle());
     }
 
     @Override
@@ -90,13 +84,7 @@ public class AndroidBooksScreen extends BooksScreen {
     public void scrollForButtonWithAction(BookActionButtonKeys actionButton) {
         IButton button = getElementFactory().getButton(By.xpath(String.format(BOOK_ACTION_BUTTON_LOC, actionButton.i18n())), actionButton.i18n());
         if (!button.state().isDisplayed()) {
-            List<String> currentBooksNames = getBookNames();
-            Set<String> bookNames = new HashSet<>();
-            do {
-                bookNames.addAll(currentBooksNames);
-                SwipeElementUtils.swipeElementUp(btnScreen);
-                currentBooksNames = getBookNames();
-            } while (!bookNames.containsAll(currentBooksNames));
+            getAllBooksTitles();
         }
     }
 
@@ -119,5 +107,16 @@ public class AndroidBooksScreen extends BooksScreen {
 
     private List<IElement> getBooks() {
         return getElementFactory().findElements(By.xpath(BOOKS_LABELS_XPATH), ElementType.LABEL);
+    }
+
+    private Set<String> getAllBooksTitles() {
+        List<String> currentBooksNames = getBookNames();
+        Set<String> bookNames = new HashSet<>();
+        do {
+            bookNames.addAll(currentBooksNames);
+            SwipeElementUtils.swipeElementUp(btnScreen);
+            currentBooksNames = getBookNames();
+        } while (!bookNames.containsAll(currentBooksNames));
+        return bookNames;
     }
 }
