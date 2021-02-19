@@ -35,7 +35,8 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
     private static final String BOOK_ACTION_BUTTON_LOC = "//XCUIElementTypeButton[contains(@name,\"%1$s\")]";
 
     private static final String LBL_BOOK_AUTHORS_INFO = String.format("(%1$s)[%%d]", BOOK_MAIN_INFO);
-    private static final String DESCRIPTIONS_LOC = "//XCUIElementTypeStaticText[@name=\"Description\"]/following-sibling::XCUIElementTypeTextView/XCUIElementTypeStaticText";
+    private static final String DESCRIPTIONS_LOC =
+            "//XCUIElementTypeStaticText[@name=\"Description\"]/following-sibling::XCUIElementTypeTextView/XCUIElementTypeTextView";
 
     private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.xpath("(//XCUIElementTypeOther//XCUIElementTypeStaticText[@name])[1]"), "Book title");
     private final IButton btnDownload = getActionButton(BookActionButtonKeys.DOWNLOAD);
@@ -94,12 +95,11 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public String getDescriptionText() {
-        String description = getDescription();
         if (btnMore.state().isDisplayed()) {
             btnMore.click();
             btnMore.state().waitForNotDisplayed();
         }
-        return description;
+        return getDescription();
     }
 
     private String getDescription() {
