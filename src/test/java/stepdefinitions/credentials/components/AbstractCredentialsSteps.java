@@ -34,5 +34,4 @@ public abstract class AbstractCredentialsSteps extends BaseSteps implements ICre
         accountsScreen.openAccount(libraryName);
         accountScreen.enterCredentials(Configuration.getCredentials(libraryName));
     }
-
 }
