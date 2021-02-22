@@ -21,10 +21,6 @@ public class IosEpubTableOfContentsScreen extends EpubTableOfContentsScreen {
 
     private final ILabel lblTable = getElementFactory().getLabel(By.xpath(CHAPTERS_LIST_LOC), "Table");
 
-    private List<ILabel> getChapters() {
-        return getElementFactory().findElements(By.xpath(CHAPTERS_LIST_LOC + CHAPTER_TEXT_LOC), ElementType.LABEL);
-    }
-
     public IosEpubTableOfContentsScreen() {
         super(By.xpath(CHAPTERS_LIST_LOC));
     }
@@ -38,5 +34,9 @@ public class IosEpubTableOfContentsScreen extends EpubTableOfContentsScreen {
             listOfChapters = getChapters().stream().map(IElement::getText).collect(Collectors.toList());
         } while (!bookNames.containsAll(listOfChapters));
         return bookNames;
+    }
+
+    private List<ILabel> getChapters() {
+        return getElementFactory().findElements(By.xpath(CHAPTERS_LIST_LOC + CHAPTER_TEXT_LOC), ElementType.LABEL);
     }
 }

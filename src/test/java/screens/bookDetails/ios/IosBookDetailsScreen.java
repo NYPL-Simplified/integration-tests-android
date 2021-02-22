@@ -122,9 +122,9 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     @Override
     public boolean isBookAddButtonTextEqualTo(BookActionButtonKeys key) {
-        return getActionButton(key)
-                .state()
-                .waitForDisplayed(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+        AqualityServices.getConditionalWait().waitFor(() ->
+                getActionButton(key).state().isDisplayed() || lblErrorDetails.state().isDisplayed(), Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
+        return getActionButton(key).state().isDisplayed();
     }
 
     @Override
