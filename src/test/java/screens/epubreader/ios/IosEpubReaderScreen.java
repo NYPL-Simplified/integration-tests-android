@@ -43,7 +43,7 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
             getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Table of contents\"]"), "Chapters");
 
     public IosEpubReaderScreen() {
-        super(By.xpath("//XCUIElementTypeWebView"));
+        super(By.xpath("//*[contains(@name,\"Page\")]"));
     }
 
     private void checkThatBookOpenedAndOpenMenus() {
