@@ -66,8 +66,6 @@ public class StepsFactory implements IStepsFactory {
             }
         });
         return classes;
-
-
     }
 
     private String[] getPackageWithSteps() {

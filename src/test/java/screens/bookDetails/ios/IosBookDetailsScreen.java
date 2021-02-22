@@ -36,7 +36,7 @@ public class IosBookDetailsScreen extends BookDetailsScreen {
 
     private static final String LBL_BOOK_AUTHORS_INFO = String.format("(%1$s)[%%d]", BOOK_MAIN_INFO);
     private static final String DESCRIPTIONS_LOC =
-            "//XCUIElementTypeStaticText[@name=\"Description\"]/following-sibling::XCUIElementTypeTextView/XCUIElementTypeTextView";
+            "//XCUIElementTypeStaticText[@name=\"Description\"]/following-sibling::XCUIElementTypeTextView/*";
 
     private final ILabel lblBookTitleInfo = getElementFactory().getLabel(By.xpath("(//XCUIElementTypeOther//XCUIElementTypeStaticText[@name])[1]"), "Book title");
     private final IButton btnDownload = getActionButton(BookActionButtonKeys.DOWNLOAD);
