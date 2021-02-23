@@ -47,6 +47,7 @@ public class IosLogoutHooks extends AbstractLogoutHooks {
 
     private void logOut() {
         notificationModal.closeSyncNotificationIfDisplayed();
+        alertScreen.closeNotNowModalIfPresent();
         accountScreen.logOut();
     }
 }

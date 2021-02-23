@@ -1,7 +1,6 @@
 package screens.books.ios;
 
 import aquality.appium.mobile.actions.SwipeDirection;
-import aquality.appium.mobile.application.AqualityServices;
 import aquality.appium.mobile.application.PlatformName;
 import aquality.appium.mobile.elements.ElementType;
 import aquality.appium.mobile.elements.interfaces.IButton;
@@ -10,6 +9,7 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.elements.ElementState;
 import aquality.selenium.core.elements.ElementsCount;
+import constants.application.attributes.IosAttributes;
 import constants.localization.application.catalog.BookActionButtonKeys;
 import framework.utilities.swipe.SwipeElementUtils;
 import models.android.CatalogBookModel;
@@ -31,6 +31,7 @@ public class IosBooksScreen extends BooksScreen {
     private static final String BOOKS_WITH_ACTION_LOC = String.format(BOOK_ITEM_LOCATOR_PATTERN, BOOK_ACTION_BUTTON_LOCATOR);
     private static final String BOOKS_BY_TITLE_LOC = String.format(BOOK_ITEM_LOCATOR_PATTERN, BOOK_INFO_LOCATOR_PATTERN);
     private static final String BOOKS_LABELS_XPATH = "//XCUIElementTypeCollectionView//XCUIElementTypeCell";
+    private static final String ACTION_BUTTON_XPATH_LOCATOR = "//XCUIElementTypeCell//XCUIElementTypeButton";
 
     private final ILabel mainBooksElementCollection = getElementFactory().getLabel(
             By.xpath("//XCUIElementTypeCollectionView"), "Elements collection container");
@@ -65,9 +66,9 @@ public class IosBooksScreen extends BooksScreen {
 
     @Override
     public int getCountOfBooksWithAction(BookActionButtonKeys actionKey) {
-        AqualityServices.getApplication().getDriver().getPageSource();
-        AqualityServices.getConditionalWait().waitFor(() -> getBooksWithAction(actionKey).size() > 0);
-        return getBooksWithAction(actionKey).size();
+        List<String> listOfButtonNames =
+                getElementFactory().findElements(By.xpath(ACTION_BUTTON_XPATH_LOCATOR), ElementType.LABEL).stream().map(x -> x.getAttribute(IosAttributes.NAME)).collect(Collectors.toList());
+        return (int) listOfButtonNames.stream().filter(x -> x.equals(actionKey.i18n())).count();
     }
 
     @Override
@@ -120,10 +121,5 @@ public class IosBooksScreen extends BooksScreen {
 
     private List<IElement> getBooks() {
         return getElementFactory().findElements(By.xpath(BOOKS_LABELS_XPATH), ElementType.LABEL, ElementsCount.ANY, ElementState.EXISTS_IN_ANY_STATE);
-    }
-
-    private List<IElement> getBooksWithAction(BookActionButtonKeys actionKey) {
-        return getElementFactory().findElements(
-                By.xpath(String.format(BOOK_ACTION_BUTTON_LOCATOR, actionKey.i18n())), ElementType.LABEL);
     }
 }

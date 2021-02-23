@@ -24,9 +24,9 @@ public abstract class CatalogBooksScreen extends Screen {
 
     public abstract boolean isBookAddButtonTextEqualTo(String bookTitle, BookActionButtonKeys key);
 
-    public abstract CatalogBookModel scrollToBookByTypeAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType);
+    public abstract CatalogBookModel scrollToBookByTypeAndClickActionButton(BookActionButtonKeys actionButtonKey, String bookType);
 
-    public abstract CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName);
+    public abstract CatalogBookModel scrollToBookByNameAndClickActionButton(BookActionButtonKeys actionButtonKey, String bookName);
 
     public abstract String getErrorMessage();
 
