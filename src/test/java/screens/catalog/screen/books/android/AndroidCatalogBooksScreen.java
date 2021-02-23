@@ -97,7 +97,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToBookByTypeAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
+    public CatalogBookModel scrollToBookByTypeAndClickActionButton(BookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.i18n();
         String bookAddButtonLocator = getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType);
         IButton button = getElementFactory().getButton(By.xpath(bookAddButtonLocator), key);
@@ -109,7 +109,7 @@ public class AndroidCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
+    public CatalogBookModel scrollToBookByNameAndClickActionButton(BookActionButtonKeys actionButtonKey, String bookName) {
         String bookAddButtonLocator = getBookActionButtonLocatorWithGivenName(actionButtonKey, bookName);
         IButton button = getElementFactory().getButton(By.xpath(bookAddButtonLocator), actionButtonKey.i18n());
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);

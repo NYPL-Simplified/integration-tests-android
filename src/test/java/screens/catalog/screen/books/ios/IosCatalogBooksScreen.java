@@ -95,7 +95,7 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
     }
 
     @Override
-    public CatalogBookModel scrollToBookByTypeAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookType) {
+    public CatalogBookModel scrollToBookByTypeAndClickActionButton(BookActionButtonKeys actionButtonKey, String bookType) {
         String key = actionButtonKey.i18n();
         IButton button = getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
@@ -103,21 +103,17 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
         String bookTitle =
                 getElementFactory().getButton(By.xpath(getBookAddButtonLocatorWithGivenType(actionButtonKey, bookType)), key).getText();
         //testing fix for misclick
-        button.getElement().getCenter();
-        getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, "eBooks")), "eBooks").click();
+        switchToEbooksTab();
         waitForPageLoading();
-        button.getElement().getCenter();
         //ends here
         return openBook(button, bookTitle);
     }
 
     @Override
-    public CatalogBookModel scrollToBookByNameAndClickAddButton(BookActionButtonKeys actionButtonKey, String bookName) {
+    public CatalogBookModel scrollToBookByNameAndClickActionButton(BookActionButtonKeys actionButtonKey, String bookName) {
         String key = actionButtonKey.i18n();
-        waitForPageLoading();
         IButton actionButton = getButtonForBookWithAction(bookName, key);
-        getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, "eBooks")), "eBooks").click();
-        waitForPageLoading();
+        switchToEbooksTab();
         if (!actionButton.state().waitForDisplayed()) {
             actionButton.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
@@ -200,5 +196,9 @@ public class IosCatalogBooksScreen extends CatalogBooksScreen {
 
     private String getBookParameter(String mainLocator, String subLocator, String name) {
         return Objects.requireNonNull(getElementFactory().getLabel(By.xpath(mainLocator + subLocator), name).getText());
+    }
+
+    private void switchToEbooksTab() {
+        getElementFactory().getButton(By.xpath(String.format(LIBRARY_BUTTON_LOCATOR_PATTERN, "eBooks")), "eBooks").click();
     }
 }
