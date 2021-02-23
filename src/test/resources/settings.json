@@ -5,7 +5,7 @@
   "screensLocation": "screens",
   "driverSettings": {
     "android": {
-      "deviceKey": "Samsung_Galaxy",
+      "deviceKey": "Google_Pixel",
       "capabilities": {
         "platformName": "Android",
         "app": "",
