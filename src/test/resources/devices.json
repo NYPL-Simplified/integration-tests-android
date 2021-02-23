@@ -10,5 +10,11 @@
       "deviceName": "Samsung Galaxy S10",
       "platformVersion": "9.0"
     }
+  },
+  "Google_Pixel": {
+    "capabilities": {
+      "deviceName": "Google Pixel 5",
+      "platformVersion": "11.0"
+    }
   }
 }
