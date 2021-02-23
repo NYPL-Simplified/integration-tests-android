@@ -312,7 +312,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     public void checkDescriptionHasText(final String description) {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(bookDetailsScreen.isDescriptionPresent(), "Description does not present");
-        softAssert.assertEquals(StringUtils.trim(bookDetailsScreen.getDescriptionText()), StringUtils.trim(description),
+        softAssert.assertTrue(StringUtils.trim(bookDetailsScreen.getDescriptionText()).contains(StringUtils.trim(description)),
                 "Description has not correct text");
         softAssert.assertAll();
     }
