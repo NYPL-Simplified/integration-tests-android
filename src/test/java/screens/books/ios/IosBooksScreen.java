@@ -54,9 +54,7 @@ public class IosBooksScreen extends BooksScreen {
                 .getLabel(By.xpath(String.format(BOOK_INFO_LOCATOR_PATTERN, bookInfo.getTitle())),
                         "No Books Present");
         book.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        return book
-                .state()
-                .waitForDisplayed();
+        return book.state().isDisplayed();
     }
 
     @Override

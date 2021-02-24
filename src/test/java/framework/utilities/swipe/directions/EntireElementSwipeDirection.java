@@ -33,7 +33,7 @@ public enum EntireElementSwipeDirection {
             Dimension dimensions = element.getElement().getSize();
             int y = upperLeft.y + dimensions.height / 2;
             return new Direction()
-                    .setFrom(new Point(upperLeft.x, y))
+                    .setFrom(new Point(upperLeft.x + dimensions.width / 4, y))
                     .setTo(new Point(upperLeft.x + dimensions.width - 1, y));
         }
     },
@@ -43,7 +43,7 @@ public enum EntireElementSwipeDirection {
             Point upperLeft = element.getElement().getLocation();
             Dimension dimensions = element.getElement().getSize();
             return new Direction()
-                    .setFrom(new Point(upperLeft.x + dimensions.width - 1, upperLeft.y + dimensions.height / 4))
+                    .setFrom(new Point(upperLeft.x + dimensions.width - dimensions.width / 4, upperLeft.y + dimensions.height / 4))
                     .setTo(new Point(upperLeft.x, upperLeft.y + dimensions.height / 4));
         }
     };

@@ -36,9 +36,4 @@ public class CredentialsSteps extends BaseSteps implements ICredentialsSteps {
     public void enterCredentialsForLibraryAccount(String libraryName) {
         abstractCredentialsSteps.enterCredentialsForLibraryAccount(libraryName);
     }
-
-    @And("I enter credentials for {string} account via keyboard")
-    public void enterCredentialsForLibraryAccountViaKeyboard(String libraryName) {
-        abstractCredentialsSteps.enterCredentialsForLibraryAccount(libraryName);
-    }
 }

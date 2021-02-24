@@ -67,7 +67,7 @@ Feature: Manage Libraries
   Scenario: Store library card
     When I add 'LYRASIS' account
     Then Account 'LYRASIS' is present on Accounts screen
-    When I enter credentials for 'LYRASIS' account via keyboard
+    When I enter credentials for 'LYRASIS' account
     Then Login is performed successfully
     When I open account 'LYRASIS'
       And I click the log out button on the account screen

@@ -68,8 +68,7 @@ public class AndroidBookDetailsScreen extends BookDetailsScreen {
                 .getLabel(By.xpath(String.format(INFORMATION_TAB_VALUE_LOC_PART, key.i18n())),
                         String.format(INFORMATION_TAB_LABELS_NAME_PART, key.i18n()));
         lblInformationBlockValue.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-        return lblInformationBlockValue.state()
-                .waitForDisplayed();
+        return lblInformationBlockValue.state().isDisplayed();
     }
 
     @Override
