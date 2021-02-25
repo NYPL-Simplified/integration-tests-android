@@ -10,17 +10,14 @@ import java.nio.file.Paths;
 
 public class Logger {
 
-    private static Logger instance = null;
+    private static ThreadLocal<Logger> instance = ThreadLocal.withInitial(Logger::new);
     private RollingFileAppender scenarioAppender;
 
     private Logger() {
     }
 
     public static synchronized Logger getInstance() {
-        if (instance == null) {
-            instance = new Logger();
-        }
-        return instance;
+        return (Logger) instance.get();
     }
 
 
@@ -46,7 +43,7 @@ public class Logger {
     }
 
     public void removeAppender() {
-        if (scenarioAppender!=null){
+        if (scenarioAppender != null) {
             AqualityServices.getLogger().removeAppender(scenarioAppender);
         }
     }
