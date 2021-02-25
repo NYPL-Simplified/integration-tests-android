@@ -50,6 +50,8 @@ public class IosCatalogScreen extends CatalogScreen {
     @Override
     public List<String> getListOfBooksNames() {
         state().waitForDisplayed();
+        int countOfItems = getElements(BOOKS_LOCATOR).size();
+        AqualityServices.getConditionalWait().waitFor(() -> getElements(BOOKS_LOCATOR).size() <= countOfItems);
         List<String> listOfNames = getValuesFromListOfLabels(BOOKS_LOCATOR);
         AqualityServices.getLogger().info("Found list of books - " + listOfNames.stream().map(Object::toString)
                 .collect(Collectors.joining(", ")));
