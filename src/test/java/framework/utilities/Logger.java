@@ -28,7 +28,7 @@ public class Logger {
                     layout, String.format("%s%s.log", "target/log/", name), false);
             AqualityServices.getLogger().addAppender(scenarioAppender);
         } catch (IOException e) {
-            AqualityServices.getLogger().error("Failed to add appender !!");
+            AqualityServices.getLogger().error("Failed to add appender !! " + e.getMessage());
         }
     }
 
