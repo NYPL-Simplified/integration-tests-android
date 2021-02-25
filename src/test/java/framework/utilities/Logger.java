@@ -16,7 +16,7 @@ public class Logger {
     private Logger() {
     }
 
-    public static synchronized Logger getInstance() {
+    public static Logger getInstance() {
         return (Logger) instance.get();
     }
 
