@@ -11,6 +11,7 @@ import aquality.selenium.core.elements.interfaces.IElement;
 import constants.application.attributes.AndroidAttributes;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import screens.subcategory.SubcategoryScreen;
 
 import java.util.List;
@@ -81,6 +82,11 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
         if (!button.state().waitForDisplayed()) {
             button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
+        Point coordinates = button.getElement().getCenter();
+        AqualityServices.getConditionalWait().waitFor(() -> {
+            Point center = button.getElement().getCenter();
+            return coordinates.equals(center);
+        });
         button.click();
     }
 
