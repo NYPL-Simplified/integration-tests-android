@@ -17,22 +17,13 @@ public class StepsFactory implements IStepsFactory {
 
     private static final String[] STEPS_LOCATION = new String[]{"stepdefinitions", "hooks"};
 
-    private static volatile StepsFactory stepsFactory = null;
+    private static volatile ThreadLocal<StepsFactory> stepsFactory = ThreadLocal.withInitial(StepsFactory::new);
 
     private StepsFactory() {
     }
 
     public static StepsFactory getStepsFactory() {
-        StepsFactory localInstance = stepsFactory;
-        if (localInstance == null) {
-            synchronized (StepsFactory.class) {
-                localInstance = stepsFactory;
-                if (localInstance == null) {
-                    stepsFactory = localInstance = new StepsFactory();
-                }
-            }
-        }
-        return localInstance;
+        return stepsFactory.get();
     }
 
     @SuppressWarnings("unchecked")
