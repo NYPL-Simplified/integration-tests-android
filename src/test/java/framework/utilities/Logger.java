@@ -25,7 +25,7 @@ public class Logger {
         PatternLayout layout = new PatternLayout("%d{yyyy-MM-dd HH:mm:ss} %-5p - %m%n");
         try {
             scenarioAppender = new RollingFileAppender(
-                    layout, String.format("%s%s.log", "target/log/", name.replace(",", "").replace(" ", "_")), false);
+                    layout, String.format("%s%s.log", "target/log/", name.replace(",", "").replace(" ", "_")));
             AqualityServices.getLogger().addAppender(scenarioAppender);
         } catch (IOException e) {
             AqualityServices.getLogger().error("Failed to add appender !! " + e.getMessage());
