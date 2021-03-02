@@ -155,7 +155,7 @@ public class AndroidCatalogScreen extends CatalogScreen {
         if (isErrorButtonPresent()) {
             btnErrorMessage.click();
             AqualityServices.getLogger().info(AqualityServices.getApplication().getDriver().getPageSource());
-            return lblErrorMessage.getText();
+            return getErrorMessage();
         }
         AqualityServices.getLogger().info("Error details button is not present");
         return "";
@@ -207,5 +207,9 @@ public class AndroidCatalogScreen extends CatalogScreen {
 
     private List<aquality.appium.mobile.elements.interfaces.IElement> getLabels(String xpath) {
         return getElementFactory().findElements(By.xpath(xpath), ElementType.LABEL);
+    }
+
+    private String getErrorMessage() {
+        return lblErrorMessage.state().isDisplayed() ? lblErrorMessage.getText() : "";
     }
 }
