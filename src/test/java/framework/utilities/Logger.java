@@ -27,8 +27,8 @@ public class Logger {
             scenarioAppender = new RollingFileAppender(
                     layout, String.format("%s%s.log", "target/log/", name.replace(",", "").replace(" ", "_")));
             AqualityServices.getLogger().addAppender(scenarioAppender);
-        } catch (IOException e) {
-            AqualityServices.getLogger().error("Failed to add appender !! " + e.getMessage());
+        } catch (IOException exception) {
+            AqualityServices.getLogger().error("Failed to add appender !! " + exception.getMessage());
         }
     }
 
