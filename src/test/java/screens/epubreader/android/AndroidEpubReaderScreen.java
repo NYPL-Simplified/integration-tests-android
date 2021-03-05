@@ -8,6 +8,7 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.logging.Logger;
 import constants.RegEx;
+import constants.application.timeouts.BooksTimeouts;
 import framework.utilities.RegExUtil;
 import framework.utilities.swipe.SwipeElementUtils;
 import io.appium.java_client.AppiumDriver;
@@ -19,6 +20,7 @@ import org.openqa.selenium.Point;
 import screens.epubreader.EpubReaderScreen;
 import screens.epubtableofcontents.EpubTableOfContentsScreen;
 
+import java.time.Duration;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -78,6 +80,7 @@ public class AndroidEpubReaderScreen extends EpubReaderScreen {
 
     @Override
     public String getPageNumberInfo() {
+        lblPageNumber.state().waitForDisplayed(Duration.ofMillis(BooksTimeouts.TIMEOUT_BOOK_CHANGES_STATUS.getTimeoutMillis()));
         return lblPageNumber.getText();
     }
 
