@@ -101,10 +101,10 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
 
     @Override
     public void openCatalogWithAgeCheck() {
-        bottomMenuForm.open(BottomMenu.CATALOG);
         if (ageGateScreen.state().isDisplayed()) {
             ageGateScreen.approveAge();
         }
+        bottomMenuForm.open(BottomMenu.CATALOG);
         catalogScreen.state().waitForDisplayed();
     }
 
@@ -447,7 +447,7 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
         }
     }
 
-    private void addScreenshot() {
+    protected void addScreenshot() {
         Scenario scenario = context.get(ScenarioContextKey.SCENARIO_KEY);
         scenario.attach(ScreenshotUtils.getScreenshot(), "image/png", "screenshot.png");
     }

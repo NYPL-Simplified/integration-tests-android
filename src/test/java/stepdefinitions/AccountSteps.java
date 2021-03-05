@@ -59,6 +59,9 @@ public class AccountSteps {
 
     @When("I add {string} account")
     public void addAccount(String libraryName) {
+        if (ageGateScreen.state().isDisplayed()) {
+            ageGateScreen.approveAge();
+        }
         openAccounts();
         accountsScreen.addAccount();
         Assert.assertTrue(addAccountScreen.state().waitForDisplayed(),
