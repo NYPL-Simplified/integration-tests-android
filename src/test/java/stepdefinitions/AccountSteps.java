@@ -103,6 +103,9 @@ public class AccountSteps {
 
     @When("I add custom {string} opds feed")
     public void addCustomOpdsFeed(String feedName) {
+        if (ageGateScreen.state().waitForDisplayed()) {
+            ageGateScreen.approveAge();
+        }
         bottomMenuForm.open(BottomMenu.SETTINGS);
         Assert.assertTrue(settingsScreen.openDebugButton(), "Feed menu wasn't opened");
         settingsScreen.openDebugMode();
@@ -111,9 +114,6 @@ public class AccountSteps {
         Assert.assertTrue(addCustomOpdsScreen.isFeedAdded(), "Opds feed is not added");
         bottomMenuForm.open(BottomMenu.SETTINGS);
         bottomMenuForm.open(BottomMenu.CATALOG);
-        if (ageGateScreen.state().waitForDisplayed()) {
-            ageGateScreen.approveAge();
-        }
         mainCatalogToolbarForm.chooseAnotherLibrary();
         catalogScreen.openLibrary(feedName);
         if (notificationModal.isModalPresent()) {
