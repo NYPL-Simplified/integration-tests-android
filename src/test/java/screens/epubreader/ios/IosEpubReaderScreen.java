@@ -170,6 +170,10 @@ public class IosEpubReaderScreen extends EpubReaderScreen {
         return getReaderInfo(RegEx.BACKGROUND_COLOR_REGEX);
     }
 
+    @Override
+    public void waitForBookLoading() {
+    }
+
     private String getReaderInfo(String regex) {
         return RegExUtil.getStringFromFirstGroup(getBookSource(), regex);
     }

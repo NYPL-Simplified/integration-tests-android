@@ -56,6 +56,7 @@ public class ReaderSteps {
     @Then("Book {string} is present on screen")
     public void checkBookInfoIsPresentOnScreen(String bookInfoKey) {
         assertBookName(context.get(bookInfoKey));
+        epubReaderScreen.waitForBookLoading();
     }
 
     @Then("Book page number is {int}")

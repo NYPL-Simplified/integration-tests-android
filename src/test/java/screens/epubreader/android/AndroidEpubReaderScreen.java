@@ -8,6 +8,7 @@ import aquality.appium.mobile.elements.interfaces.ILabel;
 import aquality.appium.mobile.screens.screenfactory.ScreenType;
 import aquality.selenium.core.logging.Logger;
 import constants.RegEx;
+import constants.application.timeouts.AuthorizationTimeouts;
 import constants.application.timeouts.BooksTimeouts;
 import framework.utilities.RegExUtil;
 import framework.utilities.swipe.SwipeElementUtils;
@@ -100,7 +101,6 @@ public class AndroidEpubReaderScreen extends EpubReaderScreen {
         btnChapters.click();
         IButton button = getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@resource-id,\"reader_toc_element_text\") and @text=\"" + chapter + "\"]"), chapter);
         button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
-
         button.click();
     }
 
@@ -152,6 +152,11 @@ public class AndroidEpubReaderScreen extends EpubReaderScreen {
     @Override
     public String getBackgroundColor() {
         return getReaderInfo(RegEx.BACKGROUND_COLOR_REGEX);
+    }
+
+    @Override
+    public void waitForBookLoading() {
+        lblPageNumber.state().waitForDisplayed(Duration.ofMillis(AuthorizationTimeouts.USER_LOGGED_OUT.getTimeoutMillis()));
     }
 
     private String getReaderInfo(String regex) {
