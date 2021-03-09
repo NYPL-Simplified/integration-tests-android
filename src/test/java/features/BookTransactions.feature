@@ -27,7 +27,6 @@ Feature: Book Transactions
     When I open Holds
     Then Book 'bookInfo' is present in Holds List
 
-
     Scenarios:
       | feedName                            | laneName    | bookType  |
       | New York Public Library - QA Server | Axis 360    | EBOOK     |

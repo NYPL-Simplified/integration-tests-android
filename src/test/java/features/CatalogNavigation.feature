@@ -84,8 +84,8 @@ Feature: Catalog Navigation
     When I switch to 'eBooks' catalog tab
     Then Books feed is loaded
     When I open category by chain:
-        | Fiction |
-        | Drama   |
+      | Fiction |
+      | Drama   |
     Then Subcategory screen is present
     When I sort books by AUTHOR
     Then Subcategory screen is present
