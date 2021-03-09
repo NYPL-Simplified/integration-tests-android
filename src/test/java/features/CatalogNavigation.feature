@@ -15,106 +15,60 @@ Feature: Catalog Navigation
 
   @tier1
   Scenario: Navigate Lists
-    When I add 'LYRASIS' account
-      And I open Catalog
-      And I switch to 'LYRASIS' from side menu
+    When I open Catalog
     Then Books feed is loaded
     When I get names of books on screen and save them as 'listOfBooksOnMainPage'
       And I open 'Nonfiction' category
     Then Current category name is 'Nonfiction'
       And Books feed is loaded
       And Following subcategories are present:
-        | Gardening                   |
-        | Art & Design                |
-        | Biography & Memoir          |
-        | Education                   |
-        | Personal Finance & Business |
-        | Parenting & Family          |
-        | Food & Health               |
-        | History                     |
-        | Hobbies & Home              |
-        | Humor                       |
-        | Entertainment               |
-        | Life Strategies             |
-        | Literary Criticism          |
-        | Philosophy                  |
-        | Politics & Current Events   |
-        | Reference & Study Aids      |
-        | Religion & Spirituality     |
-        | Science & Technology        |
-        | Self-Help                   |
-        | Sports                      |
-        | Travel                      |
-        | True Crime                  |
-        | All Nonfiction              |
+        | History                 |
+        | Philosophy              |
+        | Science & Technology    |
+        | Religion & Spirituality |
+        | All Nonfiction          |
       And List of books on screen is not equal to list of books saved as 'listOfBooksOnMainPage'
     When I return to previous screen
       And I open 'Fiction' category
     Then Current category name is 'Fiction'
       And Books feed is loaded
       And Following subcategories are present:
-        | gardening fun      |
-        | Classics           |
-        | Drama              |
-        | Adventure          |
-        | Jane Austen        |
-        | Fantasy            |
-        | Folklore           |
+        | Literary Fiction   |
+        | Science Fiction    |
         | Historical Fiction |
         | Horror             |
-        | Humor              |
-        | Literary Fiction   |
-        | LGBTQ Fiction      |
-        | Mystery            |
+        | Drama              |
+        | Fantasy            |
         | Poetry             |
+        | Mysteries          |
         | Romance            |
-        | Science Fiction    |
-        | Short Stories      |
-        | Thriller           |
-        | Urban Fiction      |
-        | Westerns           |
-        | Women's Fiction    |
         | All Fiction        |
       And List of books on screen is not equal to list of books saved as 'listOfBooksOnMainPage'
-    When I open 'Westerns' subcategory
+    When I open 'Drama' subcategory
     Then Subcategory screen is present
-      And Subcategory name is 'Westerns'
+      And Subcategory name is 'Drama'
 
   @tier1
   Scenario: Browse Lanes/Categories
-    When I add 'LYRASIS' account
-      And I open Catalog
-      And I switch to 'LYRASIS' from side menu
+    When I open Catalog
     Then Books feed is loaded
       And Count of books in first lane is up to 12
     When I open 'Fiction' category
     Then Current category name is 'Fiction'
       And Following subcategories are present:
-        | gardening fun      |
-        | Classics           |
-        | Drama              |
-        | Adventure          |
-        | Jane Austen        |
-        | Fantasy            |
-        | Folklore           |
+        | Literary Fiction   |
+        | Science Fiction    |
+        | Mysteries          |
+        | Romance            |
         | Historical Fiction |
         | Horror             |
-        | Humor              |
-        | Literary Fiction   |
-        | LGBTQ Fiction      |
-        | Mystery            |
         | Poetry             |
-        | Romance            |
-        | Science Fiction    |
-        | Short Stories      |
-        | Thriller           |
-        | Urban Fiction      |
-        | Westerns           |
-        | Women's Fiction    |
+        | Drama              |
+        | Fantasy            |
         | All Fiction        |
-    When I open 'Westerns' subcategory
+    When I open 'Drama' subcategory
     Then Subcategory screen is present
-      And Subcategory name is 'Westerns'
+      And Subcategory name is 'Drama'
     When I open first book in subcategory list and save it as 'bookInfo'
     Then Book 'bookInfo' is opened
 
@@ -130,8 +84,8 @@ Feature: Catalog Navigation
     When I switch to 'eBooks' catalog tab
     Then Books feed is loaded
     When I open category by chain:
-        | Fiction |
-        | Drama   |
+      | Fiction |
+      | Drama   |
     Then Subcategory screen is present
     When I sort books by AUTHOR
     Then Subcategory screen is present
