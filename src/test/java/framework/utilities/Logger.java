@@ -10,17 +10,14 @@ import java.nio.file.Paths;
 
 public class Logger {
 
-    private static Logger instance = null;
+    private static ThreadLocal<Logger> instance = ThreadLocal.withInitial(Logger::new);
     private RollingFileAppender scenarioAppender;
 
     private Logger() {
     }
 
-    public static synchronized Logger getInstance() {
-        if (instance == null) {
-            instance = new Logger();
-        }
-        return instance;
+    public static Logger getInstance() {
+        return instance.get();
     }
 
 
@@ -28,10 +25,10 @@ public class Logger {
         PatternLayout layout = new PatternLayout("%d{yyyy-MM-dd HH:mm:ss} %-5p - %m%n");
         try {
             scenarioAppender = new RollingFileAppender(
-                    layout, String.format("%s%s.log", "target/log/", name), false);
+                    layout, String.format("%s%s.log", "target/log/", name.replace(",", "").replace(" ", "_")));
             AqualityServices.getLogger().addAppender(scenarioAppender);
-        } catch (IOException e) {
-            AqualityServices.getLogger().error("Failed to add appender !!");
+        } catch (IOException exception) {
+            AqualityServices.getLogger().error("Failed to add appender !! " + exception.getMessage());
         }
     }
 
@@ -46,7 +43,7 @@ public class Logger {
     }
 
     public void removeAppender() {
-        if (scenarioAppender!=null){
+        if (scenarioAppender != null) {
             AqualityServices.getLogger().removeAppender(scenarioAppender);
         }
     }

@@ -3,10 +3,8 @@ package framework.configuration;
 import aquality.appium.mobile.application.AqualityServices;
 import org.apache.commons.lang3.RandomUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Configuration {
@@ -25,10 +23,13 @@ public class Configuration {
         } else {
             listOfCredentials.putAll(Environment.getEnvironment().getMap(String.format("/credentials/%s/%s", libraryName, osName)));
         }
-        String randomCredentialsKey = new ArrayList<>(listOfCredentials.keySet()).get(RandomUtils.nextInt(0, listOfCredentials.size()));
+        ArrayList<String> credentialsKeys = new ArrayList<>(listOfCredentials.keySet());
+        List<String> listOfAvailableCredentials = credentialsKeys.stream().filter(barcode -> !ConfigurationStorage.areCredentialsLocked(barcode)).collect(Collectors.toList());
+        String randomCredentialsKey = listOfAvailableCredentials.get(RandomUtils.nextInt(0, listOfAvailableCredentials.size()));
         Credentials credentials = new Credentials();
         credentials.setBarcode(randomCredentialsKey);
         credentials.setPin((String) listOfCredentials.get(randomCredentialsKey));
+        ConfigurationStorage.lockCredentials(randomCredentialsKey);
         return credentials;
     }
 

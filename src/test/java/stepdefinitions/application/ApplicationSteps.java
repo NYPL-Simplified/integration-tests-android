@@ -31,13 +31,6 @@ public class ApplicationSteps extends BaseSteps implements IApplicationSteps {
         context.add(ContextLibrariesKeys.APP_BUNDLE_ID.getKey(), getBundleId());
     }
 
-    private String getBundleId() {
-        if (AqualityServices.getApplication().getPlatformName() == PlatformName.ANDROID) {
-            return (String) AqualityServices.getApplication().getDriver().execute(GET_CURRENT_PACKAGE_COMMAND).getValue();
-        }
-        return IOS_APP_BUNDLE_ID;
-    }
-
     @And("I return to previous screen")
     public void returnToPreviousPage() {
         applicationSteps.returnToPreviousPage();
@@ -46,5 +39,12 @@ public class ApplicationSteps extends BaseSteps implements IApplicationSteps {
     @When("I restart app")
     public void restartApp() {
         applicationSteps.restartApp();
+    }
+
+    private String getBundleId() {
+        if (AqualityServices.getApplication().getPlatformName() == PlatformName.ANDROID) {
+            return (String) AqualityServices.getApplication().getDriver().execute(GET_CURRENT_PACKAGE_COMMAND).getValue();
+        }
+        return IOS_APP_BUNDLE_ID;
     }
 }
