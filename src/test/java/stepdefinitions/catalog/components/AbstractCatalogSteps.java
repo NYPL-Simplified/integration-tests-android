@@ -202,9 +202,9 @@ public abstract class AbstractCatalogSteps extends BaseSteps implements ICatalog
     }
 
     @Override
-    public void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks) {
-        Assert.assertTrue(countOfBooks >= catalogScreen.getListOfAllBooksNamesInFirstLane().size(),
-                "Count of books is bigger then " + countOfBooks);
+    public void checkCountOfBooksInFirstLaneIsMoreThan(int countOfBooks) {
+        Assert.assertTrue(countOfBooks <= catalogScreen.getListOfAllBooksNamesInFirstLane().size(),
+                "Count of books is smaller than " + countOfBooks);
     }
 
     @Override

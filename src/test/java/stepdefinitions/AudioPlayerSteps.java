@@ -111,12 +111,8 @@ public class AudioPlayerSteps {
     }
 
     @When("I save book play time as {string}")
-    public void iSaveBookPlayTimeAsTimeAhead(String dateKey) throws ParseException {
+    public void saveBookPlayTimeAs(String dateKey) {
         context.add(dateKey, audioPlayerScreen.getCurrentPlayTime());
-    }
-
-    private int getChapterNumber() {
-        return Integer.parseInt(RegExUtil.getStringFromFirstGroup(audioPlayerScreen.getCurrentChapterInfo(), RegEx.AUDIO_BOOK_CURRENT_CHAPTER_REGEX));
     }
 
     @And("I skip ahead 15 seconds")
@@ -216,5 +212,9 @@ public class AudioPlayerSteps {
     @Then("Sleep timer is set to {}")
     public void checkSleepTimerIsSetTo(TimerKeys timerSetting) {
         Assert.assertTrue(audioPlayerScreen.isTimerSetTo(timerSetting), "Timer value is not correct");
+    }
+
+    private int getChapterNumber() {
+        return Integer.parseInt(RegExUtil.getStringFromFirstGroup(audioPlayerScreen.getCurrentChapterInfo(), RegEx.AUDIO_BOOK_CURRENT_CHAPTER_REGEX));
     }
 }

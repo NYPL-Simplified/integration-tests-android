@@ -50,7 +50,7 @@ public interface ICatalogSteps {
 
     void clickOnBookAddButtonOnCatalogBooksScreen(String bookInfoKey, BookActionButtonKeys key);
 
-    void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks);
+    void checkCountOfBooksInFirstLaneIsMoreThan(int countOfBooks);
 
     void checkCountOfBooksInSubcategoryLaneIsUpTo(String lineName, int countOfBooks);
 

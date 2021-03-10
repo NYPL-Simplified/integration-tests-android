@@ -31,6 +31,8 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     private static final String CHAPTERS_LOCATOR = "//XCUIElementTypeTable//XCUIElementTypeCell";
     private static final String LOADED_CHAPTERS_LOCATOR = "//XCUIElementTypeTable//XCUIElementTypeCell//XCUIElementTypeOther[@visible=\"false\"]";
     private static final int COUNT_OF_CHAPTERS_TO_WAIT_FOR = 3;
+    private static final String PLAYBACK_OPTION_XPATH_LOCATOR = "//XCUIElementTypeToolbar//XCUIElementTypeButton[@name=\"%s\"]";
+    private static final String TIME_LEFT_XPATH_LOCATOR = "//XCUIElementTypeToolbar//XCUIElementTypeButton[@name=\"%d hour and %d minutes until playback pauses\"]";
 
     private final IButton btnMenu =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Table of Contents\"]"), "Menu");
@@ -162,6 +164,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public void waitForBookLoading() {
         lblCurrentChapter.state().waitForDisplayed();
+        waitForLoadingDisappearing();
     }
 
     @Override
@@ -180,7 +183,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public boolean isSpeedOptionSelected(double playbackSpeed) {
         String speedOptionName = speedName.get(playbackSpeed);
-        return getElementFactory().getButton(By.xpath("//XCUIElementTypeToolbar//XCUIElementTypeButton[@name=" + speedOptionName + "]"), speedOptionName).state().waitForDisplayed();
+        return getElementFactory().getButton(By.xpath(String.format(PLAYBACK_OPTION_XPATH_LOCATOR, speedOptionName)), speedOptionName).state().waitForDisplayed();
     }
 
     @Override
@@ -191,7 +194,7 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public boolean isTimerEqualTo(Duration chapterLength) {
-        return getElementFactory().getButton(By.xpath("//XCUIElementTypeToolbar//XCUIElementTypeButton[@name=" + (int) chapterLength.toHours() + " hour and " + (int) chapterLength.toMinutes() + " minutes until playback pauses" + "]"), "Timer").state().isDisplayed();
+        return getElementFactory().getButton(By.xpath(String.format(TIME_LEFT_XPATH_LOCATOR, (int) chapterLength.toHours(), (int) chapterLength.toMinutes())), "Timer").state().isDisplayed();
     }
 
     @Override
