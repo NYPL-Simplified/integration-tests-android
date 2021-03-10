@@ -145,9 +145,9 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
         catalogSteps.clickOnBookAddButtonOnCatalogBooksScreen(bookInfoKey, key);
     }
 
-    @And("Count of books in first lane is up to {int}")
-    public void checkCountOfBooksInFirstLaneIsUpTo(int countOfBooks) {
-        catalogSteps.checkCountOfBooksInFirstLaneIsUpTo(countOfBooks);
+    @And("Count of books in first lane is more than {int}")
+    public void checkCountOfBooksInFirstLaneIsMoreThan(int countOfBooks) {
+        catalogSteps.checkCountOfBooksInFirstLaneIsMoreThan(countOfBooks);
     }
 
     @And("Count of books in subcategory {string} lane is up to {int}")

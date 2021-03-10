@@ -52,7 +52,7 @@ Feature: Catalog Navigation
   Scenario: Browse Lanes/Categories
     When I open Catalog
     Then Books feed is loaded
-      And Count of books in first lane is up to 12
+      And Count of books in first lane is more than 1
     When I open 'Fiction' category
     Then Current category name is 'Fiction'
       And Following subcategories are present:
