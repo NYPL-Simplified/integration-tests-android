@@ -235,11 +235,6 @@ public class ReaderSteps {
         checkPageNumberIsEqualTo(pageNumber);
     }
 
-    @Then("Pdf book page number is not {int}")
-    public void checkPdfBookPageNumberIsNot(int pageNumber) {
-        checkPageNumberIsNotEqualTo(pageNumber);
-    }
-
     @When("I go to previous page in pdf book")
     public void goToPreviousPage() {
         pdfReaderScreen.goToPreviousPage();
@@ -302,9 +297,9 @@ public class ReaderSteps {
         pdfTableOfContentsScreen.isGalleryPagesLoaded();
     }
 
-    @And("I save count of books on gallery to {string}")
+    @And("I save number of page on the gallery as {string}")
     public void saveBookPagesList(String countOfBookPagesKey) {
-        context.add(countOfBookPagesKey, pdfTableOfContentsScreen.getCountOfBookPages());
+        context.add(countOfBookPagesKey, pdfReaderScreen.getPageNumber());
     }
 
     @When("I scroll the gallery page {}")
@@ -312,20 +307,23 @@ public class ReaderSteps {
         pdfTableOfContentsScreen.scrollGallery(entireElementSwipeDirection);
     }
 
-    @Then("Page has scrolled and count of books have changed {string}")
-    public void pageHasScrolledAndAppearedNewElementsCompareToBookPagesList(String countOfBookPagesKey) {
-        int countOfBookPages = context.get(countOfBookPagesKey);
-        Assert.assertTrue(AqualityServices.getConditionalWait().waitFor(() ->
-                        countOfBookPages != pdfTableOfContentsScreen.getCountOfBookPages()),
-                String.format("Count of the book pages equal to have gotten before scrolling. "
-                                + "Actual count of pages %1$d should not be equal to the count before scrolling %2$d.",
-                        pdfTableOfContentsScreen.getCountOfBookPages(), countOfBookPages));
+    @Then("Number {string} more than number {string}")
+    public void checkThatNumberOfPageMoreThanAnotherNumberOfPage(String finalNumberOfPage, String numberOfPage) {
+        int numberOfFirstPage = context.get(numberOfPage);
+        int numberOfSecondPage = context.get(finalNumberOfPage);
+        Assert.assertTrue(numberOfSecondPage > numberOfFirstPage, String.format("NumberOfSecondPage: %d should be more than numberOfFirstPage : %d.", numberOfSecondPage, numberOfFirstPage));
     }
 
-    @When("I open any page on the gallery screen")
+    @When("I open random page on the gallery")
     public void openAnyPageOnGalleryScreen() {
         int countOfPages = pdfTableOfContentsScreen.getCountOfBookPages();
         pdfTableOfContentsScreen.openGalleryPage(RandomUtils.nextInt(0, countOfPages));
+    }
+
+    @When("I open last page on the gallery")
+    public void openLastPageOnGalleryScreen() {
+        int countOfPages = pdfTableOfContentsScreen.getCountOfBookPages();
+        pdfTableOfContentsScreen.openGalleryPage(countOfPages - 1);
     }
 
     @When("I click the search in the pdf button")

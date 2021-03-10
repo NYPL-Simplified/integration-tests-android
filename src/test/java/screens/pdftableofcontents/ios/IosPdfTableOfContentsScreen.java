@@ -14,7 +14,6 @@ import framework.utilities.swipe.SwipeElementUtils;
 import framework.utilities.swipe.directions.EntireElementSwipeDirection;
 import org.openqa.selenium.By;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 @ScreenType(platform = PlatformName.IOS)
 public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     private static final String GALLERY_VIEW = "//XCUIElementTypeCollectionView";
-    private static final String PAGES_IN_GALLERY_VIEW = GALLERY_VIEW + "/XCUIElementTypeCell";
+    private static final String PAGES_IN_GALLERY_VIEW = "//XCUIElementTypeOther/following-sibling::XCUIElementTypeCell";
     private static final String CHAPTER_NAME_BUTTON_XPATH_PATTERN =
             "//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]";
     private static final String PAGE_NUMBER_LOCATOR_PATTERN =
@@ -96,7 +95,6 @@ public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     }
 
     private List<IElement> getPages() {
-        return getElementFactory().findElements(By.xpath(PAGES_IN_GALLERY_VIEW), ElementType.LABEL).stream()
-                .filter(iElement -> iElement.state().isDisplayed()).collect(Collectors.toList());
+        return getElementFactory().findElements(By.xpath(PAGES_IN_GALLERY_VIEW), ElementType.LABEL).stream().collect(Collectors.toList());
     }
 }

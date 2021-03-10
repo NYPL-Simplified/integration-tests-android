@@ -75,12 +75,15 @@ Feature: Read PDF IOS
     Then Pdf book 'bookInfo' is present on screen
     When I open gallery menu
     Then Gallery is opened
-      And I save count of books on gallery to 'countOfTheBookPages'
+      And I open last page on the gallery
+      And I save number of page on the gallery as 'numberOfPage'
+    When I open gallery menu
+    Then Gallery is opened
     When I scroll the gallery page DOWN
-    Then Page has scrolled and count of books have changed 'countOfTheBookPages'
-    When I open any page on the gallery screen
+      And I open random page on the gallery
+      And I save number of page on the gallery as 'finalNumberOfPage'
+    Then Number 'finalNumberOfPage' more than number 'numberOfPage'
     Then Pdf book 'bookInfo' is present on screen
-      And Pdf book page number is not 1
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Search document
