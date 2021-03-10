@@ -66,7 +66,7 @@ public class IosBooksScreen extends BooksScreen {
     public int getCountOfBooksWithAction(BookActionButtonKeys actionKey) {
         List<String> listOfButtonNames =
                 getElementFactory().findElements(By.xpath(ACTION_BUTTON_XPATH_LOCATOR), ElementType.LABEL).stream().map(x -> x.getAttribute(IosAttributes.NAME)).collect(Collectors.toList());
-        return (int) listOfButtonNames.stream().filter(x -> x.equals(actionKey.i18n())).count();
+        return (int) listOfButtonNames.stream().filter(x -> x.contains(actionKey.i18n())).count();
     }
 
     @Override
