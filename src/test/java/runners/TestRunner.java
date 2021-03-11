@@ -1,10 +1,12 @@
 package runners;
 
-import io.cucumber.testng.AbstractTestNGCucumberTests;
-import io.cucumber.testng.CucumberOptions;
-import org.testng.annotations.DataProvider;
+import courgette.api.CourgetteOptions;
+import courgette.api.CourgetteRunLevel;
+import courgette.api.CucumberOptions;
+import courgette.api.testng.TestNGCourgette;
+import org.testng.annotations.Test;
 
-@CucumberOptions(
+/*@CucumberOptions(
         features = {"src/test/java/features"},
         glue = {
                 "hooks",
@@ -13,15 +15,37 @@ import org.testng.annotations.DataProvider;
         },
         plugin = {
                 "io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm",
-                "aquality.tracking.integrations.cucumber5jvm.AqualityTrackingCucumber5Jvm"
+                //"aquality.tracking.integrations.cucumber5jvm.AqualityTrackingCucumber5Jvm",
+                "json:target/Destination/cucumber.json"//,
+                //"junit:target/cucumber-results.xml"
         },
+        tags = "@wait1",
         strict = true
-)
-public class TestRunner extends AbstractTestNGCucumberTests {
+)*/
+@Test
+@CourgetteOptions(
+        threads = 2,
+        runLevel = CourgetteRunLevel.FEATURE,
+        cucumberOptions = @CucumberOptions(
+                features = {"src/test/java/features"},
+                glue = {
+                        "hooks",
+                        "transformers",
+                        "stepdefinitions"
+                },
+                plugin = {
+                        "io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm",
+                        //"aquality.tracking.integrations.cucumber5jvm.AqualityTrackingCucumber5Jvm",
+                        "json:target/Destination/cucumber.json"//,
+                        //"junit:target/cucumber-results.xml"
+                },
+                tags = "@wait1"
+        ))
+public class TestRunner extends TestNGCourgette {
 
-    @Override
+    /*@Override
     @DataProvider(parallel = true)
     public Object[][] scenarios() {
         return super.scenarios();
-    }
+    }*/
 }
