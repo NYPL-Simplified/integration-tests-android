@@ -29,6 +29,7 @@ import screens.pdftableofcontents.PdfTableOfContentsScreen;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ReaderSteps {
@@ -252,7 +253,7 @@ public class ReaderSteps {
         pdfTableOfContentsScreen.switchToChaptersListView();
         Set<String> chapters = pdfTableOfContentsScreen.getListOfBookChapters();
         AqualityServices.getApplication().getDriver().navigate().back();
-        for (String chapter : chapters) {
+        for (String chapter : chapters.stream().limit(5).collect(Collectors.toList())) {
             pdfReaderScreen.openTableOfContents();
             pdfTableOfContentsScreen.state().waitForDisplayed();
             int pageNumber = pdfTableOfContentsScreen.getChapterPageNumber(chapter);
