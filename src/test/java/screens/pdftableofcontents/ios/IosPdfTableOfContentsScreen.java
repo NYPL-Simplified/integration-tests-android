@@ -94,7 +94,7 @@ public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
         return getElementFactory().findElements(By.xpath(CHAPTER_XPATH_LOCATOR), ElementType.LABEL, ElementsCount.ANY, ElementState.EXISTS_IN_ANY_STATE);
     }
 
-    private List<IElement> getPages() {
-        return getElementFactory().findElements(By.xpath(PAGES_IN_GALLERY_VIEW), ElementType.LABEL).stream().collect(Collectors.toList());
+    private List<aquality.appium.mobile.elements.interfaces.IElement> getPages() {
+        return getElementFactory().findElements(By.xpath(PAGES_IN_GALLERY_VIEW), ElementType.LABEL);
     }
 }

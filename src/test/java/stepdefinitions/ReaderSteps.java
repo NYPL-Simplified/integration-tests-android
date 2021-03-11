@@ -298,8 +298,8 @@ public class ReaderSteps {
     }
 
     @And("I save number of page on the gallery as {string}")
-    public void saveBookPagesList(String countOfBookPagesKey) {
-        context.add(countOfBookPagesKey, pdfReaderScreen.getPageNumber());
+    public void saveNumberOfPage(String pageNumberKey) {
+        context.add(pageNumberKey, pdfReaderScreen.getPageNumber());
     }
 
     @When("I scroll the gallery page {}")
@@ -307,11 +307,11 @@ public class ReaderSteps {
         pdfTableOfContentsScreen.scrollGallery(entireElementSwipeDirection);
     }
 
-    @Then("Number {string} more than number {string}")
-    public void checkThatNumberOfPageMoreThanAnotherNumberOfPage(String finalNumberOfPage, String numberOfPage) {
-        int numberOfFirstPage = context.get(numberOfPage);
-        int numberOfSecondPage = context.get(finalNumberOfPage);
-        Assert.assertTrue(numberOfSecondPage > numberOfFirstPage, String.format("NumberOfSecondPage: %d should be more than numberOfFirstPage : %d.", numberOfSecondPage, numberOfFirstPage));
+    @Then("Number {string} is bigger than number {string}")
+    public void checkThatNumberOfPageMoreThanAnotherNumberOfPage(String lastNumberOfPageKey, String firstNumberOfPageKey) {
+        int firstNumberOfPage = context.get(firstNumberOfPageKey);
+        int lastNumberOfPage = context.get(lastNumberOfPageKey);
+        Assert.assertTrue(lastNumberOfPage > firstNumberOfPage, String.format("Last open page: %d should be more than first open page: %d.", lastNumberOfPage, firstNumberOfPage));
     }
 
     @When("I open random page on the gallery")
