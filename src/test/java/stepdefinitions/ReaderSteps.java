@@ -307,11 +307,11 @@ public class ReaderSteps {
         pdfTableOfContentsScreen.scrollGallery(entireElementSwipeDirection);
     }
 
-    @Then("Number {string} is bigger than number {string}")
-    public void checkThatNumberOfPageMoreThanAnotherNumberOfPage(String lastNumberOfPageKey, String firstNumberOfPageKey) {
+    @Then("Current page number is bigger than number {string}")
+    public void checkThatNumberOfPageMoreThanAnotherNumberOfPage(String firstNumberOfPageKey) {
         int firstNumberOfPage = context.get(firstNumberOfPageKey);
-        int lastNumberOfPage = context.get(lastNumberOfPageKey);
-        Assert.assertTrue(lastNumberOfPage > firstNumberOfPage, String.format("Last open page: %d should be more than first open page: %d.", lastNumberOfPage, firstNumberOfPage));
+        int currentNumberOfPage = pdfReaderScreen.getPageNumber();
+        Assert.assertTrue(currentNumberOfPage > firstNumberOfPage, String.format("Current page: %d should be more than first open page: %d.", currentNumberOfPage, firstNumberOfPage));
     }
 
     @When("I open random page on the gallery")
