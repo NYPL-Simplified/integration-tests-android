@@ -29,13 +29,13 @@ Feature: Book Transactions
 
 
     Scenarios:
-      | feedName                            | laneName    | bookType  |
-      | New York Public Library - QA Server | Axis 360    | EBOOK     |
-      | New York Public Library - QA Server | Axis 360    | AUDIOBOOK |
-      | New York Public Library - QA Server | Bibliotheca | EBOOK     |
-      | New York Public Library - QA Server | Bibliotheca | AUDIOBOOK |
-      | New York Public Library - QA Server | Overdrive   | EBOOK     |
-      | New York Public Library - QA Server | Overdrive   | AUDIOBOOK |
+      | feedName                                               | laneName    | bookType  |
+      | New York Public Library - QA Server - reservation only | Axis 360    | EBOOK     |
+      | New York Public Library - QA Server - reservation only | Axis 360    | AUDIOBOOK |
+      | New York Public Library - QA Server - reservation only | Bibliotheca | EBOOK     |
+      | New York Public Library - QA Server - reservation only | Bibliotheca | AUDIOBOOK |
+      | New York Public Library - QA Server - reservation only | Overdrive   | EBOOK     |
+      | New York Public Library - QA Server - reservation only | Overdrive   | AUDIOBOOK |
 
   @logout @cancelHold @tier2
   Scenario: Hold from Bookshelf list
