@@ -128,12 +128,13 @@ public class AudioPlayerSteps {
     @Then("Playback {string} moves forward by {int} seconds increment")
     public void checkPlaybackTimeAheadMovesForwardBySecondsIncrement(String timeKey, int secondsDiff) {
         Duration savedDate = context.get(timeKey);
+        long secondsBefore = savedDate.getSeconds();
         AqualityServices.getConditionalWait().waitFor(() -> {
-            long diffInSeconds = audioPlayerScreen.getCurrentPlayTime().getSeconds() - savedDate.getSeconds();
+            long diffInSeconds = audioPlayerScreen.getCurrentPlayTime().getSeconds() - secondsBefore;
             return diffInSeconds >= secondsDiff && diffInSeconds <= secondsDiff + 5;
         });
-        long diffInSeconds = audioPlayerScreen.getCurrentPlayTime().getSeconds() - savedDate.getSeconds();
-        AqualityServices.getLogger().info("diff between  times -" + diffInSeconds);
+        long diffInSeconds = audioPlayerScreen.getCurrentPlayTime().getSeconds() - secondsBefore;
+        AqualityServices.getLogger().info("diff between times - " + diffInSeconds);
         Assert.assertTrue(diffInSeconds >= secondsDiff && diffInSeconds < secondsDiff + 5,
                 "Date is not moved forward by " + secondsDiff + " seconds");
     }
@@ -146,7 +147,7 @@ public class AudioPlayerSteps {
             return diffInSec > secondsDiff - 5 && diffInSec <= secondsDiff;
         });
         long diffInSec = savedDate.getSeconds() - audioPlayerScreen.getCurrentPlayTime().getSeconds();
-        AqualityServices.getLogger().info("diff between  times -" + diffInSec);
+        AqualityServices.getLogger().info("diff between times - " + diffInSec);
         Assert.assertTrue(diffInSec > secondsDiff - 5 && diffInSec <= secondsDiff,
                 "Date is not moved behind by " + secondsDiff + " seconds");
     }

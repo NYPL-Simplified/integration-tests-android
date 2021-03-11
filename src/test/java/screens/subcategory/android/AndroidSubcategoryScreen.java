@@ -12,6 +12,7 @@ import constants.application.attributes.AndroidAttributes;
 import models.android.CatalogBookModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.StaleElementReferenceException;
 import screens.subcategory.SubcategoryScreen;
 
 import java.util.List;
@@ -82,11 +83,8 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
         if (!button.state().waitForDisplayed()) {
             button.getTouchActions().scrollToElement(SwipeDirection.DOWN);
         }
-        Point coordinates = button.getElement().getCenter();
-        AqualityServices.getConditionalWait().waitFor(() -> {
-            Point center = button.getElement().getCenter();
-            return coordinates.equals(center);
-        });
+        Point coordinates = getCenter(button);
+        AqualityServices.getConditionalWait().waitFor(() -> coordinates.equals(getCenter(button)));
         button.click();
     }
 
@@ -160,5 +158,17 @@ public class AndroidSubcategoryScreen extends SubcategoryScreen {
     private String getErrorDetails() {
         lblErrorDetails.state().waitForDisplayed();
         return lblErrorDetails.getText();
+    }
+
+    private Point getCenter(IButton button) {
+        Point center;
+        try {
+            center = button.getElement().getCenter();
+        } catch (StaleElementReferenceException exception) {
+            AqualityServices.getLogger().debug("Caught exception - " + exception.getLocalizedMessage());
+            button.state().waitForExist();
+            center = button.getElement().getCenter();
+        }
+        return center;
     }
 }
