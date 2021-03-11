@@ -14,6 +14,7 @@ import framework.utilities.swipe.SwipeElementUtils;
 import framework.utilities.swipe.directions.EntireElementSwipeDirection;
 import org.openqa.selenium.By;
 import screens.pdftableofcontents.PdfTableOfContentsScreen;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -83,7 +83,7 @@ Feature: Read PDF IOS
       And I open random page on the gallery
       And I save number of page on the gallery as 'finalNumberOfPage'
     Then Number 'finalNumberOfPage' is bigger than number 'numberOfPage'
-    Then Pdf book 'bookInfo' is present on screen
+      And Pdf book 'bookInfo' is present on screen
 
   @logout @cancelGet @tier1 @exclude_android
   Scenario: Search document

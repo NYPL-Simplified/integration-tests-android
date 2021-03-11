@@ -2,6 +2,7 @@ package framework.configuration;
 
 import aquality.appium.mobile.application.AqualityServices;
 import org.apache.commons.lang3.RandomUtils;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
