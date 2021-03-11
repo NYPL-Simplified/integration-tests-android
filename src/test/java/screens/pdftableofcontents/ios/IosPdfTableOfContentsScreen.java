@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @ScreenType(platform = PlatformName.IOS)
 public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
     private static final String GALLERY_VIEW = "//XCUIElementTypeCollectionView";
-    private static final String PAGES_IN_GALLERY_VIEW = GALLERY_VIEW + "/XCUIElementTypeCell";
+    private static final String PAGES_IN_GALLERY_VIEW = "//XCUIElementTypeOther/following-sibling::XCUIElementTypeCell";
     private static final String CHAPTER_NAME_BUTTON_XPATH_PATTERN =
             "//XCUIElementTypeCell//XCUIElementTypeStaticText[@name=\"%1$s\"]";
     private static final String PAGE_NUMBER_LOCATOR_PATTERN =
@@ -95,8 +95,7 @@ public class IosPdfTableOfContentsScreen extends PdfTableOfContentsScreen {
         return getElementFactory().findElements(By.xpath(CHAPTER_XPATH_LOCATOR), ElementType.LABEL, ElementsCount.ANY, ElementState.EXISTS_IN_ANY_STATE);
     }
 
-    private List<IElement> getPages() {
-        return getElementFactory().findElements(By.xpath(PAGES_IN_GALLERY_VIEW), ElementType.LABEL).stream()
-                .filter(iElement -> iElement.state().isDisplayed()).collect(Collectors.toList());
+    private List<aquality.appium.mobile.elements.interfaces.IElement> getPages() {
+        return getElementFactory().findElements(By.xpath(PAGES_IN_GALLERY_VIEW), ElementType.LABEL);
     }
 }
