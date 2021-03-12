@@ -21,6 +21,7 @@ import screens.catalog.screen.catalog.CatalogScreen;
 import screens.debugoptionsscreen.DebugOptionsScreen;
 import screens.notifications.NotificationModal;
 import screens.settings.SettingsScreen;
+import stepdefinitions.catalog.CatalogSteps;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,21 +116,21 @@ public class AccountSteps {
         bottomMenuForm.open(BottomMenu.SETTINGS);
         bottomMenuForm.open(BottomMenu.CATALOG);
         mainCatalogToolbarForm.chooseAnotherLibrary();
-        catalogScreen.openLibrary(feedName);
+        catalogScreen.openLibrary(CatalogSteps.libraryNamesList.get(feedName));
         if (notificationModal.isModalPresent()) {
             notificationModal.closeCannotAddBookModalIfDisplayed();
-            catalogScreen.openLibrary(feedName);
+            catalogScreen.openLibrary(CatalogSteps.libraryNamesList.get(feedName));
         }
-        accountScreen.enterCredentials(Configuration.getCredentials(feedName));
+        accountScreen.enterCredentials(Configuration.getCredentials(CatalogSteps.libraryNamesList.get(feedName)));
         if (!settingsScreen.state().waitForDisplayed()) {
             Assert.assertTrue(accountScreen.isLogoutRequired() || catalogScreen.state().waitForDisplayed(),
                     "Login failed. Message: " + accountScreen.getLoginFailedMessage() + catalogScreen.getErrorDetails());
         }
         bottomMenuForm.open(BottomMenu.CATALOG);
 
-        saveLibraryInContext(ContextLibrariesKeys.LOG_OUT.getKey(), feedName);
-        saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey(), feedName);
-        saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey(), feedName);
+        saveLibraryInContext(ContextLibrariesKeys.LOG_OUT.getKey(), CatalogSteps.libraryNamesList.get(feedName));
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey(), CatalogSteps.libraryNamesList.get(feedName));
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey(), CatalogSteps.libraryNamesList.get(feedName));
     }
 
     private void saveLibraryInContext(String key, String libraryName) {

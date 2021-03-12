@@ -19,10 +19,19 @@ import stepdefinitions.BaseSteps;
 import stepdefinitions.catalog.components.AbstractCatalogSteps;
 import stepdefinitions.catalog.components.ICatalogSteps;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     private AbstractCatalogSteps catalogSteps;
+    public final static HashMap<String, String> libraryNamesList;
+
+    static {
+        libraryNamesList = new HashMap<>();
+        libraryNamesList.put("New York Public Library - QA Server - reservation only", "New York Public Library - QA Server");
+        libraryNamesList.put("New York Public Library - QA Server", "New York Public Library - QA Server");
+        libraryNamesList.put("LYRASIS", "LYRASIS");
+    }
 
     @Inject
     public CatalogSteps(ScenarioContext context) {
