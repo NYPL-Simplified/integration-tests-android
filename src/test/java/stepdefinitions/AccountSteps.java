@@ -23,6 +23,7 @@ import screens.notifications.NotificationModal;
 import screens.settings.SettingsScreen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AccountSteps {
@@ -39,6 +40,14 @@ public class AccountSteps {
     private final CatalogScreen catalogScreen;
     private final NotificationModal notificationModal;
     private ScenarioContext context;
+    public final static HashMap<String, String> libraryNamesList;
+
+    static {
+        libraryNamesList = new HashMap<>();
+        libraryNamesList.put("New York Public Library - QA Server - reservation only", "New York Public Library - QA Server");
+        libraryNamesList.put("New York Public Library - QA Server", "New York Public Library - QA Server");
+        libraryNamesList.put("LYRASIS", "LYRASIS");
+    }
 
     @Inject
     public AccountSteps(ScenarioContext context) {
@@ -103,6 +112,7 @@ public class AccountSteps {
 
     @When("I add custom {string} opds feed")
     public void addCustomOpdsFeed(String feedName) {
+        String libraryName = libraryNamesList.get(feedName);
         if (ageGateScreen.state().waitForDisplayed()) {
             ageGateScreen.approveAge();
         }
@@ -115,10 +125,10 @@ public class AccountSteps {
         bottomMenuForm.open(BottomMenu.SETTINGS);
         bottomMenuForm.open(BottomMenu.CATALOG);
         mainCatalogToolbarForm.chooseAnotherLibrary();
-        catalogScreen.openLibrary(feedName);
+        catalogScreen.openLibrary(libraryName);
         if (notificationModal.isModalPresent()) {
             notificationModal.closeCannotAddBookModalIfDisplayed();
-            catalogScreen.openLibrary(feedName);
+            catalogScreen.openLibrary(libraryName);
         }
         accountScreen.enterCredentials(Configuration.getCredentials(feedName));
         if (!settingsScreen.state().waitForDisplayed()) {
@@ -127,9 +137,9 @@ public class AccountSteps {
         }
         bottomMenuForm.open(BottomMenu.CATALOG);
 
-        saveLibraryInContext(ContextLibrariesKeys.LOG_OUT.getKey(), feedName);
-        saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey(), feedName);
-        saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey(), feedName);
+        saveLibraryInContext(ContextLibrariesKeys.LOG_OUT.getKey(), libraryName);
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_GET.getKey(), libraryName);
+        saveLibraryInContext(ContextLibrariesKeys.CANCEL_HOLD.getKey(), libraryName);
     }
 
     private void saveLibraryInContext(String key, String libraryName) {
