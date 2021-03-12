@@ -18,7 +18,7 @@ Feature: Book Transactions
     When I open Holds
     Then Book 'bookInfo' is present in Holds List
 
-  @logout @cancelHold @tier2 @exclude_ios @debug
+  @logout @cancelHold @tier2 @exclude_ios
   Scenario Outline: Hold from Book Detail View (feed)
     When I add custom '<feedName>' opds feed
       And I open <bookType> book from '<laneName>' lane and save book info as 'bookInfo'
@@ -30,11 +30,11 @@ Feature: Book Transactions
     Scenarios:
       | feedName                                               | laneName    | bookType  |
       | New York Public Library - QA Server - reservation only | Axis 360    | EBOOK     |
-      #| New York Public Library - QA Server - reservation only | Axis 360    | AUDIOBOOK |
-      #| New York Public Library - QA Server - reservation only | Bibliotheca | EBOOK     |
-      #| New York Public Library - QA Server - reservation only | Bibliotheca | AUDIOBOOK |
-      #| New York Public Library - QA Server - reservation only | Overdrive   | EBOOK     |
-      #| New York Public Library - QA Server - reservation only | Overdrive   | AUDIOBOOK |
+      | New York Public Library - QA Server - reservation only | Axis 360    | AUDIOBOOK |
+      | New York Public Library - QA Server - reservation only | Bibliotheca | EBOOK     |
+      | New York Public Library - QA Server - reservation only | Bibliotheca | AUDIOBOOK |
+      | New York Public Library - QA Server - reservation only | Overdrive   | EBOOK     |
+      | New York Public Library - QA Server - reservation only | Overdrive   | AUDIOBOOK |
 
   @logout @cancelHold @tier2
   Scenario: Hold from Bookshelf list
