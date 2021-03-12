@@ -26,6 +26,7 @@ import org.testng.annotations.Test;
 @CourgetteOptions(
         threads = 2,
         runLevel = CourgetteRunLevel.FEATURE,
+        showTestOutput = true,
         cucumberOptions = @CucumberOptions(
                 features = {"src/test/java/features"},
                 glue = {
@@ -34,7 +35,7 @@ import org.testng.annotations.Test;
                         "stepdefinitions"
                 },
                 plugin = {
-                        "io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm",
+                        "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm",
                         //"aquality.tracking.integrations.cucumber5jvm.AqualityTrackingCucumber5Jvm",
                         "json:target/Destination/cucumber.json"//,
                         //"junit:target/cucumber-results.xml"
