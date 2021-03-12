@@ -378,7 +378,14 @@ public class ReaderSteps {
     }
 
     private void assertBookName(CatalogBookModel catalogBookModel) {
-        Assert.assertTrue(removeSpaces(epubReaderScreen.getBookName()).toLowerCase().replace("women", "woman").contains(removeSpaces(catalogBookModel.getTitle().toLowerCase().replace("women", "woman"))), "Book name is not correct");
+        String expectedBookName = prepareBookName(catalogBookModel.getTitle());
+        String actualBookName = prepareBookName(epubReaderScreen.getBookName());
+        Assert.assertTrue(actualBookName.contains(expectedBookName),
+                String.format("Book name is not correct. Expected name - '%1$s', actual name - '%2$s'", expectedBookName, actualBookName));
+    }
+
+    private String prepareBookName(String title) {
+        return removeSpaces(title.toLowerCase().replace("women", "woman"));
     }
 
     private String removeSpaces(String text) {
