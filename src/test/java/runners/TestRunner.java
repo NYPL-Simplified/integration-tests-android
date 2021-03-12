@@ -26,7 +26,6 @@ import org.testng.annotations.Test;
 @CourgetteOptions(
         threads = 2,
         runLevel = CourgetteRunLevel.FEATURE,
-        //showTestOutput = true,
         cucumberOptions = @CucumberOptions(
                 features = {"src/test/java/features"},
                 glue = {
