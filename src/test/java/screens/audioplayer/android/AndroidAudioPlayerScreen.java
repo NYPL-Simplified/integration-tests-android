@@ -22,6 +22,9 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     private static final String MAIN_ELEMENT = "player_cover";
     private static final String CHAPTERS_LOC = "//android.widget.RelativeLayout[.//*[contains(@resource-id, \"player_toc_item_view_title\")]]";
     private static final String LOADING_SCREEN_XPATH = "//*[contains(@resource-id,\"player_toc_item_downloading_progress\")]";
+    private static final String SPEED_OPTION_XPATH_LOCATOR_PATTERN = "//*[contains(@resource-id, \"player_menu_playback_rate_text\") and @text=\"%sx\"]";
+    private static final String TIMER_XPATH_PATTERN_LOCATOR = "//*[contains(@resource-id, \"player_sleep_item_view_name\") and @text=\"%s\"]";
+    private static final String TIMER_SETTING_XPATH_LOCATOR_PATTERN = "//android.widget.RelativeLayout[contains(@resource-id, \"player_menu_sleep\") and @content-desc=\"Set Your Sleep Timer. The Sleep Timer Is Currently Set To Sleep At %s\"]";
 
     private final IButton btnMenu = getElementFactory().getButton(By.id("player_menu_toc"), "Menu");
     private final ILabel lblCurrentChapter = getElementFactory().getLabel(By.id("player_spine_element"), "Current chapter");
@@ -129,13 +132,14 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public boolean isSpeedOptionSelected(double playbackSpeed) {
-        return getElementFactory().getButton(By.xpath("//*[@resource-id=\"player_menu_playback_rate_text\" and @text=\"" + String.format("%.1f", playbackSpeed) + "x\"]"), "Playback speed").state().isDisplayed();
+        return getElementFactory().getButton(By.xpath(String.format(SPEED_OPTION_XPATH_LOCATOR_PATTERN, String.format("%.1f", playbackSpeed))), "Playback speed").state().waitForDisplayed();
     }
 
     @Override
     public void setTimer(TimerKeys timerSetting) {
         btnSleep.click();
-        getElementFactory().getButton(By.xpath("//*[@resource-id=\"player_sleep_item_view_name\" and @text=\"" + timerSetting.i18n() + "\"]"), timerSetting.i18n()).click();
+        String timerSettingName = timerSetting.i18n();
+        getElementFactory().getButton(By.xpath(String.format(TIMER_XPATH_PATTERN_LOCATOR, timerSettingName)), timerSettingName).click();
     }
 
     @Override
@@ -145,7 +149,8 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
 
     @Override
     public boolean isTimerSetTo(TimerKeys timerSetting) {
-        return getElementFactory().getButton(By.xpath("//android.widget.RelativeLayout[@content-desc=\"player_sleep_item_view_name\" and @text=\"Set Your Sleep Timer. The Sleep Timer Is Currently Set To Sleep At " + timerSetting.i18n() + "\"]"), timerSetting.i18n()).state().isDisplayed();
+        String timerSettingName = timerSetting.i18n();
+        return getElementFactory().getButton(By.xpath(String.format(TIMER_SETTING_XPATH_LOCATOR_PATTERN, timerSettingName)), timerSettingName).state().waitForDisplayed();
     }
 
     @Override
