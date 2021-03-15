@@ -62,7 +62,7 @@ public abstract class AbstractHoldsSteps extends BaseSteps implements IHoldsStep
         CatalogBookModel catalogBookModel = context.get(bookInfoKey);
         String title = catalogBookModel.getTitle();
         Assert.assertTrue(holdsScreen.isBookAddButtonTextEqualTo(title, key),
-                String.format("Book with title '%1$s' add button does not contain text '%2$s'", title, key.i18n()));
+                String.format("Book with title '%1$s' button does not contain text '%2$s'", title, key.i18n()));
     }
 
     public abstract void checkBookBookInfoIsNotPresentInHoldsList(String bookInfoKey);
