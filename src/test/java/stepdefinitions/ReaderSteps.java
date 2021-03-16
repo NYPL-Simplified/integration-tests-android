@@ -216,6 +216,11 @@ public class ReaderSteps {
             epubReaderScreen.clickRightCorner();
             AqualityServices.getConditionalWait().waitFor(() -> !isPageNumberEqual(pageNumber));
         });
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Then("Pdf book {string} is present on screen")
