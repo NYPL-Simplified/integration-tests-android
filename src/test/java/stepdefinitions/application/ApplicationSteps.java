@@ -33,11 +33,6 @@ public class ApplicationSteps extends BaseSteps implements IApplicationSteps {
 
     @And("I return to previous screen")
     public void returnToPreviousPage() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         applicationSteps.returnToPreviousPage();
     }
 
