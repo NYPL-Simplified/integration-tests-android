@@ -139,7 +139,7 @@ public class AndroidAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public void setTimer(TimerKeys timerSetting) {
         btnSleep.click();
-        String timerSettingName = timerSetting.i18n();
+        String timerSettingName = timerSetting.i18n().replace("Chapter", "chapter");
         getElementFactory().getButton(By.xpath(String.format(TIMER_XPATH_PATTERN_LOCATOR, timerSettingName)), timerSettingName).click();
     }
 
