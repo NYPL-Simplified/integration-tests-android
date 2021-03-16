@@ -32,7 +32,8 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     private static final String LOADED_CHAPTERS_LOCATOR = "//XCUIElementTypeTable//XCUIElementTypeCell//XCUIElementTypeOther[@visible=\"false\"]";
     private static final int COUNT_OF_CHAPTERS_TO_WAIT_FOR = 3;
     private static final String PLAYBACK_OPTION_XPATH_LOCATOR = "//XCUIElementTypeToolbar//XCUIElementTypeButton[@name=\"%s\"]";
-    private static final String TIME_LEFT_XPATH_LOCATOR = "//XCUIElementTypeToolbar//XCUIElementTypeButton[@name=\"%d hour and %d minutes until playback pauses\"]";
+    private static final String TIME_IN_HOURS_LEFT_XPATH_LOCATOR = "//XCUIElementTypeToolbar//XCUIElementTypeButton[@name=\"%d hour and %d minutes until playback pauses\"]";
+    private static final String TIME_IN_MINUTES_LEFT_XPATH_LOCATOR = "//XCUIElementTypeToolbar//XCUIElementTypeButton[@name=\"%d minutes and %d seconds until playback pauses\"]";
 
     private final IButton btnMenu =
             getElementFactory().getButton(By.xpath("//XCUIElementTypeButton[@name=\"Table of Contents\"]"), "Menu");
@@ -189,12 +190,15 @@ public class IosAudioPlayerScreen extends AudioPlayerScreen {
     @Override
     public void setTimer(TimerKeys timerSetting) {
         btnTimer.click();
-        getElementFactory().getButton(By.xpath("//XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"" + timerSetting.i18n() + "\"]"), timerSetting.i18n()).click();
+        String buttonName = timerSetting.i18n();
+        getElementFactory().getButton(By.xpath("//XCUIElementTypeScrollView//XCUIElementTypeButton[@name=\"" + buttonName + "\"]"), buttonName).click();
     }
 
     @Override
     public boolean isTimerEqualTo(Duration chapterLength) {
-        return getElementFactory().getButton(By.xpath(String.format(TIME_LEFT_XPATH_LOCATOR, (int) chapterLength.toHours(), (int) chapterLength.toMinutes())), "Timer").state().isDisplayed();
+        int seconds = (int) chapterLength.getSeconds() % 60;
+        int minutes = (int) (chapterLength.toMinutes() >= 60 ? chapterLength.toMinutes() % 60 : chapterLength.toMinutes());
+        return getElementFactory().getButton(By.xpath(String.format(TIME_IN_HOURS_LEFT_XPATH_LOCATOR, (int) chapterLength.toHours(), minutes)), "Timer").state().isDisplayed() || getElementFactory().getButton(By.xpath(String.format(TIME_IN_MINUTES_LEFT_XPATH_LOCATOR, minutes, seconds)), "Timer").state().isDisplayed();
     }
 
     @Override

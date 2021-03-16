@@ -15,7 +15,6 @@ import io.cucumber.java.en.When;
 import org.testng.Assert;
 import screens.audioplayer.AudioPlayerScreen;
 
-import java.text.ParseException;
 import java.time.Duration;
 
 public class AudioPlayerSteps {
@@ -191,7 +190,7 @@ public class AudioPlayerSteps {
     }
 
     @Then("Sleep timer shows time till chapter finish")
-    public void checkSleepTimerShowsTimeTillChapterFinish() throws ParseException {
+    public void checkSleepTimerShowsTimeTillChapterFinish() {
         Assert.assertTrue(audioPlayerScreen.isTimerEqualTo(audioPlayerScreen.getChapterLength()), "Timer value is not correct");
     }
 
