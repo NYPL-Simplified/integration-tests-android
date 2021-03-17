@@ -18,6 +18,7 @@ import screens.audioplayer.AudioPlayerScreen;
 import java.time.Duration;
 
 public class AudioPlayerSteps {
+    private static final int PING_COUNT_OF_SECONDS = 6;
     private final AudioPlayerScreen audioPlayerScreen;
     private final ScenarioContext context;
 
@@ -130,11 +131,11 @@ public class AudioPlayerSteps {
         long secondsBefore = savedDate.getSeconds();
         AqualityServices.getConditionalWait().waitFor(() -> {
             long diffInSeconds = audioPlayerScreen.getCurrentPlayTime().getSeconds() - secondsBefore;
-            return diffInSeconds >= secondsDiff && diffInSeconds <= secondsDiff + 5;
+            return diffInSeconds >= secondsDiff && diffInSeconds <= secondsDiff + PING_COUNT_OF_SECONDS;
         });
         long diffInSeconds = audioPlayerScreen.getCurrentPlayTime().getSeconds() - secondsBefore;
         AqualityServices.getLogger().info("diff between times - " + diffInSeconds);
-        Assert.assertTrue(diffInSeconds >= secondsDiff && diffInSeconds < secondsDiff + 5,
+        Assert.assertTrue(diffInSeconds >= secondsDiff && diffInSeconds <= secondsDiff + PING_COUNT_OF_SECONDS,
                 "Date is not moved forward by " + secondsDiff + " seconds");
     }
 
@@ -143,11 +144,11 @@ public class AudioPlayerSteps {
         Duration savedDate = context.get(timeKey);
         AqualityServices.getConditionalWait().waitFor(() -> {
             long diffInSec = savedDate.getSeconds() - audioPlayerScreen.getCurrentPlayTime().getSeconds();
-            return diffInSec > secondsDiff - 5 && diffInSec <= secondsDiff;
+            return diffInSec > secondsDiff - PING_COUNT_OF_SECONDS && diffInSec <= secondsDiff;
         });
         long diffInSec = savedDate.getSeconds() - audioPlayerScreen.getCurrentPlayTime().getSeconds();
         AqualityServices.getLogger().info("diff between times - " + diffInSec);
-        Assert.assertTrue(diffInSec > secondsDiff - 5 && diffInSec <= secondsDiff,
+        Assert.assertTrue(diffInSec > secondsDiff - PING_COUNT_OF_SECONDS && diffInSec <= secondsDiff,
                 "Date is not moved behind by " + secondsDiff + " seconds");
     }
 
