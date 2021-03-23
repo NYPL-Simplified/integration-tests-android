@@ -216,6 +216,7 @@ public class ReaderSteps {
             epubReaderScreen.clickRightCorner();
             AqualityServices.getConditionalWait().waitFor(() -> !isPageNumberEqual(pageNumber));
         });
+        //todo added waiting
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
