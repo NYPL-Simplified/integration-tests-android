@@ -19,8 +19,6 @@ import screens.pdftableofcontents.PdfTableOfContentsScreen;
 
 @ScreenType(platform = PlatformName.IOS)
 public class IosPdfReaderScreen extends PdfReaderScreen {
-    private static final String BUTTON_LOC_PATTERN = "//XCUIElementTypeButton[@name=\"%1$s\"]";
-
     private final ILabel lblBookName =
             getElementFactory().getLabel(By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"), "Book Name");
     private final ILabel lblPageNumber =
@@ -29,7 +27,7 @@ public class IosPdfReaderScreen extends PdfReaderScreen {
             By.xpath("//XCUIElementTypeScrollView/XCUIElementTypeTextView"),
             "Book Page");
     private final IButton btnChapters =
-            getElementFactory().getButton(By.xpath(String.format(BUTTON_LOC_PATTERN, PdfButtons.CHAPTERS.i18n())), "Table of contents");
+            getElementFactory().getButton(By.xpath("//XCUIElementTypeNavigationBar/XCUIElementTypeButton[2]"), "Table of contents");
     private final IButton btnSearch =
             getElementFactory().getButton(By.xpath("(//XCUIElementTypeNavigationBar/XCUIElementTypeButton)[3]"), "Search btn");
     private final IButton btnTableOfContents =
