@@ -30,7 +30,8 @@ public class IosCatalogScreen extends CatalogScreen {
     private static final String LANE_BY_NAME_LOCATOR_PART = "(//XCUIElementTypeOther[.//XCUIElementTypeButton[@name=\"%1$s\"]]"
             + "/following-sibling::XCUIElementTypeCell)[1]";
     private static final String BOOK_COVER_IN_LANE_LOCATOR = "/XCUIElementTypeButton";
-    private static final String FEED_LANE_TITLES_LOCATOR = "//XCUIElementTypeButton[contains(@name, 'More')][1]";
+    private static final String FEED_LANE_TITLES_LOCATOR =
+            "//XCUIElementTypeOther[./following-sibling::XCUIElementTypeCell[1]]//XCUIElementTypeButton[1]";
     private static final String LIBRARY_BUTTON_LOCATOR_PATTERN =
             "//XCUIElementTypeButton[@name=\"%1$s\"]";
 
@@ -41,6 +42,7 @@ public class IosCatalogScreen extends CatalogScreen {
     private final ILabel firstLaneName =
             getElementFactory().getLabel(By.xpath(FEED_LANE_TITLES_LOCATOR), "First lane name", ElementState.EXISTS_IN_ANY_STATE);
     private final ILabel categoryScreen = getElementFactory().getLabel(By.xpath("//XCUIElementTypeTable"), "Category Screen");
+    private final ILabel buttonMore = getElementFactory().getLabel(By.xpath("//XCUIElementTypeButton[contains(@name, 'More')][1]"), "Button More...");
 
     public IosCatalogScreen() {
         super(By.xpath(FEED_LANE_TITLES_LOCATOR));
@@ -170,7 +172,7 @@ public class IosCatalogScreen extends CatalogScreen {
 
     @Override
     public void openFirstCategory() {
-        firstLaneName.click();
+        buttonMore.click();
     }
 
     private List<String> geListOfCategoriesNames() {
