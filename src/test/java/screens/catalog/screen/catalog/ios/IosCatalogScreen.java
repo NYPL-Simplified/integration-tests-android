@@ -42,6 +42,7 @@ public class IosCatalogScreen extends CatalogScreen {
     private final ILabel firstLaneName =
             getElementFactory().getLabel(By.xpath(FEED_LANE_TITLES_LOCATOR), "First lane name", ElementState.EXISTS_IN_ANY_STATE);
     private final ILabel categoryScreen = getElementFactory().getLabel(By.xpath("//XCUIElementTypeTable"), "Category Screen");
+    private final ILabel buttonMore = getElementFactory().getLabel(By.xpath("//XCUIElementTypeButton[contains(@name, 'More')][1]"), "Button More...");
 
     public IosCatalogScreen() {
         super(By.xpath(FEED_LANE_TITLES_LOCATOR));
@@ -171,7 +172,7 @@ public class IosCatalogScreen extends CatalogScreen {
 
     @Override
     public void openFirstCategory() {
-        firstLaneName.click();
+        buttonMore.click();
     }
 
     private List<String> geListOfCategoriesNames() {
