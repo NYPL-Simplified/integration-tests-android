@@ -18,6 +18,8 @@ public class AndroidAccountsScreen extends AccountsScreen {
     private IButton btnDelete =
             getElementFactory().getButton(By.xpath("//android.widget.TextView[contains(@text,'Delete')]"), "Delete");
 
+    private final IButton btnAccept = getElementFactory().getButton(By.id("android:id/button1"), "Accept");
+
     public AndroidAccountsScreen() {
         super(By.id("accountOthers"));
     }
@@ -50,5 +52,6 @@ public class AndroidAccountsScreen extends AccountsScreen {
     public void deleteLibrary(String libraryName) {
         getElementFactory().getButton(By.xpath(String.format(DELETE_LIBRARY_BUTTON_LOCATOR_PATTERN, libraryName)), "Delete " + libraryName).click();
         btnDelete.click();
+        btnAccept.click();
     }
 }

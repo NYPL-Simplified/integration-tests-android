@@ -98,9 +98,6 @@ public class AccountSteps {
     @When("I remove {string} account")
     public void removeAccount(String libraryName) {
         accountsScreen.deleteLibrary(libraryName);
-        alertScreen.state().waitForExist();
-        alertScreen.accept();
-        openAccounts();
     }
 
     @When("I open account {string}")
