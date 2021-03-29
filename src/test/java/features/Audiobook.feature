@@ -16,7 +16,7 @@ Feature: Audiobook
       And I open the book details for the subsequent GET and save it as 'bookInfo'
     Then I check that opened book contains LISTEN button at book details screen
 
-  @logout @cancelGet @tier2 @exclude_ios
+  @logout @cancelGet @tier2 @exclude_ios @git
   Scenario: Navigate by Table of Contents Menu
     When Press on the book details screen at the action button LISTEN
       And Remember current book chapter in 'defaultChapter'

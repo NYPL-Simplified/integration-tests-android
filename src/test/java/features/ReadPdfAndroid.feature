@@ -15,7 +15,7 @@ Feature: Read PDF
       And Press on the book details screen at the action button READ
     Then Pdf book 'bookInfo' is present on screen
 
-  @logout @cancelGet @tier1 @exclude_ios
+  @logout @cancelGet @tier1 @exclude_ios @git
   Scenario: Open document
       And Pdf book page number is 1
 
