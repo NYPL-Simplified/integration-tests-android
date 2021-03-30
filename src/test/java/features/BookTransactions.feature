@@ -137,6 +137,29 @@ Feature: Book Transactions
       | LYRASIS                             | Bibliotheca                                   | EBOOK     |
       | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
+  @logout @cancelGet @exclude_ios @train
+  Scenario Outline: xml
+     When I add 'LYRASIS' account
+        And I enter credentials for 'LYRASIS' account
+     Then Login is performed successfully
+     When I open Catalog
+        And I switch to 'LYRASIS' from side menu
+        And I open search modal
+        And I search book of distributor '<distributor>' and bookType '<bookType>'
+        And GET book and save it as 'bookInfo'
+        And I open book 'bookInfo' details by clicking on cover
+    Then Opened book contains read button at book details screen
+    When I open Books
+    Then Book 'bookInfo' is present in Books List
+    When I open book 'bookInfo' details by clicking on cover
+    Then Opened book contains read button at book details screen
+    When I read <bookType> book
+    Then Reader screen for <bookType> type book 'bookInfo' is present
+
+    Scenarios:
+      | distributor | bookType |
+      | Bibliotheca | EBook    |
+
   @logout @cancelGet @tier2 @exclude_android
   Scenario: Return book
     When I add 'LYRASIS' account
@@ -186,6 +209,30 @@ Feature: Book Transactions
       | LYRASIS                             | Johns Hopkins University Press                | EBOOK     |
       | LYRASIS                             | Bibliotheca                                   | EBOOK     |
       | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
+
+  @logout @cancelGet @exclude_ios @train2
+  Scenario Outline: xml2
+    When I add 'LYRASIS' account
+    And I enter credentials for 'LYRASIS' account
+    Then Login is performed successfully
+    When I open Catalog
+    And I switch to 'LYRASIS' from side menu
+    And I open search modal
+    And I search book of distributor '<distributor>' and bookType '<bookType>'
+    And GET book and save it as 'bookInfo'
+    And I open book 'bookInfo' details by clicking on cover
+    Then Opened book contains read button at book details screen
+    When I open Books
+    Then Book 'bookInfo' is present in Books List
+    When I open book 'bookInfo' details by clicking on cover
+      And Press on the book details screen at the action button RETURN
+    Then I check that the action button text equal to the GET
+    When I open Books
+    Then Book 'bookInfo' is not present in Books List
+
+    Scenarios:
+      | distributor | bookType |
+      | Bibliotheca | EBook    |
 
   @logout @cancelHold @tier2
   Scenario: Remove a Reserved Book from Bookshelf list

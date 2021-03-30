@@ -1,25 +1,7 @@
 {
-  "iOS_Simulator": {
-    "capabilities": {
-      "deviceName": "iPhone 11",
-      "platformVersion": "13.5"
-    }
-  },
   "Samsung_Galaxy": {
     "capabilities": {
-      "deviceName": "Samsung Galaxy S10",
-      "platformVersion": "9.0"
-    }
-  },
-  "Samsung_Galaxy_Note": {
-    "capabilities": {
-      "deviceName": "Samsung Galaxy Note 20",
-      "platformVersion": "10.0"
-    }
-  },
-  "Google_Pixel": {
-    "capabilities": {
-      "deviceName": "Google Pixel 5",
+      "deviceName": "Android Emulator",
       "platformVersion": "11.0"
     }
   }
