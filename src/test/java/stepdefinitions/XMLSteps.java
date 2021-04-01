@@ -16,11 +16,15 @@ public class XMLSteps {
         subcategoryScreen = AqualityServices.getScreenFactory().getScreen(SubcategoryScreen.class);
     }
 
-    @And("I search book of distributor {string} and bookType {string}")
-    public void searchFor(String distributor, String bookType) {
-        String bookName = XMLUtil.getRandomBookWithSpecificBookType(bookType.toLowerCase(), distributor.toLowerCase());
-
-        Assert.assertTrue(searchModal.state().waitForDisplayed(), "Search modal is not present. Error (if present) - "+ subcategoryScreen.getErrorMessage());
+    @And("I search {string} book of distributor {string} and bookType {string}")
+    public void searchFor(String availabilityType, String distributor, String bookType) {
+        String bookName = null;
+        if (availabilityType.toLowerCase().equals("available")) {
+            bookName = XMLUtil.getAvailableBookSpecificType(bookType.toLowerCase(), distributor.toLowerCase());
+        } else if (availabilityType.toLowerCase().equals("unavailable")) {
+            bookName = XMLUtil.getUnavailableBookSpecificType(bookType.toLowerCase(), distributor.toLowerCase());
+        }
+        Assert.assertTrue(searchModal.state().waitForDisplayed(), "Search modal is not present. Error (if present) - " + subcategoryScreen.getErrorMessage());
         searchModal.setSearchedText(bookName);
         searchModal.applySearch();
         Assert.assertTrue(searchModal.state().waitForNotDisplayed(), "Search modal is not disappear");

@@ -22,6 +22,11 @@ public class LoggerHooks {
 
     @Before(order = 0)
     public void startScenarioLogger(Scenario scenario) {
+        if(XMLUtil.sch < 1){
+            XMLUtil.setHashMapsForEBooksAndAudioBooks();
+            AqualityServices.getApplication();
+            XMLUtil.sch++;
+        }
         Logger.getInstance().createAppender(scenario.getName());
         AqualityServices.getLogger().info(format("Scenario '%s' start", scenario.getName()));
         AqualityServices.getLogger().info("Session id - " + AqualityServices.getApplication().getDriver().getSessionId().toString());

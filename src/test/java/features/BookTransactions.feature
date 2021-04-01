@@ -36,6 +36,25 @@ Feature: Book Transactions
       | New York Public Library - QA Server - reservation only | Overdrive   | EBOOK     |
       | New York Public Library - QA Server - reservation only | Overdrive   | AUDIOBOOK |
 
+  @logout @cancelGet @exclude_ios @train3
+  Scenario Outline: Hold from Book Detail View (feed) XML
+    When I add 'LYRASIS' account
+      And I enter credentials for 'LYRASIS' account
+    Then Login is performed successfully
+    When I open Catalog
+      And I switch to 'LYRASIS' from side menu
+      And I open search modal
+      And I search 'unavailable' book of distributor '<distributor>' and bookType '<bookType>'
+      And RESERVE book and save it as 'bookInfo'
+      And I open book 'bookInfo' details by clicking on cover
+    Then I check that opened book contains CANCEL button at book details screen
+    When I open Holds
+    Then Book 'bookInfo' is present in Holds List
+
+    Scenarios:
+      | distributor | bookType |
+      | Bibliotheca | EBook    |
+
   @logout @cancelHold @tier2
   Scenario: Hold from Bookshelf list
     When I add 'The New York Public Library' account
@@ -138,16 +157,16 @@ Feature: Book Transactions
       | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
   @logout @cancelGet @exclude_ios @train
-  Scenario Outline: xml
-     When I add 'LYRASIS' account
-        And I enter credentials for 'LYRASIS' account
-     Then Login is performed successfully
-     When I open Catalog
-        And I switch to 'LYRASIS' from side menu
-        And I open search modal
-        And I search book of distributor '<distributor>' and bookType '<bookType>'
-        And GET book and save it as 'bookInfo'
-        And I open book 'bookInfo' details by clicking on cover
+  Scenario Outline: Check out from Book Detail View (feed) XML
+    When I add 'LYRASIS' account
+      And I enter credentials for 'LYRASIS' account
+    Then Login is performed successfully
+    When I open Catalog
+      And I switch to 'LYRASIS' from side menu
+      And I open search modal
+      And I search 'available' book of distributor '<distributor>' and bookType '<bookType>'
+      And GET book and save it as 'bookInfo'
+      And I open book 'bookInfo' details by clicking on cover
     Then Opened book contains read button at book details screen
     When I open Books
     Then Book 'bookInfo' is present in Books List
@@ -211,16 +230,16 @@ Feature: Book Transactions
       | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
   @logout @cancelGet @exclude_ios @train2
-  Scenario Outline: xml2
+  Scenario Outline: Return book (feed) XML
     When I add 'LYRASIS' account
-    And I enter credentials for 'LYRASIS' account
+      And I enter credentials for 'LYRASIS' account
     Then Login is performed successfully
     When I open Catalog
-    And I switch to 'LYRASIS' from side menu
-    And I open search modal
-    And I search book of distributor '<distributor>' and bookType '<bookType>'
-    And GET book and save it as 'bookInfo'
-    And I open book 'bookInfo' details by clicking on cover
+      And I switch to 'LYRASIS' from side menu
+      And I open search modal
+      And I search 'available' book of distributor '<distributor>' and bookType '<bookType>'
+      And GET book and save it as 'bookInfo'
+      And I open book 'bookInfo' details by clicking on cover
     Then Opened book contains read button at book details screen
     When I open Books
     Then Book 'bookInfo' is present in Books List
