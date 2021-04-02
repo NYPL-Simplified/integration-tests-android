@@ -1,4 +1,4 @@
-package util.xml;
+package framework.utilities.feedXMLUtil.xml;
 
 import java.io.Serializable;
 import java.util.Objects;

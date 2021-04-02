@@ -5,7 +5,7 @@ import io.cucumber.java.en.And;
 import org.testng.Assert;
 import screens.search.modal.SearchModal;
 import screens.subcategory.SubcategoryScreen;
-import util.xml.XMLUtil;
+import framework.utilities.feedXMLUtil.xml.XMLUtil;
 
 public class XMLSteps {
     private final SearchModal searchModal;
@@ -18,12 +18,8 @@ public class XMLSteps {
 
     @And("I search {string} book of distributor {string} and bookType {string}")
     public void searchFor(String availabilityType, String distributor, String bookType) {
-        String bookName = null;
-        if (availabilityType.toLowerCase().equals("available")) {
-            bookName = XMLUtil.getAvailableBookSpecificType(bookType.toLowerCase(), distributor.toLowerCase());
-        } else if (availabilityType.toLowerCase().equals("unavailable")) {
-            bookName = XMLUtil.getUnavailableBookSpecificType(bookType.toLowerCase(), distributor.toLowerCase());
-        }
+        String bookName = XMLUtil.getInstance().getRandomBook(availabilityType.toLowerCase(), bookType.toLowerCase(), distributor.toLowerCase());
+        AqualityServices.getLogger().info("randomBookName: " + bookName);
         Assert.assertTrue(searchModal.state().waitForDisplayed(), "Search modal is not present. Error (if present) - " + subcategoryScreen.getErrorMessage());
         searchModal.setSearchedText(bookName);
         searchModal.applySearch();

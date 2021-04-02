@@ -1,4 +1,4 @@
-package util.xml;
+package framework.utilities.feedXMLUtil.xml;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;

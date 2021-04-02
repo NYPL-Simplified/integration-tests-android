@@ -1,8 +1,6 @@
 package stepdefinitions;
 
 import aquality.appium.mobile.application.AqualityServices;
-import util.xml.XMLUtil;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;

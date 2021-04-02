@@ -36,7 +36,7 @@ Feature: Book Transactions
       | New York Public Library - QA Server - reservation only | Overdrive   | EBOOK     |
       | New York Public Library - QA Server - reservation only | Overdrive   | AUDIOBOOK |
 
-  @logout @cancelGet @exclude_ios @train3
+  @logout @cancelGet @exclude_ios @train3 @xml
   Scenario Outline: Hold from Book Detail View (feed) XML
     When I add 'LYRASIS' account
       And I enter credentials for 'LYRASIS' account
@@ -52,8 +52,13 @@ Feature: Book Transactions
     Then Book 'bookInfo' is present in Holds List
 
     Scenarios:
-      | distributor | bookType |
-      | Bibliotheca | EBOOK    |
+      | distributor   | bookType  |
+      | Bibliotheca   | EBOOK     |
+      | Bibliotheca   | AUDIOBOOK |
+      | DPLA Exchange | EBOOK     |
+      | DPLA Exchange | AUDIOBOOK |
+      | Axis 360      | EBOOK     |
+      | Axis 360      | AUDIOBOOK |
 
   @logout @cancelHold @tier2
   Scenario: Hold from Bookshelf list
@@ -156,7 +161,7 @@ Feature: Book Transactions
       | LYRASIS                             | Bibliotheca                                   | EBOOK     |
       | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
-  @logout @cancelGet @exclude_ios @train
+  @logout @cancelGet @exclude_ios @train @xml
   Scenario Outline: Check out from Book Detail View (feed) XML
     When I add 'LYRASIS' account
       And I enter credentials for 'LYRASIS' account
@@ -176,8 +181,13 @@ Feature: Book Transactions
     Then Reader screen for <bookType> type book 'bookInfo' is present
 
     Scenarios:
-      | distributor | bookType |
-      | Bibliotheca | EBOOK    |
+      | distributor   | bookType  |
+      | Bibliotheca   | EBOOK     |
+      | Bibliotheca   | AUDIOBOOK |
+      | DPLA Exchange | EBOOK     |
+      | DPLA Exchange | AUDIOBOOK |
+      | Axis 360      | EBOOK     |
+      | Axis 360      | AUDIOBOOK |
 
   @logout @cancelGet @tier2 @exclude_android
   Scenario: Return book
@@ -229,7 +239,7 @@ Feature: Book Transactions
       | LYRASIS                             | Bibliotheca                                   | EBOOK     |
       | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
-  @logout @cancelGet @exclude_ios @train2
+  @logout @cancelGet @exclude_ios @train2 @xml
   Scenario Outline: Return book (feed) XML
     When I add 'LYRASIS' account
       And I enter credentials for 'LYRASIS' account
@@ -255,6 +265,8 @@ Feature: Book Transactions
       | Bibliotheca   | AUDIOBOOK |
       | DPLA Exchange | EBOOK     |
       | DPLA Exchange | AUDIOBOOK |
+      | Axis 360      | EBOOK     |
+      | Axis 360      | AUDIOBOOK |
 
   @logout @cancelHold @tier2
   Scenario: Remove a Reserved Book from Bookshelf list

@@ -6,13 +6,10 @@ import io.cucumber.core.backend.TestCaseState;
 import io.cucumber.java.*;
 import io.cucumber.plugin.event.PickleStepTestStep;
 import io.cucumber.plugin.event.TestCase;
-import util.xml.BookModel;
-import util.xml.XMLUtil;
+import framework.utilities.feedXMLUtil.xml.XMLUtil;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.XMLFormatter;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -22,10 +19,6 @@ public class LoggerHooks {
 
     @Before(order = 0)
     public void startScenarioLogger(Scenario scenario) {
-        if(XMLUtil.sch < 1){
-            XMLUtil.setHashMapsForEBooksAndAudioBooks();
-            XMLUtil.sch++;
-        }
         Logger.getInstance().createAppender(scenario.getName());
         AqualityServices.getLogger().info(format("Scenario '%s' start", scenario.getName()));
         AqualityServices.getLogger().info("Session id - " + AqualityServices.getApplication().getDriver().getSessionId().toString());

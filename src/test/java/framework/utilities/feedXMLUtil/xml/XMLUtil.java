@@ -1,4 +1,4 @@
-package util.xml;
+package framework.utilities.feedXMLUtil.xml;
 
 import okhttp3.OkHttpClient;
 import org.apache.commons.lang3.RandomUtils;
@@ -16,21 +16,35 @@ import java.util.stream.Collectors;
 
 public class XMLUtil {
     private static final String BASE_URL = "https://demo.lyrasistechnology.org";
-    public static int sch = 0;
-    private static HashMap<String, List<BookModel>> hashMapAvailableEbooks;
-    private static HashMap<String, List<BookModel>> hashMapAvailableAudiobooks;
-    private static HashMap<String, List<BookModel>> hashMapUnavailableEbooks;
-    private static HashMap<String, List<BookModel>> hashMapUnavailableAudiobooks;
 
-    private static ArrayList<BookModel> availableBooksAnyType;
-    private static ArrayList<BookModel> unavailableBooksAnyType;
+    private HashMap<String, List<BookModel>> hashMapAvailableEbooks;
+    private HashMap<String, List<BookModel>> hashMapAvailableAudiobooks;
+    private HashMap<String, List<BookModel>> hashMapUnavailableEbooks;
+    private HashMap<String, List<BookModel>> hashMapUnavailableAudiobooks;
+
+    private ArrayList<BookModel> availableBooksAnyType;
+    private ArrayList<BookModel> unavailableBooksAnyType;
+    private static XMLUtil xmlUtil;
 
     private XMLUtil() {
+        setHashMapsForEBooksAndAudioBooks();
+    }
 
+    public static XMLUtil getInstance(){
+        if(xmlUtil == null){
+            xmlUtil = new XMLUtil();
+        }
+        return xmlUtil;
+    }
+
+    public static void instanceInitialization(){
+        if(xmlUtil == null){
+            xmlUtil = new XMLUtil();
+        }
     }
 
     //1
-    private static void setListAvailableAndUnavailableBooksAnyTypeMayBeWithRepeat() {
+    private void setListAvailableAndUnavailableBooksAnyTypeMayBeWithRepeat() {
         String url = "lyrasis/crawlable";
         ArrayList<BookModel> listAvailableBooksAnyType = new ArrayList<>();
         ArrayList<BookModel> listUnavailableBooksAnyType = new ArrayList<>();
@@ -73,50 +87,46 @@ public class XMLUtil {
     }
 
     //2
-    public static String getAvailableBookSpecificType(String bookType, String distributor) {
+    public String getRandomBook(String availabilityType, String bookType, String distributor) {
         HashMap<String, List<BookModel>> hashMap = null;
-        if (bookType.toLowerCase().equals("ebook")) {
-            hashMap = hashMapAvailableEbooks;
-        } else if (bookType.toLowerCase().equals("audiobook")) {
-            hashMap = hashMapAvailableAudiobooks;
+        if(availabilityType.toLowerCase().equals("available")){
+            if (bookType.toLowerCase().equals("ebook")) {
+                hashMap = hashMapAvailableEbooks;
+            } else if (bookType.toLowerCase().equals("audiobook")) {
+                hashMap = hashMapAvailableAudiobooks;
+            }
+        }else if(availabilityType.toLowerCase().equals("unavailable")){
+            if (bookType.toLowerCase().equals("ebook")) {
+                hashMap = hashMapUnavailableEbooks;
+            } else if (bookType.toLowerCase().equals("audiobook")) {
+                hashMap = hashMapUnavailableAudiobooks;
+            }
         }
+        if(!hashMap.containsKey(distributor.toLowerCase())){
+            throw new RuntimeException("There is not " + availabilityType + " books for distributor: " + distributor);
+        }
+
+        if(hashMap.get(distributor.toLowerCase()).size() == 0){
+            throw new RuntimeException("hashMap.get(distributor.toLowerCase()).size() == 0 and distributor: " + distributor + " bookType: " + bookType);
+        }
+        //System.out.println("hashMap.get(distributor.toLowerCase()).size() == " + hashMap.get(distributor.toLowerCase()).size() + " distributor " + distributor);
+
         String bookName = hashMap.get(distributor.toLowerCase()).get(RandomUtils.nextInt(0, hashMap.get(distributor.toLowerCase()).size())).getBookName();
 
-        List<BookModel> list = hashMap.get(distributor);
+       /* List<BookModel> list = hashMap.get(distributor.toLowerCase());
         for (int i = 0; i < list.size(); i++) {
             BookModel bookModel = list.get(i);
             if (bookModel.getBookName().toLowerCase().equals(bookName.toLowerCase())) {
                 list.remove(bookModel);
+                hashMap.put(distributor.toLowerCase(), list);
                 break;
             }
-        }
-        return bookName;
-    }
-
-    //2
-    public static String getUnavailableBookSpecificType(String bookType, String distributor) {
-        HashMap<String, List<BookModel>> hashMap = null;
-        if (bookType.toLowerCase().equals("ebook")) {
-            hashMap = hashMapUnavailableEbooks;
-        } else if (bookType.toLowerCase().equals("audiobook")) {
-            hashMap = hashMapUnavailableAudiobooks;
-        }
-        String bookName = hashMap.get(distributor.toLowerCase()).get(RandomUtils.nextInt(0, hashMap.get(distributor.toLowerCase()).size())).getBookName();
-
-        List<BookModel> list = hashMap.get(distributor);
-        for (int i = 0; i < list.size(); i++) {
-            BookModel bookModel = list.get(i);
-            if (bookModel.getBookName().toLowerCase().equals(bookName.toLowerCase())) {
-                list.remove(bookModel);
-                break;
-            }
-        }
-
+        }*/
         return bookName;
     }
 
     //1
-    public static void setHashMapsForEBooksAndAudioBooks() {
+    private void setHashMapsForEBooksAndAudioBooks() {
         setListAvailableAndUnavailableBooksAnyTypeMayBeWithRepeat();
         hashMapAvailableEbooks = getHashMapForAvailableAndUnavailableBooksWithSpecificType(availableBooksAnyType, "ebook");
         hashMapAvailableAudiobooks = getHashMapForAvailableAndUnavailableBooksWithSpecificType(availableBooksAnyType, "audiobook");
@@ -125,7 +135,7 @@ public class XMLUtil {
     }
 
     //1
-    private static HashMap<String, List<BookModel>> getHashMapForAvailableAndUnavailableBooksWithSpecificType(ArrayList<BookModel> arrayList, String bookType) {
+    private HashMap<String, List<BookModel>> getHashMapForAvailableAndUnavailableBooksWithSpecificType(ArrayList<BookModel> arrayList, String bookType) {
 
         Set<String> setDistributors = arrayList.stream().map(book -> book.getDistributorName()).collect(Collectors.toSet());
 
@@ -141,7 +151,7 @@ public class XMLUtil {
     }
 
     //1
-    private static FeedModel getFeedModel(String url) {
+    private FeedModel getFeedModel(String url) {
         BookAPIMethods trainAPIMethods = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(JaxbConverterFactory.create()).
                 client(new OkHttpClient()).build().create(BookAPIMethods.class);
         Response<FeedModel> response = null;

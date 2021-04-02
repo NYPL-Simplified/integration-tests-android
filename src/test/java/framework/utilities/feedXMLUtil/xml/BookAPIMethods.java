@@ -1,4 +1,4 @@
-package util.xml;
+package framework.utilities.feedXMLUtil.xml;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
