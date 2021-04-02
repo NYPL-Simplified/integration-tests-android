@@ -53,7 +53,7 @@ Feature: Book Transactions
 
     Scenarios:
       | distributor | bookType |
-      | Bibliotheca | EBook    |
+      | Bibliotheca | EBOOK    |
 
   @logout @cancelHold @tier2
   Scenario: Hold from Bookshelf list
@@ -177,7 +177,7 @@ Feature: Book Transactions
 
     Scenarios:
       | distributor | bookType |
-      | Bibliotheca | EBook    |
+      | Bibliotheca | EBOOK    |
 
   @logout @cancelGet @tier2 @exclude_android
   Scenario: Return book
@@ -250,8 +250,11 @@ Feature: Book Transactions
     Then Book 'bookInfo' is not present in Books List
 
     Scenarios:
-      | distributor | bookType |
-      | Bibliotheca | EBook    |
+      | distributor   | bookType  |
+      | Bibliotheca   | EBOOK     |
+      | Bibliotheca   | AUDIOBOOK |
+      | DPLA Exchange | EBOOK     |
+      | DPLA Exchange | AUDIOBOOK |
 
   @logout @cancelHold @tier2
   Scenario: Remove a Reserved Book from Bookshelf list

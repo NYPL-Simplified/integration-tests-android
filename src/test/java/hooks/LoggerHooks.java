@@ -24,7 +24,6 @@ public class LoggerHooks {
     public void startScenarioLogger(Scenario scenario) {
         if(XMLUtil.sch < 1){
             XMLUtil.setHashMapsForEBooksAndAudioBooks();
-            AqualityServices.getApplication();
             XMLUtil.sch++;
         }
         Logger.getInstance().createAppender(scenario.getName());

@@ -24,7 +24,7 @@ import util.xml.XMLUtil;
                         //todo Aquality Tracking is temporary turned off until AqualityTrackingCucumber6Jvm is released
                         //"aquality.tracking.integrations.cucumber5jvm.AqualityTrackingCucumber5Jvm",
                 },
-                tags = "@train3"
+                tags = "@train"
         ))
 public class TestRunner extends TestNGCourgette {
 

@@ -1,15 +1,20 @@
 {
-  "platformName": "android",
-  "isRemote": false,
+  "platformName": "ios",
+  "isRemote": true,
   "remoteConnectionUrl": "",
   "screensLocation": "screens",
   "driverSettings": {
     "android": {
-      "deviceKey": "Samsung_Galaxy",
-      "applicationPath": "",
+      "deviceKey": "Samsung_Galaxy_Note",
       "capabilities": {
         "platformName": "Android",
-        "automationName": "UiAutomator2"
+        "app": "",
+        "noReset": "true",
+        "browserstack.networkLogs": true,
+        "automationName": "UiAutomator2",
+        "browserstack.appium_version": "1.17.0",
+        "deviceOrientation": "portrait",
+        "adbExecTimeout": 10000
       }
     },
     "ios": {
