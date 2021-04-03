@@ -4,8 +4,8 @@
 name: Test Train Run
 
 on:
-  schedule:
-    - cron:  '0 0-23/5 * * *'
+  push:
+    branches: [ InvestigateXML ]
    
 jobs:
   build:
