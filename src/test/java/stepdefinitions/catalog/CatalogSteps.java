@@ -23,9 +23,11 @@ import java.util.List;
 
 public class CatalogSteps extends BaseSteps implements ICatalogSteps {
     private AbstractCatalogSteps catalogSteps;
+    private ScenarioContext context;
 
     @Inject
     public CatalogSteps(ScenarioContext context) {
+        this.context = context;
         catalogSteps = stepsFactory.getSteps(AbstractCatalogSteps.class, context);
     }
 
@@ -137,6 +139,12 @@ public class CatalogSteps extends BaseSteps implements ICatalogSteps {
 
     @When("I open book with name {string} and save it as {string}")
     public void openBookWithNameAndSaveIt(String bookName, String bookInfoKey) {
+        catalogSteps.openBookWithGivenName(bookName, bookInfoKey);
+    }
+
+    @When("I open book {string} and save it as {string}")
+    public void getBookNameAndOpenBookAndSaveIt(String bookNameKey, String bookInfoKey) {
+        String bookName = context.get(bookNameKey);
         catalogSteps.openBookWithGivenName(bookName, bookInfoKey);
     }
 
