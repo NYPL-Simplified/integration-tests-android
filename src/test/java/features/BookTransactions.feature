@@ -36,7 +36,7 @@ Feature: Book Transactions
       | New York Public Library - QA Server - reservation only | Overdrive   | EBOOK     |
       | New York Public Library - QA Server - reservation only | Overdrive   | AUDIOBOOK |
 
-  @logout @cancelGet @exclude_ios @train3 @xml
+  @logout @cancelGet @exclude_ios @train3 @xml @new
   Scenario Outline: Hold from Book Detail View (feed) XML
     When I add 'LYRASIS' account
       And I enter credentials for 'LYRASIS' account
