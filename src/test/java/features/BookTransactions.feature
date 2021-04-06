@@ -44,12 +44,12 @@ Feature: Book Transactions
     When I open Catalog
       And I switch to 'LYRASIS' from side menu
       And I open search modal
-    And I search 'available' book of distributor '<distributor>' and bookType '<bookType>' and save as 'bookNameInfo'
-    And I switch to '<tabName>' catalog tab
+      And I search 'unavailable' book of distributor '<distributor>' and bookType '<bookType>' and save as 'bookNameInfo'
+      And I switch to '<tabName>' catalog tab
     Then Subcategory screen is present
     When I open book 'bookNameInfo' and save it as 'bookInfo'
     Then Book 'bookInfo' is opened
-    And I press on the book details screen at the action button RESERVE
+      And I press on the book details screen at the action button RESERVE
     Then I check that opened book contains CANCEL button at book details screen
     When I open Holds
     Then Book 'bookInfo' is present in Holds List
@@ -58,6 +58,8 @@ Feature: Book Transactions
       | distributor | bookType  | tabName    |
       | Bibliotheca | EBOOK     | eBooks     |
       | Bibliotheca | AUDIOBOOK | Audiobooks |
+      | Axis 360    | EBOOK     | eBooks     |
+      | Axis 360    | AUDIOBOOK | Audiobooks |
 
   @logout @cancelHold @tier2
   Scenario: Hold from Bookshelf list
@@ -168,12 +170,12 @@ Feature: Book Transactions
     When I open Catalog
       And I switch to 'LYRASIS' from side menu
       And I open search modal
-    And I search 'available' book of distributor '<distributor>' and bookType '<bookType>' and save as 'bookNameInfo'
-    And I switch to '<tabName>' catalog tab
+      And I search 'available' book of distributor '<distributor>' and bookType '<bookType>' and save as 'bookNameInfo'
+      And I switch to '<tabName>' catalog tab
     Then Subcategory screen is present
     When I open book 'bookNameInfo' and save it as 'bookInfo'
     Then Book 'bookInfo' is opened
-    And Get book on the book details screen
+      And Get book on the book details screen
     Then Opened book contains read button at book details screen
     When I open Books
     Then Book 'bookInfo' is present in Books List
@@ -266,9 +268,6 @@ Feature: Book Transactions
       | distributor | bookType  | tabName    |
       | Bibliotheca | EBOOK     | eBooks     |
       | Bibliotheca | AUDIOBOOK | Audiobooks |
-      | Axis 360    | EBOOK     | eBooks     |
-      | Axis 360    | AUDIOBOOK | Audiobooks |
-
 
   @logout @cancelHold @tier2
   Scenario: Remove a Reserved Book from Bookshelf list
