@@ -36,7 +36,7 @@ Feature: Book Transactions
       | New York Public Library - QA Server - reservation only | Overdrive   | EBOOK     |
       | New York Public Library - QA Server - reservation only | Overdrive   | AUDIOBOOK |
 
-  @logout @cancelGet @exclude_ios @train3 @xml @new
+  @logout @cancelGet @train3 @xml @new
   Scenario Outline: Hold from Book Detail View (feed) XML
     When I add 'LYRASIS' account
       And I enter credentials for 'LYRASIS' account
@@ -162,7 +162,7 @@ Feature: Book Transactions
       | LYRASIS                             | Bibliotheca                                   | EBOOK     |
       | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
-  @logout @cancelGet @exclude_ios @train @xml
+  @logout @cancelGet @train @xml
   Scenario Outline: Check out from Book Detail View (feed) XML
     When I add 'LYRASIS' account
       And I enter credentials for 'LYRASIS' account
@@ -241,7 +241,7 @@ Feature: Book Transactions
       | LYRASIS                             | Bibliotheca                                   | EBOOK     |
       | LYRASIS                             | Bibliotheca                                   | AUDIOBOOK |
 
-  @logout @cancelGet @exclude_ios @train2 @xml
+  @logout @cancelGet @train2 @xml
   Scenario Outline: Return book (feed) XML
     When I add 'LYRASIS' account
       And I enter credentials for 'LYRASIS' account
